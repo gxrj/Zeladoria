@@ -1,4 +1,9 @@
 spring:
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: http://auh-server:8090
     datasource:
         url: jdbc:postgresql://localhost:5432/fiscaliza_db
         username: postgres

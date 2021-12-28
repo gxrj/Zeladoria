@@ -10,8 +10,16 @@ spring:
         driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
-            ddl-auto: create
+            ddl-auto: create-drop
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
         show-sql: true
+
+#List of trusted client credentials
+oauth2:
+    client-id: resource-server
+    client-secret: '123'
+
+#Authserver root address
+    authorization-server-address:  http://auth-server:8090
