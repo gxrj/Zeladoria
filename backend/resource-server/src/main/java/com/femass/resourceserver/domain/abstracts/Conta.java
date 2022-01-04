@@ -1,4 +1,4 @@
-package com.femass.resourceserver.domain.model;
+package com.femass.resourceserver.domain.abstracts;
 
 import java.util.UUID;
 
@@ -8,24 +8,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.femass.resourceserver.domain.trait.Usuario;
-
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
-
 @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 
 @MappedSuperclass
-public class Conta implements Usuario {
+public abstract class Conta{
     
     @Id
     @Column( name = "id" )
@@ -37,4 +29,21 @@ public class Conta implements Usuario {
 
     @Column( name = "senha", nullable = false )
     protected String senha;
+
+    @Column( name = "habilitada", nullable = false )
+    protected Boolean contaAtivada = true;
+
+    protected Conta(){}
+
+    protected Conta( String nome, String senha, Boolean contaAtivada ){
+        this.nome = nome;
+        this.senha = senha;
+        this.contaAtivada = contaAtivada;
+    }
+
+    public String getSenha() { return this.senha; }
+    public Boolean getContaAtivada() { return this.contaAtivada; }
+
+    public abstract String getLogin();
+    public abstract String getCpf() throws NoSuchFieldException;
 }

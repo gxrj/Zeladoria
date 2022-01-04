@@ -1,21 +1,6 @@
 server:
     port: 8090
-
-spring:
-    datasource:
-        url: jdbc:postgresql://localhost:5432/fiscaliza_db
-        username: postgres
-        password: 1234
-        name: fiscaliza_db
-        driver-class-name: org.postgresql.Driver
-    jpa:
-        hibernate:
-            ddl-auto: create-drop
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.PostgreSQLDialect
-        show-sql: true
-
+       
 #List of trusted client credentials
 oauth2:
     client-id: resource-server
@@ -23,3 +8,8 @@ oauth2:
 
 #Authserver root address
     authorization-server-address:  http://auth-server:8090
+
+# Change when ready to production
+spring:
+    profiles:
+        active: dev

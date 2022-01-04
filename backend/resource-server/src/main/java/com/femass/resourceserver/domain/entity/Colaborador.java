@@ -3,9 +3,8 @@ package com.femass.resourceserver.domain.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import com.femass.resourceserver.domain.model.Conta;
+import com.femass.resourceserver.domain.abstracts.Conta;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.Setter;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
 
 @Entity( name = "Colaborador" )
 public class Colaborador extends Conta {
@@ -26,4 +24,16 @@ public class Colaborador extends Conta {
 
     @Column( name = "matricula", unique = true )
     private String matricula;
+
+    public Colaborador( String cpf, String matricula, String nome, String senha, Boolean ativacao ){
+        super( nome, senha, ativacao );
+        this.cpf = cpf;
+        this.matricula = matricula;
+    }
+
+    @Override
+    public String getCpf(){ return this.cpf; }
+
+    @Override
+    public String getLogin(){ return this.matricula; }
 }
