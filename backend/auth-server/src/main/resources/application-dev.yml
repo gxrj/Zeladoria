@@ -6,7 +6,7 @@ spring:
         name: fiscaliza_db
         driver-class-name: org.h2.Driver
     jpa:
-        database-platform: org.hibernate.dialect.h2 
+        database-platform: org.hibernate.dialect.h2
         show-sql: true
         hibernate:
             ddl-auto: update

@@ -1,5 +1,9 @@
 package com.femass.resourceserver.repository;
 
-public class ColaboradorRepository {
-    
-}
+import java.util.UUID;
+
+import com.femass.resourceserver.domain.entity.Colaborador;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ColaboradorRepository extends JpaRepository <Colaborador, UUID> { }
