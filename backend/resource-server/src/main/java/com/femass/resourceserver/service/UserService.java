@@ -17,7 +17,6 @@ public class UserService implements UserDetailsService {
 
         }
 
-
         return User.builder()
                     .username( username )
                     .password( "" )
@@ -26,5 +25,4 @@ public class UserService implements UserDetailsService {
                     .disabled( false )
                     .build();
     }
-    
 }

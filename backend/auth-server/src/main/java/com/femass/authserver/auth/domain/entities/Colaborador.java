@@ -1,6 +1,6 @@
-package com.femass.resourceserver.domain.entity;
+package com.femass.authserver.auth.domain.entities;
 
-import com.femass.resourceserver.domain.abstracts.Conta;
+import com.femass.authserver.auth.domain.abstracts.Conta;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import lombok.Setter;
 
 @Entity( name = "Colaborador" )
 public class Colaborador extends Conta {
-
+    
     @Column( name = "cpf", unique = true )
     private String cpf;
 
