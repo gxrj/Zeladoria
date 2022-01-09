@@ -1,6 +1,9 @@
 package com.femass.authserver.auth.domain.entities;
 
 import com.femass.authserver.auth.domain.abstracts.Conta;
+
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.EqualsAndHashCode;
@@ -15,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity( name = "Cidadao" )
-public class Cidadao extends Conta {
+public class Cidadao extends Conta implements Serializable {
     
     @Column( name = "email", unique = true, nullable = false )
     private String email;

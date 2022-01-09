@@ -50,6 +50,7 @@ public class AuthServerConfig {
                                                 .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_BASIC )
                                                 .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                                                 .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
+                                                .redirectUri( authorizationServerAddress )
                                                 .build();
 
         return new InMemoryRegisteredClientRepository( client );
