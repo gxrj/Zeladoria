@@ -1,6 +1,9 @@
 package com.femass.resourceserver.domain.entity;
 
 import com.femass.resourceserver.domain.abstracts.Conta;
+
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.EqualsAndHashCode;
@@ -15,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity( name = "Cidadao" )
-public class Cidadao extends Conta {
+public class Cidadao extends Conta implements Serializable {
     
     @Column( name = "email", unique = true, nullable = false )
     private String email;

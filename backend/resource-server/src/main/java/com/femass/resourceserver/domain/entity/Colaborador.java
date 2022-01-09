@@ -1,6 +1,9 @@
 package com.femass.resourceserver.domain.entity;
 
 import com.femass.resourceserver.domain.abstracts.Conta;
+
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.EqualsAndHashCode;
@@ -15,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity( name = "Colaborador" )
-public class Colaborador extends Conta {
+public class Colaborador extends Conta implements Serializable {
 
     @Column( name = "cpf", unique = true )
     private String cpf;
