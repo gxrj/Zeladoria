@@ -1,7 +1,7 @@
 package com.femass.resourceserver.domain.entity;
 
 import com.femass.resourceserver.domain.abstracts.Conta;
-import com.femass.resourceserver.domain.model.CidadaoCredentials;
+import com.femass.resourceserver.domain.model.CidadaoUsername;
 
 import java.io.Serializable;
 import javax.persistence.Embedded;
@@ -19,15 +19,15 @@ import lombok.Setter;
 public class Cidadao extends Conta implements Serializable {
     
     @Embedded
-    private CidadaoCredentials login;
+    private CidadaoUsername username;
 
     public Cidadao( String nome, String email, String senha, Boolean ativacao ){
         super( nome, senha, ativacao );
-        this.login = CidadaoCredentials.builder()
+        this.username = CidadaoUsername.builder()
                                             .email( email )
                                             .build();
     }
 
     @Override
-    public CidadaoCredentials getLogin(){ return this.login; }
+    public CidadaoUsername getUsername(){ return this.username; }
 }

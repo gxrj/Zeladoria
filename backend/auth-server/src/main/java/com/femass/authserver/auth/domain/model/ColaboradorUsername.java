@@ -2,7 +2,7 @@ package com.femass.authserver.auth.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import com.femass.authserver.auth.domain.interfaces.Login;
+import com.femass.authserver.auth.domain.interfaces.Username;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Builder
 @Embeddable
-public class ColaboradorCredentials implements Login {
+public class ColaboradorUsername implements Username {
 
     @Column( name = "cpf", unique = true, length = 11 )
     private String cpf;

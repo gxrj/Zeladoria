@@ -1,8 +1,11 @@
 package com.femass.authserver.auth.domain.abstracts;
 
-import com.femass.authserver.auth.domain.interfaces.Login;
+import com.femass.authserver.auth.domain.interfaces.Username;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +35,9 @@ public abstract class Conta {
     @Column( name = "habilitada", nullable = false )
     protected Boolean contaAtivada = true;
 
+    @ElementCollection
+    @Column( name = "autorizacoes" )
+    protected Collection<GrantedAuthority> authorizacoes;
 
     protected Conta(){}
 
@@ -44,5 +50,5 @@ public abstract class Conta {
     public String getSenha() { return this.senha; }
     public Boolean getContaAtivada() { return this.contaAtivada; }
 
-    public abstract Login getLogin();
+    public abstract Username getUsername();
 }

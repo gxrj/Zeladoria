@@ -1,7 +1,7 @@
 package com.femass.authserver.auth.domain.entities;
 
 import com.femass.authserver.auth.domain.abstracts.Conta;
-import com.femass.authserver.auth.domain.model.ColaboradorCredentials;
+import com.femass.authserver.auth.domain.model.ColaboradorUsername;
 import java.io.Serializable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -17,16 +17,16 @@ import lombok.Setter;
 public class Colaborador extends Conta implements Serializable {
     
     @Embedded
-    private ColaboradorCredentials login;
+    private ColaboradorUsername username;
 
     public Colaborador( String cpf, String matricula, String nome, String senha, Boolean ativacao ){
         super( nome, senha, ativacao );
-        this.login = ColaboradorCredentials.builder()
+        this.username = ColaboradorUsername.builder()
                                                 .cpf( cpf )
                                                 .matricula( matricula )
                                                 .build();
     }
 
     @Override
-    public ColaboradorCredentials getLogin(){ return this.login; }
+    public ColaboradorUsername getUsername(){ return this.username; }
 }
