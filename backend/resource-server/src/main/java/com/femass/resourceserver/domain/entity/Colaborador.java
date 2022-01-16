@@ -1,10 +1,12 @@
 package com.femass.resourceserver.domain.entity;
 
 import com.femass.resourceserver.domain.abstracts.Conta;
-import com.femass.resourceserver.domain.model.ColaboradorUsername;
+
 import java.io.Serializable;
-import javax.persistence.Embedded;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,17 +18,18 @@ import lombok.Setter;
 @Entity( name = "Colaborador" )
 public class Colaborador extends Conta implements Serializable {
 
-    @Embedded
-    private ColaboradorUsername username;
+    @Column( name = "cpf", unique = true, length = 11 )
+    private String cpf;
+
+    @Column( name = "matricula", unique = true, length = 20 )
+    private String matricula;
 
     public Colaborador( String cpf, String matricula, String nome, String senha, Boolean ativacao ){
         super( nome, senha, ativacao );
-        this.username = ColaboradorUsername.builder()
-                                                .cpf( cpf )
-                                                .matricula( matricula )
-                                                .build();
+        this.cpf = cpf;
+        this.matricula = matricula ;
     }
 
     @Override
-    public ColaboradorUsername getUsername(){ return this.username; }
+    public String getUsername(){ return this.getMatricula(); }
 }

@@ -28,8 +28,6 @@ public class Colaborador extends Conta implements Serializable {
         this.matricula = matricula;
     }
 
-    public String getMatricula(){ return this.matricula; }
-
     @Override
-    public String getUsername(){ return getMatricula(); }
+    public String getUsername(){ return this.getMatricula(); }
 }

@@ -24,8 +24,6 @@ public class Cidadao extends Conta implements Serializable {
         this.email = email;
     }
 
-    public String getEmail(){ return this.email; }
-
     @Override
-    public String getUsername(){ return getEmail(); }
+    public String getUsername(){ return this.getEmail(); }
 }
