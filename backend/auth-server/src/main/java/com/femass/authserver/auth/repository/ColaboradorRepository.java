@@ -3,8 +3,7 @@ package com.femass.authserver.auth.repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.femass.authserver.auth.domain.entities.Colaborador;
-import com.femass.authserver.auth.domain.model.ColaboradorUsername;
+import com.femass.authserver.auth.domain.users.Colaborador;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,9 +14,8 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, UUID> 
     Optional<Colaborador> findById( UUID id );
 
     @Query(""" 
-        select c from Colaborador 
-            where c.matricula = :login.matricula
-            and c.cpf = :login.cpf 
+        select c from Colaborador c
+            where c.matricula = :matricula
     """ )
-    Optional<Colaborador> findByUsername( @Param( "login" ) ColaboradorUsername username );
+    Optional<Colaborador> findByUsername( @Param( "matricula" ) String username );
  }

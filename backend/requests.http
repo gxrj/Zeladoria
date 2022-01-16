@@ -1,0 +1,10 @@
+### Cadastro
+GET http://localhost:8080/hello
+
+Request-Id: 123
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "e6c4ad45-c2e2-4b1b-8a56-e44438287eac"
+}

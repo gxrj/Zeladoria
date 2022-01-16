@@ -1,15 +1,17 @@
-package com.femass.authserver.auth.domain.abstracts;
+package com.femass.authserver.auth.domain.users;
 
-import com.femass.authserver.auth.domain.interfaces.Username;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Collection;
 import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,5 +52,5 @@ public abstract class Conta {
     public String getSenha() { return this.senha; }
     public Boolean getContaAtivada() { return this.contaAtivada; }
 
-    public abstract Username getUsername();
+    public abstract String getUsername();
 }

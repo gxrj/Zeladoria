@@ -3,8 +3,8 @@ package com.femass.authserver.auth.repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.femass.authserver.auth.domain.entities.Cidadao;
-import com.femass.authserver.auth.domain.model.CidadaoUsername;
+
+import com.femass.authserver.auth.domain.users.Cidadao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +15,8 @@ public interface CidadaoRepository extends JpaRepository<Cidadao, UUID> {
     Optional<Cidadao> findById( UUID id );
 
     @Query( """
-        select c from Cidadao 
-            where c.email = :login.email 
+        select c from Cidadao c
+            where c.email = :email 
     """ )
-    Optional<Cidadao> findByUsername( @Param( "login" ) CidadaoUsername username );
+    Optional<Cidadao> findByUsername( @Param( "email" ) String username );
 }
