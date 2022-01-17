@@ -67,13 +67,13 @@ public class AuthServerConfig {
     @Bean
     public RegisteredClientRepository createRegisteredClientsRepositoryBean(){
 
-        var clientAddress = "http://localhost:4200";
+        var clientAddress = "http://localhost:4200/home"; //Angular client home page
 
         RegisteredClient client = RegisteredClient.withId( UUID.randomUUID().toString() )
                                                 .clientId( clientId )
                                                 .clientSecret( clientSecret )
-                                                .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
-                                                .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
+                                                .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_BASIC )
+                                                .authorizationGrantType( AuthorizationGrantType.PASSWORD )
                                                 .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
                                                 .redirectUri( clientAddress )
                                                 .build();
