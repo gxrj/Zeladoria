@@ -51,8 +51,6 @@ public class AuthServerConfig {
 	public SecurityFilterChain authorizationServerSecurityFilterChain( HttpSecurity http )
     throws Exception {
 
-		OAuth2AuthorizationServerConfiguration.jwtDecoder( getWebKeySources() );
-
         http.addFilter( new UserAuthFilter() );
 
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity( http );
@@ -69,13 +67,15 @@ public class AuthServerConfig {
     @Bean
     public RegisteredClientRepository createRegisteredClientsRepositoryBean(){
 
+        var clientAddress = "http://localhost:4200";
+
         RegisteredClient client = RegisteredClient.withId( UUID.randomUUID().toString() )
                                                 .clientId( clientId )
                                                 .clientSecret( clientSecret )
                                                 .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
                                                 .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                                                 .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
-                                                .redirectUri( authorizationServerAddress )
+                                                .redirectUri( clientAddress )
                                                 .build();
 
         return new InMemoryRegisteredClientRepository( client );
