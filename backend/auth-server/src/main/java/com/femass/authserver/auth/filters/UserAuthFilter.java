@@ -43,12 +43,28 @@ public class UserAuthFilter extends AuthenticationFilter {
         };     
     }
 
+    /**
+     * Parses Http request into a
+     * instance of JsonNode
+     * 
+     * @param ServletREquest req
+     * @return JsonNode
+     * @throws IOException
+     */
     public static JsonNode parseIntoJsonNode ( ServletRequest req ) throws IOException{
         var requestBody = req.getReader();
         var objMapper = Jackson2ObjectMapperBuilder.json().build();
         return objMapper.readTree( requestBody );
     }
 
+    /**
+     * Delegates which AuthenticationToken
+     * should be created according to the
+     * valid parameters.
+     * 
+     * @param JsonNode json
+     * @return Authentication or null
+     */
     public static Authentication delegateAuth( JsonNode json ){
 
         var password = json.get( "senha" ).asText();

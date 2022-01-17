@@ -1,7 +1,6 @@
-### Cadastro
+### Teste
 GET http://localhost:8080/hello
 
-Request-Id: 123
 Content-Type: application/json
 
 {
