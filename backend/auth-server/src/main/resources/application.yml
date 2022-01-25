@@ -3,8 +3,12 @@ server:
        
 #List of trusted client credentials
 oauth2:
-    client-id: resource-server
-    client-secret: '123'
+    resource-server:
+        client-id: resource-server
+        client-secret: '123'
+    angular:
+        client-id: client-server
+        client-secret: '123'
 
 #Authserver root address
     authorization-server-address:  http://auth-server:8090

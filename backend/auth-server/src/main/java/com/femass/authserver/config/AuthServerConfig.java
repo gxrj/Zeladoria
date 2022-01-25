@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -27,10 +28,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class AuthServerConfig {
 
-    @Value( "${oauth2.client-id}" )
+    @Value( "${oauth2.angular.client-id}" )
     private String clientId;
 
-    @Value( "${oauth2.client-secret}" )
+    @Value( "${oauth2.angular.client-secret}" )
     private String clientSecret;
 
     @Value( "${oauth2.authorization-server-address}" )
@@ -109,5 +110,14 @@ public class AuthServerConfig {
         JWKSet webKeysSet =  new JWKSet( KeyGeneratorUtils.getECKeys() );
         
         return ( jwkSelector, context ) -> jwkSelector.select( webKeysSet );
-    } 
+    }
+
+    /**
+     * Exposes a decoder for verifying the signature.
+     * @return JwtDecoder
+     */
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
 }
