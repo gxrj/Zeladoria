@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Macaé Fiscaliza</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/login.css" th:href="@{/css/login.css}">
+        <link rel="icon" type="image/x-icon" href="../static/img/emblema-prefeitura.png" th:href="@{/img/emblema-prefeitura.png}">
+        <meta http-equiv="Content-Type" content="text/html;width=device-width;initial-scale=1" charset="utf-8" name="viewport">
+    </head>
+    <body>
+        <div id="login-page-background">
+            <div class="w3-card-4 w3-container w3-display-middle w3-light-gray w3-border w3-border-gray w3-round-small"
+                 style="min-width: 65vw; min-height: 50vh; max-width: 80vw; max-height: 80vh;">
+
+                <h2 class="w3-center">Macaé Cidadão</h2>
+
+                <form method="post" action="/login" class="w3-container w3-padding-48 w3-third w3-display-middle">
+
+                    <label>Email</label>
+                    <input id="username" name="username" class="w3-input w3-border w3-round"/>
+
+                    <label>Senha</label>
+                    <input id="password" name="password" class="w3-input w3-border w3-round" type="password"/>
+
+                    <div class="w3-center w3-margin-top">
+                        <button type="submit" class="w3-btn w3-blue">Entrar</button>
+                    </div>
+
+                </form>
+                <!--div class="w3-bottom w3-center">
+                    Não é usuário? <a href="#">Cadastre-se aqui</a>
+                </div-->
+            </div>
+        </div>
+    </body>
+</html>
