@@ -11,20 +11,23 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 public class ResourceServerConfig {
 
     @Bean
-    SecurityFilterChain getFilterChainBean( HttpSecurity http ) throws Exception{
+    SecurityFilterChain getFilterChainBean( HttpSecurity http ) throws Exception {
 
         http.authorizeRequests( 
 
-                req -> req.mvcMatchers( "/account/auth", "/account/new" )
-                            .permitAll()
+                req -> req.mvcMatchers( "/registration/**" ).permitAll()
+                            .mvcMatchers( "/agent/**" ).hasAnyRole( "ADMIN", "AGENT" )
+                            .mvcMatchers( "/manager/**" ).hasRole( "ADMIN" )
+                            .mvcMatchers( "/user/**" ).hasRole( "USER" )
                             .anyRequest()
                             .authenticated() 
             )
             .exceptionHandling(
 
-                ex -> ex.authenticationEntryPoint( 
-                            new HttpStatusEntryPoint( HttpStatus.UNAUTHORIZED ) 
-                        )
+                configurer -> configurer
+                                .authenticationEntryPoint( 
+                                    new HttpStatusEntryPoint( HttpStatus.UNAUTHORIZED ) 
+                                )
             )
             .oauth2ResourceServer()
             .jwt();

@@ -23,6 +23,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jersey'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.6.3'
+
 	
 	// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
