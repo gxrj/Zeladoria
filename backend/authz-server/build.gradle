@@ -33,7 +33,10 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	runtimeOnly 'com.h2database:h2:2.0.206'
-	
+
+	// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+	implementation 'org.hibernate.validator:hibernate-validator:7.0.2.Final'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'

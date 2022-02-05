@@ -1,22 +1,23 @@
 server:
     port: 8090
-       
-#List of trusted client credentials
+
+spring:
+    # jpa:
+    #     defer-datasource-initialization: true
+    # Change when ready to production
+    profiles:
+        active: dev
+    
 oauth2:
+    #Authserver root address
+    authorization-server-address:  http://auth-server:8090
+    #List of trusted client credentials
     resource-server:
         client-id: resource-server
         client-secret: '123'
     angular:
         client-id: client
         client-secret: '123'
-
-#Authserver root address
-    authorization-server-address:  http://auth-server:8090
-
-# Change when ready to production
-spring:
-    profiles:
-        active: dev
 
 debug: true
 

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 import com.femass.authzserver.utils.RequestHandler;
+
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -97,40 +98,44 @@ public class AuthzServerConfig {
      * @return RegisteredClientRepository instance
      */
     @Bean
-    public RegisteredClientRepository createRegisteredClientsRepositoryBean() {
+    public RegisteredClientRepository registeredClientRepository() {
+        var userClientAddress = "http://auth-server:8090/login"; //Angular client home page
+        var agentClientAddress = "http://auth-server:8090/agent/login";
 
-        var clientAddress = "http://auth-server:8090/login"; //Angular client home page
-        var clientAddress2 = "http://auth-server:8090/agent/login";
+        var client = RegisteredClient
+                        .withId( UUID.randomUUID().toString() )
+                        .clientId( clientId )
+                        .clientSecret( clientSecret )
+                        .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
+                        .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
+                        .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
+                        .scope( "angular" )
+                        .clientSettings( this.clientSettings() )
+                        .tokenSettings( this.tokenSettings() )
+                        .redirectUris( setConsumer -> setConsumer.addAll( List.of( userClientAddress, agentClientAddress ) ) )
+                        .clientName( "angular" )
+                        .build();
 
-        RegisteredClient client = RegisteredClient.withId( UUID.randomUUID().toString() )
-                                                .clientId( clientId )
-                                                .clientSecret( clientSecret )
-                                                .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
-                                                .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
-                                                .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
-                                                .scope( "angular" )
-                                                .clientSettings(
-
-                                                    ClientSettings.builder()
-                                                        .requireAuthorizationConsent( false )
-                                                        .requireProofKey( false )
-                                                        .build()
-
-                                                )
-                                                .tokenSettings(
-
-                                                    TokenSettings.builder()
-                                                            .accessTokenTimeToLive( Duration.ofMinutes( 15 ) )
-                                                            .refreshTokenTimeToLive( Duration.ofMinutes( 15 ) )
-                                                            .idTokenSignatureAlgorithm( SignatureAlgorithm.ES256 )
-                                                            .build()
-
-                                                )
-                                                .redirectUris( setConsumer -> setConsumer.addAll( List.of( clientAddress, clientAddress2 ) ) )
-                                                .clientName( "angular" )
-                                                .build();
-
+        
         return new InMemoryRegisteredClientRepository( client );
+    }
+
+    @Bean
+    public ClientSettings clientSettings(){
+
+        return ClientSettings.builder()
+                                .requireAuthorizationConsent( false )
+                                .requireProofKey( false )
+                                .build();
+    }
+
+    @Bean
+    public TokenSettings tokenSettings(){
+        return TokenSettings.builder()
+                                .accessTokenTimeToLive( Duration.ofMinutes( 15 ) )
+                                .refreshTokenTimeToLive( Duration.ofMinutes( 15 ) )
+                                .idTokenSignatureAlgorithm( SignatureAlgorithm.ES256 )
+                                .build();
     }
 
     /**
