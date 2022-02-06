@@ -18,6 +18,11 @@ public class AgentAuthProvider implements AuthenticationProvider {
     private UserDetailsService uds;
     private PasswordEncoder encoder;
 
+    public AgentAuthProvider( UserDetailsService uds, PasswordEncoder encoder ) {
+        this.uds = uds;
+        this.encoder = encoder;
+    }
+
     @Override
     public Authentication authenticate( Authentication auth ){
 

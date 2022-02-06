@@ -16,6 +16,11 @@ public class UserAuthProvider implements AuthenticationProvider {
     private UserDetailsService uds;
     private PasswordEncoder encoder;
 
+    public UserAuthProvider( UserDetailsService uds, PasswordEncoder encoder ) {
+        this.uds = uds;
+        this.encoder = encoder;
+    }
+
     @Override
     public Authentication authenticate( Authentication auth ) {
 

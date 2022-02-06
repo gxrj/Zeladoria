@@ -25,4 +25,6 @@ public class AgentCredentials {
         this.password = password;
         this.cpf = cpf;
     }
+
+    public String getPassword() { return this.password; }
 }

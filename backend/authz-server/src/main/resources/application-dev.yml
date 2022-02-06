@@ -1,14 +1,14 @@
 spring:
     datasource:
-        url: jdbc:h2:../test_db/fiscaliza_db
+        url: jdbc:h2:file:../test_db/fiscaliza_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=8000;
         username: sa
-        password: password
+        password:
         name: fiscaliza_db
         driver-class-name: org.h2.Driver
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         show-sql: true
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: create
     h2:
         console.enabled: true
