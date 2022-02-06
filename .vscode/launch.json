@@ -2,16 +2,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-AuthServerApplication<auth-server>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "com.femass.authserver.AuthServerApplication",
-            "projectName": "auth-server",
-            "args": ""
-        },
-        {
-            "type": "java",
             "name": "Spring Boot-AuthzServerApplication<authz-server>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
