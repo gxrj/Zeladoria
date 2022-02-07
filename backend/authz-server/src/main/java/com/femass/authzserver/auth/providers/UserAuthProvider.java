@@ -1,20 +1,24 @@
 package com.femass.authzserver.auth.providers;
 
+import com.femass.authzserver.auth.services.UserService;
 import com.femass.authzserver.auth.tokens.UserAuthToken;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class UserAuthProvider implements AuthenticationProvider {
 
-    private UserDetailsService uds;
+    private UserService userService;
     private PasswordEncoder encoder;
+
+    /* @AllArgsContructor is not taking effect on VSCode even with its lombok extension */
+    public UserAuthProvider( UserService userService, PasswordEncoder encoder ) {
+        this.userService = userService;
+        this.encoder = encoder;
+    }
 
     @Override
     public Authentication authenticate( Authentication auth ) {
@@ -22,7 +26,7 @@ public class UserAuthProvider implements AuthenticationProvider {
         var username = auth.getName();
         var password = auth.getCredentials().toString();
 
-        var user = uds.loadUserByUsername( username );
+        var user = userService.findByUsername( username );
         var passwordMatches = encoder.matches( password, user.getPassword() );
 
         if( passwordMatches )

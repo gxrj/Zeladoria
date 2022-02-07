@@ -1,4 +1,4 @@
-package com.femass.authzserver.auth.models;
+package com.femass.resourceserver.domain;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,5 +35,18 @@ public class UserEntity extends AbstractUser
     public UserEntity( String username, String password, List< GrantedAuthority > authorities ){
         super( username, authorities );
         this.password = password;
+    }
+
+    /* 
+        Lombok's getter and setter arent taking 
+        effect on VSCode even with is lombok extention
+    */
+
+    public String getPassword(){
+        return this.password;
+    }
+
+    public List< GrantedAuthority > getAuthorities(){
+        return getAuthorities();
     }
 }

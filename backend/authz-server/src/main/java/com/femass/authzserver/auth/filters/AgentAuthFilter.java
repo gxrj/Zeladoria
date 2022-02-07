@@ -5,12 +5,13 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.femass.authzserver.auth.models.AgentCredentials;
+import com.femass.authzserver.auth.models.domain.AgentCredentials;
 import com.femass.authzserver.auth.tokens.AgentAuthToken;
 import com.femass.authzserver.utils.RequestHandler;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -24,7 +25,9 @@ public class AgentAuthFilter extends AbstractAuthenticationProcessingFilter {
     
     @Override
     public Authentication attemptAuthentication( HttpServletRequest req, 
-                                                 HttpServletResponse resp ) throws IOException {
+                                                 HttpServletResponse resp ) 
+        throws 
+                IOException, AuthenticationException {
 
         var username = RequestHandler.obtainParam( req, "username" );
         var cpf = RequestHandler.obtainParam( req, "cpf" );

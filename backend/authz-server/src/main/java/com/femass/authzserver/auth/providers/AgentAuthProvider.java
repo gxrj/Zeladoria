@@ -1,33 +1,39 @@
 package com.femass.authzserver.auth.providers;
 
-import com.femass.authzserver.auth.models.AgentCredentials;
+import com.femass.authzserver.auth.models.domain.AgentCredentials;
+import com.femass.authzserver.auth.services.AgentService;
 import com.femass.authzserver.auth.tokens.AgentAuthToken;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class AgentAuthProvider implements AuthenticationProvider {
 
-
-    private UserDetailsService uds;
+    private AgentService agentService;
     private PasswordEncoder encoder;
 
+    /* @AllArgsContructor is not taking effect on VSCode even with its lombok extension */
+    public AgentAuthProvider( AgentService agentService, PasswordEncoder encoder ) {
+        this.agentService = agentService;
+        this.encoder = encoder;
+    }
+
     @Override
-    public Authentication authenticate( Authentication auth ){
+    public Authentication authenticate( Authentication auth ) throws UsernameNotFoundException {
 
         var username = auth.getName();
-        var agentCredentials = ( AgentCredentials ) auth.getCredentials();
+        var tokenCredentials = ( AgentCredentials ) auth.getCredentials();
+        
+        var user = agentService.findByUsername( username );
+        var agentCredentials = user.getCredentials();
 
-        var user = uds.loadUserByUsername( username );
-        var passwordMatches = encoder.matches( agentCredentials.getPassword(), user.getPassword() );
+        var passwordMatches = encoder.matches( tokenCredentials.getPassword(), agentCredentials.getPassword() );
 
-        if( passwordMatches )
+        if( passwordMatches && agentService.checkCpf( tokenCredentials, agentCredentials ) )
             return new AgentAuthToken( username, agentCredentials, user.getAuthorities() );
         else
             throw new BadCredentialsException( "Bad credentials" );
@@ -36,6 +42,5 @@ public class AgentAuthProvider implements AuthenticationProvider {
     @Override
     public boolean supports( Class< ? > authToken ){
         return authToken.equals( AgentAuthToken.class );
-    }
-    
+    } 
 }

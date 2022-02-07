@@ -1,13 +1,15 @@
-package com.femass.authzserver.auth.services;
+package com.femass.resourceserver.services;
 
+import java.util.Objects;
 import java.util.Optional;
 
-import com.femass.authzserver.auth.models.domain.AgentCredentials;
-import com.femass.authzserver.auth.models.domain.AgentEntity;
-import com.femass.authzserver.auth.repositories.AgentRepository;
+import com.femass.resourceserver.domain.AgentCredentials;
+import com.femass.resourceserver.domain.AgentEntity;
+import com.femass.resourceserver.repositories.AgentRepository;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class AgentService {
@@ -30,6 +32,10 @@ public class AgentService {
         return agent.get();
     }
 
+    public boolean existsAgentByUsername( String username ) {
+        return repository.existsByUsername( username );
+    }
+
     public boolean checkCpf( AgentCredentials credentials, 
                                     AgentCredentials anotherCredentials ) {
 
@@ -38,5 +44,15 @@ public class AgentService {
         else if( !credentials.getCpf().equals( anotherCredentials.getCpf() ) ) return false;
 
         else return true;
+    }
+
+    public boolean create( AgentEntity entity ) {
+
+        Assert.notNull( entity, "Service failed" );
+        var result = repository.save( entity );
+
+        if( Objects.isNull( result ) ) return false;
+
+        return true;
     }
 }

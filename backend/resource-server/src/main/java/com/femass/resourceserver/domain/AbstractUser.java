@@ -1,4 +1,4 @@
-package com.femass.authzserver.auth.models;
+package com.femass.resourceserver.domain;
 
 import java.util.Collections;
 import java.util.List;

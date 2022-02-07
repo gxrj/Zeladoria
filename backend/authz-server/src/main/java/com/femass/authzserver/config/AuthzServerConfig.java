@@ -11,6 +11,7 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
@@ -36,6 +38,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration( proxyBeanMethods = false )
 public class AuthzServerConfig {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value( "${oauth2.angular.client-id}" )
     private String clientId;
@@ -105,7 +110,7 @@ public class AuthzServerConfig {
         var client = RegisteredClient
                         .withId( UUID.randomUUID().toString() )
                         .clientId( clientId )
-                        .clientSecret( clientSecret )
+                        .clientSecret( passwordEncoder.encode( clientSecret ) )
                         .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
                         .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                         .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )

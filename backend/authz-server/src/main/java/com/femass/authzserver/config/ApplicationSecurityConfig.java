@@ -1,36 +1,41 @@
 package com.femass.authzserver.config;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.femass.authzserver.auth.filters.AgentAuthFilter;
 import com.femass.authzserver.auth.filters.UserAuthFilter;
 import com.femass.authzserver.auth.providers.AgentAuthProvider;
 import com.femass.authzserver.auth.providers.UserAuthProvider;
+import com.femass.authzserver.auth.services.AgentService;
+import com.femass.authzserver.auth.services.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-@EnableWebSecurity( debug = true )
+@EnableWebSecurity
 public class ApplicationSecurityConfig {
+
+    @Autowired
+    private AgentService agentService;
+
+    @Autowired
+    private UserService userService;
 
     @Bean
     public SecurityFilterChain appSecurityFilterChain( HttpSecurity http ) 
@@ -90,31 +95,9 @@ public class ApplicationSecurityConfig {
     public AuthenticationManager authenticationManager() {
 
         return new ProviderManager( 
-                    new AgentAuthProvider( userDetailsService(), passwordEncoder() ), 
-                    new UserAuthProvider( userDetailsService(), passwordEncoder() ) 
+                    new AgentAuthProvider( agentService, passwordEncoder() ), 
+                    new UserAuthProvider( userService, passwordEncoder() ) 
                 );
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-
-        var encoder = passwordEncoder();
-
-        var agent = User.builder()
-                        .username( "agent" )
-                        .password( encoder.encode( "123" ) )
-                        .authorities( List.of() )
-                        .roles( "AGENT", "ADMIN" )
-                        .build();
-
-        var user = User.builder()
-                        .username( "user" )
-                        .password( encoder.encode( "123" ) )
-                        .authorities( List.of() )
-                        .roles( "USER" )
-                        .build();
-
-        return new InMemoryUserDetailsManager( agent, user );
     }
 
     /**
@@ -124,7 +107,7 @@ public class ApplicationSecurityConfig {
      * what encode algorithm to apply  
      */
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         var defaultEncoder = "argon2";
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();

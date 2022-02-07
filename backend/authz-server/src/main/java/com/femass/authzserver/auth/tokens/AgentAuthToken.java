@@ -2,7 +2,7 @@ package com.femass.authzserver.auth.tokens;
 
 import java.util.Collection;
 
-import com.femass.authzserver.auth.models.AgentCredentials;
+import com.femass.authzserver.auth.models.domain.AgentCredentials;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

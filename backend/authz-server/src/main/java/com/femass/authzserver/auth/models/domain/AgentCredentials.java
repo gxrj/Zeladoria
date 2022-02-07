@@ -1,4 +1,6 @@
-package com.femass.authzserver.auth.models;
+package com.femass.authzserver.auth.models.domain;
+
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -26,5 +28,16 @@ public class AgentCredentials {
         this.cpf = cpf;
     }
 
+     /* 
+        Lombok's getter and setter arent taking 
+        effect on VSCode even with is lombok extention
+    */
     public String getPassword() { return this.password; }
+
+    public String getCpf() { return this.cpf; }
+
+
+    public boolean isNull(){
+        return Objects.isNull( this );
+    }
 }

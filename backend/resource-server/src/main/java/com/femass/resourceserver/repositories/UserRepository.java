@@ -1,9 +1,9 @@
-package com.femass.authzserver.auth.repositories;
+package com.femass.resourceserver.repositories;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import com.femass.authzserver.auth.models.domain.UserEntity;
+import com.femass.resourceserver.domain.UserEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository< UserEntity, UUID > {
     
     public Optional< UserEntity > findByUsername( String username );
+
+    public boolean existsByUsername( String username );
 }

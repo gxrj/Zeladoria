@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
-@EnableWebSecurity
+@EnableWebSecurity( debug = true )
 public class ResourceServerConfig {
 
     @Bean
@@ -15,7 +15,7 @@ public class ResourceServerConfig {
 
         http.authorizeRequests( 
 
-                req -> req.mvcMatchers( "/registration/**" ).permitAll()
+                req -> req.mvcMatchers( "/registration**" ).permitAll()
                             .mvcMatchers( "/agent/**" ).hasAnyRole( "ADMIN", "AGENT" )
                             .mvcMatchers( "/manager/**" ).hasRole( "ADMIN" )
                             .mvcMatchers( "/user/**" ).hasRole( "USER" )

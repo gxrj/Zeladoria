@@ -1,12 +1,14 @@
-package com.femass.authzserver.auth.services;
+package com.femass.resourceserver.services;
 
+import java.util.Objects;
 import java.util.Optional;
 
-import com.femass.authzserver.auth.models.domain.UserEntity;
-import com.femass.authzserver.auth.repositories.UserRepository;
+import com.femass.resourceserver.domain.UserEntity;
+import com.femass.resourceserver.repositories.UserRepository;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class UserService {
@@ -27,5 +29,19 @@ public class UserService {
             throw new UsernameNotFoundException( "User not found" );
         
         return user.get();
+    }
+
+    public boolean existsUserByUsername( String username ) {
+        return repository.existsByUsername( username );
+    }
+
+    public boolean create( UserEntity entity ) {
+
+        Assert.notNull( entity, "Service failed" );
+        var result = repository.save( entity );
+
+        if( Objects.isNull( result ) ) return false;
+
+        return true;
     }
 }
