@@ -7,11 +7,15 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.util.Assert;
 
 public class RequestHandler {
     
+    private static Log log = LogFactory.getLog( RequestHandler.class );
+
     public static String obtainParam( HttpServletRequest req, String param ) throws
         IOException {
 
@@ -35,16 +39,14 @@ public class RequestHandler {
 
         Assert.isTrue( isJsonContent( req ), "content-type cannot be handled as json" );
 
-        var requestBody = cacheRequest( req ).getReader();
+        var requestBody =  req.getReader();
         var objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
         return objectMapper.readTree( requestBody ) ;
     }
 
-    private static HttpServletRequestWrapper cacheRequest( HttpServletRequest req ) {
-    
+    public static HttpServletRequestWrapper cacheRequest( HttpServletRequest req ) {
         Assert.notNull( req, "cacheRequest() cannot handle null objects" );
-
         return new HttpServletRequestWrapper( req );
     }
 

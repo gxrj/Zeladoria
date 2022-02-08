@@ -5,4 +5,13 @@ spring:
                 jwt:
                     issuer-uri: http://auh-server:8090
     profiles:
-        active: dev # Change when ready to production
+        active: prod # Change when ready to production
+
+debug: true
+
+logging:
+  level:
+    root: DEBUG
+    org:
+      springframework:
+        security: trace

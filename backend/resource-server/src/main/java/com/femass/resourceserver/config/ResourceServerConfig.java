@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
-@EnableWebSecurity( debug = true )
+@EnableWebSecurity
 public class ResourceServerConfig {
 
     @Bean
@@ -22,6 +22,7 @@ public class ResourceServerConfig {
                             .anyRequest()
                             .authenticated() 
             )
+            .csrf().disable()
             .exceptionHandling(
 
                 configurer -> configurer
