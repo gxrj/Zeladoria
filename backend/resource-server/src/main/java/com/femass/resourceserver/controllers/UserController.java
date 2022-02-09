@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.femass.resourceserver.domain.UserEntity;
 import com.femass.resourceserver.handlers.RequestHandler;
-import com.femass.resourceserver.handlers.ResponseHandler;
 import com.femass.resourceserver.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,25 +31,22 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping( "/registration-user" )
-    public HttpServletResponse registerUser( HttpServletRequest req, 
+    public String registerUser( HttpServletRequest req, 
                                              HttpServletResponse res )
             throws IOException {
 
         var username = RequestHandler.obtainParam( req, "username" );
 
-        if( !userService.existsUserByUsername( username ) ){
-            ResponseHandler.prepareJsonResponse( res, 400, "Validation error, check your data" );
-            return res;
+        if( userService.existsUserByUsername( username ) ){
+            return "Validation error, check your data";
         }
 
         var password = passwordEncoder.encode( RequestHandler.obtainParam( req, "password" ) );
         var entity = new UserEntity( username, password, List.of( () -> "ROLE_AGENT" ) );
         
         if( userService.create( entity ) )
-            ResponseHandler.prepareJsonResponse( res, 201, "Created" );
+            return "Created";
         else 
-            ResponseHandler.prepareJsonResponse( res, 500, "Error" );
-        
-        return res;
+            return "Error";
     }
 }

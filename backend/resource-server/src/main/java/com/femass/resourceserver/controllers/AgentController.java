@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.femass.resourceserver.domain.AgentCredentials;
 import com.femass.resourceserver.domain.AgentEntity;
 import com.femass.resourceserver.handlers.RequestHandler;
-import com.femass.resourceserver.handlers.ResponseHandler;
 import com.femass.resourceserver.services.AgentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +33,14 @@ public class AgentController {
 
 
     @PostMapping( "/registration-agent" ) /** Temporary endpoint */
-    public HttpServletResponse registerAgent( HttpServletRequest req, 
+    public String registerAgent( HttpServletRequest req, 
                                               HttpServletResponse res ) 
             throws IOException {
 
         var username = RequestHandler.obtainParam( req, "username" );
 
-        if( !agentService.existsAgentByUsername( username ) ) {
-            ResponseHandler.prepareJsonResponse( res, 400, "Validation error, check your data" );
-            return res;
+        if( agentService.existsAgentByUsername( username ) ) {
+            return "Validation error, check your data";
         }    
         
         var password = RequestHandler.obtainParam( req, "password" );
@@ -55,10 +53,8 @@ public class AgentController {
         var created = agentService.create( entity );
 
         if( created )  
-            ResponseHandler.prepareJsonResponse( res, 201, "Created" );
+            return "Created";
         else 
-            ResponseHandler.prepareJsonResponse( res, 500, "Error" );
-
-        return res;
+            return "Error";
     }
 }
