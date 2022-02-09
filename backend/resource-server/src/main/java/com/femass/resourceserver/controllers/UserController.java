@@ -35,13 +35,14 @@ public class UserController {
                                              HttpServletResponse res )
             throws IOException {
 
-        var username = RequestHandler.obtainParam( req, "username" );
+        var json = RequestHandler.parseToJson( req );
+        var username = json.get( "username" ).asText();
 
         if( userService.existsUserByUsername( username ) ){
             return "Validation error, check your data";
         }
 
-        var password = passwordEncoder.encode( RequestHandler.obtainParam( req, "password" ) );
+        var password = passwordEncoder.encode( json.get( "password" ).asText() );
         var entity = new UserEntity( username, password, List.of( () -> "ROLE_AGENT" ) );
         
         if( userService.create( entity ) )

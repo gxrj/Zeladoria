@@ -17,7 +17,7 @@ import lombok.Setter;
 @Embeddable
 public class AgentCredentials {
 
-    @Column( name = "senha", nullable = false, length = 60 )
+    @Column( name = "senha", nullable = false, length = 120 )
     private String password;
     
     @Column( name = "cpf", unique = true, length = 11 )

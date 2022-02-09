@@ -1,6 +1,5 @@
 package com.femass.resourceserver.domain;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +31,7 @@ public class AbstractUser {
     @Column( name = "nome", nullable = false, length = 50 )
     protected String username;
 
-    @Column( name = "habilitada", nullable = false )
+    @Column( name = "habilitada", nullable = false, length = 120 )
     protected Boolean enabled;
 
     @ElementCollection
@@ -51,6 +50,6 @@ public class AbstractUser {
     
             this();
             this.username = username;
-            Collections.copy( this.autorities, authorities );
+            this.autorities = authorities;
     }
 }

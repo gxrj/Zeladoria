@@ -24,7 +24,7 @@ import lombok.Setter;
 public class UserEntity extends AbstractUser 
         implements Serializable {
 
-    @Column( name = "senha", nullable = false, length = 60 )
+    @Column( name = "senha", nullable = false, length = 120 )
     private String password;
 
     public UserEntity( String username, String password ){

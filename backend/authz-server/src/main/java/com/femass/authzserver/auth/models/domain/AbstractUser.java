@@ -51,6 +51,6 @@ public class AbstractUser {
     
             this();
             this.username = username;
-            Collections.copy( this.autorities, authorities );
+            this.autorities = authorities;
     }
 }

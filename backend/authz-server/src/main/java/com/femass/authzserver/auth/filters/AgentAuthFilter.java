@@ -29,9 +29,20 @@ public class AgentAuthFilter extends AbstractAuthenticationProcessingFilter {
         throws 
                 IOException, AuthenticationException {
 
-        var username = RequestHandler.obtainParam( req, "username" );
-        var cpf = RequestHandler.obtainParam( req, "cpf" );
-        var password = RequestHandler.obtainParam( req, "password" );
+        String cpf, username, password;
+
+        if( RequestHandler.isJsonContent( req ) ){
+            var json = RequestHandler.parseToJson( req );
+
+            cpf = json.get( "cpf" ).asText();
+            username = json.get( "username" ).asText();
+            password = json.get( "password" ).asText();
+        }
+        else {
+            cpf = req.getParameter( "cpf" );
+            username = req.getParameter( "username" );
+            password = req.getParameter( "password" );
+        }
 
         AgentCredentials credentials = new AgentCredentials( password, cpf );
         var token = new AgentAuthToken( username, credentials );

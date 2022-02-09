@@ -37,16 +37,17 @@ public class AgentController {
                                               HttpServletResponse res ) 
             throws IOException {
 
-        var username = RequestHandler.obtainParam( req, "username" );
+        var json = RequestHandler.parseToJson( req );
+        var username = json.get( "username" ).asText();
 
         if( agentService.existsAgentByUsername( username ) ) {
             return "Validation error, check your data";
         }    
         
-        var password = RequestHandler.obtainParam( req, "password" );
+        var password = json.get( "password" ).asText();
         password = passwordEncoder.encode( password );
 
-        var cpf = RequestHandler.obtainParam( req, "cpf" );
+        var cpf = json.get( "cpf" ).asText();
         
         AgentEntity entity = new AgentEntity( username, new AgentCredentials( password, cpf ), List.of( () -> "ROLE_AGENT" ) );
 

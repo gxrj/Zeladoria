@@ -23,8 +23,19 @@ public class UserAuthFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication( HttpServletRequest req, HttpServletResponse resp )
         throws IOException {
 
-        var username = RequestHandler.obtainParam( req, "username" );
-        var password = RequestHandler.obtainParam( req, "password" );
+        String username, password;
+
+        if( RequestHandler.isJsonContent( req ) ){
+            
+            var json = RequestHandler.parseToJson( req );
+
+            username = json.get( "username" ).asText();
+            password = json.get( "password" ).asText();
+        }
+        else {
+            username = req.getParameter( "username" );
+            password = req.getParameter( "password" );
+        }
 
         var token = new UserAuthToken( username, password );
 
