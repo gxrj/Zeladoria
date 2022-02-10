@@ -12,25 +12,6 @@ import org.springframework.util.Assert;
 
 public class RequestHandler {
     
-    public static String obtainParam( HttpServletRequest req, String param ) throws
-        IOException {
-
-        var isHttpPost = req.getMethod().equalsIgnoreCase( "POST" );
-
-        if( isHttpPost && isJsonContent( req ) ){
-
-            var json = parseToJson( req );
-            Assert.notNull( json, "error while parsing into json" );
-
-            var result = json.get( param ).asText();
-            Assert.notNull( result, "param name not found");
-
-            return result;
-        }
-
-        return req.getParameter( param );
-    }
-
     public static JsonNode parseToJson( HttpServletRequest req ) throws IOException {
 
         Assert.isTrue( isJsonContent( req ), "content-type cannot be handled as json" );
@@ -54,7 +35,8 @@ public class RequestHandler {
 
     public static String checkRequestType( HttpServletRequest req ){
         var contentType = req.getContentType();
-        Assert.notNull( contentType, "content-type not known" );
+
+        if( contentType == null ) { contentType = "application/octet-stream"; }
 
         return contentType.toLowerCase();
     }

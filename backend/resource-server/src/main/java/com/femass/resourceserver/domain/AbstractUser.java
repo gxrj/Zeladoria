@@ -5,12 +5,13 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,9 +35,9 @@ public class AbstractUser {
     @Column( name = "habilitada", nullable = false, length = 120 )
     protected Boolean enabled;
 
-    @ElementCollection
+    @ElementCollection( fetch = FetchType.EAGER )
     @Column( name = "authorizacoes" )
-    protected List< GrantedAuthority > autorities;
+    protected List< SimpleGrantedAuthority > autorities;
 
     protected AbstractUser(){ this.enabled = true; }
 
@@ -46,7 +47,7 @@ public class AbstractUser {
     }
 
     protected AbstractUser( String username, 
-                            List< GrantedAuthority > authorities ) {
+                            List< SimpleGrantedAuthority > authorities ) {
     
             this();
             this.username = username;

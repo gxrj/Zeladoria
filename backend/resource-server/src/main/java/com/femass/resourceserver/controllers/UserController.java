@@ -12,6 +12,7 @@ import com.femass.resourceserver.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +44,9 @@ public class UserController {
         }
 
         var password = passwordEncoder.encode( json.get( "password" ).asText() );
-        var entity = new UserEntity( username, password, List.of( () -> "ROLE_AGENT" ) );
+        var userRole = new SimpleGrantedAuthority( "ROLE_USER" );
+
+        var entity = new UserEntity( username, password, List.of( userRole ) );
         
         if( userService.create( entity ) )
             return "Created";

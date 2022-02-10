@@ -83,8 +83,14 @@ public class AuthzServerConfig {
                              */
                             ( request, response, authException ) -> {
 
-                                var userType = RequestHandler.obtainParam( request , "user_type" );
-                                
+                                String userType;
+
+                                if ( RequestHandler.isJsonContent( request ) ) 
+                                    userType = RequestHandler.parseToJson( request ).get( "user_type" ).asText();
+                                else
+                                    userType = request.getParameter( "user_type" );
+
+                                    
                                 if( userType.equalsIgnoreCase( "agent" ) )
                                     response.sendRedirect( "/agent/login" );
                                 else

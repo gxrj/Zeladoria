@@ -6,13 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-
-@NoArgsConstructor
 
 @Embeddable
 public class AgentCredentials {
@@ -22,6 +19,8 @@ public class AgentCredentials {
     
     @Column( name = "cpf", unique = true, length = 11 )
     private String cpf;
+
+    public AgentCredentials() {}
 
     public AgentCredentials( String password, String cpf ) {
         this.password = password;

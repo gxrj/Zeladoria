@@ -8,16 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-
-@NoArgsConstructor
 
 @Entity( name = "Colaborador" )
 
@@ -28,6 +25,9 @@ public class AgentEntity extends AbstractUser
     @Embedded
     private AgentCredentials credentials;
 
+
+    public AgentEntity() { super(); }
+
     public AgentEntity( String username, 
                         AgentCredentials credentials ) {
 
@@ -37,7 +37,7 @@ public class AgentEntity extends AbstractUser
 
     public AgentEntity( String username, 
                         AgentCredentials credentials,
-                        List< GrantedAuthority > authorities ) {
+                        List< SimpleGrantedAuthority > authorities ) {
 
         super( username, authorities );
         this.credentials = credentials;
@@ -52,7 +52,7 @@ public class AgentEntity extends AbstractUser
         return this.credentials;
     }
 
-    public List< GrantedAuthority > getAuthorities(){
-        return getAuthorities();
+    public List< SimpleGrantedAuthority > getAuthorities(){
+        return this.autorities;
     }
 }

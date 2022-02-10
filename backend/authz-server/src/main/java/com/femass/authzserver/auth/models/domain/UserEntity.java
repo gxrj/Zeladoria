@@ -7,16 +7,13 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-
-@NoArgsConstructor
 
 @Entity( name = "Cidadao" )
 
@@ -27,12 +24,14 @@ public class UserEntity extends AbstractUser
     @Column( name = "senha", nullable = false, length = 120 )
     private String password;
 
+    public UserEntity() { super(); }
+
     public UserEntity( String username, String password ){
         super( username );
         this.password = password;
     }
     
-    public UserEntity( String username, String password, List< GrantedAuthority > authorities ){
+    public UserEntity( String username, String password, List< SimpleGrantedAuthority > authorities ){
         super( username, authorities );
         this.password = password;
     }
@@ -46,7 +45,7 @@ public class UserEntity extends AbstractUser
         return this.password;
     }
 
-    public List< GrantedAuthority > getAuthorities(){
-        return getAuthorities();
+    public List< SimpleGrantedAuthority > getAuthorities(){
+        return this.autorities;
     }
 }

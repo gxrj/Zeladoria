@@ -13,6 +13,7 @@ import com.femass.resourceserver.services.AgentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +49,9 @@ public class AgentController {
         password = passwordEncoder.encode( password );
 
         var cpf = json.get( "cpf" ).asText();
-        
-        AgentEntity entity = new AgentEntity( username, new AgentCredentials( password, cpf ), List.of( () -> "ROLE_AGENT" ) );
+        var agentRole = new SimpleGrantedAuthority( "ROLE_AGENT" );
+
+        AgentEntity entity = new AgentEntity( username, new AgentCredentials( password, cpf ), List.of( agentRole ) );
 
         var created = agentService.create( entity );
 
