@@ -1,2 +1,3 @@
 Users Stories
 Scrum -> sprint
+Composite -> Conta

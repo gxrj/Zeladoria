@@ -36,7 +36,8 @@ public class RequestHandler {
     public static String checkRequestType( HttpServletRequest req ){
         var contentType = req.getContentType();
 
-        if( contentType == null ) { contentType = "application/octet-stream"; }
+        if( contentType == null ) 
+            contentType = "application/octet-stream";
 
         return contentType.toLowerCase();
     }
