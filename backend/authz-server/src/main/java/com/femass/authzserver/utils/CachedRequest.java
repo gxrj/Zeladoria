@@ -21,11 +21,13 @@ public class CachedRequest extends HttpServletRequestWrapper {
         this.cachedBody = StreamUtils.copyToByteArray( request.getInputStream() );
     }
 
+    /* Responsable to read content in binary format */
     @Override
     public ServletInputStream getInputStream() throws IOException {
         return new CachedBody( this.cachedBody );
     }
 
+    /* Responsable to read content in text format */
     @Override
     public BufferedReader getReader() throws IOException {
         var inputStream = new ByteArrayInputStream( this.cachedBody );
