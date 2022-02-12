@@ -3,7 +3,7 @@ package com.femass.resourceserver.services;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.femass.resourceserver.domain.UserEntity;
+import com.femass.resourceserver.domain.user.UserEntity;
 import com.femass.resourceserver.repositories.UserRepository;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

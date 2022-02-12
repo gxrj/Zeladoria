@@ -1,4 +1,4 @@
-package com.femass.resourceserver.domain;
+package com.femass.resourceserver.domain.user;
 
 import java.util.List;
 import java.util.UUID;

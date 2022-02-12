@@ -3,8 +3,8 @@ package com.femass.resourceserver.services;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.femass.resourceserver.domain.AgentCredentials;
-import com.femass.resourceserver.domain.AgentEntity;
+import com.femass.resourceserver.domain.user.AgentCredentials;
+import com.femass.resourceserver.domain.user.AgentEntity;
 import com.femass.resourceserver.repositories.AgentRepository;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

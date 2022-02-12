@@ -6,8 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.femass.resourceserver.domain.AgentCredentials;
-import com.femass.resourceserver.domain.AgentEntity;
+import com.femass.resourceserver.domain.user.AgentCredentials;
+import com.femass.resourceserver.domain.user.AgentEntity;
 import com.femass.resourceserver.handlers.RequestHandler;
 import com.femass.resourceserver.services.AgentService;
 
@@ -33,7 +33,7 @@ public class AgentController {
     private AgentService agentService;
 
 
-    @PostMapping( "/registration-agent" ) /** Temporary endpoint */
+    @PostMapping( "/manager/new-agent" )
     public String registerAgent( HttpServletRequest req, 
                                               HttpServletResponse res ) 
             throws IOException {
