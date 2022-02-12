@@ -1,9 +1,5 @@
 package com.femass.authzserver.config;
 
-import java.time.Duration;
-import java.util.List;
-import java.util.UUID;
-
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 import com.femass.authzserver.utils.RequestHandler;
 
@@ -11,7 +7,6 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,17 +15,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -38,15 +24,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration( proxyBeanMethods = false )
 public class AuthzServerConfig {
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Value( "${oauth2.angular.client-id}" )
-    private String clientId;
-
-    @Value( "${oauth2.angular.client-secret}" )
-    private String clientSecret;
 
     @Value( "${oauth2.authorization-server-address}" )
     private String authorizationServerAddress;
@@ -98,55 +75,9 @@ public class AuthzServerConfig {
                             } 
                         ) 
             )
-			.apply(authorizationServerConfigurer);
+			.apply( authorizationServerConfigurer );
 
         return http.build();
-    }
-
-    /**
-     * Sets information about thrusted clients
-     * and how interact with them
-     * @return RegisteredClientRepository instance
-     */
-    @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-        var userClientAddress = "http://auth-server:8090/login"; //Angular client home page
-        var agentClientAddress = "http://auth-server:8090/agent/login";
-
-        var client = RegisteredClient
-                        .withId( UUID.randomUUID().toString() )
-                        .clientId( clientId )
-                        .clientSecret( passwordEncoder.encode( clientSecret ) )
-                        .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
-                        .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
-                        .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
-                        .scope( "angular" )
-                        .clientSettings( this.clientSettings() )
-                        .tokenSettings( this.tokenSettings() )
-                        .redirectUris( setConsumer -> setConsumer.addAll( List.of( userClientAddress, agentClientAddress ) ) )
-                        .clientName( "angular" )
-                        .build();
-
-        
-        return new InMemoryRegisteredClientRepository( client );
-    }
-
-    @Bean
-    public ClientSettings clientSettings(){
-
-        return ClientSettings.builder()
-                                .requireAuthorizationConsent( false )
-                                .requireProofKey( false )
-                                .build();
-    }
-
-    @Bean
-    public TokenSettings tokenSettings(){
-        return TokenSettings.builder()
-                                .accessTokenTimeToLive( Duration.ofMinutes( 15 ) )
-                                .refreshTokenTimeToLive( Duration.ofMinutes( 15 ) )
-                                .idTokenSignatureAlgorithm( SignatureAlgorithm.ES256 )
-                                .build();
     }
 
     /**

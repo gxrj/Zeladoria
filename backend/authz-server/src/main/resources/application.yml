@@ -12,11 +12,11 @@ oauth2:
     #Authserver root address
     authorization-server-address:  http://auth-server:8090
     #List of trusted client credentials
-    resource-server:
-        client-id: resource-server
-        client-secret: '123'
     angular:
         client-id: client
+        client-secret: '123'
+    ionic:
+        client-id: user-client
         client-secret: '123'
 
 # debug: true
