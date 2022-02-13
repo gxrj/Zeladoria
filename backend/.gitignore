@@ -1,4 +1,5 @@
 .idea
+.vscode
 test_db/
 bin/
 ../Users\ Stories.txt
