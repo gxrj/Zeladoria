@@ -43,8 +43,8 @@ public class RegisteredClientConfig {
      */
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        var userClientAddress = "http://localhost:4200/login"; //Ionic client home page
-        var agentClientAddress = "http://localhost:4210/agent/login"; //Angular client home page
+        var userClientAddress = "http://auth-server:8090/login"; //Ionic client home page
+        var agentClientAddress = "http://auth-server:8090/agent/login"; //Angular client home page
 
         var agentClient = RegisteredClient
                         .withId( UUID.randomUUID().toString() )
@@ -53,11 +53,11 @@ public class RegisteredClientConfig {
                         .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
                         .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                         .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
-                        .scope( "angular" )
+                        .scope( "agent" )
                         .clientSettings( this.clientSettings() )
                         .tokenSettings( this.tokenSettings() )
                         .redirectUri( agentClientAddress )
-                        .clientName( "angular" )
+                        .clientName( "agent-client" )
                         .build();
 
         var userClient = RegisteredClient
@@ -67,11 +67,11 @@ public class RegisteredClientConfig {
                         .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
                         .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                         .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
-                        .scope( "ionic" )
+                        .scope( "user" )
                         .clientSettings( this.clientSettings() )
                         .tokenSettings( this.tokenSettings() )
                         .redirectUri( userClientAddress )
-                        .clientName( "ionic" )
+                        .clientName( "user-client" )
                         .build();
 
         
