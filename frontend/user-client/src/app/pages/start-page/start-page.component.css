@@ -1,0 +1,41 @@
+#start-page-card {
+    background-color: #d6d6d6;
+    border-radius: 2px;
+    height: 70vh;
+    width: 70vw;
+    margin-top: 15vh;
+    display: flex;
+    box-shadow: 1px 1px 2px 3px #474747, -1px -1px 2px 3px #474747 ;
+}
+
+div#start-page-card > div#left-side {
+    width: 49.9%;
+    align-items: center;
+    align-content: center;
+    vertical-align: middle;
+}
+
+div#start-page-card > div#right-side {
+    width: 49.9%;
+    align-items: center;
+    align-content: center;
+    vertical-align: middle;
+}
+
+@media screen and ( max-width: 610px ) {
+ 
+    #start-page-card{
+        height: 90vh;
+        width: 90vw;
+        display:grid;
+        margin-top: 5vh;
+    }
+
+    div#start-page-card > div#left-side {
+        width: 99.9%;
+    }
+    
+    div#start-page-card > div#right-side {
+        width: 99.9%;
+    }
+}

@@ -1,0 +1,32 @@
+.main {
+    border-radius: 2px;
+    height: 70%;
+    width: 70%;
+    margin-top: 15%;
+    margin-left: 15%;
+    display: grid;
+    text-align: center;
+    align-items: center;
+    box-shadow: 1px 1px 2px 3px #474747, -1px -1px 2px 3px #474747 ;
+    transition: box-shadow .5s;
+    transition-timing-function: ease-in-out;
+}
+
+.img{
+    margin-left: 30%;
+    height: 40% !important;
+    width: 40% !important;
+}
+
+.main:hover{
+    box-shadow: none;
+}
+
+@media screen and ( max-height: 610px ) {
+    .main {
+        height:80%;
+        width: 60%;
+        margin-top: 10%;
+        margin-left: 20%;
+    }
+}
