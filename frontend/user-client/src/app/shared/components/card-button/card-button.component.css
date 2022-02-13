@@ -2,11 +2,12 @@
     border-radius: 2px;
     height: 70%;
     width: 70%;
-    margin-top: 15%;
+    margin-top: 13%;
     margin-left: 15%;
     display: grid;
     text-align: center;
     align-items: center;
+    background-color: rgb(201, 201, 201);
     box-shadow: 1px 1px 2px 3px #474747, -1px -1px 2px 3px #474747 ;
     transition: box-shadow .5s;
     transition-timing-function: ease-in-out;
@@ -20,6 +21,10 @@
 
 .main:hover{
     box-shadow: none;
+    cursor: pointer;
+    box-shadow: inset 1px 1px 2px 3px #474747, inset -1px -1px 2px 3px #474747;
+    transition: box-shadow .5s;
+    transition-timing-function: ease-in-out;
 }
 
 @media screen and ( max-height: 610px ) {

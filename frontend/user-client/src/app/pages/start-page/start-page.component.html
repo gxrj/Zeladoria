@@ -1,12 +1,16 @@
+<div id="start-title">
+    <h2>Macaé Fiscaliza</h2>
+</div>
+
 <div id="start-page-card" class="row">
     <div id="left-side">
-        <card-button>
+        <card-button (click)="login()" >
             <img src="../../../assets/icons/user.svg" img>
             <h3 legend>Logar</h3>
         </card-button>
     </div>
     <div id="right-side">
-        <card-button>
+        <card-button (click)="anonymousForward()">
             <img src="../../../assets/icons/secret-user.svg" img>
             <h3 legend>Anônimo</h3>
         </card-button>
