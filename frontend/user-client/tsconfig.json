@@ -9,6 +9,9 @@
       "@resources/*": [ "app/resources/*" ],
       "@pages/*": [ "app/resources/pages/*" ],
       "@shared/*": [ "app/shared/*" ],
+      "@components/*": [ "app/shared/components/*" ],
+      "@guards/*": [ "app/shared/guards/*" ],
+      "@services/*": [ "app/shared/services/*" ],
       "@assets/*": [ "assets/*" ],
       "@env/*": [ "environments/*" ]
     },

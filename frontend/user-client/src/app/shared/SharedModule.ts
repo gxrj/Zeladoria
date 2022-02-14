@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CardButtonComponent } from '@shared/components/card-button/card-button.component';
+import { CardButtonComponent } from '@components/card-button/card-button.component';
 
 @NgModule( { 
     declarations: [ 
