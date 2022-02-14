@@ -4,8 +4,12 @@ import { NgModule } from '@angular/core';
 import { CardButtonComponent } from '@app/shared/components/card-button/card-button.component';
 
 @NgModule( { 
-    declarations: [ CardButtonComponent ],
+    declarations: [ 
+        CardButtonComponent 
+    ],
     imports: [ CommonModule ],
-    exports: [ CardButtonComponent ]
+    exports: [ 
+        CardButtonComponent 
+    ]
 } )
 export class SharedModule {}

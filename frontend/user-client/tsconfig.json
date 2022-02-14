@@ -5,9 +5,10 @@
     "baseUrl": "src",
     "paths": {
       "@app/*": [ "app/*" ],
-      "@components/*": [ "components/*" ],
-      "@pages/*": [ "app/pages/*" ],
-      "@shared": [ "app/shared/*" ],
+      "@core/*": [ "app/core/*" ],
+      "@resources/*": [ "app/resources/*" ],
+      "@pages/*": [ "app/resources/pages/*" ],
+      "@shared/*": [ "app/shared/*" ],
       "@assets/*": [ "assets/*" ],
       "@env/*": [ "environments/*" ]
     },
