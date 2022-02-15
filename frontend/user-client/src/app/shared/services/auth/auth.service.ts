@@ -39,7 +39,10 @@ export class AuthService {
                   first(),
                   tap( 
                       {
-                        next: response => this.setToken( response ),
+                        next: response => { 
+                                this.setToken( response )
+                                this._router.navigateByUrl( 'home' ) 
+                              },
                         error: err => { 
                                 alert( `Bad credentials: ${ err }` )
                                 this._router.navigateByUrl( 'start' ) 
