@@ -48,7 +48,8 @@ public class AuthzServerConfig {
 			.authorizeRequests( authorizeRequests ->
 				authorizeRequests.anyRequest().authenticated()
 			)
-			.csrf(csrf -> csrf.ignoringRequestMatchers( endpointsMatcher ) )
+            .cors().disable()
+			.csrf( csrf -> csrf.ignoringRequestMatchers( endpointsMatcher ) )
             .exceptionHandling(
                  exceptionCustomizer -> 
                     exceptionCustomizer
