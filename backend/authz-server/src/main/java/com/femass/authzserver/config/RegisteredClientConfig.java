@@ -43,7 +43,7 @@ public class RegisteredClientConfig {
      */
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        var userClientAddress = "http://localhost:4200/redirection"; // User client redirection page
+        var userClientAddress = "http://127.0.0.1:4200/redirection"; // User client redirection page
         var agentClientAddress = "http://localhost:4200/agent/login"; // Agent client home page
 
         var agentClient = RegisteredClient

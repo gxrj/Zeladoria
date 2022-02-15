@@ -1,8 +1,8 @@
 
 const REQUEST = {
     API: {
-        AUTHZ_SERVER_URL: 'http://auth-server:8090/',
-        RESOURCE_SERVER_URL: 'http://localhost:8080/'
+        AUTHZ_SERVER_URL: 'http://auth-server:8090/oauth2/authorize',
+        RESOURCE_SERVER_URL: 'http://auth-server:8090/oauth2/token'
     },
 
     HEADER: {

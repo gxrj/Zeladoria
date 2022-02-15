@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { first, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 import OAUTH2_CLIENT_CONFIG from './auth-service.config'
 import REQUEST from '@globals/request.config'
-import { first, tap } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor( private _http: HttpClient, private _router: Router ) { }
+  constructor( private _http: HttpClient ) { }
 
   redirectToLoginPage() {
 
@@ -37,18 +37,10 @@ export class AuthService {
     this._http.post( url, options )
               .pipe( 
                   first(),
-                  tap( 
-                      {
-                        next: response => { 
-                                this.setToken( response )
-                                this._router.navigateByUrl( 'home' ) 
-                              },
-                        error: err => { 
-                                alert( `Bad credentials: ${ err }` )
-                                this._router.navigateByUrl( 'start' ) 
-                              }
-                      } 
-                  ) 
+                  tap( {
+                    next: response => this.setToken( response ),
+                    error: err => alert( `Bad credentials: ${ err }` )
+                  } ) 
               )
   }
 
