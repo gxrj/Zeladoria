@@ -43,8 +43,8 @@ public class RegisteredClientConfig {
      */
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        var userClientAddress = "http://localhost:4200/login"; //Ionic client home page
-        var agentClientAddress = "http://localhost:4200/agent/login"; //Angular client home page
+        var userClientAddress = "http://localhost:4200/redirection"; // User client redirection page
+        var agentClientAddress = "http://localhost:4200/agent/login"; // Agent client home page
 
         var agentClient = RegisteredClient
                         .withId( UUID.randomUUID().toString() )
