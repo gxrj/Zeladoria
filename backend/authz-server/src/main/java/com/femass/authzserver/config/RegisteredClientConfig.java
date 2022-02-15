@@ -23,17 +23,23 @@ public class RegisteredClientConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Value( "${oauth2.angular.client-id}" )
+    @Value( "${oauth2.client1.client-id}" )
     private String agentClientId;
 
-    @Value( "${oauth2.angular.client-secret}" )
+    @Value( "${oauth2.client1.client-secret}" )
     private String agentClientSecret;
 
-    @Value( "${oauth2.ionic.client-id}" )
+    @Value( "${oauth2.client1.redirect-uri}" )
+    private String agentClientAddress;
+    
+    @Value( "${oauth2.client2.client-id}" )
     private String userClientId;
 
-    @Value( "${oauth2.ionic.client-secret}" )
+    @Value( "${oauth2.client2.client-secret}" )
     private String userClientSecret;
+    
+    @Value( "${oauth2.client2.redirect-uri}" )
+    private String userClientAddress;
 
 
     /**
@@ -43,8 +49,6 @@ public class RegisteredClientConfig {
      */
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        var userClientAddress = "http://127.0.0.1:4200/redirection"; // User client redirection page
-        var agentClientAddress = "http://localhost:4200/agent/login"; // Agent client home page
 
         var agentClient = RegisteredClient
                         .withId( UUID.randomUUID().toString() )

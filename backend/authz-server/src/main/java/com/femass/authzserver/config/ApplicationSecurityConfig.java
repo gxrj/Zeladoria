@@ -28,6 +28,8 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import org.springframework.web.cors.CorsConfigurationSource;
+
 @EnableWebSecurity
 public class ApplicationSecurityConfig {
 
@@ -36,6 +38,9 @@ public class ApplicationSecurityConfig {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private CorsConfigurationSource corsConfigSource;
 
     @Bean
     public SecurityFilterChain appSecurityFilterChain( HttpSecurity http ) 
@@ -54,7 +59,9 @@ public class ApplicationSecurityConfig {
             );
 
         http
-            .cors().disable()
+            .cors()
+                .configurationSource( corsConfigSource )
+            .and()
             .csrf().disable()
             .sessionManagement()
                 .sessionCreationPolicy( SessionCreationPolicy.NEVER );

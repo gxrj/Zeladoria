@@ -41,12 +41,12 @@ export class AuthService {
     bodyParams.append( 'code', code )
     
     const options = {
-      headers: REQUEST.HEADER.FORM_CONTENT_TYPE
+      headers: REQUEST.HEADER.JSON_CONTENT_TYPE
     }
 
     const url = this.authzServer.TOKEN_ENPOINT
 
-    this._http.put( url, bodyParams, options )
+    this._http.post( url, bodyParams, options )
               .subscribe( response => console.log( response ) )
   }
 

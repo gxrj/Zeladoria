@@ -12,12 +12,16 @@ oauth2:
     #Authserver root address
     authorization-server-address:  http://auth-server:8090
     #List of trusted client credentials
-    angular:
+    client1:
         client-id: agent-client
         client-secret: '123'
-    ionic:
-        client-id: user-client
+        redirect-uri: http://localhost:4200/agent/login # Agent client home page
+        cors-allowed-origin: http://127.0.0.1:4200
+    client2:
+        client-id: user-client 
         client-secret: '123'
+        redirect-uri: http://127.0.0.1:4200/redirection # User client redirection page
+        cors-allowed-origin: http://127.0.0.1:4200
 
 # debug: true
 

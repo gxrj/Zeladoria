@@ -15,6 +15,7 @@ const OAUTH2_CLIENT_CONFIG = {
     },
 
     TOKEN_ENDPOINT_PARAMS: {
+        user_type: 'user',
         grant_type: 'authorization_code',
         scope: scope,
         client_id: clientId,

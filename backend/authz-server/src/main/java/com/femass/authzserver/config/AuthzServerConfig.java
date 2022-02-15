@@ -1,5 +1,8 @@
 package com.femass.authzserver.config;
 
+import java.util.List;
+
+import com.femass.authzserver.auth.handlers.AuthEntryPoint;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 import com.femass.authzserver.utils.RequestHandler;
 
@@ -7,11 +10,15 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
@@ -20,14 +27,26 @@ import org.springframework.security.oauth2.server.authorization.config.ProviderS
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-/** the line bellow forces spring to not reuse AuthServerConfig beans */
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/** the line bellow forces spring to not reuse AuthServerConfig beans */
 @Configuration( proxyBeanMethods = false )
 public class AuthzServerConfig {
 
     @Value( "${oauth2.authorization-server-address}" )
     private String authorizationServerAddress;
 
+    @Value( "${oauth2.client1.cors-allowed-origin}" )
+    private String agentCorsAllowedOrigin;
+    
+    @Value( "${oauth2.client2.cors-allowed-origin}" )
+    private String userCorsAllowedOrigin;
+
+    @Autowired
+    private AuthEntryPoint authEntryPoint;
+    
     /**
      * Sets OAuth2AuthorizationServer filter configuration
      * @param http
@@ -48,37 +67,34 @@ public class AuthzServerConfig {
 			.authorizeRequests( authorizeRequests ->
 				authorizeRequests.anyRequest().authenticated()
 			)
-            .cors().disable()
+            .cors()
+                .configurationSource( corsConfigSource() )
+            .and()
 			.csrf( csrf -> csrf.ignoringRequestMatchers( endpointsMatcher ) )
             .exceptionHandling(
                  exceptionCustomizer -> 
                     exceptionCustomizer
-                        .authenticationEntryPoint(
-                            /** 
-                             * Responsable to handle which form login 
-                             * will be shown according to user type 
-                             * when hit /oauth2/authorized unnauthenticated
-                             */
-                            ( request, response, authException ) -> {
-
-                                String userType;
-
-                                if ( RequestHandler.isJsonContent( request ) ) 
-                                    userType = RequestHandler.parseToJson( request ).get( "user_type" ).asText();
-                                else
-                                    userType = request.getParameter( "user_type" );
-
-                                    
-                                if( userType.equalsIgnoreCase( "agent" ) )
-                                    response.sendRedirect( "/agent/login" );
-                                else
-                                    response.sendRedirect( "/login" );
-                            } 
-                        ) 
+                        .authenticationEntryPoint( authEntryPoint )
             )
 			.apply( authorizationServerConfigurer );
 
         return http.build();
+    }
+    
+    /**
+     * Configure allowed client origins
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins( List.of( agentCorsAllowedOrigin, userCorsAllowedOrigin ) );
+        config.setAllowedMethods( List.of( "GET", "POST" ) );
+        config.setAllowedHeaders( List.of( "*" ) );
+        
+        UrlBasedCorsConfigurationSource sourceMatcher = new UrlBasedCorsConfigurationSource();
+        sourceMatcher.registerCorsConfiguration( "/**", config );
+        
+        return sourceMatcher;
     }
 
     /**
