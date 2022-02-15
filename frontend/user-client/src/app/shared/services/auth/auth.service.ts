@@ -13,8 +13,6 @@ export class AuthService {
 
   constructor( private _http: HttpClient, private _router: Router ) { }
 
-
-
   redirectToLoginPage() {
 
     let params = this.getUrlEndPointParams( OAUTH2_CLIENT_CONFIG.AUTHORIZE_ENDPOINT_PARAMS )
@@ -38,11 +36,16 @@ export class AuthService {
 
     this._http.post( url, options )
               .pipe( 
-                first(),
-                tap( {
-                  next: response => this.setToken( response ),
-                  error: err => alert( `Bad credentials: ${ err }` )
-                } ) 
+                  first(),
+                  tap( 
+                      {
+                        next: response => this.setToken( response ),
+                        error: err => { 
+                                alert( `Bad credentials: ${ err }` )
+                                this._router.navigateByUrl( 'start' ) 
+                              }
+                      } 
+                  ) 
               )
   }
 
