@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import OAUTH2_CLIENT_CONFIG from './auth-service.config'
@@ -35,52 +35,38 @@ export class AuthService {
     return urlEndpointParams
   }
 
-  async getToken( code: string ) {
+  getToken( code: string ) {
 
     const url = this.authzServer.TOKEN_ENPOINT 
     
-    const bodyParams = { 
+    const params = { 
       code: code,
       ...OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
     }
-
-    const contentType = new HttpHeaders( { 'Content-Type': 'application/json;charset=UTF-8' } )
+   
+    const body = this.getUrlEndpointParams( params ).toString()
+    
+    const contentType = REQUEST.HEADER.FORM_CONTENT_TYPE
   
-    this._http.post( url, bodyParams, { headers: contentType, observe: 'response', responseType: 'json' }  )
-              .subscribe( {
-                next: response => {
-
-                        console.log( response )
-                        
-                        this.setToken( response ) 
-                      },
-                error: error => console.log( error )
-              } )
+    return this._http
+                  .post( url, body, { 
+                                      headers: contentType, 
+                                      observe: 'response', 
+                                      responseType: 'json' }  )
   }
 
-  getHttpEndpointParams( endpointParameters: Object ) {
-
-    const httpEndpointParams = new HttpParams()
-    
-    Object
-      .entries( endpointParameters )
-        .forEach( 
-          entry => httpEndpointParams.append( entry[0], entry[1] ) 
-        )
-    
-    return httpEndpointParams
-  }
-
-  setToken( responseData: any ) {
+  saveToken( responseData: any ) {
 
     if( !responseData ) return
-
-    let credentials = {
-      accessToken: responseData.access_token,
-      refreshToken: responseData.refresh_token,
-      expiration: new Date().getTime() + ( responseData.expires_in * 1000 )
-    }
     
-    //localStorage.setItem( 'token', JSON.stringify( credentials ) )
+    const credentials = {
+              accessToken: responseData.access_token,
+              refreshToken: responseData.refresh_token,
+              expiration: new Date().getTime() + ( responseData.expires_in * 1000 ),
+              scope: responseData.scope,
+              token_type: responseData.token_type
+          }
+    
+    localStorage.setItem( 'token', JSON.stringify( credentials ) )
   }
 }
