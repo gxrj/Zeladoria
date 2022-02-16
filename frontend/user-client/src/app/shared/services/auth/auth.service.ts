@@ -51,7 +51,7 @@ export class AuthService {
     
     console.log( bodyParams )
 
-    this._http.post( url, bodyParams )
+    this._http.post( url, bodyParams, options )
               .subscribe( {
                 next: response => {
                   console.log( 'response: ' + JSON.stringify( response ) )

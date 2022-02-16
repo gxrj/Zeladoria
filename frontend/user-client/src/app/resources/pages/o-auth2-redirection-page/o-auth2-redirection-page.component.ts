@@ -18,6 +18,6 @@ export class OAuth2RedirectionPageComponent implements OnInit {
     let code = this._route.snapshot.queryParams[ 'code' ]
     this._authService.getToken( code )
 
-    console.log( localStorage.getItem( 'token' ) )
+    console.log( 'End' )
   }
 }
