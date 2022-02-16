@@ -1,0 +1,58 @@
+#login-form-body {
+    display: grid;
+}
+
+#login-form-body > * {
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    margin: auto;
+}
+
+.col {
+    width: 30%;
+    height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.row > label{
+    margin: auto;
+}
+
+#login-card {
+    background-color: rgb(95, 194, 3);
+}
+
+#anonymous-card {
+    background-color: rgb(255, 208, 0);
+}
+
+#secret-user-icon, #user-icon {
+    filter: invert(0%);
+}
+
+#secret-user-icon:hover, #user-icon:hover {
+    filter: invert(42%);
+}
+
+@media screen and ( max-width: 610px ) {
+    
+    #login-form-body > * {
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    .col {
+        width: 80%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}

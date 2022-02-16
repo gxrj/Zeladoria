@@ -1,11 +1,10 @@
-
 const REQUEST = {
     API: {
         AUTHZ_SERVER_URL: {
             AUTHORIZE_ENPOINT: 'http://auth-server:8090/oauth2/authorize',
             TOKEN_ENPOINT: 'http://auth-server:8090/oauth2/token'
         },
-        RESOURCE_SERVER_URL: 'http://localhost:8080/user'
+        RESOURCE_SERVER_URL: 'http://localhost:8080/'
     },
 
     HEADER: {

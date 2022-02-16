@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
-
-import { AuthService } from '@app/shared/services/auth/auth.service';
 
 @Component({
   selector: 'start-page',
@@ -10,18 +7,8 @@ import { AuthService } from '@app/shared/services/auth/auth.service';
 })
 export class StartPageComponent implements OnInit {
 
-  constructor( 
-    private _router: Router, 
-    private _authService: AuthService ) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  login() {
-    this._authService.redirectToLoginPage()
-  }
-
-  anonymousForward() {
-    this._router.navigateByUrl( '/home' )
   }
 }

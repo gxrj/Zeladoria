@@ -17,18 +17,13 @@
     box-shadow: 1px 1px 2px 3px #474747, -1px -1px 2px 3px #474747;
 }
 
-div#start-page-card > div#left-side {
+div#start-page-card > * {
     width: 49.9%;
+    height: 100%;
     align-items: center;
     align-content: center;
     vertical-align: middle;
-}
-
-div#start-page-card > div#right-side {
-    width: 49.9%;
-    align-items: center;
-    align-content: center;
-    vertical-align: middle;
+    margin: auto;
 }
 
 @media screen and ( max-width: 610px ) {
