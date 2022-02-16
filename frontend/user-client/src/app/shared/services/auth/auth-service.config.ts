@@ -1,7 +1,7 @@
 
 const scope = 'user'
 const clientId = 'user-client'
-const clientSecret = '123'
+const clientSecret = 123
 const redirectUri = 'http://127.0.0.1:4200/redirection'
 
 const OAUTH2_CLIENT_CONFIG = {

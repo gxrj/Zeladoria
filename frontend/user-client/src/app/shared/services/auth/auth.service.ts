@@ -36,18 +36,29 @@ export class AuthService {
   }
 
   getToken( code: string ) {
-    
-    const bodyParams = this.getHttpEndpointParams( OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS )
-    bodyParams.append( 'code', code )
-    
-    const options = {
-      headers: REQUEST.HEADER.JSON_CONTENT_TYPE
+
+    const url = this.authzServer.TOKEN_ENPOINT 
+    const bodyParams = { 
+      code: code,
+      ...OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS 
     }
+    const options = {
+      headers: {
+        ...REQUEST.HEADER.JSON_CONTENT_TYPE,
+        accept: '*/*'
+      }
+    }
+    
+    console.log( bodyParams )
 
-    const url = this.authzServer.TOKEN_ENPOINT
-
-    this._http.post( url, bodyParams, options )
-              .subscribe( response => console.log( response ) )
+    this._http.post( url, bodyParams )
+              .subscribe( {
+                next: response => {
+                  console.log( 'response: ' + JSON.stringify( response ) )
+                  this.setToken( response ) 
+                },
+                error: error => console.log( error )
+              } )
   }
 
   getHttpEndpointParams( endpointParameters: Object ) {
@@ -73,6 +84,6 @@ export class AuthService {
       expiration: new Date().getTime() + ( responseData.expires_in * 1000 )
     }
     
-    localStorage.setItem( 'token', JSON.stringify( credentials ) )
+    //localStorage.setItem( 'token', JSON.stringify( credentials ) )
   }
 }
