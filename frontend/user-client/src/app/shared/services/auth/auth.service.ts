@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import OAUTH2_CLIENT_CONFIG from './auth-service.config'
@@ -35,28 +35,25 @@ export class AuthService {
     return urlEndpointParams
   }
 
-  getToken( code: string ) {
+  async getToken( code: string ) {
 
     const url = this.authzServer.TOKEN_ENPOINT 
+    
     const bodyParams = { 
       code: code,
-      ...OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS 
+      ...OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
     }
-    const options = {
-      headers: {
-        ...REQUEST.HEADER.JSON_CONTENT_TYPE,
-        accept: '*/*'
-      }
-    }
-    
-    console.log( bodyParams )
 
-    this._http.post( url, bodyParams, options )
+    const contentType = new HttpHeaders( { 'Content-Type': 'application/json;charset=UTF-8' } )
+  
+    this._http.post( url, bodyParams, { headers: contentType, observe: 'response', responseType: 'json' }  )
               .subscribe( {
                 next: response => {
-                  console.log( 'response: ' + JSON.stringify( response ) )
-                  this.setToken( response ) 
-                },
+
+                        console.log( response )
+                        
+                        this.setToken( response ) 
+                      },
                 error: error => console.log( error )
               } )
   }

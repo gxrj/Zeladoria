@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
-import com.femass.authzserver.utils.RequestHandler;
 
+import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -78,6 +78,10 @@ public class AuthzServerConfig {
                  exceptionCustomizer -> 
                     exceptionCustomizer
                         .authenticationEntryPoint( authEntryPoint )
+                        .accessDeniedHandler( 
+                            ( request, response, accessDeniedEx ) -> 
+                                            response.sendError( 404, accessDeniedEx.getMessage() ) 
+                        )
             )
 			.apply( authorizationServerConfigurer );
 
@@ -130,9 +134,14 @@ public class AuthzServerConfig {
      * @return JWKSource<T> implementation
      */
     @Bean
-    public JWKSource<SecurityContext> getWebKeySources() {
+    public JWKSource<SecurityContext> jwkSource() throws JOSEException {
 
-        JWKSet webKeysSet =  new JWKSet( KeyGeneratorUtils.getECKeys() );
+        var signatureKeys = List.of(
+                                            KeyGeneratorUtils.getECKeys(),
+                                            KeyGeneratorUtils.getRsaKeys()
+                                      );
+
+        JWKSet webKeysSet =  new JWKSet( signatureKeys );
         
         return ( jwkSelector, context ) -> jwkSelector.select( webKeysSet );
     }

@@ -1,6 +1,14 @@
 server:
     port: 8090
 
+    #debug: true
+
+    #logging:
+        #level:
+            #root: DEBUG
+            #org:
+                #springframework:
+                    #security: trace
 spring:
     # jpa:
     #     defer-datasource-initialization: true
@@ -22,12 +30,3 @@ oauth2:
         client-secret: '123'
         redirect-uri: http://127.0.0.1:4200/redirection # User client redirection page
         cors-allowed-origin: http://127.0.0.1:4200
-
-# debug: true
-
-# logging:
-#   level:
-#     root: DEBUG
-#     org:
-#       springframework:
-#         security: trace
