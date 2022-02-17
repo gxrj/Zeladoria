@@ -67,6 +67,6 @@ export class AuthService {
               token_type: responseData.token_type
           }
     
-    localStorage.setItem( 'token', JSON.stringify( credentials ) )
+    sessionStorage.setItem( 'token', JSON.stringify( credentials ) )
   }
 }
