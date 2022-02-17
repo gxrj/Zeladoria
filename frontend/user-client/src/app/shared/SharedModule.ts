@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CardButtonComponent } from '@components/card-button/card-button.component';
 
@@ -7,8 +8,15 @@ import { CardButtonComponent } from '@components/card-button/card-button.compone
     declarations: [ 
         CardButtonComponent 
     ],
-    imports: [ CommonModule ],
-    exports: [ 
+    imports: [ 
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule 
+    ],
+    exports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,  
         CardButtonComponent 
     ]
 } )
