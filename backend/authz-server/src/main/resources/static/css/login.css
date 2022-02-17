@@ -1,9 +1,84 @@
- @import url( "W3.css" );
- #login-page-background{
-    height:100vh;
-    width:100vw;
+html, body {
+    height:100%;
+    width:100%;
     display: flex;
     justify-content: center;
     background-image: url("../img/login-background.jpg");
     background-size: cover;
+}
+
+#login-card {
+    background-color: #cdcdcd;
+    display: grid;
+    width: 50%;
+    height: 70%;
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px 1px #0e0e0e, -1px -1px 2px 1px #454545;
+}
+
+#login-card > * {
+    margin: auto;
+    display: grid;
+    width: 70%;
+    vertical-align: middle;
+}
+#login-card > label {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#login-card > form {
+    margin-top: 0;
+}
+
+#login-card > form > * {
+    margin: auto;
+    width: 85%;
+}
+
+#login-card > form > label {
+    font-size: 15px;
+}
+
+#login-card > form > input {
+    margin-bottom: 5%;
+    line-height: 25px;
+    font-size: 20px;
+}
+
+#login-card > form > button {
+    cursor: pointer;
+    margin: auto;
+    margin-top: 15%;
+    width: 85%;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    background-color: #6565ab;
+}
+
+#login-card > form > input:focus {
+    outline: none;
+}
+
+@media screen and ( max-width: 810px ) {
+    #login-card {
+        width: 80%;
+    }
+    #login-card > * {
+        width: 70%;
+    }
+}
+
+@media screen and ( max-width: 610px ) {
+    #login-card {
+        width: 95%;
+    }
+    #login-card > * {
+        width: 90%;
+    }
 }
