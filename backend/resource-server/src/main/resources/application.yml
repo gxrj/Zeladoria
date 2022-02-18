@@ -7,11 +7,18 @@ spring:
     profiles:
         active: prod # Change when ready to production
 
-debug: true
+        
 
-logging:
-  level:
-    root: DEBUG
-    org:
-      springframework:
-        security: trace
+cors:
+    allowed-origins: >
+        http://127.0.0.1:4200,
+        *
+        
+#debug: true
+
+#logging:
+  #level:
+    #root: DEBUG
+    #org:
+      #springframework:
+        #security: trace

@@ -97,7 +97,7 @@ public class AuthzServerConfig {
         config.setAllowedOrigins( List.of( agentCorsAllowedOrigin, userCorsAllowedOrigin ) );
         config.setAllowedMethods( List.of( "GET", "POST" ) );
         config.setAllowedHeaders( List.of( "*" ) );
-        
+
         UrlBasedCorsConfigurationSource sourceMatcher = new UrlBasedCorsConfigurationSource();
         sourceMatcher.registerCorsConfiguration( "/**", config );
         

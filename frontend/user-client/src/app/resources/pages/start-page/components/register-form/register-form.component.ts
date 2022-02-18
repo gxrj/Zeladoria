@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { UserService } from '@app/shared/services/user/user.service';
+
 @Component({
   selector: 'register-form',
   templateUrl: './register-form.component.html',
@@ -10,8 +12,11 @@ export class RegisterFormComponent implements OnInit {
 
   form: FormGroup
 
-  constructor( fb: FormBuilder ) {
-    this.form = fb.group( {
+  constructor( 
+    private _fb: FormBuilder, 
+    private _userService: UserService ) {
+
+    this.form = this._fb.group( {
       name: [ '', Validators.required ],
       username: [ '', Validators.required ],
       password: [ '', Validators.required ]
@@ -22,6 +27,10 @@ export class RegisterFormComponent implements OnInit {
   }
 
   register() {
-    alert( JSON.stringify( this.form.value ) )
+    this._userService.create( this.form.value )
+              .subscribe( { 
+                next: response => console.log( response ),
+                error: error => console.log( error ) 
+              } )
   }
 }

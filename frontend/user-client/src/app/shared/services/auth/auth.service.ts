@@ -9,15 +9,16 @@ import REQUEST from '@globals/request.config'
 })
 export class AuthService {
 
-  private authzServer = REQUEST.API.AUTHZ_SERVER_URL
+  private authzServer = REQUEST.authzServer
 
   constructor( private _http: HttpClient ) { }
 
   redirectToLoginPage() {
 
     let params = this.getUrlEndpointParams( OAUTH2_CLIENT_CONFIG.AUTHORIZE_ENDPOINT_PARAMS )
+    let authorizeUrl = this.authzServer.baseUrl + this.authzServer.authorizeEndpont
 
-    const authzEndpoint = `${ this.authzServer.AUTHORIZE_ENPOINT }?${ params.toString() }`
+    const authzEndpoint = `${ authorizeUrl }?${ params.toString() }`
 
     window.location.href = authzEndpoint
   }
@@ -37,7 +38,7 @@ export class AuthService {
 
   getToken( code: string ) {
 
-    const url = this.authzServer.TOKEN_ENPOINT 
+    const tokenEndpointUrl = this.authzServer.baseUrl + this.authzServer.tokenEnpoint
     
     const params = { 
       code: code,
@@ -49,10 +50,10 @@ export class AuthService {
     const contentType = REQUEST.HEADER.FORM_CONTENT_TYPE
   
     return this._http
-                  .post( url, body, { 
-                                      headers: contentType, 
-                                      observe: 'response', 
-                                      responseType: 'json' }  )
+                  .post( tokenEndpointUrl, body, { 
+                                                    headers: contentType, 
+                                                    observe: 'response', 
+                                                    responseType: 'json' }  )
   }
 
   saveToken( responseData: any ) {
