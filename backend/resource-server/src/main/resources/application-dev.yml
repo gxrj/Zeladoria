@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:h2:tcp://localhost:8000/../test_db/fiscaliza_db
+        url: jdbc:h2:file:../test_db/fiscaliza_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=8000;
         username: sa
         password:
         name: fiscaliza_db
@@ -10,7 +10,7 @@ spring:
         generate-ddl: true
         show-sql: true
         hibernate:
-            ddl-auto: update
+            ddl-auto: create-drop
     h2:
         console:
             enabled: true

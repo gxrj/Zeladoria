@@ -57,6 +57,7 @@ public class ResourceServerConfig {
         config.setAllowedOrigins( this.corsAllowedOrigins );
         config.setAllowedMethods( List.of( "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS" ) );
         config.setAllowedHeaders( List.of( "*" ) );
+
         var sourceMatcher = new UrlBasedCorsConfigurationSource();
         sourceMatcher.registerCorsConfiguration( "/**", config );
         

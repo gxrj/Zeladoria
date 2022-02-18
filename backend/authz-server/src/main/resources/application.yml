@@ -14,7 +14,7 @@ spring:
     #     defer-datasource-initialization: true
     # Change when ready to production
     profiles:
-        active: prod
+        active: dev
     
 oauth2:
     #Authserver root address

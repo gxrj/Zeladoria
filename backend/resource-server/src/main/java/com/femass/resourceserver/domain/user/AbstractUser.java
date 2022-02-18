@@ -25,7 +25,7 @@ import lombok.Setter;
 public class AbstractUser {
     
     @Id
-    @Column( name = "id" )
+    @Column( name = "id", columnDefinition = "uuid not null" )
     @GeneratedValue( strategy = GenerationType.AUTO )
     protected UUID id;
 
