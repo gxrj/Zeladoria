@@ -39,6 +39,7 @@ public class AgentController {
             throws IOException {
 
         var json = RequestHandler.parseToJson( req );
+        var name = json.get( "name" ).asText();
         var username = json.get( "username" ).asText();
 
         if( agentService.existsAgentByUsername( username ) ) {
@@ -52,7 +53,8 @@ public class AgentController {
         var agentRole = new SimpleGrantedAuthority( "ROLE_AGENT" );
 
         AgentEntity entity = new AgentEntity( username, new AgentCredentials( password, cpf ), List.of( agentRole ) );
-
+        entity.setName( name );
+        
         var created = agentService.create( entity );
 
         if( created )  

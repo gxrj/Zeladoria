@@ -37,6 +37,7 @@ public class UserController {
             throws IOException {
 
         var json = RequestHandler.parseToJson( req );
+        var name = json.get( "name" ).asText();
         var username = json.get( "username" ).asText();
 
         if( userService.existsUserByUsername( username ) ){
@@ -47,6 +48,7 @@ public class UserController {
         var userRole = new SimpleGrantedAuthority( "ROLE_USER" );
 
         var entity = new UserEntity( username, password, List.of( userRole ) );
+        entity.setName( name );
         
         if( userService.create( entity ) )
             return "Created";

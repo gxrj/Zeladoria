@@ -18,7 +18,10 @@ import lombok.Setter;
 
 @Entity( name = "Colaborador" )
 
-@AttributeOverride( name = "username", column = @Column( name = "matricula" ) )
+@AttributeOverride( 
+    name = "username", 
+    column = @Column( name = "matricula", nullable = false, length = 10 ) 
+)
 public class AgentEntity extends AbstractUser 
         implements Serializable {
     

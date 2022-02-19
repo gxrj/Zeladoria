@@ -17,7 +17,10 @@ import lombok.Setter;
 
 @Entity( name = "Cidadao" )
 
-@AttributeOverride( name ="username", column =  @Column( name = "email" ) )
+@AttributeOverride( 
+    name = "username", 
+    column = @Column( name = "email", nullable = false ) 
+)
 public class UserEntity extends AbstractUser 
         implements Serializable {
 

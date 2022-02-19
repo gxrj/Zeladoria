@@ -30,7 +30,9 @@ public class AbstractUser {
     protected UUID id;
 
     @Column( name = "nome", nullable = false, length = 50 )
-    protected String username;
+    protected String name;
+    
+    protected String username; /* Overriden by children classes */
 
     @Column( name = "habilitada", nullable = false, length = 120 )
     protected Boolean enabled;
