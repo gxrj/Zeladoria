@@ -36,11 +36,11 @@
 }
 
 #secret-user-icon, #user-icon {
-    filter: invert(0%);
+    filter: invert( 200% );
 }
 
 #secret-user-icon:hover, #user-icon:hover {
-    filter: invert(42%);
+    filter: invert( 42% );
 }
 
 @media screen and ( max-width: 610px ) {

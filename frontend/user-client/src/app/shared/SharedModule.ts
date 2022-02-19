@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CardButtonComponent } from '@components/card-button/card-button.component';
+import { NavbarComponent } from '@components/navbar/navbar.component';
 
 @NgModule( { 
     declarations: [ 
-        CardButtonComponent 
+        CardButtonComponent,
+        NavbarComponent 
     ],
     imports: [ 
         CommonModule,
@@ -17,7 +19,8 @@ import { CardButtonComponent } from '@components/card-button/card-button.compone
         CommonModule,
         FormsModule,
         ReactiveFormsModule,  
-        CardButtonComponent 
+        CardButtonComponent,
+        NavbarComponent 
     ]
 } )
 export class SharedModule {}
