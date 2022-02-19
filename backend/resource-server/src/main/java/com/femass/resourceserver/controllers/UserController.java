@@ -41,7 +41,7 @@ public class UserController {
         var username = json.get( "username" ).asText();
 
         if( userService.existsUserByUsername( username ) ){
-            return "Validation error, check your data";
+            return "Email already in use";
         }
 
         var password = passwordEncoder.encode( json.get( "password" ).asText() );

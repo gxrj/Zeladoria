@@ -43,7 +43,7 @@ public class AgentController {
         var username = json.get( "username" ).asText();
 
         if( agentService.existsAgentByUsername( username ) ) {
-            return "Validation error, check your data";
+            return "Registration already in use";
         }    
         
         var password = json.get( "password" ).asText();
