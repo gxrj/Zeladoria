@@ -36,3 +36,9 @@
 card-button {
     background-color: rgb(73, 73, 73);
 }
+
+@media screen and ( max-width: 610px ) {
+    #cards-col {
+        width: 90%;
+    }
+}

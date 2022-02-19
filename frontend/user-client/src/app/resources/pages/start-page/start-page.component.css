@@ -2,6 +2,8 @@
     background-color: #5053ff;
     color: white;
     border-radius: 2px;
+    display: grid;
+    font-style: italic;
     text-align: center;
     height: 10vh;
     margin-top: 7vh;
