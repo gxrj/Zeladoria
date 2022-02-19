@@ -51,8 +51,7 @@ public class ApplicationSecurityConfig {
                 authRequests -> authRequests.mvcMatchers( 
                                                 "/login", 
                                                 "/agent/login", 
-                                                "/css/**", "/img/**",
-                                                "/h2-console/**"
+                                                "/css/**", "/img/**"
                                             )
                                             .permitAll()
                                             .anyRequest().authenticated()

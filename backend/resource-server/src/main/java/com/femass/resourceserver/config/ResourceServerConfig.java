@@ -27,7 +27,7 @@ public class ResourceServerConfig {
 
         http.authorizeRequests( 
 
-                req -> req.mvcMatchers( "/registration**" ).permitAll()
+                req -> req.mvcMatchers( "/registration**", "/h2-console**" ).permitAll()
                             .mvcMatchers( "/agent/**" ).hasAnyRole( "ADMIN", "AGENT" )
                             .mvcMatchers( "/manager/**" ).hasRole( "ADMIN" )
                             .mvcMatchers( "/user/**" ).hasRole( "USER" )

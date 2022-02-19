@@ -1,6 +1,7 @@
+#This is application is responsable to host h2 database
 spring:
     datasource:
-        url: jdbc:h2:file:../test_db/fiscaliza_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=8000;
+        url: jdbc:h2:file:../test_db/fiscaliza_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=8000; # Sets h2 in mixed mode ( embedded + server )
         username: sa
         password:
         name: fiscaliza_db

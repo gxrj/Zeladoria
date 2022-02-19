@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:h2:file:../test_db/fiscaliza_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=8000;
+        url: jdbc:h2:file:../test_db/fiscaliza_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=8000; # In mixed mode, the url must be equal to host application
         username: sa
         password:
         name: fiscaliza_db
@@ -11,5 +11,3 @@ spring:
         show-sql: true
         hibernate:
             ddl-auto: none
-    h2:
-        console.enabled: true
