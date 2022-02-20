@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from '@pages/home-page/home-page.component';
 import { StartPageComponent } from '@pages/start-page/start-page.component';
 import { OAuth2RedirectionPageComponent } from '@pages/o-auth2-redirection-page/o-auth2-redirection-page.component';
+import { QuizPageComponent } from '@pages/quiz-page/quiz-page.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
     path: 'home',
     component: HomePageComponent,
     loadChildren: () => import( '@pages/home-page/home-page.module' ).then( m => m.HomePageModule )
+  },
+  {
+    path: 'service-quiz',
+    component: QuizPageComponent,
+    loadChildren: () => import( '@pages/quiz-page/quiz-page.module' ).then( m => m.QuizPageModule )
   }
 
 ];

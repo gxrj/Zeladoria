@@ -37,6 +37,12 @@ card-button {
     background-color: rgb(73, 73, 73);
 }
 
+card-button {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 @media screen and ( max-width: 610px ) {
     #cards-col {
         width: 90%;

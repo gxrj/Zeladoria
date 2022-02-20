@@ -1,5 +1,4 @@
 .main {
-    font-size: 15px;
     border-radius: 2px;
     display: grid;
     margin: auto;
@@ -21,10 +20,14 @@
 
 .main > .legend {
     margin-bottom: 5%;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
 }
 
 .main:hover {
     box-shadow: none;
+    border-radius: 5px;
     cursor: pointer;
     box-shadow: inset 1px 1px 2px 3px #474747, inset -1px -1px 2px 3px #474747;
     transition: box-shadow .5s;

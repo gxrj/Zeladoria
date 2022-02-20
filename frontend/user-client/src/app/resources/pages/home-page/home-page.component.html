@@ -3,11 +3,13 @@
 
     <div id="content">
         
-        <label>Selecione o serviço</label>
+        <label>Selecione a categoria do serviço</label>
         <div id="service-list">
             <div id="cards-row">
-                <div *ngFor="let group of array" id="cards-col">
-                    <card-button></card-button>
+                <div *ngFor="let service of services" id="cards-col">
+                    <card-button>
+                        <label legend> {{ service }} </label>
+                    </card-button>
                 </div>
             </div>
         </div>
