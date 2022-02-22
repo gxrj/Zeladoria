@@ -58,8 +58,8 @@ public class AgentController {
         var created = agentService.create( entity );
 
         if( created )  
-            return "Created";
+            return "{\"message\":\"Created\"}";
         else 
-            return "Error";
+            return "{\"message\":\"Error\"}";
     }
 }

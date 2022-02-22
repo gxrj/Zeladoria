@@ -51,8 +51,8 @@ public class UserController {
         entity.setName( name );
         
         if( userService.create( entity ) )
-            return "Created";
+            return "{\"message\":\"Created\"}";
         else 
-            return "Error";
+            return "{\"message\":\"Error\"}";
     }
 }
