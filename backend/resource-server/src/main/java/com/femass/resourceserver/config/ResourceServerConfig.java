@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,6 +24,9 @@ public class ResourceServerConfig {
 
     @Value( "${cors.allowed-origins}" )
     private List<String> corsAllowedOrigins;
+
+    @Value( "${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}" )
+    private String jwkSetUri;
 
     @Bean
     SecurityFilterChain getFilterChainBean( HttpSecurity http ) throws Exception {
@@ -46,7 +52,8 @@ public class ResourceServerConfig {
                                 )
             )
             .oauth2ResourceServer()
-            .jwt();
+                .jwt()
+                    .decoder( jwtDecoder() );
 
         return http.build();
     }
@@ -62,5 +69,23 @@ public class ResourceServerConfig {
         sourceMatcher.registerCorsConfiguration( "/**", config );
         
         return sourceMatcher;
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        /*
+         * TODO: improve to configure trusted algorithms
+         *       from JWK set response, when using a
+         *       production db
+         */
+        return NimbusJwtDecoder
+            .withJwkSetUri( jwkSetUri )
+            .jwsAlgorithms(
+                algorithms -> {
+                    algorithms.add( SignatureAlgorithm.ES256 );
+                    algorithms.add( SignatureAlgorithm.RS256 );
+                }
+            )
+            .build();
     }
 }

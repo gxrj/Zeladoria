@@ -4,6 +4,16 @@ spring:
             resourceserver:
                 jwt:
                     issuer-uri: http://auth-server:8090
+                    jwk-set-uri: http://auth-server:8090/oauth2/jwks
+            client:
+              registration:
+                authz-server:
+                    client-id: resource-client
+                    client-secret: '123'
+                    scope: agent, user
+              provider:
+                authz-server:
+                    issuer-uri: http://auth-server:8090
     profiles:
         active: dev # Change when ready to production
 
@@ -14,11 +24,11 @@ cors:
         http://127.0.0.1:4200,
         *
         
-#debug: true
+debug: true
 
-#logging:
-  #level:
-    #root: DEBUG
-    #org:
-      #springframework:
-        #security: trace
+logging:
+  level:
+    root: DEBUG
+    org:
+      springframework:
+        security: trace

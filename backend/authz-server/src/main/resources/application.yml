@@ -30,3 +30,6 @@ oauth2:
         client-secret: '123'
         redirect-uri: http://127.0.0.1:4200/redirection # User client redirection page
         cors-allowed-origin: http://127.0.0.1:4200
+    resource:
+        client-id: resource-client
+        client-secret: '123'

@@ -1,6 +1,7 @@
 package com.femass.authzserver.config;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class RegisteredClientConfig {
     @Value( "${oauth2.client2.redirect-uri}" )
     private String userClientAddress;
 
+    @Value( "${oauth2.resource.client-id}" )
+    private String resourceClientId;
+
+    @Value( "${oauth2.resource.client-secret}" )
+    private String resourceClientSecret;
 
     /**
      * Sets information about thrusted clients
@@ -78,8 +84,15 @@ public class RegisteredClientConfig {
                         .clientName( "user-client" )
                         .build();
 
-        
-        return new InMemoryRegisteredClientRepository( agentClient, userClient );
+        var resourceClient = RegisteredClient
+                        .withId( UUID.randomUUID().toString() )
+                        .clientId( resourceClientId )
+                        .clientSecret( passwordEncoder.encode( resourceClientSecret ) )
+                        .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
+                        .authorizationGrantType( AuthorizationGrantType.CLIENT_CREDENTIALS )
+                        .build();
+
+        return new InMemoryRegisteredClientRepository( resourceClient, agentClient, userClient );
     }
 
     @Bean
