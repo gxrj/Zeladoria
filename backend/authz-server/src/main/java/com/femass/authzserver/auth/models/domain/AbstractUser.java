@@ -13,13 +13,11 @@ import javax.persistence.MappedSuperclass;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 
 @MappedSuperclass
 public class AbstractUser {

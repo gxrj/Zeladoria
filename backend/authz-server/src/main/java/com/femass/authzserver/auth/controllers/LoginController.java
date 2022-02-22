@@ -2,6 +2,7 @@ package com.femass.authzserver.auth.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,8 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
     
     @GetMapping( path = "/login" )
-    public String getUserFormLogin() { return "login"; }
+    public String getUserFormLogin( Model model ) { return "login"; }
 
     @GetMapping( path = "/agent/login" )
     public String getAgentFormLogin() { return "login-agent"; }
+
+    @GetMapping( path = "/error" )
+    public String getErrorPage() { return "error"; }  
+
+    @GetMapping( path = "/unauthorized" )
+    public String getUnauthorizedPage() { return "unauthorized"; }
 }

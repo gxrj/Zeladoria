@@ -7,7 +7,7 @@ import com.femass.authzserver.auth.tokens.AgentAuthToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -23,7 +23,7 @@ public class AgentAuthProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate( Authentication auth ) throws UsernameNotFoundException {
+    public Authentication authenticate( Authentication auth ) throws AuthenticationException {
 
         var username = auth.getName();
         var tokenCredentials = ( AgentCredentials ) auth.getCredentials();

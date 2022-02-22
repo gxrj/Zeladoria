@@ -6,6 +6,7 @@ import com.femass.authzserver.auth.tokens.UserAuthToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -21,7 +22,8 @@ public class UserAuthProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate( Authentication auth ) {
+    public Authentication authenticate( Authentication auth ) 
+        throws AuthenticationException {
 
         var username = auth.getName();
         var password = auth.getCredentials().toString();

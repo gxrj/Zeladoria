@@ -13,10 +13,12 @@ import com.femass.authzserver.auth.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -24,6 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -50,7 +54,8 @@ public class ApplicationSecurityConfig {
             .authorizeHttpRequests(
                 authRequests -> authRequests.mvcMatchers( 
                                                 "/login", 
-                                                "/agent/login", 
+                                                "/agent/login",
+                                                "/unauthorized", "/error",
                                                 "/css/**", "/img/**"
                                             )
                                             .permitAll()
@@ -75,6 +80,7 @@ public class ApplicationSecurityConfig {
                     new LoginUrlAuthenticationEntryPoint( "/agent/login" ), 
                     new AntPathRequestMatcher( "/agent/login" ) 
                 );
+        
 
         http
             .addFilterBefore( 
@@ -126,17 +132,31 @@ public class ApplicationSecurityConfig {
     }
 
     private AgentAuthFilter agentAuthFilter( String url, String httpMethod ) {
-        return new AgentAuthFilter( 
-                        requestMatcher( url, httpMethod ), 
-                        authenticationManager() 
-                    );
+        var matcher = requestMatcher( url, httpMethod );
+        var agentFilter = new AgentAuthFilter( matcher, authenticationManager() );
+        agentFilter.setAuthenticationFailureHandler( authFailHandler() );
+        
+        return agentFilter;
     }
 
-    private UserAuthFilter userAuthFilter( String url, String httpMethod ) {    
-        return new UserAuthFilter( 
-                        requestMatcher( url, httpMethod ), 
-                        authenticationManager() 
-                    );
+    private UserAuthFilter userAuthFilter( String url, String httpMethod ) { 
+        var matcher =  requestMatcher( url, httpMethod );
+        var userFilter =  new UserAuthFilter( matcher, authenticationManager() );
+        userFilter.setAuthenticationFailureHandler( authFailHandler() );
+
+        return userFilter;
+    }
+
+    public AuthenticationFailureHandler authFailHandler() {
+
+        Map<String, String> failures = new HashMap<>();
+        failures.put( BadCredentialsException.class.getName(), "/unauthorized");
+        failures.put( UsernameNotFoundException.class.getName(), "/unauthorized" );
+
+        var handler = new ExceptionMappingAuthenticationFailureHandler();
+        handler.setExceptionMappings( failures );
+
+        return handler;
     }
 
     private RequestMatcher requestMatcher( String pattern, String httpMethod ){
