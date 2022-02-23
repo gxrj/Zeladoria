@@ -1,5 +1,6 @@
 package com.femass.authzserver.config;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
@@ -22,6 +23,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
@@ -106,11 +108,23 @@ public class AuthzServerConfig {
 
     /**
      * Exposes a customization which explicitly tells the
-     * exact signature algorithm that should be used
+     * exact signature algorithm that should be used and
+     * inject principal authorities
      */
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer(){
-        return context -> context.getHeaders().algorithm( SignatureAlgorithm.ES256 );
+    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
+        return context -> {
+
+            context.getHeaders().algorithm( SignatureAlgorithm.ES256 );
+
+            Collection<? extends GrantedAuthority> authorities = context
+                                                                    .getPrincipal()
+                                                                        .getAuthorities();
+
+            var result = authorities.toString().replaceAll( "\\]|\\[", "" );
+            result = result.replaceAll( ",", " " );
+            context.getClaims().claim( "authorities", result  );
+        };
     }
 
     /**
