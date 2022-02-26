@@ -10,10 +10,14 @@ import services from './services'
 export class HomePageComponent implements OnInit {
 
   services = services
-  
+  token: any
+
   constructor() { }
 
   ngOnInit(): void {
+    this.token = sessionStorage.getItem( 'token' )
+    if( this.token )
+      this.token = JSON.parse( this.token )
   }
 
 }

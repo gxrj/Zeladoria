@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
+import com.femass.authzserver.auth.handlers.RevocationResponseHandler;
+import com.femass.authzserver.auth.services.InMemoryTokenService;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 
 import com.nimbusds.jose.JOSEException;
@@ -20,18 +22,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
+import org.springframework.security.oauth2.server.authorization.*;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -51,7 +56,7 @@ public class AuthzServerConfig {
 
     @Autowired
     private AuthEntryPoint authEntryPoint;
-    
+
     /**
      * Sets OAuth2AuthorizationServer filter configuration
      * @param http
@@ -66,6 +71,22 @@ public class AuthzServerConfig {
 				new OAuth2AuthorizationServerConfigurer<>();
 		RequestMatcher endpointsMatcher = authorizationServerConfigurer
 				.getEndpointsMatcher();
+
+        /* the line bellow necessary for custom authorization server be set into the configurer */
+        authorizationServerConfigurer.setBuilder( http );
+
+        authorizationServerConfigurer
+            .authorizationService( authorizationService() )
+            .tokenRevocationEndpoint(
+                endpoint -> {
+                    endpoint
+                        .revocationResponseHandler(
+                                new RevocationResponseHandler( authorizationService() ) );
+                    endpoint
+                        .authenticationProvider(
+                                new OAuth2TokenRevocationAuthenticationProvider( authorizationService() ) );
+                }
+            );
 
 		http
 			.requestMatcher( endpointsMatcher )
@@ -89,7 +110,7 @@ public class AuthzServerConfig {
 
         return http.build();
     }
-    
+
     /**
      * Configure allowed client origins
      */
@@ -167,5 +188,10 @@ public class AuthzServerConfig {
     @Bean
     public JwtDecoder jwtDecoder( JWKSource<SecurityContext> jwkSource ) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder( jwkSource );
+    }
+
+    @Bean
+    public OAuth2AuthorizationService authorizationService () {
+        return new InMemoryTokenService();
     }
 }
