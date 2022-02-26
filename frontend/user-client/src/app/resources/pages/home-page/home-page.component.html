@@ -4,6 +4,14 @@
     <div id="content">
         
         <label>Selecione a categoria do serviço</label>
+        
+        <div id="box">
+            <div class="title">access token:</div>
+            <div class="token-body"> {{ token.accessToken }} </div>
+            <div class="title">refresh token:</div>
+            <div class="token-body"> {{ token.refreshToken }} </div>  
+        </div>
+
         <div id="service-list">
             <div id="cards-row">
                 <div *ngFor="let service of services" id="cards-col">

@@ -43,6 +43,27 @@ card-button {
     font-weight: bold;
 }
 
+#box{
+    margin: auto;
+}
+
+#box > .title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#box > .token-body {
+    margin: auto;
+    padding: auto;
+    inline-size: 80%;
+    overflow-wrap: break-word;
+    background-color: #ededed;
+    border-radius: 5px;
+    font-size: 12px;
+    border: 1px solid #0e0e0e;
+    color:rgb(73, 73, 73);
+}
+
 @media screen and ( max-width: 610px ) {
     #cards-col {
         width: 90%;
