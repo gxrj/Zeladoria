@@ -15,7 +15,9 @@ export class HomePageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
     this.token = sessionStorage.getItem( 'token' )
+
     if( this.token )
       this.token = JSON.parse( this.token )
   }
