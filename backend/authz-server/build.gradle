@@ -32,7 +32,7 @@ dependencies {
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
 	// https://mvnrepository.com/artifact/com.h2database/h2
-	runtimeOnly 'com.h2database:h2:2.0.206'
+	runtimeOnly 'com.h2database:h2:2.1.210'
 
 	// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.2.Final'
