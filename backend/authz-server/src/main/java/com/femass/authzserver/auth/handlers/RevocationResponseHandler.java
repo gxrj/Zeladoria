@@ -40,9 +40,9 @@ public class RevocationResponseHandler implements AuthenticationSuccessHandler {
             Assert.notNull( authorization, "no authorization found" );
             this.authorizationService.remove( authorization );
 
-            var writter = response.getWriter();
-            writter.print( authorization );
-            writter.close();
+            var writer = response.getWriter();
+            writer.print( authorization );
+            writer.close();
         }
         response.setStatus( HttpStatus.OK.value() );
     }
