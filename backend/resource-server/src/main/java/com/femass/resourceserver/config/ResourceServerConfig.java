@@ -2,6 +2,8 @@ package com.femass.resourceserver.config;
 
 import java.util.List;
 
+import com.femass.resourceserver.filters.TokenValidationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,7 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
-@EnableWebSecurity
+@EnableWebSecurity( debug = true )
 public class ResourceServerConfig {
 
     @Value( "${cors.allowed-origins}" )
@@ -30,8 +34,11 @@ public class ResourceServerConfig {
     @Value( "${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}" )
     private String jwkSetUri;
 
+    @Autowired
+    private TokenValidationFilter tokenValidationFilter;
+
     @Bean
-    SecurityFilterChain getFilterChainBean( HttpSecurity http ) throws Exception {
+    SecurityFilterChain securityFilterChain( HttpSecurity http ) throws Exception {
 
         http.authorizeRequests( 
 
@@ -58,6 +65,7 @@ public class ResourceServerConfig {
                     .decoder( jwtDecoder() )
                     .jwtAuthenticationConverter( jwtAuthenticationConverter() );
 
+        http.addFilterBefore( tokenValidationFilter, WebAsyncManagerIntegrationFilter.class );
 
         return http.build();
     }

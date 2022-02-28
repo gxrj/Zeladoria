@@ -10,10 +10,11 @@ spring:
                 authz-server:
                     client-id: resource-client
                     client-secret: '123'
-                    scope: agent, user
+                    scope: admin, agent, user
               provider:
                 authz-server:
                     issuer-uri: http://auth-server:8090
+                    introspect: http://auth-server:8090/oauth2/introspect
     profiles:
         active: dev # Change when ready to production
 
