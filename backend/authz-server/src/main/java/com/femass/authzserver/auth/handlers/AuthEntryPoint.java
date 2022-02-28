@@ -1,6 +1,5 @@
 package com.femass.authzserver.auth.handlers;
 
-import com.femass.authzserver.utils.RequestHandler;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Responsable to handle which form login
+ * Responsible to handle which form login
  * will be shown according to user type
  * when /oauth2/authorized is hit by an
  * unnauthenticated user.
@@ -46,9 +45,9 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
     private void redirectToLoginPageByUserType( HttpServletResponse response, String userType )
         throws IOException {
 
-        if (userType.equalsIgnoreCase("agent"))
-            response.sendRedirect("/agent/login");
+        if ( userType.equalsIgnoreCase( "agent" ) )
+            response.sendRedirect( "/agent/login" );
         else
-            response.sendRedirect("/login");
+            response.sendRedirect( "/login" );
     }
 }

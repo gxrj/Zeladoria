@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.femass.authzserver.auth.models.domain.AgentCredentials;
 import com.femass.authzserver.auth.tokens.AgentAuthToken;
-import com.femass.authzserver.utils.RequestHandler;
+import com.femass.authzserver.auth.handlers.RequestHandler;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;

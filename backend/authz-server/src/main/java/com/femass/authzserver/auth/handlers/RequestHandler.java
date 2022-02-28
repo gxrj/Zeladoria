@@ -1,4 +1,4 @@
-package com.femass.authzserver.utils;
+package com.femass.authzserver.auth.handlers;
 
 import java.io.IOException;
 

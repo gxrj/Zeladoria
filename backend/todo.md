@@ -1,4 +1,5 @@
 # OAuth Requirements
  
-- [ ] Add a filter that introspects token TokenValidationFilter at resource server
-- [ ] Add a filter that invalidates all other tokens of the same principal UniqueTokenPerUserFilter at authz server
+- [x] Add a filter that introspects token TokenValidationFilter at resource server
+- [ ] Add a response handler named UniqueTokenSessionHandler that invalidates
+ all other tokens of the same principal and registered client <br> at authz server
