@@ -61,6 +61,6 @@ environmental assistance, etc.
 
 ### Instructions to run
 
--  As explained in the sixth bullet point of backend structure, resource server application has to be run before
+-  As explained in the sixth bullet point of backend structure section, resource server application has to be run before
  authorization server application
  
