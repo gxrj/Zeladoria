@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
-import com.femass.authzserver.auth.services.InMemoryTokenService;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 
 import com.nimbusds.jose.JOSEException;
@@ -28,7 +27,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
@@ -39,7 +37,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /** The line bellow forces spring to not reuse AuthServerConfig beans */
-@Configuration( proxyBeanMethods = false )
+@Configuration
 public class AuthzServerConfig {
 
     @Value( "${oauth2.authorization-server-address}" )
@@ -68,13 +66,6 @@ public class AuthzServerConfig {
 				new OAuth2AuthorizationServerConfigurer<>();
 		RequestMatcher endpointsMatcher = authorizationServerConfigurer
 				.getEndpointsMatcher();
-//
-//        // Has to set builder before customize the build-in endpoints
-//        authorizationServerConfigurer.setBuilder( http );
-//
-//        // Customizing some built-in endpoints
-//        authorizationServerConfigurer
-//                .authorizationService( authorizationService() );
 
 		http
 			.requestMatcher( endpointsMatcher )
@@ -151,8 +142,8 @@ public class AuthzServerConfig {
     /**
      * Generates a set of key pairs for cryptography
      * purposes ( encryption, signature) containing 
-     * its specs and SecutiryContext into JSON form.
-     * And returns a lambda expression that retireves 
+     * its specs and SecurityContext into JSON form.
+     * And returns a lambda expression that retrieves
      * Json Web Keys by matching a specified selector.
      * @return JWKSource<T> implementation
      */
@@ -176,10 +167,5 @@ public class AuthzServerConfig {
     @Bean
     public JwtDecoder jwtDecoder( JWKSource<SecurityContext> jwkSource ) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder( jwkSource );
-    }
-
-    @Bean
-    public OAuth2AuthorizationService authorizationService() {
-        return new InMemoryTokenService();
     }
 }
