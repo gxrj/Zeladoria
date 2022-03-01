@@ -16,7 +16,7 @@ environmental assistance, etc.
   <li>PostgreSQL</li>
 </ul>
 
-<h3>Obs: this project still underdevelopment</h3>
+<h5>Obs: this project still under development</h5>
 
 ### Backend structure
 <span>
