@@ -88,11 +88,11 @@ public class AuthzServerConfig {
                 }
             );
 
-		http
-			.requestMatcher( endpointsMatcher )
-			.authorizeRequests( authorizeRequests ->
-				authorizeRequests.anyRequest().authenticated()
-			)
+	http
+	    .requestMatcher( endpointsMatcher )
+	    .authorizeRequests( authorizeRequests ->
+			   authorizeRequests.anyRequest().authenticated()
+	    )
             .cors()
                 .configurationSource( corsConfigSource() )
             .and()
@@ -163,8 +163,8 @@ public class AuthzServerConfig {
     /**
      * Generates a set of key pairs for cryptography
      * purposes ( encryption, signature) containing 
-     * its specs and SecutiryContext into JSON form.
-     * And returns a lambda expression that retireves 
+     * its specs and SecurityContext into JSON form.
+     * And returns a lambda expression that retrieves 
      * Json Web Keys by matching a specified selector.
      * @return JWKSource<T> implementation
      */
