@@ -26,12 +26,15 @@ environmental assistance, etc.
   login forms, one for citizens and other for public agents, they differ because they have different types
   of credentials
   
-- Authorization server's name server is configured as auth-server
+-  Authorization server's name server is configured as auth-server
   
 -  Authorization server runs at 8090 port so it's url becomes http://auth-server:8090
   
 -  Resource server runs at 8080 port
-  
+ 
+- The backend project is set to develoment environment, so h2 database is set to mixed mode
+  which means its hosted at resorce server hence it has to run before authorization server application
+ 
 -  Authorization server makes use of new springs security's authorization-server project in version 0.2.2
   Resorce server makes use of spring-boot-starter-oauth2-resource-server's library in version 2.6.4
   
@@ -53,3 +56,9 @@ environmental assistance, etc.
   hence both runs at 4200 port
 
 </span>
+
+### Instrictions to run
+
+-  As explained in the sixth bullet point of backend structure, resource server application has to be run before
+ authorization server application
+ 
