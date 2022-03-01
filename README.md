@@ -26,8 +26,11 @@ environmental assistance, etc.
   login forms, one for citizens and other for public agents, they differ because they have different types
   of credentials
   
--  Authorization server runs at 8090 port
-  Resource server runs at 8080 port
+- Authorization server's name server is configured as auth-server
+  
+-  Authorization server runs at 8090 port so it's url becomes http://auth-server:8090
+  
+-  Resource server runs at 8080 port
   
 -  Authorization server makes use of new springs security's authorization-server project in version 0.2.2
   Resorce server makes use of spring-boot-starter-oauth2-resource-server's library in version 2.6.4
@@ -40,5 +43,13 @@ environmental assistance, etc.
   
 -  The system will be use for two different types o user, with totally diferent flows os service, so its split
   one frontend application for citizens 'user-client' and other frontend application for public agent 'agent-client'
+  
+- Frontend for citizens will be run in desktop as well as mobile plataforms, currently using pure angular. 
+  With plans to use angular+ionic or pure angular pwa or angular with nativescript
+  
+- Frontend for public agents will be run in desktop only using angular
+  
+  As the machine used for developing this project is modest, it can only run one frontend application at a time
+  hence both runs at 4200 port
 
 </span>
