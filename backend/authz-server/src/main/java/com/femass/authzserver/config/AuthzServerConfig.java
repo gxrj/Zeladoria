@@ -31,7 +31,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -76,7 +75,8 @@ public class AuthzServerConfig {
 
         // Customizing some built-in endpoints
         authorizationServerConfigurer
-                .authorizationService( authorizationService() ); // endorses oauth2 service in memory persistence
+                // endorses oauth2 service in memory persistence //
+                .authorizationService( authorizationService() );
 
 		http
 			.requestMatcher( endpointsMatcher )

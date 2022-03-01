@@ -2,6 +2,8 @@ package com.femass.authzserver.auth.filters;
 
 import com.femass.authzserver.auth.services.InMemoryTokenService;
 
+import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.PlainObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
@@ -15,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.regex.Pattern;
 
 public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
@@ -35,10 +38,12 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
 
 
         var token = request.getHeader( "authorization" );
-        var grantType = request.getParameter( "grant_type" );
+        var code = request.getParameter( "code" );
 
+        if( code != null ) {
+            //Todo: avoid multiple sessions
+        }
         if( token != null  ) {
-
             authzServiceInMemory( request, response, authorizationService, token );
 //            if ( authorizationService instanceof InMemoryTokenService ) {
 //                authzServiceInMemory( request, response, authorizationService, token );
@@ -53,13 +58,26 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
                                         InMemoryTokenService authorizationService, String token ) {
 
         try {
+
             Pattern regex = Pattern.compile( "[Bb][Ee][Aa][Rr][Ee][Rr] " );
             token = token.replaceAll( regex.pattern(), "" );
-            token = token.replaceAll( " ", "" );
-            OAuth2Authorization result = authorizationService
-                                .findByToken( token , new OAuth2TokenType( "access_token" ) );
 
-            Assert.notNull( result, "OAuth2Authorization nulo " );
+            var jwsObject = JWSObject.parse( token );
+            Assert.notNull( jwsObject, "OAuth2Authorization nulo " );
+
+            var username = (String) jwsObject.getPayload().toJSONObject().get( "sub" );
+            var jwtSessions = authorizationService.findByPrincipalName( username );
+            Assert.notNull( jwtSessions, "null jwt sessions" );
+
+            jwtSessions.forEach(
+                    jwtSession -> {
+                        var access = jwtSession.getAccessToken().getToken().getTokenValue();
+                        var refresh = jwtSession.getRefreshToken().getToken();
+                        Assert.notNull( refresh, "refresh is null" );
+                        System.out.println( "access: "+access+"\nrefresh: "+ refresh.getTokenValue() );
+                    }
+            );
+
         }
         catch( Exception ex ) {
             System.out.println( "Exception: " + ex.getMessage()  );
