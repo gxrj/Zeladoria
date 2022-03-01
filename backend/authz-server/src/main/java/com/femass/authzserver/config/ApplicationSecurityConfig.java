@@ -34,7 +34,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import org.springframework.web.cors.CorsConfigurationSource;
 
-@EnableWebSecurity
+@EnableWebSecurity( debug = true )
 public class ApplicationSecurityConfig {
 
     @Autowired

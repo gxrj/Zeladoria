@@ -3,6 +3,7 @@ package com.femass.authzserver.config;
 import java.util.Collection;
 import java.util.List;
 
+import com.femass.authzserver.auth.filters.UniqueTokenSessionFilter;
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
 import com.femass.authzserver.auth.services.InMemoryTokenService;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
@@ -31,6 +32,8 @@ import org.springframework.security.oauth2.server.authorization.JwtEncodingConte
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.web.OAuth2TokenEndpointFilter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -68,13 +71,13 @@ public class AuthzServerConfig {
 				new OAuth2AuthorizationServerConfigurer<>();
 		RequestMatcher endpointsMatcher = authorizationServerConfigurer
 				.getEndpointsMatcher();
-//
-//        // Has to set builder before customize the build-in endpoints
-//        authorizationServerConfigurer.setBuilder( http );
-//
-//        // Customizing some built-in endpoints
-//        authorizationServerConfigurer
-//                .authorizationService( authorizationService() );
+
+        // Has to set builder before customize the build-in endpoints
+        authorizationServerConfigurer.setBuilder( http );
+
+        // Customizing some built-in endpoints
+        authorizationServerConfigurer
+                .authorizationService( authorizationService() ); // endorses oauth2 service in memory persistence
 
 		http
 			.requestMatcher( endpointsMatcher )
@@ -95,6 +98,9 @@ public class AuthzServerConfig {
                         )
             )
 			.apply( authorizationServerConfigurer );
+
+        http.addFilterAfter( new UniqueTokenSessionFilter( authorizationService() ),
+                            BearerTokenAuthenticationFilter.class );
 
         return http.build();
     }
@@ -151,8 +157,8 @@ public class AuthzServerConfig {
     /**
      * Generates a set of key pairs for cryptography
      * purposes ( encryption, signature) containing 
-     * its specs and SecutiryContext into JSON form.
-     * And returns a lambda expression that retireves 
+     * its specs and SecurityContext into JSON form.
+     * And returns a lambda expression that retrieves
      * Json Web Keys by matching a specified selector.
      * @return JWKSource<T> implementation
      */

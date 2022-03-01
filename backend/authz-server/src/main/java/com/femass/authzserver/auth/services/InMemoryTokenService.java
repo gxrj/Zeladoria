@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryTokenService implements OAuth2AuthorizationService {
+    // keeping authorities static endorses oauth2authorizations in memory persistence through application
     private static final Map<String, OAuth2Authorization> authorizations = new ConcurrentHashMap<>();
 
     public InMemoryTokenService() {
