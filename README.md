@@ -1,5 +1,8 @@
 ### Introduction
 
+
+<h3>Obs: this project still underdevelopment</h3>
+
 <span>
 The purpose of this project is to provide a fullstack web application 
 to provide communication between Macaé's city citizens and urban agents
@@ -57,7 +60,7 @@ environmental assistance, etc.
 
 </span>
 
-### Instrictions to run
+### Instructions to run
 
 -  As explained in the sixth bullet point of backend structure, resource server application has to be run before
  authorization server application
