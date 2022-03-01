@@ -1,10 +1,12 @@
 package com.femass.authzserver.auth.filters;
 
 import com.femass.authzserver.auth.services.InMemoryTokenService;
+
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,11 +19,12 @@ import java.util.regex.Pattern;
 
 public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
 
-    private final OAuth2AuthorizationService authorizationService;
+    private final InMemoryTokenService authorizationService;
 
-    public UniqueTokenSessionFilter( OAuth2AuthorizationService authorizationService ) {
+    public UniqueTokenSessionFilter( InMemoryTokenService authorizationService ) {
         this.authorizationService = authorizationService;
     }
+
 
     @Override
     public void doFilterInternal( HttpServletRequest request,
@@ -30,35 +33,33 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
 
         filterChain.doFilter( request, response );
 
+
         var token = request.getHeader( "authorization" );
+        var grantType = request.getParameter( "grant_type" );
 
         if( token != null  ) {
 
-            if ( authorizationService instanceof InMemoryTokenService ) {
-                authzServiceInMemory( request, response, authorizationService, token );
-            }
-            else if ( authorizationService instanceof JdbcOAuth2AuthorizationService ) {
-                jdbcAuthzService( request, response, authorizationService, token );
-            }
+            authzServiceInMemory( request, response, authorizationService, token );
+//            if ( authorizationService instanceof InMemoryTokenService ) {
+//                authzServiceInMemory( request, response, authorizationService, token );
+//            }
+//            else if ( authorizationService instanceof JdbcOAuth2AuthorizationService ) {
+//                jdbcAuthzService( request, response, authorizationService, token );
+//            }
         }
     }
 
     private void authzServiceInMemory(  HttpServletRequest req, HttpServletResponse res,
-                                        OAuth2AuthorizationService authorizationService, String token ) {
-
-        var context = SecurityContextHolder.getContext();
-        var authentication = context.getAuthentication();
+                                        InMemoryTokenService authorizationService, String token ) {
 
         try {
             Pattern regex = Pattern.compile( "[Bb][Ee][Aa][Rr][Ee][Rr] " );
             token = token.replaceAll( regex.pattern(), "" );
-
+            token = token.replaceAll( " ", "" );
             OAuth2Authorization result = authorizationService
-                                .findByToken( token, null );
+                                .findByToken( token , new OAuth2TokenType( "access_token" ) );
 
-            Assert.notNull( result, "token sessions are null" );
-
-            System.out.println( "principal: " + result );
+            Assert.notNull( result, "OAuth2Authorization nulo " );
         }
         catch( Exception ex ) {
             System.out.println( "Exception: " + ex.getMessage()  );
@@ -66,7 +67,7 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
     }
 
     private void jdbcAuthzService( HttpServletRequest req, HttpServletResponse res,
-                                   OAuth2AuthorizationService authorizationService, String token ) {
+                                   InMemoryTokenService authorizationService, String token ) {
         System.out.println( "todo database" );
     }
 

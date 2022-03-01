@@ -29,12 +29,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.authorization.web.OAuth2TokenEndpointFilter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import org.springframework.web.cors.CorsConfiguration;
@@ -100,7 +99,7 @@ public class AuthzServerConfig {
 			.apply( authorizationServerConfigurer );
 
         http.addFilterAfter( new UniqueTokenSessionFilter( authorizationService() ),
-                            BearerTokenAuthenticationFilter.class );
+                            WebAsyncManagerIntegrationFilter.class );
 
         return http.build();
     }
@@ -185,7 +184,7 @@ public class AuthzServerConfig {
     }
 
     @Bean
-    public OAuth2AuthorizationService authorizationService() {
+    public InMemoryTokenService authorizationService() {
         return new InMemoryTokenService();
     }
 }
