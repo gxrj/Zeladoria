@@ -42,6 +42,7 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
 
         var token = request.getHeader( "authorization" );
         var code = request.getParameter( "code" );
+        var clientId = request.getParameter( "client_id" );
 
         //avoid multiple session creation
         if( code != null ) {
@@ -56,6 +57,7 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
                 var list = authorizationService.findByPrincipalName( principal.getName() );
                 var olderSessions = list
                                     .parallelStream()
+                                        .filter( session -> session.getPrincipalName().equals( clientId ) )
                                         .filter( session ->
                                                  !session.getAccessToken()
                                                             .getToken()
@@ -68,9 +70,9 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
         }
         // invalidate older tokens right after get a new one
 //        if( token != null  ) {
-//            inMemoryAuthzService( authorizationService, token );
+//            inMemoryAuthzService( authorizationService, token, clientId );
 //            if ( authorizationService instanceof InMemoryTokenService ) {
-//                authzServiceInMemory( authorizationService, token );
+//                authzServiceInMemory( authorizationService, token, clientId );
 //            }
 //            else if ( authorizationService instanceof JdbcOAuth2AuthorizationService ) {
 //                jdbcAuthzService( authorizationService, token );
@@ -79,7 +81,8 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
     }
 
     //TODO: refactor inMemoryAuthzSerivce
-    private void inMemoryAuthzService( InMemoryTokenService authorizationService, String token ) {
+    private void inMemoryAuthzService( InMemoryTokenService authorizationService,
+                                       String token, String clientId ) {
 
         try {
             // Remove "Bearer " from authorization header
@@ -90,8 +93,11 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
             Assert.notNull( jwsObject, "OAuth2Authorization cannot be null " );
             //take a list of current user session tokens
             var username = (String) jwsObject.getPayload().toJSONObject().get( "sub" );
-            var sessions = authorizationService.findByPrincipalName( username );
-            Assert.notNull( sessions, "null jwt sessions" );
+            var result = authorizationService.findByPrincipalName( username );
+            Assert.notNull( result, "null jwt sessions" );
+            var sessions = result.parallelStream()
+                                    .filter( session -> session.getPrincipalName().equals( clientId ) )
+                                    .toList();
 
             Map< Long, OAuth2Authorization> list = new HashMap<>();
 
