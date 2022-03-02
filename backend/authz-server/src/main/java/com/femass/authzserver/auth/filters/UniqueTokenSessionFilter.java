@@ -7,6 +7,7 @@ import com.nimbusds.jose.JWSObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -49,6 +50,16 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
                 var principal = ( Authentication ) currentSession.getAttribute( Principal.class.getName() );
                 Assert.notNull( principal, "principal cannot be null" );
                 var list = authorizationService.findByPrincipalName( principal.getName() );
+                var olderSessions = list
+                                    .stream()
+                                        .filter( session ->
+                                                 !session.getAccessToken()
+                                                            .getToken()
+                                                                .getTokenValue()
+                                                                    .equals( currentToken )
+                                        )
+                                        .toList();
+                olderSessions.forEach( authorizationService::remove );
             }
         }
         // invalidate older tokens right after get a new one
