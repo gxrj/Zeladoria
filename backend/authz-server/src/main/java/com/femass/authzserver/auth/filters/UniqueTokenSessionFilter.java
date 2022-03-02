@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
@@ -43,10 +44,9 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
         var token = request.getHeader( "authorization" );
         var code = request.getParameter( "code" );
         var clientId = request.getParameter( "client_id" );
-
         //avoid multiple session creation
         if( code != null ) {
-
+            // Todo: Refactor
             var currentSession = authorizationService
                                     .findByToken( code, new OAuth2TokenType( "code" ) );
 
@@ -54,21 +54,34 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
                 var currentToken = currentSession.getAccessToken().getToken().getTokenValue();
                 var principal = ( Authentication ) currentSession.getAttribute( Principal.class.getName() );
                 Assert.notNull( principal, "principal cannot be null" );
-                var list = authorizationService.findByPrincipalName( principal.getName() );
+                var list = authorizationService
+                                                .findByPrincipalName( principal.getName() );
                 var olderSessions = list
-                                    .parallelStream()
-                                        .filter( session -> session.getPrincipalName().equals( clientId ) )
-                                        .filter( session ->
-                                                 !session.getAccessToken()
-                                                            .getToken()
-                                                                .getTokenValue()
-                                                                    .equals( currentToken )
-                                        )
-                                        .toList();
+                        .parallelStream()
+                        .filter( session -> {
+                            try {
+                                var sessionToken = session.getAccessToken()
+                                                            .getToken().getTokenValue();
+                                var jwsObject = JWSObject.parse( sessionToken );
+                                var audience = jwsObject.getPayload().toJSONObject().get( "aud" );
+                                return audience.equals( clientId );
+                            } catch ( ParseException ex ) {
+                                System.out.println( ex.getMessage() );
+                                return false;
+                            }
+                        })
+                        .filter( session ->
+                                 !session.getAccessToken()
+                                        .getToken()
+                                        .getTokenValue()
+                                        .equals(currentToken)
+                        )
+                        .toList();
                 olderSessions.forEach( authorizationService::remove );
             }
         }
         // invalidate older tokens right after get a new one
+
 //        if( token != null  ) {
 //            inMemoryAuthzService( authorizationService, token, clientId );
 //            if ( authorizationService instanceof InMemoryTokenService ) {
@@ -96,7 +109,7 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
             var result = authorizationService.findByPrincipalName( username );
             Assert.notNull( result, "null jwt sessions" );
             var sessions = result.parallelStream()
-                                    .filter( session -> session.getPrincipalName().equals( clientId ) )
+                                    .filter( session -> session.getRegisteredClientId().equals( clientId ) )
                                     .toList();
 
             Map< Long, OAuth2Authorization> list = new HashMap<>();
