@@ -7,7 +7,7 @@ import com.nimbusds.jose.JWSObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,7 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
 
@@ -26,7 +33,6 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
     public UniqueTokenSessionFilter( InMemoryTokenService authorizationService ) {
         this.authorizationService = authorizationService;
     }
-
 
     @Override
     public void doFilterInternal( HttpServletRequest request,
@@ -51,7 +57,7 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
                 Assert.notNull( principal, "principal cannot be null" );
                 var list = authorizationService.findByPrincipalName( principal.getName() );
                 var olderSessions = list
-                                    .stream()
+                                    .parallelStream()
                                         .filter( session ->
                                                  !session.getAccessToken()
                                                             .getToken()
@@ -64,9 +70,9 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
         }
         // invalidate older tokens right after get a new one
 //        if( token != null  ) {
-//            authzServiceInMemory( authorizationService, token );
+//            inMemoryAuthzService( authorizationService, token );
 //            if ( authorizationService instanceof InMemoryTokenService ) {
-//                authzServiceInMemory( request, response, authorizationService, token );
+//                authzServiceInMemory( authorizationService, token );
 //            }
 //            else if ( authorizationService instanceof JdbcOAuth2AuthorizationService ) {
 //                jdbcAuthzService( authorizationService, token );
@@ -74,29 +80,41 @@ public class UniqueTokenSessionFilter extends OncePerRequestFilter  {
 //        }
     }
 
-    private void authzServiceInMemory( InMemoryTokenService authorizationService, String token ) {
+    private void inMemoryAuthzService( InMemoryTokenService authorizationService, String token ) {
 
         try {
-
+            // Remove "Bearer " from authorization header
             Pattern regex = Pattern.compile( "[Bb][Ee][Aa][Rr][Ee][Rr] " );
             token = token.replaceAll( regex.pattern(), "" );
 
             var jwsObject = JWSObject.parse( token );
-            Assert.notNull( jwsObject, "OAuth2Authorization nulo " );
-
+            Assert.notNull( jwsObject, "OAuth2Authorization cannot be null " );
+            //take a list of current user session tokens
             var username = (String) jwsObject.getPayload().toJSONObject().get( "sub" );
-            var jwtSessions = authorizationService.findByPrincipalName( username );
-            Assert.notNull( jwtSessions, "null jwt sessions" );
+            var sessions = authorizationService.findByPrincipalName( username );
+            Assert.notNull( sessions, "null jwt sessions" );
 
-            jwtSessions.forEach(
-                    jwtSession -> {
-                        var access = jwtSession.getAccessToken().getToken().getTokenValue();
-                        var refresh = jwtSession.getRefreshToken();
-                        Assert.notNull( refresh, "refresh is null" );
-                        System.out.println( "access: "+access+"\nrefresh: "+ refresh.getToken().getTokenValue() );
-                    }
-            );
+            Map< Long, OAuth2Authorization> list = new HashMap<>();
 
+            long latest = 0;
+            // builds a list with sessions mapped by its issued_at claim
+            for( var session : sessions ) {
+                 var accessToken = session.getAccessToken().getToken().getTokenValue();
+                 try {
+                     var obj = JWSObject.parse( accessToken );
+                     var time = (String) obj.getPayload().toJSONObject().get( "iat" );
+                     var key = Long.parseLong( time );
+                     list.put( key, session );
+                     if( key > latest ) latest = key;
+                 }
+                 catch ( ParseException ex ) {
+                     System.out.println( ex.getMessage() );
+                 }
+            }
+            // Remove the newest session
+            list.remove( latest, list.get( latest ) );
+            // Vanish the older sessions
+            list.forEach( (key, value) -> authorizationService.remove( value ) );
         }
         catch( Exception ex ) {
             System.out.println( "Exception: " + ex.getMessage()  );
