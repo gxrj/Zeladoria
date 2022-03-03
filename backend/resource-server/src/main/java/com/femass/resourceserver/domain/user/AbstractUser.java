@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.EqualsAndHashCode;
@@ -37,8 +39,9 @@ public class AbstractUser {
     @Column( name = "habilitada", nullable = false, length = 120 )
     protected Boolean enabled;
 
-    @ElementCollection( fetch = FetchType.LAZY )
-    @Column( name = "authorizacoes" )
+    @ElementCollection( fetch = FetchType.EAGER )
+    @Fetch( value = FetchMode.SUBSELECT )
+    @Column( name = "autorizacoes" )
     protected List< SimpleGrantedAuthority > autorities;
 
     protected AbstractUser(){ this.enabled = true; }

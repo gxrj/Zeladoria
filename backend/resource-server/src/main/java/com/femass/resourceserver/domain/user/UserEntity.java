@@ -43,7 +43,5 @@ public class UserEntity extends AbstractUser {
         effect on VSCode even with is lombok extention
     */
 
-    public String getPassword(){
-        return this.password;
-    }
+    public String getPassword() { return this.password; }
 }
