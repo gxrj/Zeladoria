@@ -11,15 +11,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 
 @MappedSuperclass
 public class AbstractUser {
@@ -38,8 +38,9 @@ public class AbstractUser {
     protected Boolean enabled;
 
     @ElementCollection( fetch = FetchType.EAGER )
-    @Column( name = "authorizacoes" )
-    protected List< SimpleGrantedAuthority > autorities;
+    @Fetch( FetchMode.SUBSELECT )
+    @Column( name = "autorizacoes" )
+    protected List< SimpleGrantedAuthority > authorities;
 
     protected AbstractUser(){ this.enabled = true; }
 
@@ -53,6 +54,8 @@ public class AbstractUser {
     
             this();
             this.username = username;
-            this.autorities = authorities;
+            this.authorities = authorities;
     }
+
+    public List< SimpleGrantedAuthority > getAuthorities () { return this.authorities; }
 }
