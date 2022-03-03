@@ -25,6 +25,7 @@ public class Duty {
     @Column( name = "descricao" )
     private String description;
 
-    @Column( name = "secretaria" )
+    @ManyToOne
+    @JoinColumn( name = "id_secretaria" )
     private Department department;
 }

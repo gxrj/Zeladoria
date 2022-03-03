@@ -37,10 +37,12 @@ public class Call {
     @Embedded
     private List<Image> images;
 
-    @Column( name = "secretaria", length = 100 )
+    @ManyToOne
+    @JoinColumn( name = "id_secretaria" )
     private Department department;
 
-    @Column( name = "autor" )
+    @ManyToOne
+    @JoinColumn( name = "id_usuario" )
     private UserEntity author;
 
     @Column( name = "dt_postagem" )
@@ -49,7 +51,8 @@ public class Call {
     @OneToMany( mappedBy = "userCall" )
     private List<CallResponse> callResponses;
 
-    @Column( name = "servico" )
+    @ManyToOne
+    @JoinColumn( name = "id_servico" )
     private Duty duty;
 
     @Column( name = "status" )

@@ -31,7 +31,8 @@ public class CallResponse {
     @Column( name = "descricao" )
     private String description;
 
-    @Column( name = "responsavel" )
+    @ManyToOne
+    @JoinColumn( name = "id_responsavel" )
     private AgentEntity responsible;
 
     @ManyToOne
