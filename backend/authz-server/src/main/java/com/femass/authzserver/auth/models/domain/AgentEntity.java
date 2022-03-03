@@ -54,8 +54,4 @@ public class AgentEntity extends AbstractUser
     public AgentCredentials getCredentials(){
         return this.credentials;
     }
-
-    public List< SimpleGrantedAuthority > getAuthorities(){
-        return this.autorities;
-    }
 }

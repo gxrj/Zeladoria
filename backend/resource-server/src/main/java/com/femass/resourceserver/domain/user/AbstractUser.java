@@ -55,4 +55,6 @@ public class AbstractUser {
             this.username = username;
             this.autorities = authorities;
     }
+
+    public List< SimpleGrantedAuthority > getAuthorities() { return this.autorities; }
 }

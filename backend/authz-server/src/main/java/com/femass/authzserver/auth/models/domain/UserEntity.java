@@ -24,18 +24,20 @@ import lombok.Setter;
 public class UserEntity extends AbstractUser 
         implements Serializable {
 
-    @Column( name = "senha", nullable = false, length = 120 )
+    @Column(name = "senha", nullable = false, length = 120)
     private String password;
 
-    public UserEntity() { super(); }
+    public UserEntity() {
+        super();
+    }
 
-    public UserEntity( String username, String password ){
-        super( username );
+    public UserEntity(String username, String password) {
+        super(username);
         this.password = password;
     }
-    
-    public UserEntity( String username, String password, List< SimpleGrantedAuthority > authorities ){
-        super( username, authorities );
+
+    public UserEntity(String username, String password, List<SimpleGrantedAuthority> authorities) {
+        super(username, authorities);
         this.password = password;
     }
 
@@ -44,11 +46,5 @@ public class UserEntity extends AbstractUser
         effect on VSCode even with is lombok extention
     */
 
-    public String getPassword(){
-        return this.password;
-    }
-
-    public List< SimpleGrantedAuthority > getAuthorities(){
-        return this.autorities;
-    }
+    public String getPassword() { return this.password; }
 }

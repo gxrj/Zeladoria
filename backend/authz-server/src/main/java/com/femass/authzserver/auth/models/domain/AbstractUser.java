@@ -35,7 +35,7 @@ public class AbstractUser {
     @Column( name = "habilitada", nullable = false )
     protected Boolean enabled;
 
-    @ElementCollection( fetch = FetchType.EAGER )
+    @ElementCollection( fetch = FetchType.LAZY )
     @Column( name = "authorizacoes" )
     protected List< SimpleGrantedAuthority > autorities;
 
@@ -53,4 +53,6 @@ public class AbstractUser {
             this.username = username;
             this.autorities = authorities;
     }
+
+    public List< SimpleGrantedAuthority > getAuthorities() { return this.autorities; }
 }
