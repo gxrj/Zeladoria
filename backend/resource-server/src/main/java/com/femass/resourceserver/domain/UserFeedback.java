@@ -1,5 +1,6 @@
 package com.femass.resourceserver.domain;
 
+import com.femass.resourceserver.domain.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Entity( name = "Servico" )
-public class Duty {
+@Entity( name = "Feedback" )
+public class UserFeedback {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -25,6 +26,11 @@ public class Duty {
     @Column( name = "descricao" )
     private String description;
 
-    @Column( name = "secretaria" )
-    private Department department;
+    @ManyToOne
+    @JoinColumn( name = "id_cidadao")
+    private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn( name = "id_atendimento" )
+    private CallResponse callResponse;
 }

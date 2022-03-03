@@ -1,5 +1,4 @@
 package com.femass.resourceserver.domain;
 
-public class AttendenceCall {
-    
+public class Image {
 }
