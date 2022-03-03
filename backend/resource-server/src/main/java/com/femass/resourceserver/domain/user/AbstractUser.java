@@ -37,7 +37,7 @@ public class AbstractUser {
     @Column( name = "habilitada", nullable = false, length = 120 )
     protected Boolean enabled;
 
-    @ElementCollection( fetch = FetchType.EAGER )
+    @ElementCollection( fetch = FetchType.LAZY )
     @Column( name = "authorizacoes" )
     protected List< SimpleGrantedAuthority > autorities;
 

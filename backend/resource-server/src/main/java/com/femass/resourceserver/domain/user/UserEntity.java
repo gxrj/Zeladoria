@@ -46,8 +46,4 @@ public class UserEntity extends AbstractUser {
     public String getPassword(){
         return this.password;
     }
-
-    public List< SimpleGrantedAuthority > getAuthorities(){
-        return this.autorities;
-    }
 }
