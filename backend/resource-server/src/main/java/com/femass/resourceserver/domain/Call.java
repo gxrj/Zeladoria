@@ -51,4 +51,7 @@ public class Call {
 
     @Column( name = "servico" )
     private Duty duty;
+
+    @Column( name = "status" )
+    private Status status;
 }
