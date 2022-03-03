@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ import javax.persistence.Column;
 @AllArgsConstructor
 @NoArgsConstructor
 
+@Embeddable
 public class Address {
 
     @Column( name = "latitude" )
