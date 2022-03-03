@@ -1,6 +1,5 @@
 package com.femass.resourceserver.domain.user;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -25,8 +24,7 @@ import lombok.Setter;
     name = "username", 
     column = @Column( name = "matricula", nullable = false, length = 10 ) 
 )
-public class AgentEntity extends AbstractUser 
-        implements Serializable {
+public class AgentEntity extends AbstractUser {
     
     @Embedded
     private AgentCredentials credentials;
@@ -53,9 +51,5 @@ public class AgentEntity extends AbstractUser
 
     public AgentCredentials getCredentials(){
         return this.credentials;
-    }
-
-    public List< SimpleGrantedAuthority > getAuthorities(){
-        return this.autorities;
     }
 }

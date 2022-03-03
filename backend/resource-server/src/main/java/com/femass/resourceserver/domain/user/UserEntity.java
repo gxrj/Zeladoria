@@ -1,6 +1,5 @@
 package com.femass.resourceserver.domain.user;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -24,8 +23,7 @@ import lombok.Setter;
     name = "username", 
     column = @Column( name = "email", nullable = false ) 
 )
-public class UserEntity extends AbstractUser 
-        implements Serializable {
+public class UserEntity extends AbstractUser {
 
     @Column( name = "senha", nullable = false, length = 120 )
     private String password;
@@ -47,9 +45,5 @@ public class UserEntity extends AbstractUser
 
     public String getPassword(){
         return this.password;
-    }
-
-    public List< SimpleGrantedAuthority > getAuthorities(){
-        return this.autorities;
     }
 }
