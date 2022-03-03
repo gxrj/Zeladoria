@@ -1,6 +1,5 @@
 package com.femass.authzserver.auth.models.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -22,8 +21,7 @@ import lombok.Setter;
     name = "username", 
     column = @Column( name = "matricula", nullable = false, length = 10 ) 
 )
-public class AgentEntity extends AbstractUser 
-        implements Serializable {
+public class AgentEntity extends AbstractUser {
     
     @Embedded
     private AgentCredentials credentials;
