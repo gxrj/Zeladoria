@@ -41,7 +41,7 @@ public class AbstractUser {
     @ElementCollection( fetch = FetchType.EAGER )
     @Fetch( value = FetchMode.SUBSELECT )
     @Column( name = "autorizacoes" )
-    protected List< SimpleGrantedAuthority > autorities;
+    protected List< SimpleGrantedAuthority > authorities;
 
     protected AbstractUser(){ this.enabled = true; }
 
@@ -55,8 +55,8 @@ public class AbstractUser {
     
             this();
             this.username = username;
-            this.autorities = authorities;
+            this.authorities = authorities;
     }
 
-    public List< SimpleGrantedAuthority > getAuthorities() { return this.autorities; }
+    public List< SimpleGrantedAuthority > getAuthorities() { return this.authorities; }
 }
