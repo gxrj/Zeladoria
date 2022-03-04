@@ -38,11 +38,11 @@ public class Call {
     private List<Image> images;
 
     @ManyToOne
-    @JoinColumn( name = "id_secretaria" )
+    @JoinColumn( name = "secretaria", referencedColumnName = "nome" )
     private Department department;
 
     @ManyToOne
-    @JoinColumn( name = "id_usuario" )
+    @JoinColumn( name = "usuario", referencedColumnName = "email" )
     private UserEntity author;
 
     @Column( name = "dt_postagem" )
@@ -52,7 +52,7 @@ public class Call {
     private List<Attendance> attendances;
 
     @ManyToOne
-    @JoinColumn( name = "id_servico" )
+    @JoinColumn( name = "servico", referencedColumnName = "descricao" )
     private Duty duty;
 
     @Column( name = "status" )

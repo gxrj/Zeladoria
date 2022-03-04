@@ -22,6 +22,6 @@ public class Department {
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
 
-    @Column( name = "nome", length = 100 )
+    @Column( name = "nome", unique = true, nullable = false, length = 100 )
     private String name;
 }

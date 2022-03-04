@@ -32,7 +32,7 @@ public class Attendance {
     private String description;
 
     @ManyToOne
-    @JoinColumn( name = "id_responsavel" )
+    @JoinColumn( name = "responsavel", referencedColumnName = "matricula" )
     private AgentEntity responsible;
 
     @ManyToOne

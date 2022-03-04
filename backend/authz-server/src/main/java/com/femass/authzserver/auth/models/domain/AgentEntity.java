@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @AttributeOverride( 
     name = "username", 
-    column = @Column( name = "matricula", nullable = false, length = 10 ) 
+    column = @Column( name = "matricula", unique = true, nullable = false, length = 10 ) 
 )
 public class AgentEntity extends AbstractUser {
     

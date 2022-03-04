@@ -22,10 +22,10 @@ public class Duty {
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
 
-    @Column( name = "descricao" )
+    @Column( name = "descricao", unique = true, nullable = false )
     private String description;
 
     @ManyToOne
-    @JoinColumn( name = "id_secretaria" )
+    @JoinColumn( name = "secretaria", referencedColumnName = "nome")
     private Department department;
 }
