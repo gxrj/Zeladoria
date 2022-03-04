@@ -28,7 +28,7 @@ public class Call {
     @Column( name = "protocolo", nullable = false, unique = true, length = 16 )
     private String protocol;
 
-    @Column( name = "endereco", nullable = false )
+    @Embedded
     private Address address;
 
     @Column( name = "descricao")
