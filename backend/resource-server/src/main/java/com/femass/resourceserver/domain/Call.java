@@ -49,7 +49,7 @@ public class Call {
     private Timestamp postingDate;
 
     @OneToMany( mappedBy = "userCall" )
-    private List<CallResponse> callResponses;
+    private List<Attendance> attendances;
 
     @ManyToOne
     @JoinColumn( name = "id_servico" )

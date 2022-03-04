@@ -32,5 +32,5 @@ public class UserFeedback {
 
     @ManyToOne
     @JoinColumn( name = "id_atendimento" )
-    private CallResponse callResponse;
+    private Attendance attendance;
 }

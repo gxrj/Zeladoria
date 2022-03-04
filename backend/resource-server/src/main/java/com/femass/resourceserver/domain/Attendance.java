@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 
 @Entity( name = "Atendimento" )
-public class CallResponse {
+public class Attendance {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -39,6 +39,6 @@ public class CallResponse {
     @JoinColumn( name = "id_ocorrencia" )
     private Call userCall;
 
-    @OneToMany( mappedBy = "callResponse" )
+    @OneToMany( mappedBy = "attendance")
     private List<UserFeedback> feedbacks;
 }
