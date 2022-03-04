@@ -18,7 +18,7 @@ import lombok.Setter;
 
 @AttributeOverride( 
     name = "username", 
-    column = @Column( name = "email", unique = true, nullable = false ) 
+    column = @Column( name = "email", nullable = false, unique = true ) 
 )
 public class UserEntity extends AbstractUser {
 

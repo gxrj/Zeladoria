@@ -27,7 +27,7 @@ public class UserFeedback {
     private String description;
 
     @ManyToOne
-    @JoinColumn( name = "id_cidadao")
+    @JoinColumn( name = "cidadao", referencedColumnName = "email" )
     private UserEntity user;
 
     @ManyToOne

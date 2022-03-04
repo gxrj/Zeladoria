@@ -25,7 +25,7 @@ public class Call {
     @GeneratedValue( strategy = GenerationType.AUTO )
     private UUID id;
 
-    @Column( name = "protocolo", nullable = false, length = 16 )
+    @Column( name = "protocolo", nullable = false, unique = true, length = 16 )
     private String protocol;
 
     @Column( name = "endereco", nullable = false )

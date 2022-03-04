@@ -36,7 +36,7 @@ public class Attendance {
     private AgentEntity responsible;
 
     @ManyToOne
-    @JoinColumn( name = "id_ocorrencia" )
+    @JoinColumn( name = "ocorrencia",  referencedColumnName = "protocolo" )
     private Call userCall;
 
     @OneToMany( mappedBy = "attendance")

@@ -22,7 +22,7 @@ public class Duty {
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
 
-    @Column( name = "descricao", unique = true, nullable = false )
+    @Column( name = "descricao", nullable = false, unique = true )
     private String description;
 
     @ManyToOne

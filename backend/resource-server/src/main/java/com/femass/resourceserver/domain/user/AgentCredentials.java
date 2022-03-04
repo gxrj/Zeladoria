@@ -17,7 +17,7 @@ public class AgentCredentials {
     @Column( name = "senha", nullable = false )
     private String password;
     
-    @Column( name = "cpf", unique = true, length = 11 )
+    @Column( name = "cpf", nullable = false, unique = true, length = 11 )
     private String cpf;
 
     public AgentCredentials() {}
