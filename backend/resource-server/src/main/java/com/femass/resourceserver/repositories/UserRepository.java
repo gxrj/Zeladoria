@@ -1,5 +1,6 @@
 package com.femass.resourceserver.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository< UserEntity, UUID > {
     
     Optional< UserEntity > findByUsername( String username );
+    List< UserEntity > findAllByEnabled( Boolean isEnabled );
 
     boolean existsByUsername( String username );
 }

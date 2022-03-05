@@ -8,7 +8,7 @@ import com.femass.resourceserver.repositories.AgentRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,14 +21,12 @@ public class AgentService {
         this.repository = repository;
     }
 
-    public AgentEntity findByUsername( String username ) throws 
-            UsernameNotFoundException {
+    public AgentEntity findByUsername( String username ) {
 
         Optional< AgentEntity > agent = repository
                                             .findByUsername( username );
 
-        if( agent.isEmpty() )
-            throw new UsernameNotFoundException( "User not found" );
+        if( agent.isEmpty() ) return null;
 
         return agent.get();
     }

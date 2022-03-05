@@ -7,7 +7,7 @@ import com.femass.resourceserver.repositories.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,14 +20,12 @@ public class UserService {
         this.repository = repository;
     }
 
-    public UserEntity findByUsername( String username ) throws 
-            UsernameNotFoundException {
+    public UserEntity findByUsername( String username ) {
 
         Optional< UserEntity > user = repository
                                         .findByUsername( username );
 
-        if( user.isEmpty() )
-            throw new UsernameNotFoundException( "User not found" );
+        if( user.isEmpty() ) return null;
         
         return user.get();
     }
