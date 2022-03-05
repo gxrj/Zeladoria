@@ -28,20 +28,23 @@ public class UsersTableSeeder implements CommandLineRunner {
     @Override
     public void run( String... args ) {
 
+        if( userService.existsUserByUsername( "user" ) ) return;
+
         var userAuthority = new SimpleGrantedAuthority( "ROLE_USER" );
         var user = new UserEntity( "user", encoder.encode( "123" ), List.of( userAuthority ) );
         user.setName( "usuario" );
+
+        userService.create( user );
+
+        if( agentService.existsAgentByUsername( "agent" ) ) return;
 
         var agentAuthority = new SimpleGrantedAuthority( "ROLE_AGENT" );
         var adminAuthority = new SimpleGrantedAuthority( "ADMIN_AGENT" );
         var agentCredentials = new AgentCredentials( encoder.encode( "123" ), "010203" );
 
-        var cred = List.of( agentAuthority, adminAuthority );
-
-        var agent = new AgentEntity( "agent", agentCredentials, cred );
+        var agent = new AgentEntity( "agent", agentCredentials, List.of( agentAuthority, adminAuthority ) );
         agent.setName( "servidor publico" );
 
-        userService.create( user );
         agentService.create( agent );
     }
 }

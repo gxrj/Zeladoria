@@ -1,20 +1,21 @@
 package com.femass.resourceserver.services;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import com.femass.resourceserver.domain.user.AgentCredentials;
 import com.femass.resourceserver.domain.user.AgentEntity;
 import com.femass.resourceserver.repositories.AgentRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 @Service
 public class AgentService {
     
     private final AgentRepository repository;
+    private Logger LOG = LoggerFactory.getLogger( AgentService.class );
 
     public AgentService( AgentRepository repository ) {
         this.repository = repository;
@@ -33,7 +34,7 @@ public class AgentService {
     }
 
     public boolean existsAgentByUsername( String username ) {
-        return repository.existsByUsername( username );
+        return repository.existsByAgentCredentials_Username( username );
     }
 
     public boolean checkCpf( AgentCredentials credentials, 
@@ -41,18 +42,18 @@ public class AgentService {
 
         if( credentials.isNull() || anotherCredentials.isNull() ) return false;
 
-        else if( !credentials.getCpf().equals( anotherCredentials.getCpf() ) ) return false;
-
-        else return true;
+        return !credentials.getCpf().equals( anotherCredentials.getCpf() );
     }
 
     public boolean create( AgentEntity entity ) {
 
-        Assert.notNull( entity, "Service failed" );
-        var result = repository.save( entity );
-
-        if( Objects.isNull( result ) ) return false;
-
-        return true;
+        try {
+            repository.save( entity );
+            return true;
+        }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "AgentService failed: {}", ex.getMessage() );
+            return false;
+        }
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AgentRepository extends JpaRepository< AgentEntity, UUID > {
     
-    public Optional< AgentEntity > findByUsername( String username );
+    Optional< AgentEntity > findByUsername( String username );
 
-    public boolean existsByUsername( String username );
+    boolean existsByAgentCredentials_Username( String username );
 }

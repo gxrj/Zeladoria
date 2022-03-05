@@ -20,6 +20,10 @@ public enum Status {
 
     @Override
     public String toString() {
-        return  this.value;
+        return this.value;
+    }
+
+    public boolean equals( String status ) {
+        return this.value.equalsIgnoreCase( status );
     }
 }
