@@ -30,4 +30,8 @@ public class DutyService {
     public void delete() {
 
     }
+
+    public long countDuties() {
+        return repository.count();
+    }
 }

@@ -5,10 +5,12 @@ import com.femass.resourceserver.services.DepartmentService;
 
 public class DepartmentTableSeeder {
 
-    public static void seed( DepartmentService deptService ) {
+    public static void seed( DepartmentService deptService ) throws RuntimeException {
 
         if( deptService.countDepartments() == 0 ) {
+
             var dept = new Department( "Infraestrutura" );
+
             if( !deptService.createOrUpdate( dept ) ) throw new RuntimeException( "Department Service failed" );
         }
     }

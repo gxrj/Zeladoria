@@ -32,12 +32,12 @@ public class TableSeeder implements CommandLineRunner {
     private AttendanceService attendanceService;
 
     @Override
-    public void run( String... args ) {
+    public void run( String... args ) throws RuntimeException {
 
         AgentEntityTableSeeder.seed( agentService, encoder );
         UserEntityTableSeeder.seed( userService, encoder );
         DepartmentTableSeeder.seed( deptService );
-        DutyTableSeeder.seed( dutyService );
+        DutyTableSeeder.seed( dutyService, deptService );
 //        CallTableSeeder.seed( callService );
 //        AttendanceTableSeeder.seed( attendanceService );
     }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserEntityTableSeeder {
 
-    public static void seed( UserService userService, PasswordEncoder encoder ) {
+    public static void seed( UserService userService, PasswordEncoder encoder ) throws RuntimeException {
 
         if( userService.countUsers() == 0 ) {
             var user = new UserEntity();
