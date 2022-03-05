@@ -20,6 +20,27 @@ public class UserService {
         this.repository = repository;
     }
 
+
+    public boolean create( UserEntity entity ) {
+
+        try {
+            repository.save( entity );
+            return true;
+        }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "UserService failed: {}", ex.getMessage() );
+            return false;
+        }
+    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
+    }
+
     public UserEntity findByUsername( String username ) {
 
         Optional< UserEntity > user = repository
@@ -34,15 +55,5 @@ public class UserService {
         return repository.existsByUsername( username );
     }
 
-    public boolean create( UserEntity entity ) {
-
-        try {
-            repository.save( entity );
-            return true;
-        }
-        catch( IllegalArgumentException ex ) {
-            LOG.error( "UserService failed: {}", ex.getMessage() );
-            return false;
-        }
-    }
+    public long countUsers() { return repository.count(); }
 }

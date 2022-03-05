@@ -16,6 +16,18 @@ public class CallService {
     @Autowired
     private CallRepository repository;
 
+    public void create() {
+
+    }
+
+    public void update() {
+
+    }
+
+    public void delete(){
+
+    }
+
     public Call findCallByProtocol( String protocol ) {
         var optional = repository.findByProtocol( protocol );
 

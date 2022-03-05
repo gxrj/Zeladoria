@@ -21,28 +21,6 @@ public class AgentService {
         this.repository = repository;
     }
 
-    public AgentEntity findByUsername( String username ) {
-
-        Optional< AgentEntity > agent = repository
-                                            .findByUsername( username );
-
-        if( agent.isEmpty() ) return null;
-
-        return agent.get();
-    }
-
-    public boolean existsAgentByUsername( String username ) {
-        return repository.existsByAgentCredentials_Username( username );
-    }
-
-    public boolean checkCpf( AgentCredentials credentials, 
-                                    AgentCredentials anotherCredentials ) {
-
-        if( credentials.isNull() || anotherCredentials.isNull() ) return false;
-
-        return !credentials.getCpf().equals( anotherCredentials.getCpf() );
-    }
-
     public boolean create( AgentEntity entity ) {
 
         try {
@@ -54,4 +32,36 @@ public class AgentService {
             return false;
         }
     }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
+    }
+
+    public AgentEntity findByUsername( String username ) {
+
+        Optional< AgentEntity > agent = repository
+                                            .findByUsername( username );
+
+        if( agent.isEmpty() ) return null;
+
+        return agent.get();
+    }
+
+    public boolean existsAgentByUsername( String username ) {
+        return repository.existsByUsername( username );
+    }
+
+    public boolean checkCpf( AgentCredentials credentials, 
+                                    AgentCredentials anotherCredentials ) {
+
+        if( credentials.isNull() || anotherCredentials.isNull() ) return false;
+
+        return !credentials.getCpf().equals( anotherCredentials.getCpf() );
+    }
+
+    public long countAgents() { return repository.count(); }
 }
