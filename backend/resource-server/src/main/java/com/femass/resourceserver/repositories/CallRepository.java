@@ -2,6 +2,7 @@ package com.femass.resourceserver.repositories;
 
 import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
+import com.femass.resourceserver.domain.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +23,5 @@ public interface CallRepository extends JpaRepository< Call, UUID > {
     List<Call> findByAddress_ZipCode( String addressZipCode );
     List<Call> findByAddress_District( String addressDistrict );
     List<Call> findByAddress_PublicPlace( String addressPublicPlace );
-    List<Call> findByStatus( String status );
+    List<Call> findByStatus( Status status );
 }
