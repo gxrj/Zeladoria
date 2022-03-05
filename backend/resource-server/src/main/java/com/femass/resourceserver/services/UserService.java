@@ -21,7 +21,7 @@ public class UserService {
     }
 
 
-    public boolean create( UserEntity entity ) {
+    public boolean createOrUpdate( UserEntity entity ) {
 
         try {
             repository.save( entity );
@@ -31,10 +31,6 @@ public class UserService {
             LOG.error( "UserService failed: {}", ex.getMessage() );
             return false;
         }
-    }
-
-    public void update() {
-
     }
 
     public void delete() {

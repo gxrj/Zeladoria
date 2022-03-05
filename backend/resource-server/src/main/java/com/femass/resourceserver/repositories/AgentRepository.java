@@ -13,5 +13,7 @@ public interface AgentRepository extends JpaRepository< AgentEntity, UUID > {
     
     Optional< AgentEntity > findByUsername( String username );
 
+    Optional< AgentEntity > findByCredentials_Cpf( String cpfCredential );
+
     boolean existsByUsername( String username );
 }

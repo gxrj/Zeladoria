@@ -27,7 +27,7 @@ public class AgentEntityTableSeeder {
 
             agent.setAuthorities( authorities );
 
-            if( !agentService.create( agent ) ) throw new RuntimeException( "AgentService failed" );
+            if( !agentService.createOrUpdate( agent ) ) throw new RuntimeException( "AgentService failed" );
         }
     }
 }

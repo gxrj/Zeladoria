@@ -55,7 +55,7 @@ public class AgentController {
         AgentEntity entity = new AgentEntity( username, new AgentCredentials( password, cpf ), List.of( agentRole ) );
         entity.setName( name );
         
-        var created = agentService.create( entity );
+        var created = agentService.createOrUpdate( entity );
 
         if( created )  
             return "{\"message\":\"Created\"}";

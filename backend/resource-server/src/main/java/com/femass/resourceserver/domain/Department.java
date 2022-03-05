@@ -17,6 +17,11 @@ import java.util.UUID;
 @Entity( name = "Secretaria" )
 public class Department {
 
+    public Department( String name ) {
+        this();
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", columnDefinition = "uuid not null" )

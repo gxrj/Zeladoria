@@ -21,7 +21,7 @@ public class AgentService {
         this.repository = repository;
     }
 
-    public boolean create( AgentEntity entity ) {
+    public boolean createOrUpdate( AgentEntity entity ) {
 
         try {
             repository.save( entity );
@@ -31,10 +31,6 @@ public class AgentService {
             LOG.error( "AgentService failed: {}", ex.getMessage() );
             return false;
         }
-    }
-
-    public void update() {
-
     }
 
     public void delete() {

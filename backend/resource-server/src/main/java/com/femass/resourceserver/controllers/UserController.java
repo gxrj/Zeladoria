@@ -52,7 +52,7 @@ public class UserController {
         var entity = new UserEntity( username, password, List.of( userRole ) );
         entity.setName( name );
         
-        if( userService.create( entity ) )
+        if( userService.createOrUpdate( entity ) )
             return "{\"message\":\"Created\"}";
         else 
             return "{\"message\":\"Error\"}";

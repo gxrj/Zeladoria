@@ -1,19 +1,36 @@
 package com.femass.resourceserver.services;
 
+import com.femass.resourceserver.domain.Department;
+import com.femass.resourceserver.repositories.DepartmentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DepartmentService {
 
-    public void create() {
+    private final Logger LOG = LoggerFactory.getLogger( DepartmentService.class );
 
-    }
+    @Autowired
+    private DepartmentRepository repository;
 
-    public void update() {
-
+    public boolean createOrUpdate( Department dept ) {
+        try{
+            repository.save( dept );
+            return true;
+        }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "DepartmentService failed: {}", ex.getMessage() );
+            return false;
+        }
     }
 
     public void delete() {
 
+    }
+
+    public long countDepartments() {
+        return repository.count();
     }
 }

@@ -18,7 +18,7 @@ public class UserEntityTableSeeder {
             user.setPassword( encoder.encode( "123" ) );
             user.setAuthorities( List.of( new SimpleGrantedAuthority( "ROLE_USER" ) ) );
 
-            if ( !userService.create( user ) ) throw new RuntimeException( "UserEntity seeder failed" );
+            if ( !userService.createOrUpdate( user ) ) throw new RuntimeException( "UserEntity seeder failed" );
         }
     }
 }

@@ -4,6 +4,8 @@ import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.repositories.CallRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,9 @@ public class CallService {
     @Autowired
     private CallRepository repository;
 
-    public void create() {
+    private final Logger LOG = LoggerFactory.getLogger( CallService.class );
 
-    }
-
-    public void update() {
+    public void createOrUpdate() {
 
     }
 
