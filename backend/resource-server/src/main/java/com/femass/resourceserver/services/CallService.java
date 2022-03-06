@@ -28,6 +28,8 @@ public class CallService {
 
     }
 
+    public long countCalls() { return repository.count(); }
+
     public Call findCallByProtocol( String protocol ) {
         var optional = repository.findByProtocol( protocol );
 

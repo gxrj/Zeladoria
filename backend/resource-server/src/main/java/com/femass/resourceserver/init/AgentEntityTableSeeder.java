@@ -10,7 +10,8 @@ import java.util.List;
 
 public class AgentEntityTableSeeder {
 
-    public static void seed( AgentService agentService, PasswordEncoder encoder ) throws RuntimeException {
+    public static void seed( AgentService agentService,
+                             PasswordEncoder encoder ) throws RuntimeException {
 
         if( agentService.countAgents() == 0 ) {
 
@@ -27,7 +28,8 @@ public class AgentEntityTableSeeder {
 
             agent.setAuthorities( authorities );
 
-            if( !agentService.createOrUpdate( agent ) ) throw new RuntimeException( "AgentService failed" );
+            if( !agentService.createOrUpdate( agent ) )
+                throw new RuntimeException( "AgentService failed" );
         }
     }
 }

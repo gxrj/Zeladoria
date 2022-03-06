@@ -38,7 +38,7 @@ public class TableSeeder implements CommandLineRunner {
         UserEntityTableSeeder.seed( userService, encoder );
         DepartmentTableSeeder.seed( deptService );
         DutyTableSeeder.seed( dutyService, deptService );
-//        CallTableSeeder.seed( callService );
+        CallTableSeeder.seed( callService, dutyService );
 //        AttendanceTableSeeder.seed( attendanceService );
     }
 }

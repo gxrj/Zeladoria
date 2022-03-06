@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DutyService {
 
@@ -25,6 +27,18 @@ public class DutyService {
             LOG.error( "DutyService failed: {}", ex.getMessage() );
             return false;
         }
+    }
+
+    public Duty findDutyByDescription( String description ) {
+        var optional = repository.findByDescription( description );
+
+        if( optional.isEmpty() ) return null;
+
+        return optional.get();
+    }
+
+    public List<Duty> findDutyByDepartment( String deptName ) {
+        return repository.findByDepartment_Name( deptName );
     }
 
     public void delete() {

@@ -38,10 +38,6 @@ public class Call {
     private List<Image> images;
 
     @ManyToOne
-    @JoinColumn( name = "secretaria", referencedColumnName = "nome" )
-    private Department department;
-
-    @ManyToOne
     @JoinColumn( name = "usuario", referencedColumnName = "email" )
     private UserEntity author;
 
