@@ -12,7 +12,7 @@ public class DepartmentTableSeeder {
             var dept = new Department( "Infraestrutura" );
 
             if( !deptService.createOrUpdate( dept ) )
-                throw new RuntimeException( "Department Service failed" );
+                throw new RuntimeException( "Department seeder failed" );
         }
     }
 }

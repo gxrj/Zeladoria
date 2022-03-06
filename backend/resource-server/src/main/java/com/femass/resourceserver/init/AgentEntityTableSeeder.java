@@ -29,7 +29,7 @@ public class AgentEntityTableSeeder {
             agent.setAuthorities( authorities );
 
             if( !agentService.createOrUpdate( agent ) )
-                throw new RuntimeException( "AgentService failed" );
+                throw new RuntimeException( "AgentEntity seeder failed" );
         }
     }
 }

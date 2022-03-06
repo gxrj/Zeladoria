@@ -7,19 +7,20 @@ import org.springframework.util.Assert;
 
 public class DutyTableSeeder {
 
-    public static void seed( DutyService dutyService,
-                             DepartmentService deptService ) throws RuntimeException {
+    public static void seed( TableSeeder seeder ) throws RuntimeException {
+
+        var dutyService = seeder.getDutyService();
 
         if( dutyService.countDuties() == 0 ) {
 
-            var dept = deptService.findDepartmentByName( "Infraestrutura" );
+            var dept = seeder.getDeptService().findDepartmentByName( "Infraestrutura" );
             Assert.notNull( dept, "Department not found" );
 
             var duty = new Duty();
             duty.setDescription( "Bueiro sem tampa" );
 
             if( !dutyService.createOrUpdate( duty ) )
-                throw new RuntimeException( "DutyService failed" );
+                throw new RuntimeException( "Duty seeder failed" );
         }
     }
 }

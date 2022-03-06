@@ -18,7 +18,6 @@ public interface CallRepository extends JpaRepository< Call, UUID > {
     List<Call> findByAuthor_Username( String authorUsername );
     List<Call> findByPostingDate( Timestamp postingDate );
     List<Call> findByDuty_Description( String dutyDescription );
-    List<Call> findByDepartment_Name( String departmentName );
     List<Call> findByAddress( Address address );
     List<Call> findByAddress_ZipCode( String addressZipCode );
     List<Call> findByAddress_District( String addressDistrict );

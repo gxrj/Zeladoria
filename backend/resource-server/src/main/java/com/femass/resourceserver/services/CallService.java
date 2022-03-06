@@ -20,8 +20,15 @@ public class CallService {
 
     private final Logger LOG = LoggerFactory.getLogger( CallService.class );
 
-    public void createOrUpdate() {
-
+    public boolean createOrUpdate( Call call ) {
+        try{
+            repository.save( call );
+            return true;
+        }
+        catch( IllegalArgumentException ex ){
+            LOG.error( "CallService failed: {}", ex.getMessage() );
+            return false;
+        }
     }
 
     public void delete(){
@@ -48,10 +55,6 @@ public class CallService {
 
     public List<Call> findCallByDuty( String dutyDescription ) {
         return repository.findByDuty_Description( dutyDescription );
-    }
-
-    public List<Call> findCallByDepartment( String departmentName ) {
-        return repository.findByDepartment_Name( departmentName );
     }
 
     public List<Call> findCallByAddress( Address address ) {
