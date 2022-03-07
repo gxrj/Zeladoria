@@ -1,6 +1,9 @@
 package com.femass.resourceserver.domain;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.femass.resourceserver.domain.user.AgentEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +20,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 
+@JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )
+
 @Entity( name = "Atendimento" )
 public class Attendance {
 
@@ -26,7 +31,7 @@ public class Attendance {
     private UUID id;
 
     @Column( name = "dt_execucao" )
-    private Timestamp excecutionDate;
+    private Timestamp executionDate;
 
     @Column( name = "descricao" )
     private String description;
@@ -39,6 +44,11 @@ public class Attendance {
     @JoinColumn( name = "ocorrencia",  referencedColumnName = "protocolo" )
     private Call userCall;
 
-    @OneToMany( mappedBy = "attendance")
+    @OneToMany( mappedBy = "attendance" )
     private List<UserFeedback> feedbacks;
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

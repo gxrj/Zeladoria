@@ -1,5 +1,8 @@
 package com.femass.resourceserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +13,11 @@ import javax.persistence.Embeddable;
 
 @Getter
 @Setter
-
 @AllArgsConstructor
 @NoArgsConstructor
+
+@JsonRootName( value = "address" )
+@JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )
 
 @Embeddable
 public class Address {

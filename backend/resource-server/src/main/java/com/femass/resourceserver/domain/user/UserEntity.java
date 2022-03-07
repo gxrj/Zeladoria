@@ -6,6 +6,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
@@ -16,6 +17,8 @@ import lombok.Setter;
 @Setter
 
 @NoArgsConstructor
+
+@JsonIgnoreProperties( value = "password", allowSetters = true )
 
 @Entity( name = "Cidadao" )
 

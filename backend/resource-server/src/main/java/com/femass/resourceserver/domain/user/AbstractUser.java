@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,6 +35,7 @@ public class AbstractUser {
     
     protected String username; /* Overriden by children classes */
 
+    @JsonIgnore
     @Column( name = "habilitada", nullable = false, length = 120 )
     protected Boolean enabled;
 

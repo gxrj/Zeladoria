@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +23,7 @@ public class Duty {
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
 
+    @NotNull
     @Column( name = "descricao", nullable = false, unique = true )
     private String description;
 

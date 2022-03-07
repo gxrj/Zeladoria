@@ -31,6 +31,6 @@ public class UserFeedback {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn( name = "id_atendimento" )
+    @JoinColumn( name = "atendimento", referencedColumnName =  "id" )
     private Attendance attendance;
 }

@@ -13,7 +13,6 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Image implements Serializable {
 
     @Serial

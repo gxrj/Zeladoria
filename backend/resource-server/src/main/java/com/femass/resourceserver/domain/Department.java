@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
@@ -27,6 +28,7 @@ public class Department {
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
 
+    @NotNull
     @Column( name = "nome", nullable = false, unique = true, length = 100 )
     private String name;
 }

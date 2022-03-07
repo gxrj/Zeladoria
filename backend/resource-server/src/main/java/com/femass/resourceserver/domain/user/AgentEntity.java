@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
@@ -25,7 +26,8 @@ import lombok.Setter;
     column = @Column( name = "matricula", nullable = false, unique = true, length = 10 )
 )
 public class AgentEntity extends AbstractUser {
-    
+
+    @JsonUnwrapped
     @Embedded
     private AgentCredentials credentials;
 
