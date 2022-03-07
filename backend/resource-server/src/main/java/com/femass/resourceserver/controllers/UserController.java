@@ -13,8 +13,10 @@ import com.femass.resourceserver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,5 +61,9 @@ public class UserController {
     }
     
     @GetMapping( "/user/test" )
-    public String test() { return "{\"message\":\"Authenticated\"}"; }
+    public String test() {
+        var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var subject = jwt.getClaim( "sub" );
+        return "{\"message\":\"Authenticated\",\"username\": \" "+ subject.toString() +"\"}";
+    }
 }
