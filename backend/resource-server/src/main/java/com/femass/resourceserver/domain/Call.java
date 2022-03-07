@@ -2,15 +2,15 @@ package com.femass.resourceserver.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.femass.resourceserver.domain.user.UserEntity;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +18,6 @@ import java.util.UUID;
 @Setter
 
 @AllArgsConstructor
-@NoArgsConstructor
 
 @Entity( name = "Ocorrencia" )
 public class Call {
@@ -27,7 +26,8 @@ public class Call {
     @Column( name = "id", columnDefinition = "uuid not null" )
     @GeneratedValue( strategy = GenerationType.AUTO )
     private UUID id;
-    // Todo: figure out an unique protocol generator schema
+
+    @Setter( AccessLevel.NONE )
     @Column( name = "protocolo", nullable = false, unique = true ) @NotNull
     private String protocol;
 
@@ -58,10 +58,9 @@ public class Call {
     @Column( name = "status" )
     private Status status;
 
-    public String getProtocol() {
+    public Call() {
         var time = System.currentTimeMillis();
-
-        return String.format( "%d%d",time, hashCode() );
+        this.protocol = String.format( "%d%d",time, hashCode() );
     }
 
     @Override

@@ -26,13 +26,12 @@ public class CallTableSeeder {
             address.setDistrict( "downtown" );
 
             var call = new Call();
-            call.setProtocol( "20220306011610" );
             call.setAuthor( user );
             call.setDuty( duty );
             call.setAddress( address );
             call.setPostingDate( new Timestamp( System.currentTimeMillis() ) );
             call.setStatus( Status.PROCESSING );
-            call.setDescription( "Bueiro destruido pelas chuvas" );
+            call.setDescription( "Bueiro destruido pelas chuvas no centro" );
 
             if( !seeder.getCallService().createOrUpdate( call ) )
                 throw new RuntimeException( "CallTable seeder failed" );
