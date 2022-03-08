@@ -1,7 +1,7 @@
 package com.femass.resourceserver.domain;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.nimbusds.jose.shaded.json.JSONObject;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
@@ -19,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 
 @Entity( name = "Secretaria" )
-public class Department  implements Serializable {
+public class Department {
 
     public Department( String name ) {
         this();
@@ -36,8 +35,12 @@ public class Department  implements Serializable {
     private String name;
 
     @JsonValue
+    public String toJson() {
+        return toString();
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }

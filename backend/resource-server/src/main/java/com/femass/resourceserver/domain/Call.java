@@ -1,16 +1,15 @@
 package com.femass.resourceserver.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.femass.resourceserver.domain.user.UserEntity;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -21,47 +20,61 @@ import java.util.UUID;
 @AllArgsConstructor
 
 @Entity( name = "Ocorrencia" )
-public class Call implements Serializable {
+public class Call {
 
     @Id
     @Column( name = "id", columnDefinition = "uuid not null" )
     @GeneratedValue( strategy = GenerationType.AUTO )
     private UUID id;
 
+    @ManyToOne
+    @JoinColumn( name = "servico", referencedColumnName = "descricao" )
+    private Duty duty;
+
     @Setter( AccessLevel.NONE )
-    @Column( name = "protocolo", nullable = false, unique = true ) @NotNull
+    @Column( name = "protocolo", nullable = false, unique = true )
     private String protocol;
 
-    @Embedded
-    private Address address;
+    @Column( name = "status" )
+    private Status status;
 
     @Column( name = "descricao")
     private String description;
 
     @Embedded
+    private Address address;
+
+    @Embedded
     private List<String> images;
 
-    @ManyToOne @NotNull
+    @ManyToOne
     @JoinColumn( name = "usuario", referencedColumnName = "email" )
     private UserEntity author;
 
-    @JsonProperty( "created_at" )
     @Column( name = "dt_postagem" )
     private Timestamp postingDate;
 
     @OneToMany( mappedBy = "userCall" )
     private List<Attendance> attendances;
 
-    @ManyToOne
-    @JoinColumn( name = "servico", referencedColumnName = "descricao" )
-    private Duty duty;
-
-    @Column( name = "status" )
-    private Status status;
-
     public Call() {
         var time = System.currentTimeMillis();
         this.protocol = String.format( "%d%d", time, hashCode() );
+    }
+
+    @JsonValue
+    public JSONObject toJson() {
+        var json = new JSONObject();
+        json.appendField( "duty", duty );
+        json.appendField( "protocol", protocol );
+        json.appendField( "status", status );
+        json.appendField( "description", description );
+        json.appendField( "address", address );
+        json.appendField( "images", images );
+        json.appendField( "author", author );
+        json.appendField( "created_at", postingDate );
+
+        return json;
     }
 
     @Override

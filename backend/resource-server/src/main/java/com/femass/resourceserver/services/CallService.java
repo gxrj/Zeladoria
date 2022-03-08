@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CallService {
@@ -36,6 +37,13 @@ public class CallService {
     }
 
     public long countCalls() { return repository.count(); }
+
+    public Call findCallById( UUID id ) {
+        var optional = repository.findById( id );
+
+        if( optional.isEmpty() ) return null;
+        else return optional.get();
+    }
 
     public Call findCallByProtocol( String protocol ) {
         var optional = repository.findByProtocol( protocol );

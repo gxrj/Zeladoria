@@ -1,8 +1,7 @@
 package com.femass.resourceserver.domain;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import com.femass.resourceserver.domain.user.AgentEntity;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -23,10 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )
-
 @Entity( name = "Atendimento" )
-public class Attendance  implements Serializable {
+public class Attendance {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )

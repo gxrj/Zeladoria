@@ -1,6 +1,5 @@
 package com.femass.resourceserver.domain.user;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ import lombok.Setter;
 @Setter
 
 @MappedSuperclass
-public class AbstractUser implements Serializable {
+public class AbstractUser {
     
     @Id
     @Column( name = "id", columnDefinition = "uuid not null" )

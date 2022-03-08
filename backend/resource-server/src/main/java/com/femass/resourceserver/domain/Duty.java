@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
@@ -19,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 
 @Entity( name = "Servico" )
-public class Duty implements Serializable {
+public class Duty {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
