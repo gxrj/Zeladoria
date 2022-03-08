@@ -1,6 +1,5 @@
 package com.femass.authzserver.auth.models.domain;
 
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -34,9 +33,4 @@ public class AgentCredentials {
     public String getPassword() { return this.password; }
 
     public String getCpf() { return this.cpf; }
-
-
-    public boolean isNull(){
-        return Objects.isNull( this );
-    }
 }

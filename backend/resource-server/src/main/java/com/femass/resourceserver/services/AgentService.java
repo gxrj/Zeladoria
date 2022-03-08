@@ -54,7 +54,7 @@ public class AgentService {
     public boolean checkCpf( AgentCredentials credentials, 
                                     AgentCredentials anotherCredentials ) {
 
-        if( credentials.isNull() || anotherCredentials.isNull() ) return false;
+        if( credentials == null || anotherCredentials == null ) return false;
 
         return !credentials.getCpf().equals( anotherCredentials.getCpf() );
     }

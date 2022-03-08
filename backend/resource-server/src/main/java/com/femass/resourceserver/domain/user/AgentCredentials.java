@@ -5,14 +5,11 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-
-@JsonIgnoreProperties( value = { "password", "cpf" }, allowSetters = true )
 
 @Embeddable
 public class AgentCredentials {
@@ -37,9 +34,4 @@ public class AgentCredentials {
     public String getPassword() { return this.password; }
 
     public String getCpf() { return this.cpf; }
-
-
-    public boolean isNull(){
-        return Objects.isNull( this );
-    }
 }
