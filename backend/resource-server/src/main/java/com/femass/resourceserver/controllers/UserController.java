@@ -12,6 +12,7 @@ import com.femass.resourceserver.handlers.RequestHandler;
 import com.femass.resourceserver.services.CallService;
 import com.femass.resourceserver.services.UserService;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,11 +69,17 @@ public class UserController {
     }
     
     @GetMapping( "/user/test" )
-    public Call test() {
-        var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public JSONObject test() {
+        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext().getAuthentication();
+        Assert.notNull( authToken, "no user authentication found" );
+
+        var jwt = ( Jwt ) authToken.getPrincipal();
         var subject = jwt.getClaim( "sub" );
-        var call = callService.findCallByAuthor( subject.toString() );
-        //return "{\"message\":\"Authenticated\",\"username\": \" "+ subject.toString() +"\"}";
-        return call.get( 0 );
+
+        var json = new JSONObject();
+        json.appendField( "message", "Authenticated" );
+        json.appendField( "user_account", subject.toString() );
+
+        return json;
     }
 }
