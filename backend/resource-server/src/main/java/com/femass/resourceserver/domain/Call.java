@@ -59,8 +59,9 @@ public class Call implements Serializable {
     private List<Attendance> attendances;
 
     public Call() {
+        //TODO: generate unique protocol for simultaneous user calls
         var time = System.currentTimeMillis();
-        this.protocol = String.format( "%d%d", time, hashCode() );
+        this.protocol = String.format( "%d%H", time, author.getUsername() );
     }
 
     @JsonValue
