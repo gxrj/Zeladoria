@@ -6,6 +6,8 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +32,8 @@ public class UserEntity extends AbstractUser {
     @Column( name = "senha", nullable = false, length = 120 )
     private String password;
 
-    public UserEntity( String username, String password ){
+    @JsonCreator
+    public UserEntity( @JsonProperty( "email" ) String username, String password ){
         super( username );
         this.password = password;
     }

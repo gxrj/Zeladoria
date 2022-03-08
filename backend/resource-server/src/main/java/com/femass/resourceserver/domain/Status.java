@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
 
 @JsonRootName( value = "status" )
-public enum Status {
+public enum Status implements Serializable {
 
     PROCESSING( "Em andamento" ),
     FORWARDED( "Encaminhada" ),

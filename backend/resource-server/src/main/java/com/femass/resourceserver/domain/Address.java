@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ import javax.persistence.Embeddable;
 @JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )
 
 @Embeddable
-public class Address {
+public class Address implements Serializable {
 
     @Column( name = "latitude" )
     private Double latitude;

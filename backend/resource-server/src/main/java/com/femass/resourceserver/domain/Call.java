@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 
 @Entity( name = "Ocorrencia" )
-public class Call {
+public class Call implements Serializable {
 
     @Id
     @Column( name = "id", columnDefinition = "uuid not null" )

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 
 @Entity( name = "Atendimento" )
-public class Attendance {
+public class Attendance implements Serializable {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )

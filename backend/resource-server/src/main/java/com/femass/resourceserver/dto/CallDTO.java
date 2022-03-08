@@ -1,18 +1,16 @@
 package com.femass.resourceserver.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.femass.resourceserver.domain.Address;
-import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.domain.Duty;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.domain.user.UserEntity;
-import com.femass.resourceserver.services.CallService;
-import com.femass.resourceserver.services.DutyService;
-import com.femass.resourceserver.services.UserService;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -23,18 +21,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@ToString
+
+@JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )
 
 @Component
 public class CallDTO implements Serializable {
-
-    @Getter( AccessLevel.NONE ) @Setter( AccessLevel.NONE )
-    private final CallService callService;
-
-    @Getter( AccessLevel.NONE ) @Setter( AccessLevel.NONE )
-    private final UserService userService;
-
-    @Getter( AccessLevel.NONE ) @Setter( AccessLevel.NONE )
-    private final DutyService dutyService;
 
     private UUID id;
     private Duty duty;
@@ -47,32 +39,4 @@ public class CallDTO implements Serializable {
     @NotNull
     private UserEntity author;
     private Timestamp createdAt;
-
-    public CallDTO ( CallService callService,
-                     UserService userService, DutyService dutyService ) {
-
-        this.callService = callService;
-        this.userService = userService;
-        this.dutyService = dutyService;
-    }
-
-    public Call toDomainObject() {
-
-        Call object;
-
-        if( id != null )
-            object = callService.findCallById( id );
-        else
-            object = new Call();
-
-        object.setDuty( dutyService.findDutyByDescription( description ) );
-        object.setStatus( status );
-        object.setDescription( description );
-        object.setAddress( address );
-        object.setImages( images );
-        object.setAuthor( userService.findByUsername( author.getUsername() ) );
-        object.setPostingDate( createdAt );
-        
-        return object;
-    }
 }
