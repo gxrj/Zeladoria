@@ -18,6 +18,7 @@ public class DutyTableSeeder {
 
             var duty = new Duty();
             duty.setDescription( "Bueiro sem tampa" );
+            duty.setDepartment( dept );
 
             if( !dutyService.createOrUpdate( duty ) )
                 throw new RuntimeException( "Duty seeder failed" );

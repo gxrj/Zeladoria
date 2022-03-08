@@ -6,8 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.domain.user.UserEntity;
 import com.femass.resourceserver.handlers.RequestHandler;
+import com.femass.resourceserver.services.CallService;
 import com.femass.resourceserver.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class UserController {
+
+    @Autowired
+    private CallService callService;
 
     @Autowired
     private UserService userService;
@@ -61,9 +66,11 @@ public class UserController {
     }
     
     @GetMapping( "/user/test" )
-    public String test() {
+    public Call test() {
         var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var subject = jwt.getClaim( "sub" );
-        return "{\"message\":\"Authenticated\",\"username\": \" "+ subject.toString() +"\"}";
+        var call = callService.findCallByAuthor( subject.toString() );
+        //return "{\"message\":\"Authenticated\",\"username\": \" "+ subject.toString() +"\"}";
+        return call.get( 0 );
     }
 }

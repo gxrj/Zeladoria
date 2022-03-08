@@ -1,5 +1,6 @@
 package com.femass.resourceserver.domain.user;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ import lombok.Setter;
 @Setter
 
 @MappedSuperclass
-public class AbstractUser {
+public class AbstractUser implements Serializable {
     
     @Id
     @Column( name = "id", columnDefinition = "uuid not null" )
@@ -32,7 +33,7 @@ public class AbstractUser {
 
     @Column( name = "nome", nullable = false, length = 50 )
     protected String name;
-    
+
     protected String username; /* Overriden by children classes */
 
     @JsonIgnore
@@ -46,7 +47,7 @@ public class AbstractUser {
 
     protected AbstractUser(){ this.enabled = true; }
 
-    protected AbstractUser( String username ){
+    protected AbstractUser( String username ) {
         this();
         this.username = username;
     }

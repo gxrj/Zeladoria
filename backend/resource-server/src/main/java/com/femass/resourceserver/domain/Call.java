@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 
 @Entity( name = "Ocorrencia" )
-public class Call {
+public class Call implements Serializable {
 
     @Id
     @Column( name = "id", columnDefinition = "uuid not null" )
@@ -38,9 +39,9 @@ public class Call {
     private String description;
 
     @Embedded
-    private List<Image> images;
+    private List<String> images;
 
-    @ManyToOne
+    @ManyToOne @NotNull
     @JoinColumn( name = "usuario", referencedColumnName = "email" )
     private UserEntity author;
 
@@ -60,7 +61,7 @@ public class Call {
 
     public Call() {
         var time = System.currentTimeMillis();
-        this.protocol = String.format( "%d%d",time, hashCode() );
+        this.protocol = String.format( "%d%d", time, hashCode() );
     }
 
     @Override

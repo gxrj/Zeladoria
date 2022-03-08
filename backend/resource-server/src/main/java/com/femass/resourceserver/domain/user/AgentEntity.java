@@ -8,6 +8,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
@@ -55,4 +57,11 @@ public class AgentEntity extends AbstractUser {
         return this.credentials;
     }
 
+    @JsonValue
+    public JSONObject toJson() {
+        var json = new JSONObject();
+        json.appendField( "name", username );
+        json.appendField( "username", username );
+        return json;
+    }
 }

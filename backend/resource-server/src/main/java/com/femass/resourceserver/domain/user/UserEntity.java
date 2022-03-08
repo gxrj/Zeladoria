@@ -6,7 +6,12 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
@@ -41,10 +46,14 @@ public class UserEntity extends AbstractUser {
         this.password = password;
     }
 
-    /* 
-        Lombok's getter and setter arent taking 
-        effect on VSCode even with is lombok extention
-    */
-
     public String getPassword() { return this.password; }
+
+    @JsonValue
+    public JSONObject toJson() {
+
+        var json = new JSONObject();
+        json.appendField( "name", name );
+        json.appendField( "email", username );
+        return json;
+    }
 }
