@@ -6,22 +6,22 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.domain.user.UserEntity;
 import com.femass.resourceserver.handlers.RequestHandler;
 import com.femass.resourceserver.services.CallService;
 import com.femass.resourceserver.services.UserService;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,16 +44,16 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping( "/registration-user" )
-    public String registerUser( HttpServletRequest req, 
-                                             HttpServletResponse res )
-            throws IOException {
+    public ResponseEntity<JSONObject> registerUser( HttpServletRequest req ) throws IOException {
 
         var json = RequestHandler.parseToJson( req );
         var name = json.get( "name" ).asText();
         var username = json.get( "username" ).asText();
 
         if( userService.existsUserByUsername( username ) ){
-            return "Email already in use";
+            var body = new JSONObject();
+            body.appendField( "message", "Email already in use" );
+            return new ResponseEntity<>( body, HttpStatus.CONFLICT );
         }
 
         var password = passwordEncoder.encode( json.get( "password" ).asText() );
@@ -61,17 +61,30 @@ public class UserController {
 
         var entity = new UserEntity( username, password, List.of( userRole ) );
         entity.setName( name );
-        
-        if( userService.createOrUpdate( entity ) )
-            return "{\"message\":\"Created\"}";
-        else 
-            return "{\"message\":\"Error\"}";
+
+        var jsonBody = new JSONObject();
+
+        if( userService.createOrUpdate( entity ) ) {
+            jsonBody.appendField( "message", "Created" );
+            return new ResponseEntity<>( jsonBody, HttpStatus.CREATED );
+        }
+        else {
+            jsonBody.appendField( "message", "Error" );
+            return new ResponseEntity<>( jsonBody, HttpStatus.INTERNAL_SERVER_ERROR );
+        }
     }
     
     @GetMapping( "/user/test" )
-    public JSONObject test() {
-        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext().getAuthentication();
-        Assert.notNull( authToken, "no user authentication found" );
+    public ResponseEntity<JSONObject> test() {
+        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder
+                                                            .getContext().getAuthentication();
+
+        if( authToken == null ) {
+            return new ResponseEntity<>(
+                    new JSONObject()
+                            .appendField( "message","no user authentication found" ),
+                    HttpStatus.INTERNAL_SERVER_ERROR );
+        }
 
         var jwt = ( Jwt ) authToken.getPrincipal();
         var subject = jwt.getClaim( "sub" );
@@ -80,6 +93,6 @@ public class UserController {
         json.appendField( "message", "Authenticated" );
         json.appendField( "user_account", subject.toString() );
 
-        return json;
+        return new ResponseEntity<>( json, HttpStatus.CREATED );
     }
 }
