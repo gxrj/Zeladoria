@@ -7,7 +7,7 @@ import com.femass.resourceserver.domain.user.UserEntity;
 import com.femass.resourceserver.services.ServiceModule;
 import lombok.Getter;
 import lombok.Setter;
-import org.glassfish.jersey.internal.util.collection.Views;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.validation.constraints.NotNull;
@@ -31,7 +31,6 @@ public class UserEntityDTO implements Serializable {
     private String name;
     @NotNull
     private String email;
-    @JsonProperty()
     private String password;
     private boolean active;
 

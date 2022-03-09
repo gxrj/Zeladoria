@@ -1,6 +1,5 @@
 package com.femass.resourceserver.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -29,7 +28,6 @@ import java.util.UUID;
     ignoreUnknown = true
 )
 public class AttendanceDTO implements Serializable {
-
 
     private @NotNull UUID id;
     private @NotNull String callProtocol;

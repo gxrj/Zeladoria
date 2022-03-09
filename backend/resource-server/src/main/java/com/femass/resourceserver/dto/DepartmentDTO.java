@@ -30,8 +30,11 @@ public class DepartmentDTO implements Serializable {
     private @NotNull String name;
 
     @JsonValue
-    public static String serialize( Department dept ) {
-        return dept.toString();
+    public static DepartmentDTO serialize( Department dept ) {
+        var deptDto = new DepartmentDTO();
+        deptDto.name = dept.getName();
+
+        return deptDto;
     }
 
     public static Department deserialize( DepartmentDTO deptDto, ServiceModule module ) {

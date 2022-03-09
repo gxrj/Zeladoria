@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.femass.resourceserver.domain.Department;
+
 import com.femass.resourceserver.domain.Duty;
 import com.femass.resourceserver.services.ServiceModule;
 
@@ -30,13 +30,13 @@ public class DutyDTO implements Serializable {
 
     private UUID id;
     private @NotNull String description;
-    private @NotNull Department department;
+    private @NotNull DepartmentDTO department;
 
     @JsonValue
     public static DutyDTO serialize( Duty duty ){
         var dutyDto = new DutyDTO();
         dutyDto.setDescription( duty.getDescription() );
-        dutyDto.setDepartment( duty.getDepartment() );
+        dutyDto.setDepartment( DepartmentDTO.serialize( duty.getDepartment() ) );
 
         return dutyDto;
     }
@@ -51,7 +51,7 @@ public class DutyDTO implements Serializable {
             duty.setDescription( dutyDto.description );
         }
 
-        duty.setDepartment( dutyDto.department );
+        duty.setDepartment( DepartmentDTO.deserialize( dutyDto.department, module ) );
 
         return duty;
     }

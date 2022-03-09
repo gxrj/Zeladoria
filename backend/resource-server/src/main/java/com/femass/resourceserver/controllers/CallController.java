@@ -56,7 +56,8 @@ public class CallController {
 
         var jwt = ( Jwt ) authToken.getPrincipal();
         var calls = module.getCallService()
-                                    .findCallByAuthor( jwt.getClaim( "sub" ).toString() );
+                                    .findCallByAuthor( jwt.getClaim( "sub" ).toString() )
+                                    .parallelStream().map( CallDTO::serialize ).toList();
 
         var json = new JSONObject();
         json.appendField( "result", calls );

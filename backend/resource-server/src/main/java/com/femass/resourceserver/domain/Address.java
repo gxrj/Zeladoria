@@ -1,5 +1,6 @@
 package com.femass.resourceserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -19,6 +20,7 @@ import java.io.Serializable;
 
 @JsonRootName( value = "address" )
 @JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )
+@JsonInclude( JsonInclude.Include.NON_EMPTY )
 
 @Embeddable
 public class Address implements Serializable {
