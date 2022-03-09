@@ -42,9 +42,7 @@ public class AgentService {
         Optional< AgentEntity > agent = repository
                                             .findByUsername( username );
 
-        if( agent.isEmpty() ) return null;
-
-        return agent.get();
+        return agent.isEmpty() ? null : agent.get();
     }
 
     public boolean existsAgentByUsername( String username ) {

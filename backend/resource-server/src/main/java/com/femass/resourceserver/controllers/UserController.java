@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.femass.resourceserver.domain.user.UserEntity;
 import com.femass.resourceserver.handlers.RequestHandler;
-import com.femass.resourceserver.services.CallService;
-import com.femass.resourceserver.services.UserService;
+
+import com.femass.resourceserver.services.ServiceModule;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 
@@ -34,10 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private CallService callService;
-
-    @Autowired
-    private UserService userService;
+    private ServiceModule module;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -48,6 +45,8 @@ public class UserController {
         var json = RequestHandler.parseToJson( req );
         var name = json.get( "name" ).asText();
         var username = json.get( "username" ).asText();
+
+        var userService = module.getUserService();
 
         if( userService.existsUserByUsername( username ) ){
             var body = new JSONObject();

@@ -1,11 +1,12 @@
 package com.femass.resourceserver.init;
 
 import com.femass.resourceserver.domain.Department;
-import com.femass.resourceserver.services.DepartmentService;
 
 public class DepartmentTableSeeder {
 
-    public static void seed( DepartmentService deptService ) throws RuntimeException {
+    public static void seed( TableSeeder seeder ) throws RuntimeException {
+
+        var deptService = seeder.getServiceModule().getDepartmentService();
 
         if( deptService.countDepartments() == 0 ) {
 

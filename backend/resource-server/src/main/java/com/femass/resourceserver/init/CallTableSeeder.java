@@ -12,11 +12,13 @@ public class CallTableSeeder {
 
     public static void seed( TableSeeder seeder ) throws RuntimeException {
 
-        if( seeder.getCallService().countCalls() == 0 ) {
-            var duty = seeder.getDutyService().findDutyByDescription( "Bueiro sem tampa" );
+        var module = seeder.getServiceModule();
+
+        if( module.getCallService().countCalls() == 0 ) {
+            var duty = module.getDutyService().findDutyByDescription( "Bueiro sem tampa" );
             Assert.notNull( duty, "Duty not found" );
 
-            var user = seeder.getUserService().findByUsername( "user" );
+            var user = module.getUserService().findByUsername( "user" );
             Assert.notNull( user, "User not found" );
 
             var address = new Address();
@@ -25,15 +27,18 @@ public class CallTableSeeder {
             address.setZipCode( "27900000" );
             address.setDistrict( "downtown" );
 
+            var protocol = String.format( "%d%H", System.currentTimeMillis(), user.getUsername() );
+
             var call = new Call();
             call.setAuthor( user );
+            call.setProtocol( protocol );
             call.setDuty( duty );
             call.setAddress( address );
             call.setPostingDate( new Timestamp( System.currentTimeMillis() ) );
             call.setStatus( Status.PROCESSING );
             call.setDescription( "Bueiro destruido pelas chuvas no centro" );
 
-            if( !seeder.getCallService().createOrUpdate( call ) )
+            if( !module.getCallService().createOrUpdate( call ) )
                 throw new RuntimeException( "CallTable seeder failed" );
         }
     }

@@ -19,8 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 
 @MappedSuperclass
 public class AbstractUser implements Serializable {

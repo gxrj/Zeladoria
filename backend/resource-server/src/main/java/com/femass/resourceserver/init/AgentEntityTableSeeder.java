@@ -2,16 +2,17 @@ package com.femass.resourceserver.init;
 
 import com.femass.resourceserver.domain.user.AgentCredentials;
 import com.femass.resourceserver.domain.user.AgentEntity;
-import com.femass.resourceserver.services.AgentService;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 public class AgentEntityTableSeeder {
 
-    public static void seed( AgentService agentService,
-                             PasswordEncoder encoder ) throws RuntimeException {
+    public static void seed( TableSeeder seeder ) throws RuntimeException {
+
+        var agentService = seeder.getServiceModule().getAgentService();
+        var encoder = seeder.getEncoder();
 
         if( agentService.countAgents() == 0 ) {
 

@@ -10,11 +10,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Getter @Setter
 
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 
 @Entity( name = "Feedback" )
 public class UserFeedback implements Serializable {

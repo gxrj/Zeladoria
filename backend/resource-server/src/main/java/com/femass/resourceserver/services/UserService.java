@@ -42,9 +42,7 @@ public class UserService {
         Optional< UserEntity > user = repository
                                         .findByUsername( username );
 
-        if( user.isEmpty() ) return null;
-        
-        return user.get();
+        return user.isEmpty() ? null : user.get();
     }
 
     public boolean existsUserByUsername( String username ) {

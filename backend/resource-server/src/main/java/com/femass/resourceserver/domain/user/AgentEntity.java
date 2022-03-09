@@ -7,17 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 
 @NoArgsConstructor
 
@@ -29,7 +25,6 @@ import lombok.Setter;
 )
 public class AgentEntity extends AbstractUser {
 
-    @JsonUnwrapped
     @Embedded
     private AgentCredentials credentials;
 
@@ -55,13 +50,5 @@ public class AgentEntity extends AbstractUser {
 
     public AgentCredentials getCredentials(){
         return this.credentials;
-    }
-
-    @JsonValue
-    public JSONObject toJson() {
-        var json = new JSONObject();
-        json.appendField( "name", username );
-        json.appendField( "username", username );
-        return json;
     }
 }

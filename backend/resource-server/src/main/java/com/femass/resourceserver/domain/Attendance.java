@@ -1,10 +1,7 @@
 package com.femass.resourceserver.domain;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import com.femass.resourceserver.domain.user.AgentEntity;
 
-import com.nimbusds.jose.shaded.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +14,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Getter @Setter
 
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 
 @Entity( name = "Atendimento" )
 public class Attendance implements Serializable {
@@ -30,6 +25,10 @@ public class Attendance implements Serializable {
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn( name = "ocorrencia",  referencedColumnName = "protocolo" )
+    private Call userCall;
 
     @Column( name = "dt_execucao" )
     private Timestamp executionDate;
@@ -41,24 +40,6 @@ public class Attendance implements Serializable {
     @JoinColumn( name = "responsavel", referencedColumnName = "matricula" )
     private AgentEntity responsible;
 
-    @ManyToOne
-    @JoinColumn( name = "ocorrencia",  referencedColumnName = "protocolo" )
-    private Call userCall;
-
     @OneToMany( mappedBy = "attendance" )
     private List<UserFeedback> feedbacks;
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @JsonValue
-    public JSONObject toJson() {
-        var json = new JSONObject();
-        json.appendField( "call_protocol", userCall.getProtocol() );
-        json.appendField( "description", description );
-        json.appendField( "responsible", responsible );
-        return json;
-    }
 }

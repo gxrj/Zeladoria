@@ -1,11 +1,10 @@
 package com.femass.resourceserver.controllers;
 
-import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.dto.CallDTO;
-import com.femass.resourceserver.services.CallService;
-import com.femass.resourceserver.services.DutyService;
-import com.femass.resourceserver.services.UserService;
+import com.femass.resourceserver.services.ServiceModule;
+
 import com.nimbusds.jose.shaded.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,22 +23,16 @@ import org.springframework.web.bind.annotation.*;
 public class CallController {
 
     @Autowired
-    private CallService callService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private DutyService dutyService;
+    private ServiceModule module;
 
     @PostMapping( "/new" )
     public ResponseEntity<JSONObject> create( @RequestBody CallDTO callDto ) {
 
-        var call = toDomainObject( callDto );
+        var call = CallDTO.deserialize( callDto, module );
 
         var json = new JSONObject();
 
-        if( callService.createOrUpdate( call ) ) {
+        if( module.getCallService().createOrUpdate( call ) ) {
             json.appendField( "message", "call created!" );
             return new ResponseEntity<>( json, HttpStatus.CREATED );
         }
@@ -62,33 +55,12 @@ public class CallController {
         }
 
         var jwt = ( Jwt ) authToken.getPrincipal();
-        var calls = callService.findCallByAuthor( jwt.getClaim( "sub" ).toString() );
+        var calls = module.getCallService()
+                                    .findCallByAuthor( jwt.getClaim( "sub" ).toString() );
 
         var json = new JSONObject();
         json.appendField( "result", calls );
 
         return new ResponseEntity<>( json, HttpStatus.ACCEPTED );
-    }
-
-    private Call toDomainObject( CallDTO callDto ) {
-
-        Call object;
-        var id = callDto.getId();
-
-        if( id != null )
-            object = callService.findCallById( id );
-        else {
-            object = new Call(); /* The attributes bellow cannot change after first creation */
-            object.setAuthor( userService.findByUsername( callDto.getAuthor().getUsername() ) );
-            object.setPostingDate( callDto.getCreatedAt() );
-        }
-
-        object.setDuty( dutyService.findDutyByDescription( callDto.getDuty().getDescription() ) );
-        object.setStatus( callDto.getStatus() );
-        object.setDescription( callDto.getDescription() );
-        object.setAddress( callDto.getAddress() );
-        object.setImages( callDto.getImages() );
-
-        return object;
     }
 }

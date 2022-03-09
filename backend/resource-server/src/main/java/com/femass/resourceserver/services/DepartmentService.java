@@ -33,9 +33,7 @@ public class DepartmentService {
     public Department findDepartmentByName( String name ) {
         var optional = repository.findByName( name );
 
-        if( optional.isEmpty() ) return null;
-
-        return optional.get();
+        return optional.isEmpty() ? null : optional.get();
     }
 
     public long countDepartments() {

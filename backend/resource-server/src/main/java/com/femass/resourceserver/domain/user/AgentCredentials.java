@@ -1,15 +1,12 @@
 package com.femass.resourceserver.domain.user;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 
 @Embeddable
 public class AgentCredentials {

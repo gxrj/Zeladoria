@@ -1,16 +1,17 @@
 package com.femass.resourceserver.init;
 
 import com.femass.resourceserver.domain.user.UserEntity;
-import com.femass.resourceserver.services.UserService;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 public class UserEntityTableSeeder {
 
-    public static void seed( UserService userService,
-                             PasswordEncoder encoder ) throws RuntimeException {
+    public static void seed( TableSeeder seeder ) throws RuntimeException {
+
+        var userService = seeder.getServiceModule().getUserService();
+        var encoder = seeder.getEncoder();
 
         if( userService.countUsers() == 0 ) {
             var user = new UserEntity();

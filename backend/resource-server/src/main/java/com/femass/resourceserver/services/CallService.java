@@ -41,15 +41,13 @@ public class CallService {
     public Call findCallById( UUID id ) {
         var optional = repository.findById( id );
 
-        if( optional.isEmpty() ) return null;
-        else return optional.get();
+        return optional.isEmpty() ? null : optional.get();
     }
 
     public Call findCallByProtocol( String protocol ) {
         var optional = repository.findByProtocol( protocol );
 
-        if( optional.isEmpty() ) return null;
-        else return optional.get();
+        return optional.isEmpty() ? null : optional.get();
     }
 
     public List<Call> findCallByAuthor( String authorUsername ) {

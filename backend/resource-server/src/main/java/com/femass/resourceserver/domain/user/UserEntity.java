@@ -8,16 +8,14 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.nimbusds.jose.shaded.json.JSONObject;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 
 @NoArgsConstructor
 
@@ -44,13 +42,4 @@ public class UserEntity extends AbstractUser {
     }
 
     public String getPassword() { return this.password; }
-
-    @JsonValue
-    public JSONObject toJson() {
-
-        var json = new JSONObject();
-        json.appendField( "name", name );
-        json.appendField( "email", username );
-        return json;
-    }
 }

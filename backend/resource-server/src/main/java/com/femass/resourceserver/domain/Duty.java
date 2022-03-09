@@ -1,7 +1,5 @@
 package com.femass.resourceserver.domain;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.nimbusds.jose.shaded.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +10,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Getter @Setter
 
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 
 @Entity( name = "Servico" )
 public class Duty implements Serializable {
@@ -33,12 +29,4 @@ public class Duty implements Serializable {
     @ManyToOne
     @JoinColumn( name = "secretaria", referencedColumnName = "nome" )
     private Department department;
-
-    @JsonValue
-    public JSONObject toJson(){
-        var json = new JSONObject();
-        json.appendField( "description", description );
-        json.appendField( "department", department );
-        return json;
-    }
 }

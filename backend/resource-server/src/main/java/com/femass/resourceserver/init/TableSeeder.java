@@ -17,29 +17,14 @@ public class TableSeeder implements CommandLineRunner {
     private PasswordEncoder encoder;
 
     @Autowired
-    private AgentService agentService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private DepartmentService deptService;
-
-    @Autowired
-    private DutyService dutyService;
-
-    @Autowired
-    private CallService callService;
-
-    @Autowired
-    private AttendanceService attendanceService;
+    private ServiceModule serviceModule;
 
     @Override
     public void run( String... args ) throws RuntimeException {
 
-        AgentEntityTableSeeder.seed( agentService, encoder );
-        UserEntityTableSeeder.seed( userService, encoder );
-        DepartmentTableSeeder.seed( deptService );
+        AgentEntityTableSeeder.seed( this );
+        UserEntityTableSeeder.seed( this );
+        DepartmentTableSeeder.seed( this );
         DutyTableSeeder.seed( this );
         CallTableSeeder.seed( this );
 //        AttendanceTableSeeder.seed( this );

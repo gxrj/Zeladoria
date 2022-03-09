@@ -32,9 +32,7 @@ public class DutyService {
     public Duty findDutyByDescription( String description ) {
         var optional = repository.findByDescription( description );
 
-        if( optional.isEmpty() ) return null;
-
-        return optional.get();
+        return optional.isEmpty() ? null : optional.get();
     }
 
     public List<Duty> findDutyByDepartment( String deptName ) {
