@@ -56,15 +56,14 @@ public class CallController {
                     .parallelStream().map( CallDTO::serialize ).toList();
 
             return getSuccessResponse( calls );
-        }
-        catch( AuthenticationException ex ) {
+        } catch( AuthenticationException ex ) {
 
             return getInternalErrorMessage();
         }
     }
 
     @GetMapping( "/agent/calls/all" )
-    public ResponseEntity<JSONObject> listCallsByDept() {
+    public ResponseEntity<JSONObject> listCallsByAgentDeptartment() {
 
        try {
            var login = extractLoginFromContext();
