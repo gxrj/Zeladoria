@@ -2,6 +2,7 @@ package com.femass.resourceserver.services;
 
 import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
+import com.femass.resourceserver.domain.Department;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.repositories.CallRepository;
 import org.slf4j.Logger;
@@ -57,6 +58,10 @@ public class CallService {
     public List<Call> findCallByPostingDate( String plainTimestamp ) throws IllegalArgumentException {
         var time = Timestamp.valueOf( plainTimestamp );
         return repository.findByPostingDate( time );
+    }
+
+    public List<Call> findCallByDepartment( String deptName ) {
+        return repository.findByDuty_Department_Name( deptName );
     }
 
     public List<Call> findCallByDuty( String dutyDescription ) {

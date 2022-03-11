@@ -33,7 +33,7 @@ public class DutyDTO implements Serializable {
     private @NotNull DepartmentDTO department;
 
     @JsonValue
-    public static DutyDTO serialize( Duty duty ){
+    public static DutyDTO serialize( Duty duty ) {
         var dutyDto = new DutyDTO();
         dutyDto.setDescription( duty.getDescription() );
         dutyDto.setDepartment( DepartmentDTO.serialize( duty.getDepartment() ) );

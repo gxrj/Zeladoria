@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
+import java.util.Objects;
+
 @RestController
 @RequestMapping(
-    path = "/user/calls",
     consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE },
     produces = MediaType.APPLICATION_JSON_VALUE
 )
@@ -25,7 +28,7 @@ public class CallController {
     @Autowired
     private ServiceModule module;
 
-    @PostMapping( "/new" )
+    @PostMapping( "/user/calls/new" )
     public ResponseEntity<JSONObject> create( @RequestBody CallDTO callDto ) {
 
         var call = CallDTO.deserialize( callDto, module );
@@ -42,25 +45,66 @@ public class CallController {
         }
     }
 
-    @GetMapping( "/all" )
+    @GetMapping( "/user/calls/all" )
     public ResponseEntity<JSONObject> listAllByLoggedUser() {
+
+        try {
+            var login = extractLoginFromContext();
+
+            var calls = module.getCallService()
+                    .findCallByAuthor( login )
+                    .parallelStream().map( CallDTO::serialize ).toList();
+
+            return getSuccessResponse( calls );
+        }
+        catch( AuthenticationException ex ) {
+
+            return getInternalErrorMessage();
+        }
+    }
+
+    @GetMapping( "/agent/calls/all" )
+    public ResponseEntity<JSONObject> listCallsByDept() {
+
+       try {
+           var login = extractLoginFromContext();
+           var agent = module.getAgentService().findByUsername( login );
+
+           var calls = module.getCallService()
+                   .findCallByDepartment( agent.getDepartment().getName() )
+                   .parallelStream().map( CallDTO::serialize ).toList();
+
+           return getSuccessResponse( calls );
+
+       } catch ( AuthenticationException ex ) {
+
+           return getInternalErrorMessage();
+       }
+    }
+
+    private String extractLoginFromContext() throws AuthenticationException {
 
         var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext().getAuthentication();
 
-        if( authToken == null ){
-            return new ResponseEntity<>(
-                    new JSONObject()
-                            .appendField( "message","no user authentication found" ),
-                    HttpStatus.INTERNAL_SERVER_ERROR );
-        }
+        if( authToken == null )
+            throw new AuthenticationException( "no user authentication found" );
 
         var jwt = ( Jwt ) authToken.getPrincipal();
-        var calls = module.getCallService()
-                                    .findCallByAuthor( jwt.getClaim( "sub" ).toString() )
-                                    .parallelStream().map( CallDTO::serialize ).toList();
+        return jwt.getClaim( "sub" ).toString();
+    }
+
+    private ResponseEntity<JSONObject> getInternalErrorMessage() {
+
+        return ResponseEntity
+                .status( HttpStatus.INTERNAL_SERVER_ERROR )
+                .body( new JSONObject()
+                        .appendField( "message","no user authentication found" ) );
+    }
+
+    private ResponseEntity<JSONObject> getSuccessResponse( Object content ) {
 
         var json = new JSONObject();
-        json.appendField( "result", calls );
+        json.appendField("result", content );
 
         return new ResponseEntity<>( json, HttpStatus.ACCEPTED );
     }
