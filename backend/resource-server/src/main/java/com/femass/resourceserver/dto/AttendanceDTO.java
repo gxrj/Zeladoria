@@ -33,7 +33,7 @@ public class AttendanceDTO implements Serializable {
     private @NotNull String callProtocol;
     private Timestamp issuedAt;
     private String description;
-    private @NotNull AgentEntityDTO responsible;
+    private @NotNull AgentDTO responsible;
 
     @JsonValue
     public static AttendanceDTO serialize( Attendance attendance ) {
@@ -43,7 +43,7 @@ public class AttendanceDTO implements Serializable {
         attendanceDto.setCallProtocol( attendance.getUserCall().getProtocol() );
         attendanceDto.setIssuedAt( attendance.getExecutionDate() );
         attendanceDto.setDescription( attendance.getDescription() );
-        attendanceDto.setResponsible( AgentEntityDTO.serialize( attendance.getResponsible() ) );
+        attendanceDto.setResponsible( AgentDTO.serialize( attendance.getResponsible() ) );
 
         return attendanceDto;
     }

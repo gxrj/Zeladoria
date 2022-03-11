@@ -1,6 +1,5 @@
 package com.femass.resourceserver.domain;
 
-import com.femass.resourceserver.domain.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +25,8 @@ public class UserFeedback implements Serializable {
     private String description;
 
     @ManyToOne
-    @JoinColumn( name = "cidadao", referencedColumnName = "email" )
-    private UserEntity user;
+    @JoinColumn( name = "cidadao", referencedColumnName = "id" )
+    private Citizen user;
 
     @ManyToOne
     @JoinColumn( name = "atendimento", referencedColumnName =  "id" )

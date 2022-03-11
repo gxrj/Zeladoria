@@ -1,7 +1,5 @@
 package com.femass.resourceserver.domain;
 
-import com.femass.resourceserver.domain.user.UserEntity;
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,8 +40,8 @@ public class Call implements Serializable {
     private List<String> images;
 
     @ManyToOne
-    @JoinColumn( name = "usuario", referencedColumnName = "email" )
-    private UserEntity author;
+    @JoinColumn( name = "usuario", referencedColumnName = "id" )
+    private Citizen author;
 
     @Column( name = "dt_postagem" )
     private Timestamp postingDate;

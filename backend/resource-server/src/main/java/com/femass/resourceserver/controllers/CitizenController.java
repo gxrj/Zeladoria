@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.femass.resourceserver.domain.user.UserEntity;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.femass.resourceserver.domain.Citizen;
+import com.femass.resourceserver.domain.account.CitizenAccount;
 import com.femass.resourceserver.handlers.RequestHandler;
-
-import com.femass.resourceserver.services.ServiceModule;
+import com.femass.resourceserver.services.CitizenService;;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 
@@ -31,10 +32,10 @@ import org.springframework.web.bind.annotation.RestController;
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE
 )
-public class UserController {
+public class CitizenController {
 
     @Autowired
-    private ServiceModule module;
+    private CitizenService citizenService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,34 +43,45 @@ public class UserController {
     @PostMapping( "/registration-user" )
     public ResponseEntity<JSONObject> registerUser( HttpServletRequest req ) throws IOException {
 
-        var json = RequestHandler.parseToJson( req );
+        var created = createCitizen( req );
+        var jsonBody = new JSONObject();
+
+        if( created ) {
+            jsonBody.appendField( "message", "Created" );
+            return ResponseEntity.ok( jsonBody );
+        }
+        else {
+            jsonBody.appendField( "message", "Error" );
+            
+            return ResponseEntity
+                    .status( HttpStatus.INTERNAL_SERVER_ERROR )
+                    .body( jsonBody );
+        }
+    }
+
+    private Boolean createCitizen( HttpServletRequest request ) throws IOException {
+
+        var json = RequestHandler.parseToJson( request );
+
+        var account = buildAccount( json );
         var name = json.get( "name" ).asText();
+        var entity = new Citizen( name, account );
+
+        return citizenService.createOrUpdate( entity );
+    }
+
+    private CitizenAccount buildAccount( JsonNode json ) throws IOException {
+
         var username = json.get( "username" ).asText();
 
-        var userService = module.getUserService();
-
-        if( userService.existsUserByUsername( username ) ){
-            var body = new JSONObject();
-            body.appendField( "message", "Email already in use" );
-            return new ResponseEntity<>( body, HttpStatus.CONFLICT );
+        if( citizenService.existsCitizenByUsername( username ) ) {
+            throw new IOException( "Email already in use" );
         }
 
         var password = passwordEncoder.encode( json.get( "password" ).asText() );
         var userRole = new SimpleGrantedAuthority( "ROLE_USER" );
 
-        var entity = new UserEntity( username, password, List.of( userRole ) );
-        entity.setName( name );
-
-        var jsonBody = new JSONObject();
-
-        if( userService.createOrUpdate( entity ) ) {
-            jsonBody.appendField( "message", "Created" );
-            return new ResponseEntity<>( jsonBody, HttpStatus.CREATED );
-        }
-        else {
-            jsonBody.appendField( "message", "Error" );
-            return new ResponseEntity<>( jsonBody, HttpStatus.INTERNAL_SERVER_ERROR );
-        }
+        return new CitizenAccount( username, password, List.of( userRole ) );
     }
     
     @GetMapping( "/user/test" )

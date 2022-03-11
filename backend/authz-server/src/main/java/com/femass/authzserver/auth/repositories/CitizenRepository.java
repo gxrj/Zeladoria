@@ -3,14 +3,14 @@ package com.femass.authzserver.auth.repositories;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.femass.authzserver.auth.models.domain.AgentAccount;
+import com.femass.authzserver.auth.models.domain.CitizenAccount;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AgentRepository extends JpaRepository< AgentAccount, UUID > {
+public interface CitizenRepository extends JpaRepository<CitizenAccount, UUID> {
     
-    Optional<AgentAccount> findByUsername( String username );
+    Optional<CitizenAccount> findByUsername( String username );
     boolean existsByUsername( String username );
 }

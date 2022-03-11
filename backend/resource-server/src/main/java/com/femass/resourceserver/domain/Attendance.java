@@ -1,7 +1,5 @@
 package com.femass.resourceserver.domain;
 
-import com.femass.resourceserver.domain.user.AgentEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +35,8 @@ public class Attendance implements Serializable {
     private String description;
 
     @ManyToOne
-    @JoinColumn( name = "responsavel", referencedColumnName = "matricula" )
-    private AgentEntity responsible;
+    @JoinColumn( name = "responsavel", referencedColumnName = "id" )
+    private Agent responsible;
 
     @OneToMany( mappedBy = "attendance" )
     private List<UserFeedback> feedbacks;

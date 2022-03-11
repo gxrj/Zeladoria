@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.femass.authzserver.auth.tokens.UserAuthToken;
+import com.femass.authzserver.auth.tokens.CitizenAuthToken;
 import com.femass.authzserver.auth.handlers.RequestHandler;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-public class UserAuthFilter extends AbstractAuthenticationProcessingFilter {
+public class CitizenAuthFilter extends AbstractAuthenticationProcessingFilter {
     
-    public UserAuthFilter( RequestMatcher matcher, AuthenticationManager authManager ) {
+    public CitizenAuthFilter(RequestMatcher matcher, AuthenticationManager authManager ) {
         super( matcher, authManager );
     }
 
@@ -37,7 +37,7 @@ public class UserAuthFilter extends AbstractAuthenticationProcessingFilter {
             password = req.getParameter( "password" );
         }
 
-        var token = new UserAuthToken( username, password );
+        var token = new CitizenAuthToken( username, password );
 
         return getAuthenticationManager().authenticate( token );
     }

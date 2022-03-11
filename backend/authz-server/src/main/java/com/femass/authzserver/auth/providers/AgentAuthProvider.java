@@ -10,11 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 public class AgentAuthProvider implements AuthenticationProvider {
 
-    private AgentService agentService;
-    private PasswordEncoder encoder;
+    private final AgentService agentService;
+    private final PasswordEncoder encoder;
 
     /* @AllArgsContructor is not taking effect on VSCode even with its lombok extension */
     public AgentAuthProvider( AgentService agentService, PasswordEncoder encoder ) {
@@ -28,13 +27,14 @@ public class AgentAuthProvider implements AuthenticationProvider {
         var username = auth.getName();
         var tokenCredentials = ( AgentCredentials ) auth.getCredentials();
         
-        var user = agentService.findByUsername( username );
-        var agentCredentials = user.getCredentials();
+        var account = agentService.findByUsername( username );
+        var agentCredentials = account.getCredentials();
 
-        var passwordMatches = encoder.matches( tokenCredentials.getPassword(), agentCredentials.getPassword() );
+        var passwordMatches = encoder.matches( tokenCredentials.getPassword(),
+                                                        agentCredentials.getPassword() );
 
         if( passwordMatches && agentService.checkCpf( tokenCredentials, agentCredentials ) )
-            return new AgentAuthToken( username, agentCredentials, user.getAuthorities() );
+            return new AgentAuthToken( username, agentCredentials, account.getAuthorities() );
         else
             throw new BadCredentialsException( "Bad credentials" );
     }

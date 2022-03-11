@@ -22,8 +22,10 @@ public class TableSeeder implements CommandLineRunner {
     @Override
     public void run( String... args ) throws RuntimeException {
 
-        AgentEntityTableSeeder.seed( this );
-        UserEntityTableSeeder.seed( this );
+        AgentAccountTableSeeder.seed( this );
+        AgentTableSeeder.seed( this );
+        CitizenAccountTableSeeder.seed( this );
+        CitizenTableSeeder.seed( this );
         DepartmentTableSeeder.seed( this );
         DutyTableSeeder.seed( this );
         CallTableSeeder.seed( this );

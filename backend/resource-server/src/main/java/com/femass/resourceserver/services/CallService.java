@@ -51,7 +51,7 @@ public class CallService {
     }
 
     public List<Call> findCallByAuthor( String authorUsername ) {
-        return repository.findByAuthor_Username( authorUsername );
+        return repository.findByAuthor_Account_Username( authorUsername );
     }
 
     public List<Call> findCallByPostingDate( String plainTimestamp ) throws IllegalArgumentException {

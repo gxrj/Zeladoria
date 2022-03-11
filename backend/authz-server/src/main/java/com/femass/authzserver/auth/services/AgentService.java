@@ -2,32 +2,30 @@ package com.femass.authzserver.auth.services;
 
 import java.util.Optional;
 
+import com.femass.authzserver.auth.models.domain.AgentAccount;
 import com.femass.authzserver.auth.models.domain.AgentCredentials;
-import com.femass.authzserver.auth.models.domain.AgentEntity;
 import com.femass.authzserver.auth.repositories.AgentRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AgentService {
-    
-    private final AgentRepository repository;
 
-    public AgentService( AgentRepository repository ) {
-        this.repository = repository;
-    }
+    @Autowired
+    private AgentRepository repository;
 
-    public AgentEntity findByUsername( String username ) throws 
+    public AgentAccount findByUsername( String username ) throws
             UsernameNotFoundException {
 
-        Optional< AgentEntity > agent = repository
+        Optional<AgentAccount> account = repository
                                             .findByUsername( username );
 
-        if( agent.isEmpty() )
-            throw new UsernameNotFoundException( "User not found" );
+        if( account.isEmpty() )
+            throw new UsernameNotFoundException( "Account not found" );
 
-        return agent.get();
+        return account.get();
     }
 
     public boolean checkCpf( AgentCredentials credentials, 

@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.femass.authzserver.auth.filters.AgentAuthFilter;
-import com.femass.authzserver.auth.filters.UserAuthFilter;
+import com.femass.authzserver.auth.filters.CitizenAuthFilter;
 import com.femass.authzserver.auth.providers.AgentAuthProvider;
-import com.femass.authzserver.auth.providers.UserAuthProvider;
+import com.femass.authzserver.auth.providers.CitizenAuthProvider;
 import com.femass.authzserver.auth.services.AgentService;
-import com.femass.authzserver.auth.services.UserService;
+import com.femass.authzserver.auth.services.CitizenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +41,7 @@ public class ApplicationSecurityConfig {
     private AgentService agentService;
 
     @Autowired
-    private UserService userService;
+    private CitizenService citizenService;
     
     @Autowired
     private CorsConfigurationSource corsConfigSource;
@@ -88,7 +88,7 @@ public class ApplicationSecurityConfig {
                 AnonymousAuthenticationFilter.class 
             )
             .addFilterAfter( 
-                userAuthFilter( "/login", "POST" ),
+                citizenAuthFilter( "/login", "POST" ),
                 AgentAuthFilter.class
             );
 
@@ -97,9 +97,9 @@ public class ApplicationSecurityConfig {
 
     /**
      * Sets application authentication providers
-     * for Cidadao and Colaborador users then returns
+     * for Citizen and Agent users then returns
      * an AuthenticationManager Bean
-     * @param AuthenticationManagerBuilder auth
+     *
      * @return an AuthenticationManager bean
      * @throws Exception
      */
@@ -108,7 +108,7 @@ public class ApplicationSecurityConfig {
 
         return new ProviderManager( 
                     new AgentAuthProvider( agentService, passwordEncoder() ), 
-                    new UserAuthProvider( userService, passwordEncoder() ) 
+                    new CitizenAuthProvider( citizenService, passwordEncoder() )
                 );
     }
 
@@ -139,12 +139,12 @@ public class ApplicationSecurityConfig {
         return agentFilter;
     }
 
-    private UserAuthFilter userAuthFilter( String url, String httpMethod ) { 
+    private CitizenAuthFilter citizenAuthFilter( String url, String httpMethod ) {
         var matcher =  requestMatcher( url, httpMethod );
-        var userFilter =  new UserAuthFilter( matcher, authenticationManager() );
-        userFilter.setAuthenticationFailureHandler( authFailHandler() );
+        var citizenFilter =  new CitizenAuthFilter( matcher, authenticationManager() );
+        citizenFilter.setAuthenticationFailureHandler( authFailHandler() );
 
-        return userFilter;
+        return citizenFilter;
     }
 
     public AuthenticationFailureHandler authFailHandler() {

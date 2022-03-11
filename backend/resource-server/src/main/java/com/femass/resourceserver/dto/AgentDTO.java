@@ -3,8 +3,9 @@ package com.femass.resourceserver.dto;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.femass.resourceserver.domain.user.AgentCredentials;
-import com.femass.resourceserver.domain.user.AgentEntity;
+import com.femass.resourceserver.domain.account.AgentAccount;
+import com.femass.resourceserver.domain.account.AgentCredentials;
+import com.femass.resourceserver.domain.Agent;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
@@ -26,7 +27,7 @@ import java.util.UUID;
     allowSetters = true,
     ignoreUnknown = true
 )
-public class AgentEntityDTO implements Serializable {
+public class AgentDTO implements Serializable {
 
     private UUID id;
     private String name;
@@ -39,37 +40,42 @@ public class AgentEntityDTO implements Serializable {
     private boolean active;
 
     @JsonValue
-    public static AgentEntityDTO serialize( AgentEntity agent ) {
-        var agentDto = new AgentEntityDTO();
+    public static AgentDTO serialize(Agent agent ) {
+        var agentDto = new AgentDTO();
         agentDto.setName( agent.getName() );
-        agentDto.setUsername( agent.getUsername() );
+        agentDto.setUsername( agent.getAccount().getUsername() );
 
         return agentDto;
     }
 
-    public static AgentEntity deserialize( AgentEntityDTO agentDto, ServiceModule module ) {
+    public static Agent deserialize(AgentDTO agentDto, ServiceModule module ) {
 
         var agent = module.getAgentService().findByUsername( agentDto.username );
 
         if( agent == null ) {
 
-            agent = new AgentEntity();
-            agent.setUsername( agentDto.username );
+            var account = new AgentAccount();
+            account.setUsername( agentDto.username );
+            account.setCredentials( new AgentCredentials()  );
 
-            var credentials = new AgentCredentials();
-            agent.setCredentials( credentials );
+            agent = new Agent( agentDto.name, account );
         }
 
         var encoder = module.getPasswordEncoder();
+        var agentAccount = agent.getAccount();
 
-        if( agentDto.cpf != null )
-            agent.getCredentials().setCpf( agentDto.cpf );
-        if( agentDto.password != null )
-            agent.getCredentials().setPassword( encoder.encode( agentDto.password )  );
         if( agentDto.name != null )
             agent.setName( agentDto.name );
+
         if( agentDto.authorities != null && !agentDto.authorities.isEmpty() )
-            agent.setAuthorities( agentDto.authorities );
+            agentAccount.setAuthorities( agentDto.authorities );
+
+        if( agentDto.cpf != null )
+            agentAccount.getCredentials().setCpf( agentDto.cpf );
+
+        if( agentDto.password != null )
+            agentAccount.getCredentials()
+                    .setPassword( encoder.encode( agentDto.password )  );
 
         return agent;
     }

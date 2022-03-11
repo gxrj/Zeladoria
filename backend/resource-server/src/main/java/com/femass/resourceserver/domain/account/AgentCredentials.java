@@ -1,4 +1,4 @@
-package com.femass.resourceserver.domain.user;
+package com.femass.resourceserver.domain.account;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

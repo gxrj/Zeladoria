@@ -39,7 +39,7 @@ public class CallDTO implements Serializable {
     private List<String> images;
 
     @NotNull
-    private UserEntityDTO author;
+    private CitizenDTO author;
     private Timestamp createdAt;
 
     @JsonValue
@@ -52,7 +52,7 @@ public class CallDTO implements Serializable {
         callDto.setDescription( call.getDescription() );
         callDto.setAddress( call.getAddress() );
         callDto.setImages( call.getImages() );
-        callDto.setAuthor( UserEntityDTO.serialize( call.getAuthor() ) );
+        callDto.setAuthor( CitizenDTO.serialize( call.getAuthor() ) );
         callDto.setCreatedAt( call.getPostingDate() );
 
         return callDto;
@@ -62,15 +62,15 @@ public class CallDTO implements Serializable {
 
         var callService = module.getCallService();
         var object = callService.findCallByProtocol( callDto.protocol );
-        var userEmail = callDto.author.getEmail();
+        var email = callDto.author.getEmail();
 
         if( object == null ) {
 
-            var userService = module.getUserService();
-            var protocol = String.format( "%d%H", System.currentTimeMillis(), userEmail ) ;
+            var citizenService = module.getCitizenService();
+            var protocol = String.format( "%d%H", System.currentTimeMillis(), email ) ;
 
             object = new Call(); /* The attributes bellow cannot change after first creation */
-            object.setAuthor( userService.findByUsername( userEmail ) );
+            object.setAuthor( citizenService.findByUsername( email ) );
             object.setProtocol( protocol );
             object.setPostingDate( callDto.createdAt );
         }

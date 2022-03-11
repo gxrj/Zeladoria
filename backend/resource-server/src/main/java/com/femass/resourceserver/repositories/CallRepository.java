@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface CallRepository extends JpaRepository< Call, UUID > {
 
     Optional<Call> findByProtocol( String protocol );
-    List<Call> findByAuthor_Username( String authorUsername );
+    List<Call> findByAuthor_Account_Username( String authorUsername );
     List<Call> findByPostingDate( Timestamp postingDate );
     List<Call> findByDuty_Description( String dutyDescription );
     List<Call> findByAddress( Address address );

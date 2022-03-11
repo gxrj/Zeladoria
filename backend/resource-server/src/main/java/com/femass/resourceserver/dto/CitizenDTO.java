@@ -3,8 +3,11 @@ package com.femass.resourceserver.dto;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.femass.resourceserver.domain.user.UserEntity;
+
+import com.femass.resourceserver.domain.Citizen;
+import com.femass.resourceserver.domain.account.CitizenAccount;
 import com.femass.resourceserver.services.ServiceModule;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +28,7 @@ import java.util.UUID;
     allowSetters = true,
     ignoreUnknown = true
 )
-public class UserEntityDTO implements Serializable {
+public class CitizenDTO implements Serializable {
 
     private UUID id;
     private String name;
@@ -35,26 +38,30 @@ public class UserEntityDTO implements Serializable {
     private boolean active;
 
     @JsonValue
-    public static UserEntityDTO serialize( UserEntity user ) {
+    public static CitizenDTO serialize(Citizen user ) {
 
-        var userDto = new UserEntityDTO();
+        var userDto = new CitizenDTO();
         userDto.setName( user.getName() );
-        userDto.setEmail( user.getUsername() );
+        userDto.setEmail( user.getAccount().getUsername() );
 
         return userDto;
     }
 
-    public static UserEntity deserialize( UserEntityDTO userDto, ServiceModule module ) {
+    public static Citizen deserialize( CitizenDTO userDto, ServiceModule module ) {
 
-        var user = module.getUserService().findByUsername( userDto.email );
+        var user = module.getCitizenService().findByUsername( userDto.email );
 
         if( user == null ) {
 
             var userRole = new SimpleGrantedAuthority( "USER_ROLE" );
+            var authorities = List.of( userRole );
 
-            user = new UserEntity();
-            user.setUsername( userDto.email );
-            user.setAuthorities( List.of( userRole ) );
+            var account = new CitizenAccount();
+            account.setUsername( userDto.email );
+            account.setAuthorities( authorities );
+
+            user = new Citizen();
+            user.setAccount( account );
         }
 
         var encoder = module.getPasswordEncoder();
@@ -62,7 +69,7 @@ public class UserEntityDTO implements Serializable {
         if( userDto.name != null )
             user.setName( userDto.name );
         if( userDto.password != null )
-            user.setPassword( encoder.encode( userDto.password ) );
+            user.getAccount().setPassword( encoder.encode( userDto.password ) );
 
         return user;
     }

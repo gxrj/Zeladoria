@@ -23,7 +23,7 @@ public class UserFeedbackDTO implements Serializable {
 
     private @NotNull UUID id;
     private String description;
-    private @NotNull UserEntityDTO user;
+    private @NotNull CitizenDTO user;
     private @NotNull AttendanceDTO attendance;
 
     @JsonValue
@@ -32,7 +32,7 @@ public class UserFeedbackDTO implements Serializable {
         var feedbackDTO = new UserFeedbackDTO();
 
         feedbackDTO.setDescription( feedback.getDescription() );
-        feedbackDTO.setUser( UserEntityDTO.serialize( feedback.getUser() ) );
+        feedbackDTO.setUser( CitizenDTO.serialize( feedback.getUser() ) );
         feedbackDTO.setAttendance( AttendanceDTO.serialize( feedback.getAttendance() ) );
 
         return feedbackDTO;
@@ -43,7 +43,7 @@ public class UserFeedbackDTO implements Serializable {
 
         if( feedback == null ){
             feedback = new UserFeedback();
-            feedback.setUser( UserEntityDTO.deserialize( feedbackDto.user, module ) );
+            feedback.setUser( CitizenDTO.deserialize( feedbackDto.user, module ) );
             feedback.setAttendance( AttendanceDTO.deserialize( feedbackDto.attendance, module ) );
         }
         feedback.setDescription( feedbackDto.description );

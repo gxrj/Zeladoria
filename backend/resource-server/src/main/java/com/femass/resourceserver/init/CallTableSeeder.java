@@ -18,8 +18,8 @@ public class CallTableSeeder {
             var duty = module.getDutyService().findDutyByDescription( "Bueiro sem tampa" );
             Assert.notNull( duty, "Duty not found" );
 
-            var user = module.getUserService().findByUsername( "user" );
-            Assert.notNull( user, "User not found" );
+            var user = module.getCitizenService().findByUsername( "user" );
+            Assert.notNull( user, "Citizen not found" );
 
             var address = new Address();
             address.setLatitude( -41.7828 );
@@ -27,7 +27,8 @@ public class CallTableSeeder {
             address.setZipCode( "27900000" );
             address.setDistrict( "downtown" );
 
-            var protocol = String.format( "%d%H", System.currentTimeMillis(), user.getUsername() );
+            var email = user.getAccount().getUsername();
+            var protocol = String.format( "%d%H", System.currentTimeMillis(), email );
 
             var call = new Call();
             call.setAuthor( user );
