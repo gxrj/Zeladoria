@@ -47,16 +47,12 @@ environmental assistance, etc.
 <span>
   
 -  The system will be use for two different types o user, with totally diferent flows os service, so its split
-  one frontend application for citizens 'user-client' and other frontend application for public agent 'agent-client'
+  one frontend application for citizens 'citizen-client' and other frontend application for public agent 'agent-client'
   
-- Frontend for citizens will be run in desktop as well as mobile plataforms, currently using pure angular. 
-  With plans to use angular+ionic or pure angular pwa or angular with nativescript
+- Frontend for citizens will be run in desktop as well as mobile plataforms, currently using ionic, at port 8100 
   
-- Frontend for public agents will be run in desktop only using angular
+- Frontend for public agents will be run in desktop only using angular at 4200 port
   
-  As the machine used for developing this project is modest, it can only run one frontend application at a time
-  hence both runs at 4200 port
-
 </span>
 
 ### Instructions to run
