@@ -1,0 +1,63 @@
+* {
+    margin: auto;
+    --default-width: 85vw;
+    --title-height: 7.5vh;
+    --main-card-height: 75vh;
+    --mrg-top: calc( ( 100vh - var(--title-height) - var(--main-card-height) ) / 3 );
+    --text-color: white;
+    --default-main-color: #5053ff;
+}
+
+ion-content {
+    --background: #cfcfcf;
+}
+
+.start-page-title {
+    vertical-align: middle;
+    margin-top: var( --mrg-top );
+    height: var( --title-height );
+    width: var( --default-width );
+
+    text-align: center;
+    background-color: var( --default-main-color );
+}
+
+.start-page-title > * {
+    line-height: 25px;
+    font-size: 25px;
+    color: var( --text-color );
+    font-weight: bold;
+    font-style: italic;
+}
+
+.start-page-card {
+    vertical-align: middle;
+    margin-top: var( --mrg-top );
+    height: var( --main-card-height );
+    width: var( --default-width );
+
+    background-color: var( --default-main-color );
+}
+
+.main-content {
+    display: flex;
+    height: 100%;
+}
+
+.main-content > * {
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and ( max-width: 610px ) {
+
+    *{
+        --default-width: 97vw;
+        --main-card-height: 80vh;
+    }
+
+    .main-content {
+        display: grid;
+        height: 100%;
+    }
+}

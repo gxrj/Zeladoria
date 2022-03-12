@@ -1,0 +1,34 @@
+<div id="login-form">
+    <legend>Solicite atendimento de forma:</legend>
+    
+    <div id="login-form-body">
+      <div class="row">
+        <ion-card (click)="anonymousForward()">
+          <ion-card-content class="card-button">
+            <img src="../../../../../../assets/icons/secret-user.svg" >
+            <label>Anônimo</label>
+          </ion-card-content>
+        </ion-card>
+        <ul>
+          <li> Se deseja atendimento sem cadastro </li>
+
+          <li>Não queira se informar do andamento da sua solicitação</li>
+        </ul>
+        
+      </div>
+      
+      <div class="row">
+        <ion-card (click)="login()">
+          <ion-card-content class="card-button">
+            <img src="../../../../../../assets/icons/user.svg" >
+            <label>Autenticado</label>
+          </ion-card-content>
+        </ion-card>
+        <ul>
+          <li>Para acompanhar o andamento do serviço</li>
+
+          <li>Para avaliar o resultado do atendimento</li>
+        </ul>
+      </div>
+    </div>
+  </div>

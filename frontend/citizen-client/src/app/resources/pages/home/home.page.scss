@@ -1,0 +1,46 @@
+ion-card {
+    float:left;
+    width: 30%;
+    height: 20%;
+    cursor: pointer;
+}
+
+ion-icon {
+    height: 15px;
+    width: 15px;
+}
+
+#box{
+    margin: auto;
+}
+
+#box > .title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#box > .token-body {
+    margin: auto;
+    padding: auto;
+    inline-size: 80%;
+    overflow-wrap: break-word;
+    background-color: #ededed;
+    border-radius: 5px;
+    font-size: 12px;
+    border: 1px solid #0e0e0e;
+    color:rgb(73, 73, 73);
+}
+
+ion-breadcrumb {
+    cursor: pointer;
+    --color: blue;
+    --color-active: rgb(89, 60, 255);
+}
+
+@media screen and ( max-width: 650px ) {
+    ion-card {
+        float:left;
+        width: 90%;
+        height: 40%;
+    }
+}

@@ -1,0 +1,9 @@
+ion-toolbar {
+    color: white;
+    --background: var( --default-main-color );
+    height: 100%;
+}
+
+#side-menu-list {
+    --background: var( --background );
+}
