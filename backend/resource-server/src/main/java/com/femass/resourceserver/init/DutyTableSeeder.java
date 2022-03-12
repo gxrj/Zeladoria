@@ -14,11 +14,17 @@ public class DutyTableSeeder {
         if( dutyService.countDuties() == 0 ) {
 
             var dept = module.getDepartmentService().findDepartmentByName( "Infraestrutura" );
-            Assert.notNull( dept, "Department not found" );
+            Assert.notNull( dept, "Department not found while seeding" );
+
+            var category = module.getDutyGroupService()
+                                        .findDutyGroupByName( "Agua Pluvial, Bueiros e Esgoto" );
+
+            Assert.notNull( category, "DutyGroup not found while seeding" );
 
             var duty = new Duty();
             duty.setDescription( "Bueiro sem tampa" );
             duty.setDepartment( dept );
+            duty.setDutyGroup( category );
 
             if( !dutyService.createOrUpdate( duty ) )
                 throw new RuntimeException( "Duty seeder failed" );

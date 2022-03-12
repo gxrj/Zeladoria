@@ -31,6 +31,8 @@ public class ServiceModule {
     @Autowired
     private DutyService dutyService;
     @Autowired
+    private DutyGroupService dutyGroupService;
+    @Autowired
     private UserFeedbackService userFeedbackService;
 
     @Autowired

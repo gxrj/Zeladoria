@@ -29,4 +29,8 @@ public class Duty implements Serializable {
     @ManyToOne
     @JoinColumn( name = "secretaria", referencedColumnName = "nome" )
     private Department department;
+
+    @ManyToOne
+    @JoinColumn( name = "categoria", referencedColumnName = "categoria" )
+    private DutyGroup dutyGroup;
 }

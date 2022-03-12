@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Duty;
+import com.femass.resourceserver.domain.DutyGroup;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class DutyDTO implements Serializable {
     private UUID id;
     private @NotNull String description;
     private @NotNull DepartmentDTO department;
+    private DutyGroupDTO category;
 
     @JsonValue
     public static DutyDTO serialize( Duty duty ) {
@@ -52,6 +54,9 @@ public class DutyDTO implements Serializable {
         }
 
         duty.setDepartment( DepartmentDTO.deserialize( dutyDto.department, module ) );
+
+        if( dutyDto.category != null )
+            duty.setDutyGroup( DutyGroupDTO.deserialize( dutyDto.category, module ) );
 
         return duty;
     }

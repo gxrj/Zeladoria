@@ -39,6 +39,10 @@ public class DutyService {
         return repository.findByDepartment_Name( deptName );
     }
 
+    public List<Duty> findDutyByCategory( String categoryName ) {
+        return repository.findByDutyGroup_Name( categoryName );
+    }
+
     public void delete() {
 
     }
