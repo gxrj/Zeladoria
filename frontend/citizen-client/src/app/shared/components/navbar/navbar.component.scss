@@ -5,18 +5,18 @@ ion-toolbar {
 }
 
 ion-content{
-    --background: var( --background );
+    --background: var( --default-background-color );
 }
 
 ion-list {
     display:grid;
-    background-color: var( --background );
+    --background: inherit;
 }
 
 ion-item {
     margin: 0;
     color: black;
-    background-color: var( --background );
+    --background: inherit;
 }
 
 ion-avatar {
@@ -26,5 +26,5 @@ ion-avatar {
 
 ion-icon {
     margin: auto;
-    font-size: 40px;
+    font-size: 30px;
 }

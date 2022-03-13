@@ -16,6 +16,7 @@
     </ion-breadcrumbs>
 
     <ng-container *ngIf="selectedCategory == null">
+        <div class="empty-space"></div>
         <ion-card 
             *ngFor="let category of categories" 
             (click)="selectCategory( category )">
@@ -26,6 +27,7 @@
     </ng-container>
     
     <ng-container *ngIf="selectedCategory != null">
+        <div class="empty-space"></div>
         <ion-card
                 *ngFor="let service of selectedCategory.services">
 

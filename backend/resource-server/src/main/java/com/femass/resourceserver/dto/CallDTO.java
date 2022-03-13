@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
+import com.femass.resourceserver.domain.Citizen;
 import com.femass.resourceserver.domain.Status;
+import com.femass.resourceserver.domain.account.CitizenAccount;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
@@ -30,8 +32,6 @@ public class CallDTO implements Serializable {
 
     private UUID id;
     private DutyDTO duty;
-
-    @NotNull
     private String protocol;
     private Status status;
     private String description;
@@ -61,18 +61,26 @@ public class CallDTO implements Serializable {
     public static Call deserialize( CallDTO callDto, ServiceModule module ) {
 
         var callService = module.getCallService();
-        var object = callService.findCallByProtocol( callDto.protocol );
+
+        var object = callDto.protocol != null ?
+                                    callService.findCallByProtocol( callDto.protocol ) : null;
+
         var email = callDto.author.getEmail();
 
         if( object == null ) {
 
             var citizenService = module.getCitizenService();
-            var protocol = String.format( "%d%H", System.currentTimeMillis(), email ) ;
+            var protocol = String.format( "%d%H", System.currentTimeMillis(), email );
+
+            var author = citizenService.findByUsername( email );
+
+            if( author == null )
+                author = citizenService.findByUsername( "anonimo@fiscaliza.com" );
 
             object = new Call(); /* The attributes bellow cannot change after first creation */
-            object.setAuthor( citizenService.findByUsername( email ) );
+            object.setAuthor( author );
             object.setProtocol( protocol );
-            object.setPostingDate( callDto.createdAt );
+            object.setPostingDate( new Timestamp( System.currentTimeMillis() ) );
         }
 
         var dutyService = module.getDutyService();

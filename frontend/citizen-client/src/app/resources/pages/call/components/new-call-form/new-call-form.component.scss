@@ -1,0 +1,72 @@
+ion-card {
+    margin: auto;
+    margin-top: 20px;
+    width: 90%;
+    --background: #e2e2e2;
+}
+
+h1 {
+    text-align: center;
+}
+
+ion-label {
+    color: rgb(26, 26, 26);
+}
+
+ion-input, ion-select {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73), -1px -1px 3px rgb(73, 73, 73);
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+}
+
+#duty-input {
+    width: 30%;
+    --background: #e2e2e2;
+    background-color: white;
+}
+
+#address-line {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 20px;
+    margin-bottom: 10px;
+    width: 62%;
+}
+
+#street {
+    width: 62%;
+}
+
+#image-input {
+    width: 90%;
+}
+
+#text-area {
+    margin: left;
+    margin-bottom: 10px;
+    width: 90%;
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+    box-shadow: 1px 1px 3px rgb(73, 73, 73), -1px -1px 3px rgb(73, 73, 73);
+}
+
+ion-button {
+    float: right;
+    margin-bottom: 10px;
+}
+
+@media screen and ( max-width: 610px ) {
+    #duty-input,
+    #image-input,
+    #address-line,
+    #street,
+    ion-item {
+        width: 90%;
+    }
+
+    #address-line {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

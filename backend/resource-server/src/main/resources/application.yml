@@ -18,13 +18,12 @@ spring:
     profiles:
         active: dev # Change when ready to production
 
-        
-
 cors:
     allowed-origins: >
         http://127.0.0.1:4200,
+        http://127.0.0.1:8100,
         *
-        
+
 debug: true
 
 logging:

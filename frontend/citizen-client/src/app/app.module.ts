@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/SharedModule';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [ AppComponent ],
   entryComponents: [],
   imports: [
     BrowserModule,

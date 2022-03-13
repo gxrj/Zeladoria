@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import( '@pages/oauth-redirect/oauth-redirect.module' )
                         .then( m => m.OauthRedirectPageModule )
   },
+  {
+    path: 'call',
+    loadChildren: () => import( '@pages/call/call.module' ).then( m => m.CallPageModule )
+  },
 ];
 
 @NgModule({

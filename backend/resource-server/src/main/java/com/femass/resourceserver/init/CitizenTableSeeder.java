@@ -2,6 +2,8 @@ package com.femass.resourceserver.init;
 
 import com.femass.resourceserver.domain.Citizen;
 
+import java.util.List;
+
 public class CitizenTableSeeder {
 
     public static void seed( TableSeeder seeder ) throws RuntimeException {
@@ -16,7 +18,11 @@ public class CitizenTableSeeder {
             citizen.setName( "usuario" );
             citizen.setAccount( account );
 
-            if ( !citizenService.createOrUpdate( citizen ) )
+            var anonymous = new Citizen();
+            anonymous.setName( "anonimo" );
+            anonymous.setAccount( accountService.findByUsername( "anonimo@fiscaliza.com" ) );
+
+            if ( !citizenService.createMultiple( List.of( anonymous, citizen ) ) )
                 throw new RuntimeException( "CitizenTable seeder failed" );
         }
     }

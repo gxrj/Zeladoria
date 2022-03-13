@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,7 +25,18 @@ public class CitizenAccountService {
             return true;
         }
         catch( IllegalArgumentException ex ) {
-            LOG.error( "AgentService failed: {}", ex.getMessage() );
+            LOG.error( "CitizenAccountService failed: {}", ex.getMessage() );
+            return false;
+        }
+    }
+
+    public boolean createMultiple( List<CitizenAccount> accounts ) {
+        try{
+            repository.saveAllAndFlush( accounts );
+            return true;
+        }
+        catch( Exception e ) {
+            LOG.error( "CitizenAccountService failed: {}", e.getMessage() );
             return false;
         }
     }

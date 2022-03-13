@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@app/shared/services/auth/auth.service';
 
 @Component({
-  selector: 'app-oauth-redirect',
+  selector: 'oauth-redirect-page',
   templateUrl: './oauth-redirect.page.html',
   styleUrls: ['./oauth-redirect.page.scss'],
 })

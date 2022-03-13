@@ -28,7 +28,7 @@ public class CallController {
     @Autowired
     private ServiceModule module;
 
-    @PostMapping( "/user/calls/new" )
+    @PostMapping( "/anonymous/calls/new" )
     public ResponseEntity<JSONObject> create( @RequestBody CallDTO callDto ) {
 
         var call = CallDTO.deserialize( callDto, module );

@@ -1,5 +1,6 @@
 package com.femass.resourceserver.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.femass.resourceserver.domain.Citizen;
@@ -32,6 +33,18 @@ public class CitizenService {
         }
         catch( IllegalArgumentException ex ) {
             LOG.error( "UserService failed: {}", ex.getMessage() );
+            return false;
+        }
+    }
+
+    public boolean createMultiple( List<Citizen> citizens ) {
+
+        try {
+            citizenRepository.saveAllAndFlush( citizens );
+            return true;
+        }
+        catch( Exception e ) {
+            LOG.error( "UserService failed: {}", e.getMessage() );
             return false;
         }
     }

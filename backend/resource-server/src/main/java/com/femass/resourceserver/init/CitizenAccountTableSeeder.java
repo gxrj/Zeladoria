@@ -19,7 +19,12 @@ public class CitizenAccountTableSeeder {
             account.setPassword( encoder.encode("123" ) );
             account.setAuthorities( List.of( new SimpleGrantedAuthority( "ROLE_USER" ) ) );
 
-            if( !accountService.createOrUpdate( account ) )
+            var anonymous = new CitizenAccount();
+            anonymous.setUsername( "anonimo@fiscaliza.com" );
+            anonymous.setPassword( encoder.encode("123" ) );
+            anonymous.setAuthorities( List.of( new SimpleGrantedAuthority( "ROLE_ANONYMOUS" ) ) );
+
+            if( !accountService.createMultiple( List.of( account, anonymous ) ) )
                 throw new RuntimeException( "Citizen Account Seeder failed!" );
         }
     }

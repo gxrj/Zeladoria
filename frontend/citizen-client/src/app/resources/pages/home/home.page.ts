@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import mockServicesList from './mock-services-list'
 
 @Component({
-  selector: 'app-home',
+  selector: 'home-page',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })

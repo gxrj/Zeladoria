@@ -1,7 +1,19 @@
+* {
+    --cards-per-row: 3;
+    --card-width: 30%;
+    --card-height: 20%;
+}
+
+.empty-space {
+    float: left;
+    width: 2.5%;
+    height: 100%;
+}
+
 ion-card {
-    float:left;
-    width: 30%;
-    height: 20%;
+    float: left;
+    width: var( --card-width );
+    height: var( --card-height );
     cursor: pointer;
 }
 
@@ -37,7 +49,25 @@ ion-breadcrumb {
     --color-active: rgb(89, 60, 255);
 }
 
+@media screen and ( max-width: 750px ) {
+    .empty-space {
+        width: 1%;
+    }
+}
+
+@media screen and ( max-width: 667px ) {
+
+    .empty-space {
+        width: 0%;
+    }
+}
+
 @media screen and ( max-width: 650px ) {
+
+    .empty-space {
+        width: 2%;
+    }
+
     ion-card {
         float:left;
         width: 90%;
