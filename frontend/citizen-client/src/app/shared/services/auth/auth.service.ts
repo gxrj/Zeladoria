@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 
 import OAUTH2_CLIENT_CONFIG from './auth-service.config'
 import REQUEST from '@globals/request.config'
+import Token from '@app/core/interfaces/token';
+import { TokenStorageService } from '../token-storage/token-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,10 @@ import REQUEST from '@globals/request.config'
 export class AuthService {
 
   private authzServer = REQUEST.authzServer
+  private resourceServer = REQUEST.resourceServer
 
-  constructor( private _http: HttpClient ) { }
+  constructor( private _http: HttpClient, 
+               private _tokenService: TokenStorageService ) { }
 
   redirectToLoginPage() {
 
@@ -23,7 +27,7 @@ export class AuthService {
     window.location.href = authzEndpoint
   }
 
-  getUrlEndpointParams( endpointParameters: Object ) {
+  private getUrlEndpointParams( endpointParameters: Object ) {
     
     const urlEndpointParams = new URLSearchParams()
     
@@ -56,18 +60,48 @@ export class AuthService {
                                                     responseType: 'json' }  )
   }
 
-  saveToken( responseData: any ) {
+  refreshToken() {
+    const request = this.prepareRequest( '/oauth2/token', null, 'form-encoded' )
+   
+    let body = this.setRefreshTokenFormEncoded( 'refresh_token' )
 
-    if( !responseData ) return
+    this._http.post( request.url, body, request.headers )
+  }
+
+  prepareRequest( path: string, headerObject: any = null, contentFormat: string = 'json' ) {
+    const token: Token = this._tokenService.retrieveToken()
+    if( !token ) return null
+
+    if( contentFormat != 'json' && contentFormat != 'form-encoded' ) 
+      throw new TypeError( 'contentFormat must be json or form-encoded ' )
+
+    let contentType = null
+    if( contentFormat === 'json') contentType = REQUEST.HEADER.JSON_CONTENT_TYPE
+    if( contentFormat === 'form-encoded' ) contentType = REQUEST.HEADER.FORM_CONTENT_TYPE
+
+    const url = this.resourceServer.baseUrl
+    const headers = { 
+      Authorization: 'Bearer '+ token?.accessToken,
+      ...contentType,
+      ...headerObject
+    }
+    return { url, headers }
+  }
+
+  private setRefreshTokenFormEncoded( tokenType: string = 'refresh_token' ): FormData  {
     
-    const credentials = {
-              accessToken: responseData.access_token,
-              refreshToken: responseData.refresh_token,
-              expiration: new Date().getTime() + ( responseData.expires_in * 1000 ),
-              scope: responseData.scope,
-              token_type: responseData.token_type
-          }
+    if( tokenType != 'refresh_token' && tokenType != 'access_token' ) 
+       throw new TypeError( 'tokenType must be refresh_token or access_token ' )
     
-    sessionStorage.setItem( 'token', JSON.stringify( credentials ) )
+    let form = new FormData()
+    const token = this._tokenService.retrieveToken()
+    const clientParams = OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
+    
+    form.append( 'grant_type', tokenType )
+    form.append( tokenType, token.refreshToken )
+    form.append( 'client_id', clientParams.client_id )
+    form.append( 'client_secret', clientParams.client_secret.toString() )
+
+    return form
   }
 }

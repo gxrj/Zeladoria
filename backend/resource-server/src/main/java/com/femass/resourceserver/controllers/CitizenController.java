@@ -84,8 +84,8 @@ public class CitizenController {
         return new CitizenAccount( username, password, List.of( userRole ) );
     }
     
-    @GetMapping( "/user/test" )
-    public ResponseEntity<JSONObject> test() {
+    @GetMapping( "/user/info" )
+    public ResponseEntity<JSONObject> getAccountInfo() {
         var authToken = ( JwtAuthenticationToken ) SecurityContextHolder
                                                             .getContext().getAuthentication();
 
@@ -99,9 +99,11 @@ public class CitizenController {
         var jwt = ( Jwt ) authToken.getPrincipal();
         var subject = jwt.getClaim( "sub" );
 
+        var citizen = citizenService.findByUsername( subject.toString() );
+
         var json = new JSONObject();
-        json.appendField( "message", "Authenticated" );
-        json.appendField( "user_account", subject.toString() );
+        json.appendField( "name", citizen.getName() );
+        json.appendField( "username", citizen.getAccount().getUsername() );
 
         return new ResponseEntity<>( json, HttpStatus.CREATED );
     }

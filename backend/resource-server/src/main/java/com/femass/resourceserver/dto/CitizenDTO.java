@@ -38,7 +38,7 @@ public class CitizenDTO implements Serializable {
     private boolean active;
 
     @JsonValue
-    public static CitizenDTO serialize(Citizen user ) {
+    public static CitizenDTO serialize( Citizen user ) {
 
         var userDto = new CitizenDTO();
         userDto.setName( user.getName() );

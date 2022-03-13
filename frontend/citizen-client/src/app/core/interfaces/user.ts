@@ -1,7 +1,8 @@
 interface User {
-    name: string,
+    id: string | null,
+    name: string | null,
     username: string,
-    password: string
+    password: string | null
 }
 
 export default User
