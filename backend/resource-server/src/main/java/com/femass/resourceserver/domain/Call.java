@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter @Setter
-
+@ToString
 @AllArgsConstructor @NoArgsConstructor
 
 @Entity( name = "Ocorrencia" )
@@ -46,6 +46,7 @@ public class Call implements Serializable {
     @Column( name = "dt_postagem" )
     private Timestamp postingDate;
 
+    @ToString.Exclude
     @OneToMany( mappedBy = "userCall" )
     private List<Attendance> attendances;
 }

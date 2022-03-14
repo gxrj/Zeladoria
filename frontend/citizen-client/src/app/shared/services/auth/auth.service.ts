@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import OAUTH2_CLIENT_CONFIG from './auth-service.config'
@@ -61,31 +61,37 @@ export class AuthService {
   }
 
   refreshToken() {
-    const request = this.prepareRequest( '/oauth2/token', null, 'form-encoded' )
+    const request = this.prepareRequest( '/oauth2/token', 'form-encoded' )
    
     let body = this.setRefreshTokenFormEncoded( 'refresh_token' )
 
-    this._http.post( request.url, body, request.headers )
+    this._http.post( request.url, body, request.config )
   }
 
-  prepareRequest( path: string, headerObject: any = null, contentFormat: string = 'json' ) {
+  prepareRequest( path: string, contentFormat: string = 'json', setAuthentication: boolean = true ) {
     const token: Token = this._tokenService.retrieveToken()
-    if( !token ) return null
+    if( !token ) setAuthentication = false
 
     if( contentFormat != 'json' && contentFormat != 'form-encoded' ) 
       throw new TypeError( 'contentFormat must be json or form-encoded ' )
 
     let contentType = null
-    if( contentFormat === 'json') contentType = REQUEST.HEADER.JSON_CONTENT_TYPE
-    if( contentFormat === 'form-encoded' ) contentType = REQUEST.HEADER.FORM_CONTENT_TYPE
+    if( contentFormat === 'json') contentType = 'application/json;charset=utf-8'
+    if( contentFormat === 'form-encoded' ) contentType = 'application/x-www-form-urlencoded;charset=utf-8' 
 
-    const url = this.resourceServer.baseUrl
-    const headers = { 
-      Authorization: 'Bearer '+ token?.accessToken,
-      ...contentType,
-      ...headerObject
-    }
-    return { url, headers }
+    const url = this.resourceServer.baseUrl + path
+    const httpHeader = new HttpHeaders({
+                          'Content-type': contentType                      
+                      })
+                      
+    if( setAuthentication )
+      httpHeader.append( 'Authorization', token?.tokenType +' '+ token?.accessToken )
+    else
+      httpHeader.append( 'No-Auth', 'True' )
+
+    const config = { headers: httpHeader }
+
+    return { url, config }
   }
 
   private setRefreshTokenFormEncoded( tokenType: string = 'refresh_token' ): FormData  {

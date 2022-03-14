@@ -1,9 +1,6 @@
 package com.femass.resourceserver.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +8,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Getter @Setter
-
 @AllArgsConstructor @NoArgsConstructor
+@ToString
 
 @Entity( name = "Servico" )
 public class Duty implements Serializable {

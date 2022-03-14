@@ -34,15 +34,17 @@ public class CallController {
         var call = CallDTO.deserialize( callDto, module );
 
         var json = new JSONObject();
+        HttpStatus status;
 
         if( module.getCallService().createOrUpdate( call ) ) {
             json.appendField( "message", "call created!" );
-            return new ResponseEntity<>( json, HttpStatus.CREATED );
+            status = HttpStatus.CREATED;
         }
         else {
             json.appendField( "message", "error!" );
-            return new ResponseEntity<>( json, HttpStatus.INTERNAL_SERVER_ERROR );
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+        return new ResponseEntity<>( json, status );
     }
 
     @GetMapping( "/user/calls/all" )

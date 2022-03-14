@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, map } from 'rxjs/operators';
 
 import Call from '@core/interfaces/call';
 import Duty from '@core/interfaces/duty';
 
 import { CallService } from '@services/call/call.service';
 import { UserService } from '@services/user/user.service';
+
 
 @Component({
   selector: 'new-call-form',
@@ -24,7 +26,7 @@ export class NewCallFormComponent implements OnInit {
                private _callService: CallService ) {
 
       this.form = this._fb.group( {
-        service: [ '' ,Validators.required ],
+        dutyDescription:  [ '' ,Validators.required ],
         zipCode: [ '' ],
         district: [ '' ],
         street: [ '' ],
@@ -34,29 +36,46 @@ export class NewCallFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.patchValue( { service: this.selectedDuty?.description }  )
+    this.form.patchValue( { dutyDescription: this.selectedDuty?.description }  )
   }
 
-  sendData() {
+  sendData(): void {
 
     this.prepareCall()
+
+    this._callService.create( this.call )
+                    .subscribe( 
+                      res => console.log( res ),
+                      error => console.log( error )
+                    )
   }
 
   private prepareCall() {
 
     let email = this._userService.getUserEmailFromToken()
+
     if( email == undefined || !email ) email = "anonimo@fiscaliza.com"
-
-    this.call = { ...this.form.value }
-    this.call.address = { ...this.form.value }
-    this.call.author = { username: email }
-    this.call.status = "Em andamento"
-
-    this._callService.create( this.call )
-        .subscribe( {
-          next: request => console.log(request),
-          error: err => console.log(err)
-        } )
-
+     
+    const values = { ...this.form.value }
+    this.call = {
+                  duty: {
+                    description: this.selectedDuty.description,
+                    department: this.selectedDuty.department
+                  },
+                  description: values.description,
+                  images: values.images,
+                  address: {
+                    longitude: null,
+                    latitude: null,
+                    zip_code: values.zipCode,
+                    public_place: values.street,
+                    district: values.district,
+                    reference: values.reference
+                  },
+                  author: { 
+                    email: email 
+                  },
+                  status:"Em andamento"
+                }
   }
 }

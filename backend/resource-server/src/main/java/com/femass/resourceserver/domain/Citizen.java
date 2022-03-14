@@ -4,11 +4,13 @@ import com.femass.resourceserver.domain.account.CitizenAccount;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter @Setter
 @NoArgsConstructor
+@ToString
 
 @Entity( name = "Cidadao" )
 public class Citizen extends AbstractUser {

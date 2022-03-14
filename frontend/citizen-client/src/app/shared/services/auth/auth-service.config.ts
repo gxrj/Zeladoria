@@ -2,7 +2,8 @@
 const scope = 'user'
 const clientId = 'user-client'
 const clientSecret = 123
-const redirectUri = 'http://127.0.0.1:8100/redirection'
+const clientBaseUrl = 'http://127.0.0.1:8100'
+const redirectUri = clientBaseUrl + '/redirection'
 
 const OAUTH2_CLIENT_CONFIG = {
 
@@ -20,7 +21,9 @@ const OAUTH2_CLIENT_CONFIG = {
         client_id: clientId,
         client_secret: clientSecret,
         redirect_uri: redirectUri,
-    }
+    },
+
+    CLIENT_BASE_URL: clientBaseUrl
 }
 
 export default OAUTH2_CLIENT_CONFIG

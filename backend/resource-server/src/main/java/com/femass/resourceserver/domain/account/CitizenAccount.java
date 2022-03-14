@@ -3,6 +3,7 @@ package com.femass.resourceserver.domain.account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.AttributeOverride;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
+@ToString
+
 @Entity( name = "ContaCidadao" )
 @AttributeOverride(
     name = "username",

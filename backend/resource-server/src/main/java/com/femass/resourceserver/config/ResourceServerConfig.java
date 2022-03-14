@@ -2,8 +2,12 @@ package com.femass.resourceserver.config;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.cfg.CoercionAction;
+import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
+import com.fasterxml.jackson.databind.type.LogicalType;
 import com.femass.resourceserver.filters.TokenValidationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
@@ -118,5 +122,18 @@ public class ResourceServerConfig {
         converter.setJwtGrantedAuthoritiesConverter( authorities );
 
         return converter;
+    }
+
+    /**
+     *  Expose mapperConfig to instruct jackson to map json empty string
+     *  to an empty object
+     *  */
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jsonMapperCustomizer() {
+        return builder -> builder.postConfigurer(
+                mapper -> mapper
+                        .coercionConfigFor( LogicalType.Collection )
+                        .setCoercion( CoercionInputShape.EmptyString, CoercionAction.AsEmpty )
+        );
     }
 }

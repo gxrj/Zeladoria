@@ -19,11 +19,25 @@ export class UserService {
 
     const request = this._authService.prepareRequest( '/registration-user' )
     
-    return this._http.post( request.url, user, request.headers )
+    return this._http.post( request.url, user, request.config )
   }
 
   getUserEmailFromToken(): string {
-    return this._tokenStore.retrieveToken()?.scope
+    const token =  this._tokenStore.retrieveToken().accessToken
+    const payload64 = token.split( '.' )[1]
+    const base64 = payload64.replace( /-/g, '+' )
+                            .replace( /_/g, '/' )
+
+    const jsonPayload = decodeURIComponent( 
+                          atob( base64 )
+                            .split( '' )
+                              .map( 
+                                character => 
+                                  '%' + ( '00' + character.charCodeAt( 0 ).toString( 16 ) ).slice( -2 )  
+                              )
+                              .join( '' ) )
+
+    return JSON.parse( jsonPayload )!.sub
   }
 
   getUserInfo() {
@@ -31,7 +45,7 @@ export class UserService {
 
     let result = null
 
-    this._http.get( request.url, request.headers )
+    this._http.get( request.url, request.config )
               .subscribe( {
                 next: response => result = response,
                 error: error => result = error 
