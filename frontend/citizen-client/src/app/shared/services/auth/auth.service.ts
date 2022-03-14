@@ -75,22 +75,20 @@ export class AuthService {
     if( contentFormat != 'json' && contentFormat != 'form-encoded' ) 
       throw new TypeError( 'contentFormat must be json or form-encoded ' )
 
-    let contentType = null
-    if( contentFormat === 'json') contentType = 'application/json;charset=utf-8'
-    if( contentFormat === 'form-encoded' ) contentType = 'application/x-www-form-urlencoded;charset=utf-8' 
-
+    let contentType: string = null
+    if( contentFormat === 'json') contentType = 'application/json'
+    if( contentFormat === 'form-encoded' ) contentType = 'application/x-www-form-urlencoded' 
+   
     const url = this.resourceServer.baseUrl + path
-    const httpHeader = new HttpHeaders({
-                          'Content-type': contentType                      
-                      })
-                      
+    
+    let header: any
     if( setAuthentication )
-      httpHeader.append( 'Authorization', token?.tokenType +' '+ token?.accessToken )
+      header = this.authorizedHeader( token, contentType )
     else
-      httpHeader.append( 'No-Auth', 'True' )
+      header = this.anonymousHeader( contentType )
 
-    const config = { headers: httpHeader }
-
+    const config = { headers: header }
+    console.log( config )
     return { url, config }
   }
 
@@ -109,5 +107,17 @@ export class AuthService {
     form.append( 'client_secret', clientParams.client_secret.toString() )
 
     return form
+  }
+
+  authorizedHeader( token: Token, content: string ) {
+    return {
+      'content-type': content,
+      authorization: token?.tokenType +' '+ token?.accessToken 
+    }
+  }
+  anonymousHeader( content: string ) {
+    return {
+      'content-type': content
+    }
   }
 }

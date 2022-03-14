@@ -6,7 +6,7 @@ import Duty from '@core/interfaces/duty';
 
 import { CallService } from '@services/call/call.service';
 import { UserService } from '@services/user/user.service';
-import { ToastController } from '@ionic/angular';
+import { ToastService } from '@app/shared/services/toast/toast.service';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class NewCallFormComponent implements OnInit {
   constructor( private _fb: FormBuilder,
                private _userService: UserService,
                private _callService: CallService,
-               public toastController: ToastController ) {
+               public _toastService: ToastService ) {
 
       this.form = this._fb.group( {
         dutyDescription:  [ '' ,Validators.required ],
@@ -46,8 +46,8 @@ export class NewCallFormComponent implements OnInit {
 
     this._callService.create( this.call )
                     .subscribe( 
-                      res => this.displayMessage( res.message ),
-                      error => console.log( error )
+                      res => this._toastService.displayMessage( res.message ),
+                      error => this._toastService.displayMessage( error )
                     )
   }
 
@@ -78,16 +78,5 @@ export class NewCallFormComponent implements OnInit {
                   },
                   status:"Em andamento"
                 }
-  }
-
-  async displayMessage( message: string ) {
-    const toast = await this.toastController.create( {
-
-        message: message,
-        duration: 2000,
-        position: 'top'
-    } )
-
-    toast.present()
   }
 }

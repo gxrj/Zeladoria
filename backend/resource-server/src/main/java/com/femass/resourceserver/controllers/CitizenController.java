@@ -42,16 +42,16 @@ public class CitizenController {
 
     @PostMapping( "/registration-user" )
     public ResponseEntity<JSONObject> registerUser( HttpServletRequest req ) throws IOException {
-
+        //Todo: Refactor this method with CitizenDTO and CitizenAccountDTO
         var created = createCitizen( req );
         var jsonBody = new JSONObject();
 
         if( created ) {
-            jsonBody.appendField( "message", "Created" );
+            jsonBody.appendField( "message", "Cadastro realizado com sucesso!" );
             return ResponseEntity.ok( jsonBody );
         }
         else {
-            jsonBody.appendField( "message", "Error" );
+            jsonBody.appendField( "message", "Error, cadastro não realizado!" );
             
             return ResponseEntity
                     .status( HttpStatus.INTERNAL_SERVER_ERROR )
@@ -72,7 +72,7 @@ public class CitizenController {
 
     private CitizenAccount buildAccount( JsonNode json ) throws IOException {
 
-        var username = json.get( "username" ).asText();
+        var username = json.get( "email" ).asText();
 
         if( citizenService.existsCitizenByUsername( username ) ) {
             throw new IOException( "Email already in use" );

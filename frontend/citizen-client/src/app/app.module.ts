@@ -7,10 +7,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { environment } from '@env/environment';
 
 import { AuthService } from '@services/auth/auth.service';
 import { UserService } from '@services/user/user.service';
+import { ToastService } from './shared/services/toast/toast.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/SharedModule';
 
@@ -33,6 +34,7 @@ import { SharedModule } from './shared/SharedModule';
   providers: [ 
     AuthService, 
     UserService,
+    ToastService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

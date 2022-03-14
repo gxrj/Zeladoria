@@ -1,6 +1,6 @@
 interface User {
     [key: string]: any,
-    username: string
+    email: string
 }
 
 export default User
