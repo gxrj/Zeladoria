@@ -24,12 +24,12 @@ public abstract class AbstractAccount implements Serializable {
     @ElementCollection( fetch = FetchType.EAGER )
     @Fetch( value = FetchMode.SUBSELECT )
     @Column( name = "autoridades" )
-    private List<SimpleGrantedAuthority> authorities;
+    protected List<SimpleGrantedAuthority> authorities;
 
-    private String username; /* Overriden by children classes */
+    protected String username; /* Overriden by children classes */
 
     @Column( name = "habilitada", nullable = false )
-    private Boolean enabled;
+    protected Boolean enabled;
 
     protected AbstractAccount() {
         this.enabled = true;
