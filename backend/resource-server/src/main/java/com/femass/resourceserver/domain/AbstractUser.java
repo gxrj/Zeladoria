@@ -15,7 +15,7 @@ public abstract class AbstractUser {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", columnDefinition = "uuid not null" )
-    protected UUID id;
+    private UUID id;
 
     @Column( name = "nome", length = 50 )
     protected String name;

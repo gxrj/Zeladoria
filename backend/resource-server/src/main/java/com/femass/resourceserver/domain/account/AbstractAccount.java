@@ -19,14 +19,14 @@ public abstract class AbstractAccount implements Serializable {
     @Id
     @Column( name = "id", columnDefinition = "uuid not null" )
     @GeneratedValue( strategy = GenerationType.AUTO )
-    protected UUID id;
+    private UUID id;
 
     @ElementCollection( fetch = FetchType.EAGER )
     @Fetch( value = FetchMode.SUBSELECT )
     @Column( name = "autoridades" )
-    protected List<SimpleGrantedAuthority> authorities;
+    private List<SimpleGrantedAuthority> authorities;
 
-    protected String username; /* Overriden by children classes */
+    private String username; /* Overriden by children classes */
 
     @Column( name = "habilitada", nullable = false )
     protected Boolean enabled;
