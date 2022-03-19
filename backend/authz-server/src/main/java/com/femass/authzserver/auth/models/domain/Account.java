@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface Account extends Serializable {
 
-    abstract List<? extends GrantedAuthority> getAuthorities();
-    abstract String getUsername();
-    abstract <T> T getCredentials();
+    List<? extends GrantedAuthority> getAuthorities();
+    String getUsername();
+    <T> T getCredentials();
+    boolean getEnabled();
 }

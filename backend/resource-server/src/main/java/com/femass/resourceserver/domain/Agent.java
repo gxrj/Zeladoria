@@ -16,7 +16,7 @@ import java.util.UUID;
     column = @Column( name = "matricula", nullable = false, unique = true, length = 10 ) )
 
 @Entity( name = "Colaborador" )
-public class Agent extends AbstractUser<AgentAccount> {
+public class Agent extends AbstractUser {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -35,7 +35,7 @@ public class Agent extends AbstractUser<AgentAccount> {
     @Access( AccessType.PROPERTY )
     @OneToOne( targetEntity = AgentAccount.class )
     @JoinColumn( name = "conta", referencedColumnName = "matricula" )
-    public AgentAccount getAccount(){ return account; }
+    public AgentAccount getAccount(){ return ( AgentAccount ) account; }
 
     public void setAccount( AgentAccount account ) { this.account = account; }
 }

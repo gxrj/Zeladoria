@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface AgentRepository extends JpaRepository<Agent, UUID> {
 
     Optional<Agent> findByAccount_Username( String username );
-    Optional<Agent> findByAccount_Credentials_Cpf( String cpfCredential );
+    Optional<Agent> findByAccount_Credentials( String cpfCredential );
 
     boolean existsByAccount_Username( String username );
 }

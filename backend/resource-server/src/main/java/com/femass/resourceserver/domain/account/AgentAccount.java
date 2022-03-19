@@ -44,4 +44,12 @@ public class AgentAccount implements Account {
         this.credentials = credentials;
         this.authorities = authorities;
     }
+
+    @Override
+    public AgentCredentials getCredentials() { return credentials; }
+
+    @Override
+    public boolean getEnabled() {
+        return enabled;
+    }
 }

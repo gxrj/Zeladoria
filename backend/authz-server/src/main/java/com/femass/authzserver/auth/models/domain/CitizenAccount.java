@@ -1,4 +1,5 @@
 package com.femass.authzserver.auth.models.domain;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,5 +45,10 @@ public class CitizenAccount implements Account {
         this.username = username;
         this.credentials = credentials;
         this.authorities = authorities;
+    }
+
+    @Override
+    public boolean getEnabled() {
+        return enabled;
     }
 }

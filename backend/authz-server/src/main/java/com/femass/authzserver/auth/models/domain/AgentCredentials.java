@@ -1,19 +1,17 @@
 package com.femass.authzserver.auth.models.domain;
 
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 
 @Embeddable
 public class AgentCredentials {
 
-    @Column( name = "senha", nullable = false, length = 120 )
+    @Column( name = "senha", nullable = false )
     private String password;
     
     @Column( name = "cpf", nullable = false, unique = true, length = 11 )
@@ -33,4 +31,7 @@ public class AgentCredentials {
     public String getPassword() { return this.password; }
 
     public String getCpf() { return this.cpf; }
+
+   @Override
+    public String toString() { return cpf; }
 }

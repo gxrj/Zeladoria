@@ -31,4 +31,7 @@ public class AgentCredentials {
     public String getPassword() { return this.password; }
 
     public String getCpf() { return this.cpf; }
+
+   @Override
+    public String toString() { return cpf; }
 }

@@ -46,4 +46,9 @@ public class CitizenAccount implements Account {
         this.credentials = credentials;
         this.authorities = authorities;
     }
+
+    @Override
+    public boolean getEnabled() {
+        return enabled;
+    }
 }
