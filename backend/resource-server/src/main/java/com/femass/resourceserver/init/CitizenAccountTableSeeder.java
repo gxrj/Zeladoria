@@ -16,12 +16,12 @@ public class CitizenAccountTableSeeder {
 
             var account = new CitizenAccount();
             account.setUsername( "user" );
-            account.setPassword( encoder.encode("123" ) );
+            account.setCredentials( encoder.encode("123" ) );
             account.setAuthorities( List.of( new SimpleGrantedAuthority( "ROLE_USER" ) ) );
 
             var anonymous = new CitizenAccount();
             anonymous.setUsername( "anonimo@fiscaliza.com" );
-            anonymous.setPassword( encoder.encode("123" ) );
+            anonymous.setCredentials( encoder.encode("123" ) );
             anonymous.setAuthorities( List.of( new SimpleGrantedAuthority( "ROLE_ANONYMOUS" ) ) );
 
             if( !accountService.createMultiple( List.of( account, anonymous ) ) )

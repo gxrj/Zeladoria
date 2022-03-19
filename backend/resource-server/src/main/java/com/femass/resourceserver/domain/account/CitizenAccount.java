@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter @Setter
@@ -16,17 +15,19 @@ import java.util.List;
 @ToString
 
 @Entity( name = "ContaCidadao" )
-@AttributeOverride(
-    name = "username",
-    column = @Column( name = "email", nullable = false, unique = true )
-)
-public class CitizenAccount extends AbstractAccount {
+public class CitizenAccount extends Account {
+
+    @Column( name = "email", nullable = false, unique = true )
+    private String username;
 
     @Column( name = "senha", nullable = false, length = 120 )
-    private String password;
+    private String credentials;
 
-    public CitizenAccount(String username, String password, List<SimpleGrantedAuthority> authorities ) {
-        super( username, authorities );
-        this.password = password;
+    public CitizenAccount(
+            String username, String credentials,
+            List<SimpleGrantedAuthority> authorities ) {
+        this.username = username;
+        this.credentials = credentials;
+        this.authorities = authorities;
     }
 }

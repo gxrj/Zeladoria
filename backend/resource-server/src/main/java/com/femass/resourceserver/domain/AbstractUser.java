@@ -1,22 +1,19 @@
 package com.femass.resourceserver.domain;
 
-import com.femass.resourceserver.domain.account.AbstractAccount;
+import com.femass.resourceserver.domain.account.Account;
+
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Getter @Setter
 
-@MappedSuperclass
-public abstract class AbstractUser {
-
-    @Id
-    @GeneratedValue( strategy = GenerationType.AUTO )
-    @Column( name = "id", columnDefinition = "uuid not null" )
-    private UUID id;
+@Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
+public abstract class AbstractUser<T extends Account> {
 
     @Column( name = "nome", length = 50 )
     protected String name;
+
+    protected T account;
 }

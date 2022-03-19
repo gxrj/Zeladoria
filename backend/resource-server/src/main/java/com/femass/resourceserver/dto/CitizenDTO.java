@@ -69,7 +69,7 @@ public class CitizenDTO implements Serializable {
         if( userDto.name != null )
             user.setName( userDto.name );
         if( userDto.password != null )
-            user.getAccount().setPassword( encoder.encode( userDto.password ) );
+            user.getAccount().setCredentials( encoder.encode( userDto.password ) );
 
         return user;
     }

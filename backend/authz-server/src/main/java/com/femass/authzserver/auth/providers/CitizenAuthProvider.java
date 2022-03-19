@@ -28,7 +28,7 @@ public class CitizenAuthProvider implements AuthenticationProvider {
         var password = auth.getCredentials().toString();
 
         var account = citizenService.findByUsername( username );
-        var passwordMatches = encoder.matches( password, account.getPassword() );
+        var passwordMatches = encoder.matches( password, account.getCredentials() );
 
         if( passwordMatches )
             return new CitizenAuthToken( username, password, account.getAuthorities() );
