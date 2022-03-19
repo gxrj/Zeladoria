@@ -1,33 +1,13 @@
 package com.femass.resourceserver.domain.account;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
-@Getter @Setter
+public interface Account extends Serializable {
 
-@MappedSuperclass
-public abstract class Account implements Serializable {
-
-    @Id
-    @GeneratedValue( strategy = GenerationType.AUTO )
-    @Column( columnDefinition = "uuid not null" )
-    private UUID id;
-
-    @Column( name = "habilitada", nullable = false )
-    protected Boolean enabled = true;
-
-    @ElementCollection( fetch = FetchType.EAGER )
-    @Fetch( value = FetchMode.SELECT )
-    @Column( name = "autoridades" )
-    protected List<SimpleGrantedAuthority> authorities;
-
+    abstract List<? extends GrantedAuthority> getAuthorities();
     abstract String getUsername();
     abstract <T> T getCredentials();
 }
