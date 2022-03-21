@@ -8,16 +8,11 @@ import Duty from '@app/core/interfaces/duty';
 })
 export class CallPage implements OnInit {
 
-  public duty: Duty = {
-    id: null,
-    description: 'Bueiro sem tampa',
-    department: 'Infraestrutura',
-    category: null
-  }
+  public duty: Duty = null
 
-  constructor() { }
+  constructor( ) { }
 
   ngOnInit() {
+    this.duty = window.history.state
   }
-
 }

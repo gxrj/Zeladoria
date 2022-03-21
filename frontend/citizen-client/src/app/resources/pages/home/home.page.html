@@ -38,7 +38,8 @@
         <ng-container *ngIf="selectedCategory != null">
             <div class="empty-space"></div>
             <ion-card
-                    *ngFor="let service of selectedCategory.services">
+                    *ngFor="let service of selectedCategory.services"
+                    (click)="selectDutyAndOpenForm( service )">
 
                 <ion-card-content> {{ service.description }} </ion-card-content>
 
