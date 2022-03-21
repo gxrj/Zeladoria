@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import mockServicesList from './mock-services-list'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'home-page',
@@ -9,18 +8,21 @@ import mockServicesList from './mock-services-list'
 })
 export class HomePage implements OnInit {
 
-  categories = mockServicesList
+  categories = null
   token: any
   selectedCategory = null
   
-  constructor() { }
+  constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit(): void {
     
     this.token = sessionStorage.getItem( 'token' )
+    this.categories = JSON.parse( sessionStorage.getItem( 'categories' ) )
 
     if( this.token )
       this.token = JSON.parse( this.token )
+
+    this.categories = this._route.snapshot.data.categories.result
   }
 
   selectCategory( category:any ) {

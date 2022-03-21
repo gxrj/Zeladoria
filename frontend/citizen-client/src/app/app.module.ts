@@ -14,6 +14,7 @@ import { UserService } from '@services/user/user.service';
 import { ToastService } from './shared/services/toast/toast.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/SharedModule';
+import { CallService } from './shared/services/call/call.service';
 
 @NgModule({
   declarations: [ AppComponent ],
@@ -35,6 +36,7 @@ import { SharedModule } from './shared/SharedModule';
     AuthService, 
     UserService,
     ToastService,
+    CallService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

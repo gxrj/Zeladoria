@@ -27,7 +27,6 @@ export class OauthRedirectPage implements OnInit {
                                 },
                           error: error => console.log( error )
                         } )
-    
-    setTimeout( () => this._router.navigateByUrl( 'home' ) ,3000 )
+    setTimeout( () => this._router.navigateByUrl( 'home' ), 1500 )
   }
 }

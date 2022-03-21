@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { CategoryResolver } from './shared/resolvers/category.resolver';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import( '@pages/home/home.module' ).then( m => m.HomePageModule )
+    loadChildren: () => import( '@pages/home/home.module' ).then( m => m.HomePageModule ),
+    resolve: { categories: CategoryResolver }
   },
   {
     path: 'redirection',

@@ -7,33 +7,43 @@
         <div class="title">refresh token:</div>
         <div class="token-body"> {{ token?.refreshToken }} </div>  
     </div-->
-    <ion-breadcrumbs>
-        <ion-breadcrumb (click)="backToCategories()"> 
-            Categoria 
-            <span slot="separator">&gt;</span>
-        </ion-breadcrumb>
-        <ion-breadcrumb> {{ selectedCategory?.category }} </ion-breadcrumb>
-    </ion-breadcrumbs>
+    <ng-container *ngIf="categories == null">
+        <div id="redirection-page-body">
+            <div class="spinner" ></div>
+            <h2>Carregando...</h2>
+        </div>
+    </ng-container>
 
-    <ng-container *ngIf="selectedCategory == null">
-        <div class="empty-space"></div>
-        <ion-card 
-            *ngFor="let category of categories" 
-            (click)="selectCategory( category )">
+    <ng-container *ngIf="categories != null">
 
-            <ion-card-content > {{ category.category }} </ion-card-content>
+        <ion-breadcrumbs>
+            <ion-breadcrumb (click)="backToCategories()"> 
+                Categoria 
+                <span slot="separator">&gt;</span>
+            </ion-breadcrumb>
+            <ion-breadcrumb> {{ selectedCategory?.category }} </ion-breadcrumb>
+        </ion-breadcrumbs>
+
+        <ng-container *ngIf="selectedCategory == null">
+            <div class="empty-space"></div>
+            <ion-card 
+                *ngFor="let category of categories" 
+                (click)="selectCategory( category )">
+
+                <ion-card-content > {{ category.category }} </ion-card-content>
+            
+            </ion-card>
+        </ng-container>
         
-        </ion-card>
+        <ng-container *ngIf="selectedCategory != null">
+            <div class="empty-space"></div>
+            <ion-card
+                    *ngFor="let service of selectedCategory.services">
+
+                <ion-card-content> {{ service.description }} </ion-card-content>
+
+            </ion-card>
+        </ng-container>
+
     </ng-container>
-    
-    <ng-container *ngIf="selectedCategory != null">
-        <div class="empty-space"></div>
-        <ion-card
-                *ngFor="let service of selectedCategory.services">
-
-            <ion-card-content> {{ service }} </ion-card-content>
-
-        </ion-card>
-    </ng-container>
-
 </ion-content>

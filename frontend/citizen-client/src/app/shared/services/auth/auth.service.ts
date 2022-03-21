@@ -88,7 +88,7 @@ export class AuthService {
       header = this.anonymousHeader( contentType )
 
     const config = { headers: header }
-    console.log( config )
+
     return { url, config }
   }
 
