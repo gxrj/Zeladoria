@@ -43,7 +43,7 @@ public class DepartmentService {
 
         try { repository.delete( dept ); }
         catch ( IllegalArgumentException ex ) {
-            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            LOG.error( "DepartmentService failed: {}", ex.getMessage() );
             throw new RuntimeException( "DutyService failed:" + ex.getMessage() );
         }
     }

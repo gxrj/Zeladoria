@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import lombok.ToString;
+import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -88,15 +89,28 @@ public class CallDTO implements Serializable {
         var dutyService = module.getDutyService();
 
         if( callDto.duty != null )
-            object.setDuty( dutyService.findDutyByDescription( callDto.duty.getDescription() ) );
+            object.setDuty( dutyService.findDutyByDescription(
+                                            callDto.duty.getDescription() ) );
+
         if( callDto.status != null )
             object.setStatus( callDto.status );
+
         if( callDto.description != null )
             object.setDescription( callDto.description );
-        if( callDto.address != null )
-            object.setAddress( callDto.address );
+
         if( callDto.images != null && !callDto.images.isEmpty() )
             object.setImages( callDto.getImages() );
+
+        if( callDto.address != null ) {
+
+            var district = callDto.address.getDistrict();
+
+            if( district != null )
+                callDto.address.setDistrict(
+                    module.getDistrictService().findDistrictByName( district.getName() ) );
+
+            object.setAddress( callDto.address );
+        }
 
         return object;
     }

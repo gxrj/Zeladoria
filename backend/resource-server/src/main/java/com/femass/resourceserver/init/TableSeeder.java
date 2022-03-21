@@ -29,6 +29,7 @@ public class TableSeeder implements CommandLineRunner {
         DepartmentTableSeeder.seed( this );
         DutyTableSeeder.seed( this );
         DutyGroupTableSeeder.seed( this );
+        DistrictTableSeeder.seed( this );
         CallTableSeeder.seed( this );
 //        AttendanceTableSeeder.seed( this );
     }

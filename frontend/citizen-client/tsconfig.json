@@ -13,6 +13,7 @@
       "@globals/*": [ "app/shared/globals/*" ],
       "@guards/*": [ "app/shared/guards/*" ],
       "@services/*": [ "app/shared/services/*" ],
+      "@resolvers/*": [ "app/shared/resolvers/*" ],
       "@assets/*": [ "assets/*" ],
       "@env/*": [ "environments/*" ]
     },

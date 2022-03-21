@@ -8,6 +8,8 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Getter @Setter
@@ -29,8 +31,9 @@ public class Address implements Serializable {
     private String zipCode;
     @Column( name = "logradouro" )
     private String publicPlace;
-    @Column( name = "bairro" )
-    private String district;
+    @ManyToOne
+    @JoinColumn( name = "bairro" )
+    private District district;
     @Column( name = "referencia", length = 80 )
     private String reference;
 }

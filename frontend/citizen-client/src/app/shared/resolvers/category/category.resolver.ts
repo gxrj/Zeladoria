@@ -4,7 +4,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators'
 
 import { CategoryService } from '@services/category/category.service';
-import { ToastService } from '../services/toast/toast.service';
+import { ToastService } from '@services/toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,13 @@ export class CategoryResolver implements Resolve<any> {
               private _categoryService: CategoryService ) { }
 
   resolve(): Observable<any> {
-    return this._categoryService.loadCategories( '/anonymous/duty/categories' )
-                .pipe( catchError( () => { 
-                  this._toast.displayMessage( 'Falha no carregamento' )
-                  this._router.navigate( [ '/' ] )
-                  return EMPTY
-                 } ) )
+    return this._categoryService
+                .loadCategories( '/anonymous/duty/categories' )
+                  .pipe( 
+                    catchError( () => { 
+                      this._toast.displayMessage( 'Falha no carregamento' )
+                      this._router.navigate( [ '/' ] )
+                      return EMPTY
+                    } ) )
   }
 }

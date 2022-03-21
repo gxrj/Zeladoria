@@ -7,6 +7,7 @@ import Duty from '@core/interfaces/duty';
 import { CallService } from '@services/call/call.service';
 import { UserService } from '@services/user/user.service';
 import { ToastService } from '@app/shared/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,11 +18,13 @@ import { ToastService } from '@app/shared/services/toast/toast.service';
 export class NewCallFormComponent implements OnInit {
 
   @Input() selectedDuty: Duty | null
+  @Input() districtList: any
 
   form: FormGroup
   call: Call
 
   constructor( private _fb: FormBuilder,
+               private _router: Router,
                private _userService: UserService,
                private _callService: CallService,
                public _toastService: ToastService ) {
@@ -46,7 +49,10 @@ export class NewCallFormComponent implements OnInit {
 
     this._callService.create( this.call )
                     .subscribe( 
-                      res => this._toastService.displayMessage( res?.message ),
+                      res => {
+                        this._toastService.displayMessage( res?.message )
+                        this._router.navigateByUrl( '/home' ) 
+                      },
                       error => this._toastService.displayMessage( error?.message )
                     )
   }

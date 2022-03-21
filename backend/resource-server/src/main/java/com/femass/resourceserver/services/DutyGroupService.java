@@ -24,7 +24,7 @@ public class DutyGroupService {
             return true;
         }
         catch ( IllegalArgumentException ex ){
-            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            LOG.error( "DutyGroupService failed: {}", ex.getMessage() );
             return false;
         }
     }
@@ -36,7 +36,7 @@ public class DutyGroupService {
             return true;
         }
         catch ( IllegalArgumentException ex ) {
-            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            LOG.error( "DutyGroupService failed: {}", ex.getMessage() );
             return false;
         }
     }
@@ -55,7 +55,7 @@ public class DutyGroupService {
 
         try { repository.delete( category ); }
         catch ( IllegalArgumentException ex ) {
-            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            LOG.error( "DutyGroupService failed: {}", ex.getMessage() );
             throw new RuntimeException( "DutyService failed:" + ex.getMessage() );
         }
     }

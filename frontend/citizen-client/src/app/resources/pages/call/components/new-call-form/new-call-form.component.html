@@ -11,7 +11,8 @@
       <div id="address-line">
         <ion-input formControlName="zipCode" placeholder="Cep"></ion-input>  
         <ion-select formControlName="district" placeholder="Bairro" >
-          <ion-select-option value="centro">Centro</ion-select-option>
+          <ion-select-option *ngFor="let district of districtList"  
+                              value="{{ district.name }}">{{ district.name }}</ion-select-option>
         </ion-select>
       </div><hr>
 

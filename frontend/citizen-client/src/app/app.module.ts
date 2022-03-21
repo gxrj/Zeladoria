@@ -11,10 +11,11 @@ import { environment } from '@env/environment';
 
 import { AuthService } from '@services/auth/auth.service';
 import { UserService } from '@services/user/user.service';
-import { ToastService } from './shared/services/toast/toast.service';
+import { ToastService } from '@services/toast/toast.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/SharedModule';
-import { CallService } from './shared/services/call/call.service';
+import { CallService } from '@services/call/call.service';
+import { DistrictService } from '@services/district/district.service';
 
 @NgModule({
   declarations: [ AppComponent ],
@@ -37,7 +38,12 @@ import { CallService } from './shared/services/call/call.service';
     UserService,
     ToastService,
     CallService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    DistrictService,
+    { 
+      provide: RouteReuseStrategy, 
+      useClass: IonicRouteStrategy 
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

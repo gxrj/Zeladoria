@@ -32,7 +32,7 @@ public class CitizenService {
             return true;
         }
         catch( IllegalArgumentException ex ) {
-            LOG.error( "UserService failed: {}", ex.getMessage() );
+            LOG.error( "CitizenService failed: {}", ex.getMessage() );
             return false;
         }
     }
@@ -44,7 +44,7 @@ public class CitizenService {
             return true;
         }
         catch( Exception e ) {
-            LOG.error( "UserService failed: {}", e.getMessage() );
+            LOG.error( "CitizenService failed: {}", e.getMessage() );
             return false;
         }
     }

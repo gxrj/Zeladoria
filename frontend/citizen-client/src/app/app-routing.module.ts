@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { CategoryResolver } from './shared/resolvers/category.resolver';
+import { CategoryResolver } from '@resolvers/category/category.resolver';
+import { DistrictResolver } from './shared/resolvers/district/district.resolver';
 
 const routes: Routes = [
   {
@@ -24,7 +25,8 @@ const routes: Routes = [
   },
   {
     path: 'call',
-    loadChildren: () => import( '@pages/call/call.module' ).then( m => m.CallPageModule )
+    loadChildren: () => import( '@pages/call/call.module' ).then( m => m.CallPageModule ),
+    resolve: { districts: DistrictResolver }
   },
 ];
 

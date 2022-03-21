@@ -29,9 +29,13 @@ public class ServiceModule {
     @Autowired
     private DepartmentService departmentService;
     @Autowired
+    private DistrictService districtService;
+    @Autowired
     private DutyService dutyService;
     @Autowired
     private DutyGroupService dutyGroupService;
+    @Autowired
+    private ForwardCallService forwardCallService;
     @Autowired
     private UserFeedbackService userFeedbackService;
 

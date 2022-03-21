@@ -21,11 +21,14 @@ public class CallTableSeeder {
             var user = module.getCitizenService().findByUsername( "user" );
             Assert.notNull( user, "Citizen not found" );
 
+            var district = module.getDistrictService().findDistrictByName( "Centro" );
+            Assert.notNull( district, "District not found" );
+
             var address = new Address();
             address.setLatitude( -41.7828 );
             address.setLongitude( -22.3837 );
             address.setZipCode( "27900000" );
-            address.setDistrict( "downtown" );
+            address.setDistrict( district );
 
             var email = user.getAccount().getUsername();
             var protocol = String.format( "%d%H", System.currentTimeMillis(), email );

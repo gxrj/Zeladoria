@@ -77,7 +77,7 @@ public class CallService {
     }
 
     public List<Call> findCallByDistrict( String addressDistrict ) {
-        return repository.findByAddress_District( addressDistrict );
+        return repository.findByAddress_District_Name( addressDistrict );
     }
 
     public List<Call> findCallByPublicPlace( String addressPublicPlace ) {

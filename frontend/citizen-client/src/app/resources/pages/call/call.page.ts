@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import Duty from '@app/core/interfaces/duty';
 
 @Component({
@@ -8,11 +9,13 @@ import Duty from '@app/core/interfaces/duty';
 })
 export class CallPage implements OnInit {
 
-  public duty: Duty = null
+  duty: Duty = null
+  districts = null
 
-  constructor( ) { }
+  constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit() {
     this.duty = window.history.state
+    this.districts = this._route.snapshot.data.districts.result
   }
 }

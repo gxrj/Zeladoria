@@ -38,7 +38,7 @@ public class UserFeedbackService {
         try { repository.delete( feedback ); }
         catch ( IllegalArgumentException ex ) {
             LOG.error( "DutyService failed: {}", ex.getMessage() );
-            throw new RuntimeException( "DutyService failed:" + ex.getMessage() );
+            throw new RuntimeException( "UserFeedbackService failed:" + ex.getMessage() );
         }
     }
 }
