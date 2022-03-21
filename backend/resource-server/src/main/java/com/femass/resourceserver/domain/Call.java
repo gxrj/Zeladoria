@@ -8,9 +8,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-@Getter @Setter
-@ToString
+@Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
+@Builder
 
 @Entity( name = "Ocorrencia" )
 public class Call implements Serializable {
@@ -21,7 +21,7 @@ public class Call implements Serializable {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn( name = "servico", referencedColumnName = "descricao" )
+    @JoinColumn( name = "servico" )
     private Duty duty;
 
     @Column( name = "protocolo", nullable = false, unique = true )
@@ -40,7 +40,7 @@ public class Call implements Serializable {
     private List<String> images;
 
     @ManyToOne
-    @JoinColumn( name = "usuario", referencedColumnName = "id" )
+    @JoinColumn( name = "usuario" )
     private Citizen author;
 
     @Column( name = "dt_postagem" )

@@ -29,6 +29,20 @@ public class DutyService {
         }
     }
 
+    public boolean createMultiple( List<Duty> duties ) {
+
+        try{
+            repository.saveAllAndFlush( duties );
+            return true;
+        }
+        catch ( IllegalArgumentException ex ){
+            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            return false;
+        }
+    }
+
+    public List<Duty> findAllDuties() { return repository.findAll(); }
+
     public Duty findDutyByDescription( String description ) {
         var optional = repository.findByDescription( description );
 
@@ -43,8 +57,13 @@ public class DutyService {
         return repository.findByDutyGroup_Name( categoryName );
     }
 
-    public void delete() {
+    public void delete( Duty duty ) throws RuntimeException {
 
+        try { repository.delete( duty ); }
+        catch ( IllegalArgumentException ex ) {
+            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            throw new RuntimeException( "DutyService failed:" + ex.getMessage() );
+        }
     }
 
     public long countDuties() {

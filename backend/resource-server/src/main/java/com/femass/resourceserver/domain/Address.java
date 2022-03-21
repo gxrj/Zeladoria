@@ -4,19 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
+@Builder
 
 @JsonRootName( value = "address" )
 @JsonNaming( value = PropertyNamingStrategies.SnakeCaseStrategy.class )

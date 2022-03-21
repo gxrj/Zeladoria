@@ -32,8 +32,11 @@ public class AgentAuthProvider implements AuthenticationProvider {
 
         var passwordMatches = encoder.matches( tokenCredentials.getPassword(),
                                                         agentCredentials.getPassword() );
-
-        if( passwordMatches && agentService.checkCpf( tokenCredentials, agentCredentials ) )
+                                                        
+        var isAuthenticated = passwordMatches && agentService.checkCpf( tokenCredentials, agentCredentials );
+        var isEnabled = account.getEnabled();
+        
+        if( isAuthenticated && isEnabled )
             return new AgentAuthToken( username, agentCredentials, account.getAuthorities() );
         else
             throw new BadCredentialsException( "Bad credentials" );

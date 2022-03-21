@@ -1,8 +1,6 @@
 package com.femass.resourceserver.domain.account;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -13,7 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
+
 @Entity( name = "ContaColaborador" )
 public class AgentAccount implements Account {
 

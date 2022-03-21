@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Duty;
-import com.femass.resourceserver.domain.DutyGroup;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
@@ -15,7 +14,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Getter @Setter
 
@@ -29,13 +27,16 @@ import java.util.UUID;
 )
 public class DutyDTO implements Serializable {
 
-    private UUID id;
+    private Long id;
     private @NotNull String description;
     private @NotNull DepartmentDTO department;
     private DutyGroupDTO category;
 
     @JsonValue
     public static DutyDTO serialize( Duty duty ) {
+
+        if( duty == null ) return null;
+
         var dutyDto = new DutyDTO();
         dutyDto.setDescription( duty.getDescription() );
         dutyDto.setDepartment( DepartmentDTO.serialize( duty.getDepartment() ) );

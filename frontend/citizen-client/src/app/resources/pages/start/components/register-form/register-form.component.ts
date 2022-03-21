@@ -33,7 +33,7 @@ export class RegisterFormComponent implements OnInit {
     this._userService.create( this.form.value )
               .subscribe( 
                 resp => this._toastService.displayMessage( resp?.message ),
-                ( err: HttpErrorResponse ) => this._toastService.displayMessage( err.message )
+                ( err: HttpErrorResponse ) => this._toastService.displayMessage( JSON.stringify( err?.message ) )
               )
   }
 }

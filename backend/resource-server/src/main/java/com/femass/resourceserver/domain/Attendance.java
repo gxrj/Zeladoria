@@ -1,9 +1,6 @@
 package com.femass.resourceserver.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter @Setter
-
 @AllArgsConstructor @NoArgsConstructor
+@Builder
 
 @Entity( name = "Atendimento" )
 public class Attendance implements Serializable {
@@ -35,7 +32,7 @@ public class Attendance implements Serializable {
     private String description;
 
     @ManyToOne
-    @JoinColumn( name = "responsavel", referencedColumnName = "id" )
+    @JoinColumn( name = "responsavel" )
     private Agent responsible;
 
     @OneToMany( mappedBy = "attendance" )

@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CallRepository extends JpaRepository< Call, UUID > {
+public interface CallRepository extends JpaRepository<Call, UUID> {
 
     Optional<Call> findByProtocol( String protocol );
     List<Call> findByAuthor_Account_Username( String authorUsername );

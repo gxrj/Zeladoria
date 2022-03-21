@@ -29,8 +29,9 @@ public class CitizenAuthProvider implements AuthenticationProvider {
 
         var account = citizenService.findByUsername( username );
         var passwordMatches = encoder.matches( password, account.getCredentials() );
+        var isEnabled = account.getEnabled();
 
-        if( passwordMatches )
+        if( passwordMatches && isEnabled )
             return new CitizenAuthToken( username, password, account.getAuthorities() );
         else
             throw new BadCredentialsException( "Bad credentials" );

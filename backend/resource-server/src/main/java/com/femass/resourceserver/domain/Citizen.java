@@ -1,17 +1,14 @@
 package com.femass.resourceserver.domain;
 
 import com.femass.resourceserver.domain.account.CitizenAccount;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Getter @Setter
-@NoArgsConstructor
-@ToString
+@Getter @Setter @ToString
+@NoArgsConstructor @AllArgsConstructor
+@Builder
 
 @AttributeOverride(
     name = "name",

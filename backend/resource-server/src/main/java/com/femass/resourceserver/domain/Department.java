@@ -1,18 +1,14 @@
 package com.femass.resourceserver.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Getter @Setter
-
 @AllArgsConstructor @NoArgsConstructor
+@Builder
 
 @Entity( name = "Secretaria" )
 public class Department implements Serializable {
@@ -24,8 +20,8 @@ public class Department implements Serializable {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
-    @Column( name = "id", columnDefinition = "uuid not null" )
-    private UUID id;
+    @Column( name = "id" )
+    private Long id;
 
     @NotNull
     @Column( name = "nome", nullable = false, unique = true, length = 100 )

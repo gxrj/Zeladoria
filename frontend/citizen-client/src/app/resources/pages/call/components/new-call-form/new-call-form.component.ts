@@ -46,8 +46,8 @@ export class NewCallFormComponent implements OnInit {
 
     this._callService.create( this.call )
                     .subscribe( 
-                      res => this._toastService.displayMessage( res.message ),
-                      error => this._toastService.displayMessage( error )
+                      res => this._toastService.displayMessage( res?.message ),
+                      error => this._toastService.displayMessage( error?.message )
                     )
   }
 

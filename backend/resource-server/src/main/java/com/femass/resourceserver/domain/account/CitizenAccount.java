@@ -1,9 +1,6 @@
 package com.femass.resourceserver.domain.account;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -13,9 +10,8 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-@Getter @Setter
-@NoArgsConstructor
-@ToString
+@Getter @Setter @ToString
+@NoArgsConstructor @AllArgsConstructor
 
 @Entity( name = "ContaCidadao" )
 public class CitizenAccount implements Account {

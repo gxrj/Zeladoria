@@ -2,141 +2,169 @@
 /** This file mocks the server response of available services */
 
 const mockServicesList = [
-    { 
-        category:'Água Pluvial, Bueiros e Esgoto',
-        services: [
-            'Alagamento',
-            'Bueiro sem tampa',
-            'Bueiro com tampa de madeira quebrado',
-            'Bueiro com tampa de ferro quebrado',
-            'Bueiro Entupido',
-            'Esgoto',
-            'Falta de água',
-            'Vazamentos'
-        ]
-    },
-    { 
-        category:'Iluminação e Energia',
-        services: [
-            'Fiação irregular',
-            'Iluminação pública',
-            'Postes/Cabos'
-        ]
-    },
-    { 
-        category:'Infraestrutura Urbana',
-        services: [
-            'Bloqueio de via',
-            'Buracos na via',
-            'Quebra-molas',
-            'Semáforo',
-            'Sinalização',
-            'Veículo abandonado'
-        ]
-    },
-    { 
-        category:'Irregularidades',
-        services: [
-            'Ambulantes',
-            'Condição sanitária irregular',
-            'Estabelecimento irregular',
-            'Estacionamento irregular',
-            'Emissão de poluentes',
-            'Obra irregular',
-            'Ocupação irregular',
-            'Poluição sonora',
-            'Publicidade irregular',
-            'Coleta de lixo orgânico',
-            'Mercado popular/quiosques'
 
-        ]
-    },
-    { 
-        category:'Limpeza e Conservação',
+    {
+        name: "Coordenadoria de Iluminação Pública",
         services: [
-            'Capina e roçada',
-            'Mato alto',
-            'Coleta seletiva de lixo',
-            'Lixeiras públicas',
-            'Entulho na calçada/via pública',
-            'Manutenção de praças',
-            'Limpeza de rua',
-            'Retirada de galhos e restos de poda'
+            "Fiação irregular",
+            "Iluminação pública",
+            "Postes/Cabos"
         ]
     },
-    { 
-        category:'Meio Ambiente',
+    {
+        name: "Secretaria Adjunta de Saneamento",
         services: [
-            'Maus tratos de animais',
-            'Aterro sanitário irregular',
-            'Poda e retirada de árvores',
-            'Queimada irregular',
-            'Poluição de rios e lagos',
-            'Desmatamento irregular',
-            'Animais na via',
-            'Fiscalização ambiental',
-            'Plantio de árvore'
+            "Bueiro Entupido Internamente",
+            "Esgoto",
+            "Falta de água",
+            "Vazamentos"
         ]
     },
-    { 
-        category:'Pedestres e Ciclistas',
+    {
+        name: "Secretaria Adjunta de Serviços Públicos",
         services: [
-            'Acessibilidade',
-            'Bicicletário',
-            'Faixa de pedestre',
-            'Passarela'
+            "Bueiro Entupido Superficialmente",
+            "Buracos na via",
+            "Capina e roçada",
+            "Mato alto",
+            "Coleta seletiva de lixo",
+            "Lixeiras públicas",
+            "Entulho na calçada/via pública",
+            "Manutenção de praças",
+            "Limpeza de rua",
+            "Retirada de galhos e restos de poda",
+            "Retirada de Animais mortos na via",
+            "Equipamento público danificado"
         ]
     },
-    { 
-        category:'Saúde',
+    {
+        name: "Secretaria De Infraestrutura",
         services: [
-            'Saúde pública',
-            'Vigilância sanitária',
-            'Foco de dengue',
-            'Fumacê',
-            'Exame',
-            'Consulta',
-            'Atendimento na unidade de saúde'
+            "Bueiro sem tampa",
+            "Bueiro com tampa de madeira quebrado",
+            "Bueiro com tampa de ferro quebrado"
         ]
     },
-    { 
-        category:'Serviços Públicos',
+    {
+        name: "Secretaria Adjunta de Defesa Civil",
         services: [
-            'Assistência social',
-            'Atendimento turístico',
-            'Cultura',
-            'Escolas',
-            'Esportes',
-            'Obra pública',
-            'Minha casa, minha vida',
-            'Maus tratos a idosos',
-            'Violência doméstica contra mulher',
-            'Direitos humanos',
-            'Abordagem de andarilho'
+            "Alagamento"
         ]
     },
-    { 
-        category:'Transporte Público',
+    {
+        name: "Secretaria de Obras",
         services: [
-            'Ponto de ônibus danificado',
-            'Transporte público irregular',
-            'Ônibus danificado',
-            'Ônibus superlotado',
-            'Horário de ônibus'
+            "Obra irregular",
+            "Obra pública"
         ]
     },
-    { 
-        category:'Urbanismo',
+    {
+        name: "Secretaria de Mobilidade Urbana",
         services: [
-            'Equipamento público danificado',
-            'Imóvel abandonado',
-            'Patrimônio histórico'
+            "Bloqueio de via",
+            "Quebra-molas",
+            "Semáforo",
+            "Sinalização",
+            "Publicidade irregular em via",
+            "Veículo abandonado",
+            "Acessibilidade",
+            "Bicicletário",
+            "Faixa de pedestre",
+            "Passarela",
+            "Ponto de ônibus danificado",
+            "Transporte público irregular",
+            "Ônibus danificado",
+            "Ônibus superlotado",
+            "Horário de ônibus"
         ]
     },
-    { 
-        category:'Pesquisa e Satisfação',
-        services: []
-    }
+    {
+        name: "Secretaria de Ambiente e Sustentabilidade",
+        services: [
+            "Emissão de poluentes",
+            "Poluição sonora",
+            "Ocupação irregular",
+            "Coleta de lixo orgânico",
+            "Poda e retirada de árvores",
+            "Aterro sanitário irregular",
+            "Queimada irregular",
+            "Poluição de rios e lagos",
+            "Desmatamento irregular",
+            "Fiscalização ambiental",
+            "Plantio de árvore"
+        ]
+    },
+    {
+        name: "Secretaria de Cultura",
+        services: [
+            "Atendimento turístico",
+            "Cultura",
+            "Patrimônio histórico"
+        ]
+    },
+    {
+        name: "Secretaria de Esportes",
+        services: [
+            "Esportes"
+        ]
+    },
+    {
+        name: "Secretaria de Ordem Pública",
+        services: [
+            "Ambulantes",
+            "Estabelecimento irregular",
+            "Estacionamento irregular",
+            "Mercado popular/quiosques",
+            "Publicidade irregular",
+            "Violência doméstica contra mulher",
+            "Abordagem de andarilho"
+        ]
+    },
+    {
+        name: "Secretaria de Educação",
+        services: [
+            "Escolas"
+        ]
+    },
+    {
+        name: "Coordenadoria Geral de Locações Imobiliárias",
+        services: [
+            "Imóvel abandonado"
+        ]
+    },
+    {
+        name: "Secretaria de Saúde",
+        services: [
+            "Condição sanitária irregular"
+        ]
+    },
+    {
+        name: "Secretaria de Proteção Animal e Zoonoses",
+        services: [
+            "Animais na via",
+            "Maus tratos de animais"
+        ]
+    },
+    {
+        name: "Secretaria de Direitos Humanos e Acessibilidade",
+        services: [
+            "Assistência social",
+            "Direitos humanos"
+        ]
+    },
+    {
+        name: "Secretaria Adjunta de Habitação",
+        services: [
+            "Minha casa, minha vida"
+        ]
+    },
+    {
+        name: "Secretaria do Idoso",
+        services: [
+            "Maus tratos a idosos"
+        ]
+    },
+    
 ]
 
 export default mockServicesList

@@ -1,15 +1,14 @@
 package com.femass.resourceserver.domain;
 
 import com.femass.resourceserver.domain.account.AgentAccount;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
+@Builder
 
 @AttributeOverride(
     name = "name",
@@ -24,7 +23,7 @@ public class Agent extends AbstractUser<AgentAccount> {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn( name = "secretaria", referencedColumnName = "nome" )
+    @JoinColumn( name = "secretaria" )
     private Department department;
 
     public Agent( String name, AgentAccount account ) {

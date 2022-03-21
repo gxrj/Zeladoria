@@ -38,6 +38,8 @@ public class AttendanceDTO implements Serializable {
     @JsonValue
     public static AttendanceDTO serialize( Attendance attendance ) {
 
+        if( attendance == null ) return null;
+        
         var attendanceDto = new AttendanceDTO();
         attendanceDto.setId( attendance.getId() );
         attendanceDto.setCallProtocol( attendance.getUserCall().getProtocol() );

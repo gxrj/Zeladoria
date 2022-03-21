@@ -33,7 +33,12 @@ public class UserFeedbackService {
         return optional.isEmpty() ? null : optional.get();
     }
 
-    public void delete() {
+    public void delete( UserFeedback feedback ) throws RuntimeException {
 
+        try { repository.delete( feedback ); }
+        catch ( IllegalArgumentException ex ) {
+            LOG.error( "DutyService failed: {}", ex.getMessage() );
+            throw new RuntimeException( "DutyService failed:" + ex.getMessage() );
+        }
     }
 }

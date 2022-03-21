@@ -14,8 +14,6 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -30,22 +28,18 @@ import java.util.UUID;
 )
 public class DutyGroupDTO implements Serializable {
 
-    private UUID id;
+    private Long id;
     private @NotNull String name;
-    private List<DutyDTO> duties;
 
     public DutyGroupDTO( String name ) { this.name = name; }
 
     @JsonValue
     public static DutyGroupDTO serialize( DutyGroup category ) {
 
-        var dtoList = category.getDuties()
-                                        .parallelStream()
-                                        .map( DutyDTO::serialize ).toList();
+        if( category == null ) return null;
 
         var dto = new DutyGroupDTO();
         dto.setName( category.getName() );
-        dto.setDuties( dtoList );
 
         return dto;
     }
@@ -55,15 +49,7 @@ public class DutyGroupDTO implements Serializable {
         var categoryService = module.getDutyGroupService();
         var category = categoryService.findDutyGroupByName( dto.name );
 
-        if( category == null ) {
-            category = new DutyGroup();
-            category.setDuties( Collections.emptyList() );
-        }
-
-        if( dto.duties != null && dto.duties.isEmpty() ) {
-            var list = module.getDutyService().findDutyByCategory( dto.name );
-            category.setDuties( list );
-        }
+        if( category == null ) category = new DutyGroup();
 
         category.setName( dto.name );
 

@@ -13,7 +13,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -28,7 +27,7 @@ import java.util.UUID;
 )
 public class DepartmentDTO implements Serializable {
 
-    private UUID id;
+    private Long id;
     private @NotNull String name;
 
     /**
@@ -52,6 +51,9 @@ public class DepartmentDTO implements Serializable {
 
     @JsonValue
     public static DepartmentDTO serialize( Department dept ) {
+
+        if( dept == null ) return null;
+
         var deptDto = new DepartmentDTO();
         deptDto.name = dept.getName();
 

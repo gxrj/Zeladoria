@@ -29,6 +29,8 @@ public class UserFeedbackDTO implements Serializable {
     @JsonValue
     public static UserFeedbackDTO serialize( UserFeedback feedback ) {
 
+        if( feedback == null ) return null;
+
         var feedbackDTO = new UserFeedbackDTO();
 
         feedbackDTO.setDescription( feedback.getDescription() );

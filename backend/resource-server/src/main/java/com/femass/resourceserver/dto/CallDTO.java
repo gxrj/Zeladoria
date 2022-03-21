@@ -45,6 +45,8 @@ public class CallDTO implements Serializable {
     @JsonValue
     public static CallDTO serialize( Call call ) {
 
+        if( call == null ) return null;
+
         var callDto = new CallDTO();
         callDto.setDuty( DutyDTO.serialize( call.getDuty() ) );
         callDto.setProtocol( call.getProtocol() );
