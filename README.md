@@ -11,7 +11,7 @@ environmental assistance, etc.
 <ul>
   <li>Spring boot</li>
   <li>Spring Security</li>
-  <li>Angular</li>
+  <li>Angular + Ionic</li>
   <li>H2 database (only for development environment)</li>
   <li>PostgreSQL</li>
 </ul>
@@ -49,9 +49,9 @@ environmental assistance, etc.
 -  The system will be use for two different types o user, with totally diferent flows os service, so its split
   one frontend application for citizens 'citizen-client' and other frontend application for public agent 'agent-client'
   
-- Frontend for citizens will be run in desktop as well as mobile plataforms, currently using ionic, at port 8100 
+- Frontend for citizens will be run in desktop as well as mobile plataforms, currently using angular+ionic, at port 8100 
   
-- Frontend for public agents will be run in desktop only using angular at 4200 port
+- Frontend for public agents will be run in desktop only but also uses angular+ionic at 8100 port as well
   
 </span>
 
