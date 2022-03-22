@@ -49,7 +49,7 @@ html, body {
     font-size: 20px;
 }
 
-button {
+button, .fake-button {
     cursor: pointer;
     margin: auto;
     margin-top: 15%;
@@ -58,11 +58,17 @@ button {
     font-weight: bold;
     font-size: 20px;
     color: white;
+    text-align: center;
     background-color: #6565ab;
 }
 
 #login-card > form > input:focus {
     outline: none;
+}
+
+.message {
+    margin: auto;
+    text-align: center;
 }
 
 @media screen and ( max-width: 810px ) {
