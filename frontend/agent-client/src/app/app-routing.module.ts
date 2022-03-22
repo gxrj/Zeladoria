@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'redirection',
+    redirectTo: 'start',
     pathMatch: 'full'
   },
   {
@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'redirection',
     loadChildren: () => import( '@pages/oauth-redirect/oauth-redirect.module' )
                         .then( m => m.OauthRedirectPageModule )
+  },
+  {
+    path: 'start',
+    loadChildren: () => import( '@pages/start/start.module' ).then( m => m.StartPageModule )
   }
 ];
 @NgModule({

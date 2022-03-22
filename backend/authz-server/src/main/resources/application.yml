@@ -23,7 +23,7 @@ oauth2:
     client1:
         client-id: agent-client
         client-secret: '123'
-        redirect-uri: http://localhost:8100/redirection # Agent client home page
+        redirect-uri: http://127.0.0.1:8100/redirection # Agent client home page
         cors-allowed-origin: '*'
     client2:
         client-id: citizen-client 

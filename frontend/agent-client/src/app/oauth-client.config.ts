@@ -1,7 +1,7 @@
 const scope = 'agent'
 const clientId = 'agent-client'
 const clientSecret = 123
-const clientBaseUrl = 'http://localhost:8100'
+const clientBaseUrl = 'http://127.0.0.1:8100'
 
 const redirectUri = clientBaseUrl + '/redirection'
 

@@ -4,15 +4,15 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@app/*": [ "app/*" ],
       "@core/*": [ "app/core/*" ],
-      "@resources/*": [ "app/resources/*" ],
       "@pages/*": [ "app/resources/pages/*" ],
-      "@shared/*": [ "app/shared/*" ],
-      "@components/*": [ "app/shared/components/*" ],
+      "@resources/*": [ "app/resources/*" ],
       "@guards/*": [ "app/shared/guards/*" ],
-      "@resolvers/*": [ "app/shared/resolvers/*" ],
       "@services/*": [ "app/shared/services/*" ],
+      "@resolvers/*": [ "app/shared/resolvers/*" ],
+      "@components/*": [ "app/shared/components/*" ],
+      "@shared/*": [ "app/shared/*" ],
+      "@app/*": [ "app/*" ],
       "@assets/*": [ "assets/*" ],
       "@env/*": [ "environments/*" ]
     },
