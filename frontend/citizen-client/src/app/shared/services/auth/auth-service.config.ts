@@ -1,6 +1,6 @@
 
-const scope = 'user'
-const clientId = 'user-client'
+const scope = 'citizen'
+const clientId = 'citizen-client'
 const clientSecret = 123
 const clientBaseUrl = 'http://127.0.0.1:8100'
 const redirectUri = clientBaseUrl + '/redirection'
@@ -8,7 +8,7 @@ const redirectUri = clientBaseUrl + '/redirection'
 const OAUTH2_CLIENT_CONFIG = {
 
     AUTHORIZE_ENDPOINT_PARAMS: {
-        user_type: 'user',
+        user_type: 'citizen',
         response_type: 'code',
         scope: scope,
         client_id: clientId,

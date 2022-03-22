@@ -77,11 +77,11 @@ public class RegisteredClientConfig {
                         .clientAuthenticationMethod( ClientAuthenticationMethod.CLIENT_SECRET_POST )
                         .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                         .authorizationGrantType( AuthorizationGrantType.REFRESH_TOKEN )
-                        .scope( "user" )
+                        .scope( "citizen" )
                         .clientSettings( this.clientSettings() )
                         .tokenSettings( this.tokenSettings() )
                         .redirectUri( userClientAddress )
-                        .clientName( "user-client" )
+                        .clientName( "citizen-client" )
                         .build();
 
         var resourceClient = RegisteredClient

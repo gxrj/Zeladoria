@@ -1,0 +1,30 @@
+ion-toolbar {
+    color: white;
+    --background: var( --default-main-color );
+    height: 100%;
+}
+
+ion-content{
+    --background: var( --default-background-color );
+}
+
+ion-list {
+    display:grid;
+    --background: inherit;
+}
+
+ion-item {
+    margin: 0;
+    color: black;
+    --background: inherit;
+}
+
+ion-avatar {
+    text-align: center;
+    display: grid;
+}
+
+ion-icon {
+    margin: auto;
+    font-size: 30px;
+}
