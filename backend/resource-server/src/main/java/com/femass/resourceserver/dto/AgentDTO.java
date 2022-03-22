@@ -38,12 +38,18 @@ public class AgentDTO implements Serializable {
     private String password;
     private List<SimpleGrantedAuthority> authorities;
     private boolean active;
+    private DepartmentDTO department;
 
     @JsonValue
-    public static AgentDTO serialize(Agent agent ) {
+    public static AgentDTO serialize( Agent agent ) {
         var agentDto = new AgentDTO();
         agentDto.setName( agent.getName() );
         agentDto.setUsername( agent.getAccount().getUsername() );
+
+        var dept = agent.getDepartment();
+
+        if( dept != null )
+            agentDto.setDepartment( DepartmentDTO.serialize( dept ) );
 
         return agentDto;
     }
@@ -76,6 +82,12 @@ public class AgentDTO implements Serializable {
         if( agentDto.password != null )
             agentAccount.getCredentials()
                     .setPassword( encoder.encode( agentDto.password )  );
+
+        if( agentDto.department != null ) {
+            var deptService = module.getDepartmentService();
+            var dept = deptService.findDepartmentByName( agentDto.department.getName() );
+            agent.setDepartment( dept );
+        }
 
         return agent;
     }

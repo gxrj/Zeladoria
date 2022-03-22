@@ -8,10 +8,9 @@
         <div class="token-body"> {{ token?.refreshToken }} </div>  
     </div-->
     <ng-container *ngIf="categories == null">
-        <div id="redirection-page-body">
-            <div class="spinner" ></div>
-            <h2>Carregando...</h2>
-        </div>
+        <spinner>
+            <h2 message>Carregando...</h2>
+        </spinner>
     </ng-container>
 
     <ng-container *ngIf="categories != null">

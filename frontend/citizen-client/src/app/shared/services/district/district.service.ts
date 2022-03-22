@@ -16,5 +16,4 @@ export class DistrictService {
 
     return this._http.get( request.url, { headers: request.config.headers } )
   }
-
 }
