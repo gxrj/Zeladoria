@@ -8,8 +8,10 @@ public class AgentTableSeeder {
 
     public static void seed( TableSeeder seeder ) throws RuntimeException {
 
-        var agentService = seeder.getServiceModule().getAgentService();
-        var accountService = seeder.getServiceModule().getAgentAccountService();
+        var module = seeder.getServiceModule();
+        var agentService = module.getAgentService();
+        var accountService = module.getAgentAccountService();
+        var deptService = module.getDepartmentService();
 
         if( agentService.countAgents() == 0 ) {
 
@@ -19,6 +21,8 @@ public class AgentTableSeeder {
             var agent = new Agent();
             agent.setName( "servidor publico" );
             agent.setAccount( account );
+            agent.setDepartment(
+                    deptService.findDepartmentByName( "Secretaria De Infraestrutura" ) );
 
             if( !agentService.createOrUpdate( agent ) )
                 throw new RuntimeException( "AgentTableSeeder failed!" );
