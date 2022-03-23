@@ -10,9 +10,6 @@ import java.util.UUID;
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 
-@AttributeOverride(
-    name = "name",
-    column = @Column( name = "email", nullable = false, unique = true ) )
 @Entity( name = "Cidadao" )
 public class Citizen extends AbstractUser<CitizenAccount> {
 
@@ -32,4 +29,9 @@ public class Citizen extends AbstractUser<CitizenAccount> {
     public CitizenAccount getAccount() { return account; }
 
     public void setAccount( CitizenAccount account ) { this.account = account; }
+
+    @Access( AccessType.PROPERTY )
+    @Column( name = "nome", length = 50 )
+    public String getName() { return name; }
+    public void setName( String name ) { this.name = name; }
 }

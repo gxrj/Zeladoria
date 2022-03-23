@@ -10,10 +10,6 @@ import java.util.UUID;
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 
-@AttributeOverride(
-    name = "name",
-    column = @Column( name = "matricula", nullable = false, unique = true, length = 10 ) )
-
 @Entity( name = "Colaborador" )
 public class Agent extends AbstractUser<AgentAccount> {
 
@@ -37,4 +33,9 @@ public class Agent extends AbstractUser<AgentAccount> {
     public AgentAccount getAccount(){ return account; }
 
     public void setAccount( AgentAccount account ) { this.account = account; }
+
+    @Access( AccessType.PROPERTY )
+    @Column( name = "nome", length = 50 )
+    public String getName() { return name; }
+    public void setName( String name ) { this.name = name; }
 }

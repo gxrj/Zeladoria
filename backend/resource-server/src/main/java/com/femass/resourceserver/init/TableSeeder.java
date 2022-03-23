@@ -22,11 +22,11 @@ public class TableSeeder implements CommandLineRunner {
     @Override
     public void run( String... args ) throws RuntimeException {
 
+        DepartmentTableSeeder.seed( this );
         AgentAccountTableSeeder.seed( this );
         AgentTableSeeder.seed( this );
         CitizenAccountTableSeeder.seed( this );
         CitizenTableSeeder.seed( this );
-        DepartmentTableSeeder.seed( this );
         DutyTableSeeder.seed( this );
         DutyGroupTableSeeder.seed( this );
         DistrictTableSeeder.seed( this );

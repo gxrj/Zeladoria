@@ -2,6 +2,7 @@ package com.femass.authzserver.config;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
@@ -121,9 +122,8 @@ public class AuthzServerConfig {
                                                                     .getPrincipal()
                                                                         .getAuthorities();
 
-            var result = authorities.toString().replaceAll( "\\]|\\[", "" );
-            result = result.replaceAll( ",", " " );
-            context.getClaims().claim( "authorities", result  );
+            var authList = authorities.stream().map( Objects::toString ).toList();
+            context.getClaims().claim( "authorities", authList );
         };
     }
 

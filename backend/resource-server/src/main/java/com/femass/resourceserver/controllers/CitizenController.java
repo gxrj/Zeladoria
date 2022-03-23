@@ -51,7 +51,7 @@ public class CitizenController {
             return ResponseEntity.ok( jsonBody );
         }
         else {
-            jsonBody.appendField( "message", "Error, cadastro não realizado!" );
+            jsonBody.appendField( "message", "Erro, cadastro não realizado!" );
             
             return ResponseEntity
                     .status( HttpStatus.INTERNAL_SERVER_ERROR )
