@@ -13,19 +13,31 @@ export class HomePage implements OnInit {
   token: any
   selectedCategory = null
   selectedDuty: Duty = null
-  
+
   constructor( private _route: ActivatedRoute,
                private _router: Router ) { }
 
   ngOnInit(): void {
-    
+
+    this.persistToken()
+    this.persistCategories()
+  }
+
+  persistToken() {
+
     this.token = sessionStorage.getItem( 'token' )
-    this.categories = JSON.parse( sessionStorage.getItem( 'categories' ) )
 
     if( this.token )
       this.token = JSON.parse( this.token )
+  }
 
-    this.categories = this._route.snapshot.data.categories.result
+  persistCategories() {
+    this.categories = this._route.snapshot.data.categories.result ?? sessionStorage.getItem( 'categories' )
+
+    if( this.categories && !this.categories.instanceof( String ) )
+      sessionStorage.setItem( 'categories', JSON.stringify( this.categories ) )
+    else if( this.categories.instanceof( String ) )
+      this.categories = JSON.parse( this.categories )
   }
 
   selectCategory( category:any ) {

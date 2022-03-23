@@ -62,11 +62,6 @@ public class AgentController {
         return  new ResponseEntity<>( json, HttpStatus.OK );
     }
 
-    @GetMapping( "/agent/test" )
-    public String test(){
-        return "Authenticated!";
-    }
-
     /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
      * and return its 'sub'(subject) claim in string format
      * */

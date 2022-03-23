@@ -1,5 +1,6 @@
 package com.femass.resourceserver.controllers;
 
+import com.femass.resourceserver.dto.AgentDTO;
 import com.femass.resourceserver.dto.CallDTO;
 import com.femass.resourceserver.services.ServiceModule;
 
@@ -9,14 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(
@@ -45,6 +44,16 @@ public class CallController {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>( json, status );
+    }
+
+    @PostMapping( "/agent/calls/all" )
+    public ResponseEntity<JSONObject> listCallsByAgentDeptartment( @RequestBody AgentDTO agent ) {
+
+        var calls = module.getCallService()
+                .findCallByDepartment( agent.getDepartment().getName() )
+                .parallelStream().map( CallDTO::serialize ).toList();
+
+        return getSuccessResponse( calls );
     }
 
     @GetMapping( "/user/calls/all" )

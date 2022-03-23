@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'home',
@@ -7,9 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  account: any = null
+
+  constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit() {
+    this.saveCurrentUserData()
   }
 
+  saveCurrentUserData() {
+
+    this.account = sessionStorage.getItem( 'user' )
+
+    if( !this.account ) {
+      this.account = this._route.snapshot.data.account
+      sessionStorage.setItem( 'user', JSON.stringify( this.account ) )
+    }
+    else
+      this.account = JSON.parse( this.account )
+  }
+/*
+{
+  "name": "servidor publico",
+  "department": "Secretaria De Infraestrutura",
+  "username": "agent"
+}
+*/
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Servidores Macaé</title>
+        <title>Cadastro Servidores</title>
         <link rel="stylesheet" type="text/css" href="../static/css/login.css" th:href="@{/css/login.css}">
         <link rel="icon" type="image/x-icon" href="../static/img/emblema-prefeitura.png" th:href="@{/img/emblema-prefeitura.png}">
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
@@ -9,18 +9,27 @@
     <body>
         <div id="login-card">
 
-            <label>Servidores Macaé</label>
+            <label>Cadastro Servidores</label>
 
             <form method="post" action="/agent/login">
 
                 <label>Matrícula</label>
-                <input id="username" name="username" required/>
+                <input id="username" name="username" required
+                       title="Necessário preencher este campo"
+                       oninvalid="this.setCustomValidity('Matrícula obrigatória')"
+                       oninput="this.setCustomValidity('')"/>
 
                 <label>Cpf</label>
-                <input id="cpf" name="cpf" required/>
+                <input id="cpf" name="cpf" required
+                       title="Necessário preencher este campo"
+                       oninvalid="this.setCustomValidity('Cpf obrigatório')"
+                       oninput="this.setCustomValidity('')"/>
 
                 <label>Senha</label>
-                <input id="password" name="password" type="password" required/>
+                <input id="password" name="password" type="password" required
+                       title="Necessário preencher este campo"
+                       oninvalid="this.setCustomValidity('Senha obrigatória')"
+                       oninput="this.setCustomValidity('')"/>
 
                 <button type="submit">Entrar</button>
 

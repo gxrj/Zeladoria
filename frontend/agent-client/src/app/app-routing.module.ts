@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { UserInfoResolver } from '@resolvers/user-info/user-info.resolver';
 
 const routes: Routes = [
   {
@@ -9,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import( '@pages/home/home.module' ).then( m => m.HomePageModule )
+    loadChildren: () => import( '@pages/home/home.module' ).then( m => m.HomePageModule ),
+    resolve: { account: UserInfoResolver }
   },
   {
     path: 'redirection',
