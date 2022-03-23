@@ -86,25 +86,38 @@ public class CitizenController {
     
     @GetMapping( "/user/info" )
     public ResponseEntity<JSONObject> getAccountInfo() {
-        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder
-                                                            .getContext().getAuthentication();
 
-        if( authToken == null ) {
+        var subject = extractLoginFromJwt();
+
+        if( subject == null ) {
             return new ResponseEntity<>(
                     new JSONObject()
                             .appendField( "message","no user authentication found" ),
                     HttpStatus.INTERNAL_SERVER_ERROR );
         }
 
-        var jwt = ( Jwt ) authToken.getPrincipal();
-        var subject = jwt.getClaim( "sub" );
-
-        var citizen = citizenService.findByUsername( subject.toString() );
+        var citizen = citizenService.findByUsername( subject );
 
         var json = new JSONObject();
         json.appendField( "name", citizen.getName() );
         json.appendField( "username", citizen.getAccount().getUsername() );
 
         return new ResponseEntity<>( json, HttpStatus.CREATED );
+    }
+
+    /**
+     * Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
+     * and return its 'sub'(subject) claim in string format
+     * */
+    private String extractLoginFromJwt() {
+
+        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder
+                                                        .getContext().getAuthentication();
+
+        if( authToken == null ) return null;
+
+        var jwt = ( Jwt ) authToken.getPrincipal();
+
+        return jwt.getClaim( "sub" );
     }
 }

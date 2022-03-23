@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.femass.resourceserver.domain.account.AgentAccount;
@@ -19,7 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +39,41 @@ public class AgentController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @GetMapping( "/agent/info" )
+    public ResponseEntity<JSONObject> getUserInfo() {
+
+        var subject = extractLoginFromJwt();
+
+        if( subject == null ) {
+            return new ResponseEntity<>(
+                    new JSONObject()
+                            .appendField( "message","no user authentication found" ),
+                    HttpStatus.INTERNAL_SERVER_ERROR );
+        }
+
+        var agent = agentService.findByUsername( subject );
+        var json = new JSONObject();
+
+        json.appendField( "username", subject );
+        json.appendField( "name", agent.getName() );
+        json.appendField( "department", agent.getDepartment().getName() );
+
+        return  new ResponseEntity<>( json, HttpStatus.OK );
+    }
+
+    /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
+     * and return its 'sub'(subject) claim in string format
+     * */
+    private String extractLoginFromJwt() {
+        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext()
+                                                                            .getAuthentication();
+        if( authToken == null ) return null;
+
+        var jwt = ( Jwt ) authToken.getPrincipal();
+
+        return jwt.getClaim( "sub" );
+    }
 
     @PostMapping( "/manager/new-agent" )
     public ResponseEntity<JSONObject> registerAgent( HttpServletRequest req ) throws IOException {
