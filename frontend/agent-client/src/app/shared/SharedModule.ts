@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import { NavbarComponent } from '@components/navbar/navbar.component';
 import { SideMenuComponent } from '@components/side-menu/side-menu.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule( { 
     declarations: [ 
@@ -15,7 +16,8 @@ import { SideMenuComponent } from '@components/side-menu/side-menu.component';
     imports: [ 
         CommonModule,
         FormsModule,
-        ReactiveFormsModule 
+        ReactiveFormsModule,
+        RouterModule 
     ],
     exports: [
         CommonModule,

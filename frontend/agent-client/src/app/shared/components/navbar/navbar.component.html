@@ -11,13 +11,13 @@
   </ion-toolbar>
 </ion-header>
 
-<side-menu>
+<side-menu contentId="body">
   <ion-content content>
-    <ion-list>
-      <ion-item>Ocorrências</ion-item>
-      <ion-item>Encaminhamentos</ion-item>
-      <ion-item>Atendimentos</ion-item>
-      <ion-item>Feedbacks</ion-item>
+    <ion-list contentId="body">
+      <ion-item [routerLink]="['/home/calls']">Ocorrências</ion-item>
+      <ion-item [routerLink]="['/home/forwarded-calls']">Encaminhamentos</ion-item>
+      <ion-item [routerLink]="['/home/attendances']">Atendimentos</ion-item>
+      <ion-item [routerLink]="['/home/feedbackss']">Feedbacks</ion-item>
     </ion-list>
   </ion-content>
 </side-menu>

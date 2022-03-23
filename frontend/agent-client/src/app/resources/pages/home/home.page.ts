@@ -27,11 +27,4 @@ export class HomePage implements OnInit {
     else
       this.account = JSON.parse( this.account )
   }
-/*
-{
-  "name": "servidor publico",
-  "department": "Secretaria De Infraestrutura",
-  "username": "agent"
-}
-*/
 }
