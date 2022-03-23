@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'navbar',
@@ -8,8 +8,18 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor( private _router: Router ) { }
+  paths = [
+    { url: '/home/calls', label: 'Ocorrências' },
+    { url: '/home/forwarded-calls', label: 'Encaminhamentos' },
+    { url: '/home/attendances', label: 'Atendimentos' },
+    { url: '/home/feedbacks', label: 'Feedbacks' }
+  ]
+  
+  constructor( private _menuCtrl: MenuController ) { }
 
   ngOnInit() {}
 
+  closeMenu(){
+    this._menuCtrl.close()
+  }
 }

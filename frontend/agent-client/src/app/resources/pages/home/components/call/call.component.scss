@@ -1,0 +1,20 @@
+.table {
+    margin: auto;
+    margin-top: 20px;
+    width:90%;
+}
+
+.table-head {
+    background-color: #4545fe;
+    line-height: 30px;
+    color: white;
+}
+
+.table-body > tr {
+    height: 25px;
+    cursor: pointer;
+}
+
+.table-body > tr:hover {
+    background-color: rgb(173, 173, 173);
+}

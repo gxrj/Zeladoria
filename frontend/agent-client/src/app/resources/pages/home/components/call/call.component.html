@@ -1,3 +1,10 @@
-<p>
-  call works!
-</p>
+<table class="table">
+  <thead class="table-head">
+    <th *ngFor="let head of titles" >{{ head }}</th>
+  </thead>
+  <tbody class="table-body">
+    <tr *ngFor="let obj of content">
+      <td *ngFor="let attr of obj | keyvalue">{{ attr.value }}</td>
+    </tr>
+  </tbody>
+</table>

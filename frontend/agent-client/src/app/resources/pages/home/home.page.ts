@@ -13,7 +13,7 @@ export class HomePage implements OnInit {
   constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit() {
-    this.saveCurrentUserData()
+    //this.saveCurrentUserData()
   }
 
   saveCurrentUserData() {
