@@ -12,7 +12,8 @@ import { RouterModule } from '@angular/router';
     declarations: [ 
         SpinnerComponent, 
         NavbarComponent, 
-        SideMenuComponent ],
+        SideMenuComponent
+    ],
     imports: [ 
         CommonModule,
         FormsModule,

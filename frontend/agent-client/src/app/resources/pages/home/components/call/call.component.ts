@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { CallService } from '@services/call/call.service';
+import { ToastService } from '@services/toast/toast.service';
+import Call from '@core/interfaces/call'
 
 @Component({
   selector: 'app-call',
@@ -7,31 +12,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CallComponent implements OnInit {
 
-  titles = [ "Category", "District", "Date", "Author" ]
+  titles = [ 'Serviço', 'Bairro', 'Postagem', 'Autor' ]
+  calls: any = null
+  selectedCall: Call
 
-  content = [
-    {
-      category: "Test",
-      district: "Downtown",
-      date: "20/03/2022",
-      author: "Anonymous"
-    },
-    {
-      category: "Test",
-      district: "Downtown",
-      date: "20/03/2022",
-      author: "Anonymous"
-    },
-    {
-      category: "Test",
-      district: "Downtown",
-      date: "20/03/2022",
-      author: "Anonymous"
+  constructor( 
+    private _toast: ToastService, 
+    private _route: ActivatedRoute,
+    private _callService: CallService ) { }
+
+  ngOnInit() {
+    this.calls = this._route.snapshot.data.calls.result
+  }
+
+  selectCall( call ) {
+    this.selectedCall = call
+    console.log( call )
+  }
+
+  reload() {
+    const user = sessionStorage.getItem( 'user' )
+
+    if( !user ) {
+      this._toast.displayMessage( 'Falha no carregamento, por favor reinicie sua sessão' )
+      return null
     }
-  ]
 
-  constructor() { }
-
-  ngOnInit() {}
-
+    this._callService.list( '/agent/calls/all', JSON.parse( user ) )
+                      .subscribe(
+                        resp =>  this.calls = resp.result,
+                        error => this._toast
+                                  .displayMessage( 
+                                      `Falha no carregamento: ${ JSON.stringify( error.error ) }` )
+                      )
+  }
 }
