@@ -12,6 +12,7 @@ import { CallComponent } from './components/call/call.component';
 import { ForwardedCallComponent } from './components/forwarded-call/forwarded-call.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { CallFormComponent } from './components/forms/call-form/call-form.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     CallComponent,
     FeedbackComponent,
     AttendanceComponent,
-    ForwardedCallComponent
+    ForwardedCallComponent,
+    CallFormComponent
   ]
 })
 export class HomePageModule {}

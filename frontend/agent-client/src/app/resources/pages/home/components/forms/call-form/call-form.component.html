@@ -1,0 +1,115 @@
+<ion-card>
+  <ion-card-content>
+    <form>
+      <h1>Dados da solicitação</h1>
+
+      <ion-row>
+        <ion-col>
+          <h2>Detalhes</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-label>Serviço</ion-label>
+          <ng-container *ngIf="!editDuty">
+            <ion-input readonly></ion-input>
+          </ng-container>
+          <ng-container *ngIf="editDuty">
+            <ion-select value="teste" interface="alert">
+              <ion-select-option value="teste">teste</ion-select-option>
+              <ion-select-option value="teste1">teste1</ion-select-option>
+            </ion-select>
+          </ng-container>
+          <div class="question-radio">
+            <label>O serviço está corente com a descrição? </label>
+            <input [(ngModel)]="editDuty" type="radio" name="service-edition" [value]="false" checked> Sim
+            <input [(ngModel)]="editDuty" type="radio" name="service-edition" [value]="true"> Não
+          </div>
+        </ion-col>
+
+        <ion-col size="3">
+          <ion-label>Protocolo</ion-label>
+          <ion-input readonly></ion-input>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-label>Data</ion-label>
+          <ion-input readonly></ion-input>
+        </ion-col>
+
+        <ion-col size="3">
+          <ion-label>Autor</ion-label>
+          <ion-input readonly></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="5">
+          <ion-label>Destinatário</ion-label>
+          <ng-container *ngIf="!editDestination">
+            <ion-input readonly></ion-input>
+          </ng-container>
+          <ng-container *ngIf="editDestination">
+            <ion-select value="teste" interface="alert">
+              <ion-select-option value="teste">teste</ion-select-option>
+              <ion-select-option value="teste1">teste1</ion-select-option>
+            </ion-select>
+          </ng-container>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-label>&nbsp;</ion-label>
+          <div class="question-radio">
+            <label>A descrição condiz com o órgão destinatário? </label>
+            <input [(ngModel)]="editDestination" type="radio" name="dept-edition" [value]="false"> Sim
+            <input [(ngModel)]="editDestination" type="radio" name="dept-edition" [value]="true"> Não
+          </div>
+        </ion-col>
+        <ion-col>
+          <ion-label>&nbsp;</ion-label>
+          <ion-button color="success">Ver Imagens</ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <h2>Endereço</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="2">
+          <ion-label>Cep</ion-label>
+          <ion-input readonly></ion-input>
+        </ion-col>
+        <ion-col size="4">
+          <ion-label>Bairro</ion-label>
+          <ion-input readonly></ion-input>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label>Logradouro</ion-label>
+          <ion-input readonly></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <h2>Descrição</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-textarea id="text-area" rows="5"readonly></ion-textarea>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4" offset="8">
+          <ion-button color="tertiary">Adicionar Resposta</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-card-content>
+</ion-card>

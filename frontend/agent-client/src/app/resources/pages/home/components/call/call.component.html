@@ -1,55 +1,24 @@
+<!-- Displays the table of calls -->
 <ng-container *ngIf="!selectedCall">
+
   <ion-button (click)="reload()">Refresh</ion-button>
-  <table class="table">
-    <thead class="table-head">
-      <th *ngFor="let head of titles" >{{ head }}</th>
-    </thead>
-    <tbody class="table-body">
-      <tr *ngFor="let obj of calls" (click)="selectCall( obj )">
+
+  <table-data [headerTitles]="titles">
+
+      <tr tbody-rows *ngFor="let obj of calls" (click)="selectCall( obj )">
         <td>{{ obj.duty.description }}</td>
         <td>{{ obj.address.district.name }}</td>
         <td>{{ obj.created_at | date }}</td>
         <td>{{ obj.author.name }}</td>
       </tr>
-    </tbody>
-  </table>
+
+  </table-data>
+
 </ng-container>
-<ng-container *ngIf="selectedCall" >
-  <ion-card>
-    <ion-card-content>
-      <form >
-        <h1>Dados da solicitação</h1>
-        <div class="line">
-          <ion-label>Serviço</ion-label>
-          <ion-label>Protocolo</ion-label>
-        </div>
-        <div class="line">
-          <ion-input placeholder="{{ selectedCall.duty.description }}"readonly></ion-input>
-          <ion-input placeholder="{{ selectedCall.protocol }}"readonly></ion-input>
-        </div>
 
-        <ion-label>Autor</ion-label>
-        <ion-input class="line" placeholder="{{ selectedCall.author.email }}"readonly></ion-input>
-        <ion-label position="stacked">Endereço</ion-label>
-  
-        <div class="line">
-          <ion-input  placeholder="{{ selectedCall.address.zip_code }}" readonly></ion-input>  
-          <ion-input  placeholder="{{ selectedCall.address.district.name }}" readonly></ion-input>  
-        </div><hr>
-  
-        <ion-input id="street" placeholder="Logradouro" readonly></ion-input>
-          
-        <hr><hr>
-        <ion-label>Imagens</ion-label>
-        <ion-input id="image-input" type="file"></ion-input>
+<!-- Displays the form of the selected call -->
+<ng-container *ngIf="selectedCall">
 
-  
-        <ion-label position="floating">Descrição</ion-label>
-        <ion-textarea id="text-area" placeholder="{{ selectedCall.description}}" rows="5" readonly>
+  <call-form [call]="selectedCall"></call-form>
 
-        </ion-textarea>
-  
-      </form>
-    </ion-card-content>
-  </ion-card>
 </ng-container>

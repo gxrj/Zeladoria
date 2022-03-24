@@ -1,0 +1,8 @@
+<table class="table">
+  <thead class="table-head">
+    <th *ngFor="let head of headerTitles" >{{ head }}</th>
+  </thead>
+  <tbody class="table-body">
+    <ng-content [select]="tbody-rows"></ng-content>
+  </tbody>
+</table>

@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
   persistCategories() {
     this.categories = this._route.snapshot.data.categories.result ?? sessionStorage.getItem( 'categories' )
 
-    if( this.categories && !this.categories.instanceof( String ) )
+    if( this.categories && !( this.categories instanceof  String  ) )
       sessionStorage.setItem( 'categories', JSON.stringify( this.categories ) )
     else if( this.categories.instanceof( String ) )
       this.categories = JSON.parse( this.categories )

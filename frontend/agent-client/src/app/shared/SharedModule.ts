@@ -7,12 +7,14 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
 import { NavbarComponent } from '@components/navbar/navbar.component';
 import { SideMenuComponent } from '@components/side-menu/side-menu.component';
 import { RouterModule } from '@angular/router';
+import { DataTableComponent } from '@components/data-table/data-table.component';
 
 @NgModule( { 
     declarations: [ 
         SpinnerComponent, 
         NavbarComponent, 
-        SideMenuComponent
+        SideMenuComponent,
+        DataTableComponent
     ],
     imports: [ 
         CommonModule,
@@ -26,7 +28,8 @@ import { RouterModule } from '@angular/router';
         ReactiveFormsModule,
         SpinnerComponent,
         NavbarComponent,
-        SideMenuComponent
+        SideMenuComponent,
+        DataTableComponent
     ]
 } )
 export class SharedModule {}

@@ -1,0 +1,26 @@
+.table {
+    margin: auto;
+    margin-top: 20px;
+    width:90%;
+    table-layout:fixed;
+}
+
+.table-head {
+    background-color: var( --default-main-color );
+    line-height: 30px;
+    color: white;
+}
+
+.table-body > tr {
+    height: 25px;
+    cursor: pointer;
+}
+
+.table-body > tr:hover {
+    background-color: rgb(85, 85, 85);
+    color: white;
+}
+
+.table-body > td {
+    word-wrap: break-word;
+}

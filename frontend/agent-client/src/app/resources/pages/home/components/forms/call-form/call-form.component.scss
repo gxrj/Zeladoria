@@ -1,0 +1,52 @@
+* {
+    text-align: start;
+}
+
+ion-card{
+    background-color: #cfcfcf;
+}
+
+h1 {
+    text-align: center;
+}
+
+ion-input, ion-select {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+    height: 30px;
+    line-height: 25px;
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+}
+
+.question-radio {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+#text-area {
+    margin: left;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+}
+
+ion-button {
+    width: 100%;
+}
+
+@media screen and ( max-width: 610px ) {
+    form {
+        width: 98vw;
+    }
+    ion-input {
+        width: 90vw;
+    }
+
+}

@@ -14,7 +14,7 @@ export class CallComponent implements OnInit {
 
   titles = [ 'Serviço', 'Bairro', 'Postagem', 'Autor' ]
   calls: any = null
-  selectedCall: Call
+  selectedCall: Call = null
 
   constructor( 
     private _toast: ToastService, 
