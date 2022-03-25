@@ -30,6 +30,10 @@ export class CallComponent implements OnInit {
     console.log( call )
   }
 
+  return() {
+    this.selectedCall = null
+  }
+
   reload() {
     const user = sessionStorage.getItem( 'user' )
 

@@ -1,24 +1,30 @@
 <!-- Displays the table of calls -->
 <ng-container *ngIf="!selectedCall">
-
-  <ion-button (click)="reload()">Refresh</ion-button>
-
-  <table-data [headerTitles]="titles">
-
-      <tr tbody-rows *ngFor="let obj of calls" (click)="selectCall( obj )">
-        <td>{{ obj.duty.description }}</td>
-        <td>{{ obj.address.district.name }}</td>
-        <td>{{ obj.created_at | date }}</td>
-        <td>{{ obj.author.name }}</td>
-      </tr>
-
-  </table-data>
-
+  <ion-content>
+    <ion-row>
+      <ion-col offset="8" size="4">
+        <ion-button (click)="reload()" color="tertiary">Recarregar</ion-button>
+      </ion-col>
+    </ion-row>
+    <data-table [headerTitles]="titles">
+        <tr *ngFor="let obj of calls" (click)="selectCall( obj )">
+          <td>{{ obj.duty.description }}</td>
+          <td>{{ obj.address.district.name }}</td>
+          <td>{{ obj.created_at | date:"HH : mm -- d / MM /y" }}</td>
+          <td>{{ obj.author.name }}</td>
+        </tr>
+    </data-table>
+  </ion-content>
 </ng-container>
 
 <!-- Displays the form of the selected call -->
 <ng-container *ngIf="selectedCall">
-
-  <call-form [call]="selectedCall"></call-form>
-
+  <ion-content>
+    <ion-row>
+      <ion-col offset="8" size="4">
+        <ion-button (click)="return()" color="tertiary">Voltar</ion-button>
+      </ion-col>
+    </ion-row>
+    <call-form [call]="selectedCall"></call-form>
+  </ion-content>
 </ng-container>

@@ -1,14 +1,21 @@
 .table {
     margin: auto;
-    margin-top: 20px;
     width:90%;
-    table-layout:fixed;
+}
+
+.table-head, .table-body {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
 }
 
 .table-head {
     background-color: var( --default-main-color );
     line-height: 30px;
-    color: white;
+    color: white; 
+}
+
+.table-body {
+    margin-top: 10px;
+    height: 60%;
 }
 
 .table-body > tr {
