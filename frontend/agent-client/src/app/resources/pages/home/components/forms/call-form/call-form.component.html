@@ -17,7 +17,10 @@
           </ng-container>
           <ng-container *ngIf="editDuty">
             <ion-select [(ngModel)]="tempDuty.description" [ngModelOptions]="{standalone: true}">
-              <ion-select-option *ngFor="let duty of duties" value="{{duty.description}}">{{duty.description}}</ion-select-option>
+              <ion-select-option 
+                  *ngFor="let duty of duties"
+                  (change)="changeDestination( duty.destination )" 
+                  value="{{duty.description}}">{{duty.description}}</ion-select-option>
             </ion-select>
           </ng-container>
           <div class="question-radio">
