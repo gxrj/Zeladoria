@@ -30,7 +30,7 @@ export class CallResolver implements Resolve<any>{
   }
 
   private errorRedirection(): Observable<never> {
-    this._toast.displayMessage( 'Falha no carregamento' )
+    this._toast.displayMessage( 'Falha no carregamento de ocorrências' )
     this._router.navigateByUrl( '/home' )
     return EMPTY 
   }

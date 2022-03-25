@@ -10,7 +10,6 @@ export class NavbarComponent implements OnInit {
 
   paths = [
     { url: '/home/calls', label: 'Ocorrências' },
-    { url: '/home/forwarded-calls', label: 'Encaminhamentos' },
     { url: '/home/attendances', label: 'Atendimentos' },
     { url: '/home/feedbacks', label: 'Feedbacks' }
   ]

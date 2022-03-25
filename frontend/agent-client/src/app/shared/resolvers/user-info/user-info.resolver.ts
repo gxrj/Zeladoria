@@ -22,7 +22,7 @@ export class UserInfoResolver implements Resolve<any>{
       return this._userService.getInfo( '/agent/info' )
                   .pipe( 
                     catchError( () => {
-                        this._toast.displayMessage( 'Falha no carregamento' )
+                        this._toast.displayMessage( 'Falha no carregamento de dados do usuário' )
                         this._router.navigateByUrl( '/home' )
                         return EMPTY
                     } ) )

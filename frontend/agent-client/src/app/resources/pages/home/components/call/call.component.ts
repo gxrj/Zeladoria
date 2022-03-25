@@ -14,6 +14,8 @@ export class CallComponent implements OnInit {
 
   titles = [ 'Serviço', 'Bairro', 'Postagem', 'Autor' ]
   calls: any = null
+  duties: Array<any> = null
+  deptList: Array<any> = null
   selectedCall: Call = null
 
   constructor( 
@@ -23,11 +25,27 @@ export class CallComponent implements OnInit {
 
   ngOnInit() {
     this.calls = this._route.snapshot.data.calls.result
+    this.getAndStoreDuties()
+    this.getAndStoreDepartments()
   }
 
   selectCall( call ) {
     this.selectedCall = call
-    console.log( call )
+  }
+
+  getAndStoreDuties() {
+    if( !this.duties ) {
+      this.duties = this._route.snapshot.data.duties.result
+      sessionStorage.setItem( 'duties', JSON.stringify( this.duties ) )
+    }
+  }
+
+  getAndStoreDepartments() {
+    if( this.duties && !this.deptList ) {
+      this.deptList = this.duties.map( item => item.department.name )
+      this.deptList = this.deptList.filter( ( item, index ) => this.deptList.indexOf( item ) === index )
+      sessionStorage.setItem( 'deptList', JSON.stringify( this.deptList ) )
+    }
   }
 
   return() {

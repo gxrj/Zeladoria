@@ -16,8 +16,8 @@
             <ion-input placeholder="{{ call.duty.description }}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDuty">
-            <ion-select [(ngModel)]="call.duty">
-              <ion-select-option *ngFor="let duty of duties" value="{{duty.name}}">{{duty.name}}</ion-select-option>
+            <ion-select [(ngModel)]="tempDuty.description" [ngModelOptions]="{standalone: true}">
+              <ion-select-option *ngFor="let duty of duties" value="{{duty.description}}">{{duty.description}}</ion-select-option>
             </ion-select>
           </ng-container>
           <div class="question-radio">
@@ -47,11 +47,11 @@
         <ion-col size="5">
           <ion-label>Destinatário</ion-label>
           <ng-container *ngIf="!editDestination">
-            <ion-input placeholder="{{call.department.name}}" readonly></ion-input>
+            <ion-input placeholder="{{call.destination.name}}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDestination">
-            <ion-select [(ngModel)]="call.department">
-              <ion-select-option *ngFor="let dept of deptList" value="{{dept.name}}">{{dept.name}}</ion-select-option>
+            <ion-select [(ngModel)]="tempDestination.name" [ngModelOptions]="{standalone: true}">
+              <ion-select-option *ngFor="let dept of deptList" value="{{dept}}">{{dept}}</ion-select-option>
             </ion-select>
           </ng-container>
         </ion-col>
@@ -59,7 +59,7 @@
         <ion-col size="4">
           <ion-label>&nbsp;</ion-label>
           <div class="question-radio">
-            <label>A descrição condiz com o órgão destinatário? </label>
+            <label>O órgão destinatário condiz com a descrição? </label>
             <input [(ngModel)]="editDestination" type="radio" name="dept-edition" [value]="false"> Sim
             <input [(ngModel)]="editDestination" type="radio" name="dept-edition" [value]="true"> Não
           </div>
@@ -109,7 +109,7 @@
             <ion-button color="tertiary">Adicionar Resposta</ion-button>
           </ng-container>
           <ng-container *ngIf="editDestination">
-            <ion-button color="tertiary">Encaminhar</ion-button>
+            <ion-button (click)="forward()" color="tertiary">Encaminhar</ion-button>
           </ng-container>
         </ion-col>
       </ion-row>
