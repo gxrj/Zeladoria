@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +32,7 @@ public class AgentDTO implements Serializable {
     private UUID id;
     private String name;
 
-    @NotNull
+    @NotEmpty
     private String username;
     private String cpf;
     private String password;

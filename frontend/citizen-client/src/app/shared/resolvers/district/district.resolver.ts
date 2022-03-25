@@ -18,10 +18,10 @@ export class DistrictResolver implements Resolve<any>{
     resolve(): Observable<any> {
 
       return  this._districtService
-                    .loadDistricts( '/anonymous/district/all' )       
-                      .pipe( 
+                    .loadDistricts( '/anonymous/district/all' )
+                      .pipe(
                         catchError( () => {
-                            this._toast.displayMessage( 'Falha no carregamento' )
+                            this._toast.displayMessage( 'Falha no carregamento de bairros' )
                             this._router.navigateByUrl( '/home' )
                             return EMPTY
                         } ) )

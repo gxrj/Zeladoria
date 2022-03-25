@@ -46,6 +46,10 @@ public class Call implements Serializable {
     @Column( name = "dt_postagem" )
     private Timestamp postingDate;
 
+    @ManyToOne
+    @JoinColumn( name = "destinatario" )
+    private Department destination;
+
     @ToString.Exclude
     @OneToMany( mappedBy = "userCall" )
     private List<Attendance> attendances;

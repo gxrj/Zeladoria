@@ -60,6 +60,10 @@ public class CallService {
         return repository.findByPostingDate( time );
     }
 
+    public List<Call> findCallByDestination( String deptName ) {
+        return repository.findByDestination_Name( deptName );
+    }
+
     public List<Call> findCallByDepartment( String deptName ) {
         return repository.findByDuty_Department_Name( deptName );
     }

@@ -18,9 +18,9 @@ export class CategoryResolver implements Resolve<any> {
   resolve(): Observable<any> {
     return this._categoryService
                 .loadCategories( '/anonymous/duty/categories' )
-                  .pipe( 
-                    catchError( () => { 
-                      this._toast.displayMessage( 'Falha no carregamento' )
+                  .pipe(
+                    catchError( () => {
+                      this._toast.displayMessage( 'Falha no carregamento dos grupos de serviço' )
                       this._router.navigate( [ '/' ] )
                       return EMPTY
                     } ) )

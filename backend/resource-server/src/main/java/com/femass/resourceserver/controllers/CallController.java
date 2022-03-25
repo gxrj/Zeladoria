@@ -50,7 +50,7 @@ public class CallController {
     public ResponseEntity<JSONObject> listCallsByAgentDeptartment( @RequestBody AgentDTO agent ) {
 
         var calls = module.getCallService()
-                .findCallByDepartment( agent.getDepartment().getName() )
+                .findCallByDestination( agent.getDepartment().getName() )
                 .parallelStream().map( CallDTO::serialize ).toList();
 
         return getSuccessResponse( calls );
@@ -81,7 +81,7 @@ public class CallController {
            var agent = module.getAgentService().findByUsername( login );
 
            var calls = module.getCallService()
-                   .findCallByDepartment( agent.getDepartment().getName() )
+                   .findCallByDestination( agent.getDepartment().getName() )
                    .parallelStream().map( CallDTO::serialize ).toList();
 
            return getSuccessResponse( calls );

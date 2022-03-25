@@ -39,6 +39,7 @@ public class CallTableSeeder {
             call.setProtocol( protocol );
             call.setDuty( duty );
             call.setAddress( address );
+            call.setDestination( duty.getDepartment() );
             call.setPostingDate( new Timestamp( System.currentTimeMillis() ) );
             call.setStatus( Status.PROCESSING );
             call.setDescription( "Bueiro destruido pelas chuvas no centro" );

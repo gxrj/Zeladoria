@@ -11,7 +11,8 @@ import com.femass.resourceserver.services.ServiceModule;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -21,10 +22,10 @@ import java.util.UUID;
 @JsonInclude( JsonInclude.Include.NON_EMPTY )
 public class UserFeedbackDTO implements Serializable {
 
-    private @NotNull UUID id;
+    private @NotEmpty UUID id;
     private String description;
-    private @NotNull CitizenDTO user;
-    private @NotNull AttendanceDTO attendance;
+    private @NotEmpty CitizenDTO user;
+    private @NotEmpty AttendanceDTO attendance;
 
     @JsonValue
     public static UserFeedbackDTO serialize( UserFeedback feedback ) {

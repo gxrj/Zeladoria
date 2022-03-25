@@ -12,7 +12,7 @@ import com.femass.resourceserver.services.ServiceModule;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -29,11 +29,11 @@ import java.util.UUID;
 )
 public class AttendanceDTO implements Serializable {
 
-    private @NotNull UUID id;
-    private @NotNull String callProtocol;
+    private @NotEmpty UUID id;
+    private @NotEmpty String callProtocol;
     private Timestamp issuedAt;
     private String description;
-    private @NotNull AgentDTO responsible;
+    private @NotEmpty AgentDTO responsible;
 
     @JsonValue
     public static AttendanceDTO serialize( Attendance attendance ) {

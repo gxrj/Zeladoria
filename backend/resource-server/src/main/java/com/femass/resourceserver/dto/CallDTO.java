@@ -7,18 +7,15 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
-import com.femass.resourceserver.domain.Citizen;
 import com.femass.resourceserver.domain.Status;
-import com.femass.resourceserver.domain.account.CitizenAccount;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import lombok.ToString;
-import org.springframework.util.Assert;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
@@ -38,8 +35,9 @@ public class CallDTO implements Serializable {
     private String description;
     private Address address;
     private List<String> images;
+    private DepartmentDTO destination;
 
-    @NotNull
+    @NotEmpty
     private CitizenDTO author;
     private Timestamp createdAt;
 
@@ -49,7 +47,8 @@ public class CallDTO implements Serializable {
         if( call == null ) return null;
 
         var callDto = new CallDTO();
-        callDto.setDuty( DutyDTO.serialize( call.getDuty() ) );
+        var duty = call.getDuty();
+        callDto.setDuty( DutyDTO.serialize( duty ) );
         callDto.setProtocol( call.getProtocol() );
         callDto.setStatus(  call.getStatus() );
         callDto.setDescription( call.getDescription() );
@@ -57,6 +56,7 @@ public class CallDTO implements Serializable {
         callDto.setImages( call.getImages() );
         callDto.setAuthor( CitizenDTO.serialize( call.getAuthor() ) );
         callDto.setCreatedAt( call.getPostingDate() );
+        callDto.setDestination( DepartmentDTO.serialize( duty.getDepartment() ) );
 
         return callDto;
     }
@@ -68,9 +68,10 @@ public class CallDTO implements Serializable {
         var object = callDto.protocol != null ?
                                     callService.findCallByProtocol( callDto.protocol ) : null;
 
+        var objectIsStored = object != null;
         var email = callDto.author.getEmail();
 
-        if( object == null ) {
+        if( !objectIsStored ) {
 
             var citizenService = module.getCitizenService();
             var protocol = String.format( "%d%H", System.currentTimeMillis(), email );
@@ -88,9 +89,13 @@ public class CallDTO implements Serializable {
 
         var dutyService = module.getDutyService();
 
-        if( callDto.duty != null )
-            object.setDuty( dutyService.findDutyByDescription(
-                                            callDto.duty.getDescription() ) );
+        if( callDto.duty != null ) {
+            var duty = dutyService.findDutyByDescription(
+                                        callDto.duty.getDescription() );
+            object.setDuty( duty );
+
+            if( !objectIsStored ) object.setDestination( duty.getDepartment() );
+        }
 
         if( callDto.status != null )
             object.setStatus( callDto.status );
@@ -100,6 +105,10 @@ public class CallDTO implements Serializable {
 
         if( callDto.images != null && !callDto.images.isEmpty() )
             object.setImages( callDto.getImages() );
+
+        if( objectIsStored && callDto.destination != null )
+            object.setDestination( module.getDepartmentService()
+                                        .findDepartmentByName( callDto.destination.getName() ) );
 
         if( callDto.address != null ) {
 

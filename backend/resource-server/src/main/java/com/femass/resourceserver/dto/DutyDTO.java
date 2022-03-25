@@ -12,7 +12,8 @@ import com.femass.resourceserver.services.ServiceModule;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+
 import java.io.Serializable;
 
 @Getter @Setter
@@ -28,8 +29,8 @@ import java.io.Serializable;
 public class DutyDTO implements Serializable {
 
     private Long id;
-    private @NotNull String description;
-    private @NotNull DepartmentDTO department;
+    private @NotEmpty String description;
+    private @NotEmpty DepartmentDTO department;
     private DutyGroupDTO category;
 
     @JsonValue
