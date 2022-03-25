@@ -28,6 +28,7 @@ public class CallTableSeeder {
             address.setLatitude( -41.7828 );
             address.setLongitude( -22.3837 );
             address.setZipCode( "27900000" );
+            address.setPublicPlace( "Rua Marechal Deodoro" );
             address.setDistrict( district );
 
             var email = user.getAccount().getUsername();

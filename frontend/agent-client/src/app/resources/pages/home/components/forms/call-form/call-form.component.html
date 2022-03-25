@@ -13,12 +13,11 @@
         <ion-col size="4">
           <ion-label>Serviço</ion-label>
           <ng-container *ngIf="!editDuty">
-            <ion-input readonly></ion-input>
+            <ion-input placeholder="{{ call.duty.description }}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDuty">
-            <ion-select value="teste" interface="alert">
-              <ion-select-option value="teste">teste</ion-select-option>
-              <ion-select-option value="teste1">teste1</ion-select-option>
+            <ion-select [(ngModel)]="call.duty">
+              <ion-select-option *ngFor="let duty of duties" value="{{duty.name}}">{{duty.name}}</ion-select-option>
             </ion-select>
           </ng-container>
           <div class="question-radio">
@@ -30,17 +29,17 @@
 
         <ion-col size="3">
           <ion-label>Protocolo</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input placeholder="{{call.protocol}}" readonly></ion-input>
         </ion-col>
 
         <ion-col size="2">
           <ion-label>Data</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input placeholder="{{call.created_at | date:'HH:mm -- d/MM/yy'}}" readonly></ion-input>
         </ion-col>
 
         <ion-col size="3">
           <ion-label>Autor</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input placeholder="{{call.author.name}}" readonly></ion-input>
         </ion-col>
       </ion-row>
 
@@ -48,12 +47,11 @@
         <ion-col size="5">
           <ion-label>Destinatário</ion-label>
           <ng-container *ngIf="!editDestination">
-            <ion-input readonly></ion-input>
+            <ion-input placeholder="{{call.department.name}}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDestination">
-            <ion-select value="teste" interface="alert">
-              <ion-select-option value="teste">teste</ion-select-option>
-              <ion-select-option value="teste1">teste1</ion-select-option>
+            <ion-select [(ngModel)]="call.department">
+              <ion-select-option *ngFor="let dept of deptList" value="{{dept.name}}">{{dept.name}}</ion-select-option>
             </ion-select>
           </ng-container>
         </ion-col>
@@ -81,15 +79,15 @@
       <ion-row>
         <ion-col size="2">
           <ion-label>Cep</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input placeholder="{{call.address.zip_code}}" readonly></ion-input>
         </ion-col>
         <ion-col size="4">
           <ion-label>Bairro</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input placeholder="{{call.address.district.name}}" readonly></ion-input>
         </ion-col>
         <ion-col size="6">
           <ion-label>Logradouro</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input placeholder="{{call.address.public_place}}" readonly></ion-input>
         </ion-col>
       </ion-row>
 
@@ -101,7 +99,7 @@
 
       <ion-row>
         <ion-col size="12">
-          <ion-textarea id="text-area" rows="5"readonly></ion-textarea>
+          <ion-textarea placeholder="{{call.description}}" id="text-area" rows="5" readonly></ion-textarea>
         </ion-col>
       </ion-row>
 

@@ -35,8 +35,6 @@ public class ServiceModule {
     @Autowired
     private DutyGroupService dutyGroupService;
     @Autowired
-    private ForwardCallService forwardCallService;
-    @Autowired
     private UserFeedbackService userFeedbackService;
 
     @Autowired
