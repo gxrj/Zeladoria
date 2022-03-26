@@ -7,6 +7,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
 import { SideMenuComponent } from '@components/side-menu/side-menu.component';
 import { RouterModule } from '@angular/router';
 import { DataTableComponent } from '@components/data-table/data-table.component';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule( { 
     declarations: [ 
@@ -19,7 +20,9 @@ import { DataTableComponent } from '@components/data-table/data-table.component'
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule 
+        RouterModule,
+        FormsModule,
+        IonicModule 
     ],
     exports: [
         CommonModule,

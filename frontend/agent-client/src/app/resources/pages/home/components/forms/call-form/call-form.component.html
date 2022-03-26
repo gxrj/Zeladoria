@@ -16,17 +16,19 @@
             <ion-input placeholder="{{ call.duty.description }}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDuty">
-            <ion-select [(ngModel)]="tempDuty.description" [ngModelOptions]="{standalone: true}">
+            <ion-select [(ngModel)]="tempDuty" 
+                        placeholder="{{tempDuty.description}}"
+                        (ionChange)="checkDestination()" 
+                        [ngModelOptions]="{standalone: true}">
               <ion-select-option 
                   *ngFor="let duty of duties"
-                  (change)="changeDestination( duty.destination )" 
-                  value="{{duty.description}}">{{duty.description}}</ion-select-option>
+                  [value]="duty">{{duty.description}}</ion-select-option>
             </ion-select>
           </ng-container>
           <div class="question-radio">
             <label>O serviço está corente com a descrição? </label>
-            <input [(ngModel)]="editDuty" type="radio" name="service-edition" [value]="false" checked> Sim
-            <input [(ngModel)]="editDuty" type="radio" name="service-edition" [value]="true"> Não
+            <input [(ngModel)]="editDuty" [value]="false" (change)="checkDestination()" type="radio" name="service-edition" checked> Sim
+            <input [(ngModel)]="editDuty" [value]="true" (change)="checkDestination()" type="radio" name="service-edition"> Não
           </div>
         </ion-col>
 
@@ -53,8 +55,10 @@
             <ion-input placeholder="{{call.destination.name}}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDestination">
-            <ion-select [(ngModel)]="tempDestination.name" [ngModelOptions]="{standalone: true}">
-              <ion-select-option *ngFor="let dept of deptList" value="{{dept}}">{{dept}}</ion-select-option>
+            <ion-select [(ngModel)]="tempDestination"
+                        placeholder="{{ tempDestination }}"
+                        [ngModelOptions]="{standalone: true}">
+              <ion-select-option *ngFor="let dept of deptList" [value]="dept">{{dept}}</ion-select-option>
             </ion-select>
           </ng-container>
         </ion-col>
@@ -63,8 +67,8 @@
           <ion-label>&nbsp;</ion-label>
           <div class="question-radio">
             <label>O órgão destinatário condiz com a descrição? </label>
-            <input [(ngModel)]="editDestination" type="radio" name="dept-edition" [value]="false"> Sim
-            <input [(ngModel)]="editDestination" type="radio" name="dept-edition" [value]="true"> Não
+            <input [(ngModel)]="editDestination" [value]="false" type="radio" name="dept-edition" checked> Sim
+            <input [(ngModel)]="editDestination" [value]="true" type="radio" name="dept-edition"> Não
           </div>
         </ion-col>
         <ion-col>

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import Call from '@core/interfaces/call';
@@ -23,23 +24,35 @@ export class CallFormComponent implements OnInit {
   editDestination: boolean = false
 
   constructor( 
+    private _fb: FormBuilder,
     private _toast: ToastService,
     private _route: ActivatedRoute,
     private _callService: CallService ) { }
 
   ngOnInit() {
     this.tempDuty = this.call.duty
-    this.tempDestination = this.call.destination
+    this.tempDestination = this.call.destination.name
   }
 
-  changeDestination( department ) {
-    // Todo: change to form control
-    this.editDestination = true
-    this.tempDestination = department
+  checkDestination() {
+    
+    if( this.tempDuty.department.name !== this.tempDestination ) {
+        this.tempDestination = this.tempDuty.department.name
+        this.editDestination = true
+    }
+    if( !this.editDuty ) {
+      this.tempDestination = this.call.destination.name
+      this.editDestination = false
+    }
   }
 
-  forward(){
-    console.log( this.tempDuty );
-  }
+  forward() {
+    if( this.editDuty )
+      this.call.duty = this.tempDuty
 
+    if( this.editDestination )
+      this.call.destination.name = this.tempDestination
+
+    console.log( this.call );
+  }
 }
