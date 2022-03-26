@@ -4,8 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 
 import Call from '@core/interfaces/call';
 import Duty from '@core/interfaces/duty';
+import { ModalController } from '@ionic/angular';
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
+import { AttendanceFormComponent } from '../attendance-form/attendance-form.component';
 
 @Component({
   selector: 'call-form',
@@ -22,11 +24,13 @@ export class CallFormComponent implements OnInit {
   tempDestination: any
   editDuty: boolean = false
   editDestination: boolean = false
+  isPrank: boolean = false
 
   constructor( 
     private _fb: FormBuilder,
     private _toast: ToastService,
     private _route: ActivatedRoute,
+    private _modal: ModalController,
     private _callService: CallService ) { }
 
   ngOnInit() {
@@ -37,15 +41,18 @@ export class CallFormComponent implements OnInit {
   checkDestination() {
 
     if( this.tempDuty.department.name !== this.tempDestination ) {
-        this.tempDestination = this.tempDuty.department.name
-        this.editDestination = true
-        this.call.stattus = "Encaminhada"
+      this.tempDestination = this.tempDuty.department.name
+      this.editDestination = true
+      this.call.stattus = "Encaminhada"
     }
     if( !this.editDuty ) {
       this.tempDestination = this.call.destination.name
       this.editDestination = false
       this.call.stattus = "Em andamento"
     }
+  }
+  answer() {
+    this.openModal()
   }
 
   forward() {
@@ -55,6 +62,23 @@ export class CallFormComponent implements OnInit {
     if( this.editDestination )
       this.call.destination.name = this.tempDestination
 
-    console.log( this.call );
+    this.answer()
+  }
+
+  delete() {
+    
+  }
+
+  async openModal() {
+    const modal = await this._modal.create( {
+      component: AttendanceFormComponent
+    } )
+    return await modal.present();
+  }
+
+  closeModal(){
+    this._modal.dismiss( {
+      'dismissed': true
+    } )
   }
 }

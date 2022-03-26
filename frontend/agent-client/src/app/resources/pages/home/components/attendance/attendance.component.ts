@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-attendance',
+  selector: 'attendance',
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.scss'],
 })

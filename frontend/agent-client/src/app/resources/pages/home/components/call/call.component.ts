@@ -6,7 +6,7 @@ import { ToastService } from '@services/toast/toast.service';
 import Call from '@core/interfaces/call'
 
 @Component({
-  selector: 'app-call',
+  selector: 'call',
   templateUrl: './call.component.html',
   styleUrls: ['./call.component.scss'],
 })

@@ -61,7 +61,12 @@ public class CallService {
     }
 
     public List<Call> findCallByDestination( String deptName ) {
-        return repository.findByDestination_Name( deptName );
+        return repository.findByDestination_Name( deptName )
+                            .parallelStream()
+                            .filter(
+                                item -> item.getStatus().equals( Status.PROCESSING )
+                                        || item.getStatus().equals( Status.FORWARDED ) )
+                            .toList();
     }
 
     public List<Call> findCallByDepartment( String deptName ) {

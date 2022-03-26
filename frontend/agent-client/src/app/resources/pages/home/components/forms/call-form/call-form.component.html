@@ -108,16 +108,24 @@
       <ion-row>
         <ion-col size="12">
           <ion-textarea placeholder="{{call.description}}" id="text-area" rows="5" readonly></ion-textarea>
+          <div class="question-radio">
+            <label>A ocorrência é um trote? </label>
+            <input [(ngModel)]="isPrank" [value]="false" type="radio" name="prank"> Sim
+            <input [(ngModel)]="isPrank" [value]="true" type="radio" name="prank" checked> Não
+          </div>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col size="4" offset="8">
-          <ng-container *ngIf="!editDestination">
-            <ion-button color="tertiary">Adicionar Resposta</ion-button>
+          <ng-container *ngIf="!editDestination && !isPrank">
+            <ion-button (click)="answer()" color="tertiary">Adicionar Resposta</ion-button>
           </ng-container>
-          <ng-container *ngIf="editDestination">
+          <ng-container *ngIf="editDestination && !isPrank">
             <ion-button (click)="forward()" color="tertiary">Encaminhar</ion-button>
+          </ng-container>
+          <ng-container *ngIf="isPrank">
+            <ion-button (click)="delete()" color="danger">Excluir Trote</ion-button>
           </ng-container>
         </ion-col>
       </ion-row>
