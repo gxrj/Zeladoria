@@ -9,6 +9,7 @@
     <data-table [headerTitles]="titles">
         <tr *ngFor="let obj of calls" (click)="selectCall( obj )">
           <td>{{ obj.duty.description }}</td>
+          <td>{{ obj.status }}</td>
           <td>{{ obj.address.district.name }}</td>
           <td>{{ obj.created_at | date:"HH : mm -- d / MM /y" }}</td>
           <td>{{ obj.author.name }}</td>

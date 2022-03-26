@@ -35,14 +35,16 @@ export class CallFormComponent implements OnInit {
   }
 
   checkDestination() {
-    
+
     if( this.tempDuty.department.name !== this.tempDestination ) {
         this.tempDestination = this.tempDuty.department.name
         this.editDestination = true
+        this.call.stattus = "Encaminhada"
     }
     if( !this.editDuty ) {
       this.tempDestination = this.call.destination.name
       this.editDestination = false
+      this.call.stattus = "Em andamento"
     }
   }
 

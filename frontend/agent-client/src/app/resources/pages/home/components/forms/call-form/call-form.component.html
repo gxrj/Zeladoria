@@ -16,14 +16,14 @@
             <ion-input placeholder="{{ call.duty.description }}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDuty">
-            <ion-select [(ngModel)]="tempDuty" 
-                        placeholder="{{tempDuty.description}}"
-                        (ionChange)="checkDestination()" 
+            <select [(ngModel)]="tempDuty" 
+                        (change)="checkDestination()" 
                         [ngModelOptions]="{standalone: true}">
-              <ion-select-option 
+              <option [ngValue]="tempDuty" selected>{{tempDuty.description}}</option>
+              <option 
                   *ngFor="let duty of duties"
-                  [value]="duty">{{duty.description}}</ion-select-option>
-            </ion-select>
+                  [ngValue]="duty">{{duty.description}}</option>
+            </select>
           </ng-container>
           <div class="question-radio">
             <label>O serviço está corente com a descrição? </label>
@@ -55,21 +55,22 @@
             <ion-input placeholder="{{call.destination.name}}" readonly></ion-input>
           </ng-container>
           <ng-container *ngIf="editDestination">
-            <ion-select [(ngModel)]="tempDestination"
-                        placeholder="{{ tempDestination }}"
-                        [ngModelOptions]="{standalone: true}">
-              <ion-select-option *ngFor="let dept of deptList" [value]="dept">{{dept}}</ion-select-option>
-            </ion-select>
+            <select [(ngModel)]="tempDestination"
+                    [ngModelOptions]="{standalone: true}">
+              <option [ngValue]="tempDestination" selected>{{tempDestination}}</option>
+              <option *ngFor="let dept of deptList" [ngValue]="dept">{{dept}}</option>
+            </select>
           </ng-container>
-        </ion-col>
-
-        <ion-col size="4">
-          <ion-label>&nbsp;</ion-label>
           <div class="question-radio">
             <label>O órgão destinatário condiz com a descrição? </label>
             <input [(ngModel)]="editDestination" [value]="false" type="radio" name="dept-edition" checked> Sim
             <input [(ngModel)]="editDestination" [value]="true" type="radio" name="dept-edition"> Não
           </div>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-label>Status</ion-label>
+          <ion-input placeholder="{{call.status}}" readonly></ion-input>
         </ion-col>
         <ion-col>
           <ion-label>&nbsp;</ion-label>

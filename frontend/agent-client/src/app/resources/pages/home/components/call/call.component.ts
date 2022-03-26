@@ -12,7 +12,7 @@ import Call from '@core/interfaces/call'
 })
 export class CallComponent implements OnInit {
 
-  titles = [ 'Serviço', 'Bairro', 'Postagem', 'Autor' ]
+  titles = [ 'Serviço', 'Status','Bairro', 'Postagem', 'Autor' ]
   calls: any = null
   duties: Array<any> = null
   deptList: Array<any> = null
