@@ -43,12 +43,10 @@ export class CallFormComponent implements OnInit {
     if( this.tempDuty.department.name !== this.tempDestination ) {
       this.tempDestination = this.tempDuty.department.name
       this.editDestination = true
-      this.call.stattus = "Encaminhada"
     }
     if( !this.editDuty ) {
       this.tempDestination = this.call.destination.name
       this.editDestination = false
-      this.call.stattus = "Em andamento"
     }
   }
   answer() {
@@ -71,14 +69,9 @@ export class CallFormComponent implements OnInit {
 
   async openModal() {
     const modal = await this._modal.create( {
-      component: AttendanceFormComponent
+      component: AttendanceFormComponent,
+      componentProps: { call: this.call, toForward: this.editDestination }
     } )
     return await modal.present();
-  }
-
-  closeModal(){
-    this._modal.dismiss( {
-      'dismissed': true
-    } )
   }
 }

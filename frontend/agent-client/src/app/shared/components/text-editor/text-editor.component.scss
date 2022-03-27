@@ -1,0 +1,40 @@
+#text-editor-header {
+    background-color: var( --ion-color-tertiary );
+}
+
+#editor-area {
+    height: 230px;
+    outline: none;
+    resize: none;
+}
+
+#text-editor-header, #editor-area {
+    margin-left: 1.25%;
+    width: 97.5%;
+}
+
+#editor-area:focus {
+    outline: none;
+}
+
+.button {
+    margin: 5px;
+    padding: 1px;
+    height: 18px;
+    width: 18px;
+    cursor: pointer;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+}
+
+.redo {
+    transform: scaleX(-1);
+}
+
+.button:active {
+    box-shadow: inset 1px 1px 3px rgb(73, 73, 73);
+}
+
+.button:hover {
+    box-shadow: none;
+}

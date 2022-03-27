@@ -1,0 +1,11 @@
+
+<ion-row id="text-editor-header">
+  <img class="button" (click)="format('bold')" src="../../../../assets/icons/bold.svg">
+  <img class="button" (click)="format('italic')" src="../../../../assets/icons/italic.svg">
+  <img class="button" (click)="format('underline')" src="../../../../assets/icons/underline.svg">
+  <img class="button" (click)="format('justify')" src="../../../../assets/icons/justify.svg">
+  <img class="button" (click)="format('insertUnorderedList')" src="../../../../assets/icons/list.svg">
+  <img class="button" (click)="format('undo')" src="../../../../assets/icons/undo.svg">
+  <img class="button redo" (click)="format('redo')" src="../../../../assets/icons/undo.svg">
+</ion-row>
+<textarea [(ngModel)]="text" id="editor-area" [value]="text"></textarea>

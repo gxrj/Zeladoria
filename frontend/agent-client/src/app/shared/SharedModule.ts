@@ -8,13 +8,15 @@ import { SideMenuComponent } from '@components/side-menu/side-menu.component';
 import { RouterModule } from '@angular/router';
 import { DataTableComponent } from '@components/data-table/data-table.component';
 import { IonicModule } from '@ionic/angular';
+import { TextEditorComponent } from '@components/text-editor/text-editor.component';
 
 @NgModule( { 
     declarations: [ 
         SpinnerComponent, 
         NavbarComponent, 
         SideMenuComponent,
-        DataTableComponent
+        DataTableComponent,
+        TextEditorComponent
     ],
     imports: [ 
         CommonModule,
@@ -31,7 +33,8 @@ import { IonicModule } from '@ionic/angular';
         SpinnerComponent,
         NavbarComponent,
         SideMenuComponent,
-        DataTableComponent
+        DataTableComponent,
+        TextEditorComponent
     ]
 } )
 export class SharedModule {}
