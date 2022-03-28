@@ -32,8 +32,12 @@ public class CallService {
         }
     }
 
-    public void delete(){
-
+    public void delete( Call entity ) throws RuntimeException {
+        try { repository.delete( entity ); }
+        catch ( IllegalArgumentException ex ) {
+            LOG.error( "CallService failed: {}", ex.getMessage() );
+            throw new RuntimeException( "CallService failed:" + ex.getMessage() );
+        }
     }
 
     public long countCalls() { return repository.count(); }

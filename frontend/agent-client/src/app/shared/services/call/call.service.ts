@@ -22,7 +22,11 @@ export class CallService {
   
   update( path: string, call: Call ): Observable<any> {
     const request = this._authService.prepareRequest( path, 'json', false )
+    return this._http.post( request.url, call, { headers:request.config.headers } )
+  }
 
+  delete( path: string, call: Call ) {
+    const request = this._authService.prepareRequest( path )
     return this._http.post( request.url, call, { headers:request.config.headers } )
   }
 }

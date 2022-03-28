@@ -6,6 +6,8 @@ import com.femass.resourceserver.services.ServiceModule;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +28,8 @@ public class CallController {
 
     @Autowired
     private ServiceModule module;
+
+    private final Logger LOG = LoggerFactory.getLogger( CallController.class );
 
     @PostMapping( "/anonymous/calls/new" )
     public ResponseEntity<JSONObject> create( @RequestBody CallDTO callDto ) {
@@ -90,6 +94,25 @@ public class CallController {
 
            return getInternalErrorMessage();
        }
+    }
+
+    @PostMapping( "/agent/calls/deletion" )
+    public ResponseEntity<JSONObject> removeCall( @RequestBody CallDTO dto ) {
+        var call = CallDTO.deserialize( dto, module );
+        var json = new JSONObject();
+        HttpStatus status;
+        try {
+            module.getCallService().delete( call );
+            json.appendField( "message", "Removido com sucesso!" );
+            status = HttpStatus.OK;
+        }
+        catch ( RuntimeException ex ) {
+            json.appendField( "message", "Falha na exclusão!" );
+            LOG.error( "CallController fails to delete: {}", ex.getMessage() );
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>( json, status );
     }
 
     private String extractLoginFromContext() throws AuthenticationException {

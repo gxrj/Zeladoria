@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import Call from '@core/interfaces/call';
 import Duty from '@core/interfaces/duty';
+import { Message } from '@core/interfaces/message';
 import { ModalController } from '@ionic/angular';
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
@@ -64,7 +65,14 @@ export class CallFormComponent implements OnInit {
   }
 
   delete() {
-    
+    this._callService.delete( '/agent/calls/deletion', this.call )
+    .subscribe(
+      ( res: Message ) => { this._toast.displayMessage( res?.message ) },
+      error => {
+        this._toast.displayMessage( 
+          `Falha na gravação: ${ JSON.stringify( error?.message ) }` )
+      }
+    )
   }
 
   async openModal() {
