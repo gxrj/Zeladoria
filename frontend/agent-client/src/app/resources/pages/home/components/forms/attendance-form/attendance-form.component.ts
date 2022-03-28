@@ -8,6 +8,7 @@ import Call from '@core/interfaces/call';
 import { Attendance } from '@core/interfaces/attendance';
 import { HttpResponse } from '@angular/common/http';
 import { Message } from '@core/interfaces/message';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-attendance-form',
@@ -43,22 +44,24 @@ export class AttendanceFormComponent implements OnInit {
   send() {
 
     this.prepareAttendance()
+    
+    const response = forkJoin( [
+      this._attendanceService.create( '/agent/attendance/new', this.attendance ),
+      this._callService.update( '/anonymous/calls/new', this.call )
+    ] )
+    
+    response.subscribe(
+      () => { 
+        this._toast.displayMessage( "Gravado com sucesso" )
+        this.close() 
+      },
+      error => {
+        this._toast.displayMessage( 
+          `Falha na gravação: ${ JSON.stringify( error ) }` )
 
-    this._attendanceService
-          .create( '/agent/attendance/new', this.attendance )
-            .subscribe(
-                (res: HttpResponse<Message> ) => { 
-                  this._toast.displayMessage( res.body.message )
-                  this.close() 
-                },
-                error => {
-                  console.log( error.error )
-                  this._toast.displayMessage( 
-                    `Falha na gravação: ${ JSON.stringify( error.error ) }` )
-
-                  this.close()
-                }
-            )
+        this.close()
+      }
+    )
   }
 
   close() {

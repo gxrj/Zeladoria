@@ -44,11 +44,10 @@ public class AttendanceController {
     @PostMapping( path = "/authenticated/attendance/by_call" )
     public ResponseEntity<JSONObject> getAttendanceListByCall( @RequestBody CallDTO callDTO ) {
 
-        var call = CallDTO.deserialize( callDTO, module );
         var json = new JSONObject();
 
         var attendances = module.getAttendanceService()
-                            .findAttendanceByCallProtocol( call.getProtocol() )
+                            .findAttendanceByCallProtocol( callDTO.getProtocol() )
                             .parallelStream().map( AttendanceDTO::serialize ).toList();
 
         json.appendField( "result", attendances );
