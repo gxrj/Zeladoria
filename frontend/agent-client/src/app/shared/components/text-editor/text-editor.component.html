@@ -8,4 +8,4 @@
   <img class="button" (click)="format('undo')" src="../../../../assets/icons/undo.svg">
   <img class="button redo" (click)="format('redo')" src="../../../../assets/icons/undo.svg">
 </ion-row>
-<textarea [(ngModel)]="text" id="editor-area" [value]="text"></textarea>
+<textarea [(ngModel)]="text" (ngModelChange)="textChange.emit( text )" id="editor-area"></textarea>

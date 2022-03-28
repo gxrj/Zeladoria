@@ -31,7 +31,7 @@ public class Attendance implements Serializable {
     @Column( name = "dt_execucao" )
     private Timestamp executionDate;
 
-    @Column( name = "descricao" )
+    @Column( name = "descricao", nullable = false )
     private String description;
 
     @ManyToOne

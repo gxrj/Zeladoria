@@ -26,10 +26,10 @@
         <ion-label *ngIf="toForward">Cometário</ion-label>
       </ion-col>
     </ion-row>
-    <text-editor></text-editor>
+    <text-editor [(text)]="attendance.description"></text-editor>
     <ion-row>
       <ion-col offset="10" size="2">
-        <ion-button color="tertiary">Enviar</ion-button>
+        <ion-button (click)="send()" color="tertiary">Enviar</ion-button>
       </ion-col>
     </ion-row>
   </form>

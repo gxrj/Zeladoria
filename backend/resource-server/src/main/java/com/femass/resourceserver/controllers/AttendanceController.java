@@ -31,7 +31,7 @@ public class AttendanceController {
 
         if( module.getAttendanceService().createOrUpdate( attendance ) ) {
             json.appendField( "message", "Atendimento gravado com sucesso!" );
-            status = HttpStatus.CREATED;
+            status = HttpStatus.ACCEPTED;
         }
         else {
             json.appendField( "message", "Falha na gravação do atendimento!" );

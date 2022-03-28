@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 
 @Component({
   selector: 'text-editor',
@@ -7,13 +8,15 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 })
 export class TextEditorComponent implements OnInit {
 
-  @Input() @Output() text: string
+  @Input() text: string
+  @Output() textChange = new EventEmitter<string>()
 
   constructor() { }
 
   ngOnInit() {}
 
   format( command: string ) {
+    console.log( this.text )
     document.execCommand( command, false, '' )
   }
 }

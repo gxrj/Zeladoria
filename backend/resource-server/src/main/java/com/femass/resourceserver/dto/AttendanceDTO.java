@@ -31,9 +31,9 @@ public class AttendanceDTO implements Serializable {
 
     private UUID id;
     private @NotEmpty String protocol;
-    private @NotEmpty String callProtocol;
+    private @NotEmpty CallDTO call;
     private Timestamp issuedAt;
-    private String description;
+    private @NotEmpty String description;
     private @NotEmpty AgentDTO responsible;
 
     @JsonValue
@@ -43,8 +43,8 @@ public class AttendanceDTO implements Serializable {
         
         var attendanceDto = new AttendanceDTO();
         attendanceDto.setId( attendance.getId() );
-        attendanceDto.setProtocol( attendanceDto.getProtocol() );
-        attendanceDto.setCallProtocol( attendance.getUserCall().getProtocol() );
+        attendanceDto.setProtocol( attendance.getProtocol() );
+        attendanceDto.setCall( CallDTO.serialize( attendance.getUserCall() ) );
         attendanceDto.setIssuedAt( attendance.getExecutionDate() );
         attendanceDto.setDescription( attendance.getDescription() );
         attendanceDto.setResponsible( AgentDTO.serialize( attendance.getResponsible() ) );
@@ -63,13 +63,13 @@ public class AttendanceDTO implements Serializable {
             var callService = module.getCallService();
 
             attendance = new Attendance();
-            attendance.setUserCall( callService.findCallByProtocol( attendanceDto.callProtocol ) );
+            attendance.setProtocol( attendanceDto.protocol );
+            attendance.setUserCall( callService.findCallByProtocol( attendanceDto.call.getProtocol() ) );
             attendance.setExecutionDate( new Timestamp( System.currentTimeMillis() ) );
             attendance.setResponsible( agentService.findByUsername( attendanceDto.responsible.getUsername() ) );
         }
 
-        if( attendanceDto.description != null )
-            attendance.setDescription( attendanceDto.description );
+        attendance.setDescription( attendanceDto.description );
 
         return attendance;
     }

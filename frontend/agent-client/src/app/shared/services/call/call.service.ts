@@ -9,8 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class CallService {
 
-  constructor( private _http: HttpClient, 
-              private _authService: AuthService ) { }
+  constructor( 
+    private _http: HttpClient, 
+    private _authService: AuthService ) { }
 
   list( path: string, user: User ): Observable<any> {
     const request = this._authService.prepareRequest( path )

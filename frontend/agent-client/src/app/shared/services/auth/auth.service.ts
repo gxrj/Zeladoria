@@ -13,8 +13,9 @@ export class AuthService {
   private authzServer = OAUTH_REQUEST.authzServer
   private resourceServer = OAUTH_REQUEST.resourceServer
 
-  constructor( private _http: HttpClient,
-               private _tokenService: TokenStorageService ) { }
+  constructor( 
+    private _http: HttpClient,
+    private _tokenService: TokenStorageService ) { }
 
   redirectToLoginPage() {
 
