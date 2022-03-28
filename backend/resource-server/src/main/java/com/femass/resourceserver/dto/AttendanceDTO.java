@@ -29,7 +29,8 @@ import java.util.UUID;
 )
 public class AttendanceDTO implements Serializable {
 
-    private @NotEmpty UUID id;
+    private UUID id;
+    private @NotEmpty String protocol;
     private @NotEmpty String callProtocol;
     private Timestamp issuedAt;
     private String description;
@@ -42,6 +43,7 @@ public class AttendanceDTO implements Serializable {
         
         var attendanceDto = new AttendanceDTO();
         attendanceDto.setId( attendance.getId() );
+        attendanceDto.setProtocol( attendanceDto.getProtocol() );
         attendanceDto.setCallProtocol( attendance.getUserCall().getProtocol() );
         attendanceDto.setIssuedAt( attendance.getExecutionDate() );
         attendanceDto.setDescription( attendance.getDescription() );
@@ -52,7 +54,8 @@ public class AttendanceDTO implements Serializable {
 
     public static Attendance deserialize( AttendanceDTO attendanceDto, ServiceModule module ) {
 
-        var attendance = module.getAttendanceService().findAttendanceById( attendanceDto.id );
+        var attendance = module.getAttendanceService()
+                                .findAttendanceByProtocol( attendanceDto.protocol );
 
         if( attendance == null ) {
 

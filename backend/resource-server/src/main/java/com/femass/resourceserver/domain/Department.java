@@ -3,7 +3,7 @@ package com.femass.resourceserver.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Getter @Setter
@@ -23,7 +23,7 @@ public class Department implements Serializable {
     @Column( name = "id" )
     private Long id;
 
-    @NotNull
+    @NotEmpty
     @Column( name = "nome", nullable = false, unique = true, length = 100 )
     private String name;
 

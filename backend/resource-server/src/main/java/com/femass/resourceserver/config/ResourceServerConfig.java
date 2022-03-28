@@ -48,6 +48,7 @@ public class ResourceServerConfig {
 
                 req -> req.mvcMatchers( "/registration**", "/h2/**" ).permitAll()
                             .mvcMatchers( "/anonymous/**" ).permitAll()
+                            .mvcMatchers( "/authenticated/**" ).hasAnyRole( "ADMIN", "AGENT", "USER" )
                             .mvcMatchers( "/agent/**" ).hasAnyRole( "ADMIN", "AGENT" )
                             .mvcMatchers( "/manager/**" ).hasRole( "ADMIN" )
                             .mvcMatchers( "/user/**" ).hasRole( "USER" )

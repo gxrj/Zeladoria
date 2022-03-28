@@ -21,6 +21,9 @@ public class Attendance implements Serializable {
     @Column( name = "id", columnDefinition = "uuid not null" )
     private UUID id;
 
+    @Column( name = "protocolo", nullable = false, unique = true )
+    private String protocol;
+
     @ManyToOne
     @JoinColumn( name = "ocorrencia",  referencedColumnName = "protocolo" )
     private Call userCall;
@@ -35,6 +38,6 @@ public class Attendance implements Serializable {
     @JoinColumn( name = "responsavel" )
     private Agent responsible;
 
-    @OneToMany( mappedBy = "attendance" )
+    @OneToMany( mappedBy = "attendance", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<UserFeedback> feedbacks;
 }

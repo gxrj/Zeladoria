@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,12 +30,36 @@ public class AttendanceService {
     }
 
     public Attendance findAttendanceById( UUID id ) {
-         var optional = repository.findById( id );
-
+        var optional = repository.findById( id );
         return optional.isEmpty() ? null : optional.get();
     }
 
-    public void delete() {
+    public Attendance findAttendanceByProtocol( String protocol ) {
+        var optional = repository.findByProtocol( protocol );
+        return optional.isEmpty() ? null : optional.get();
+    }
 
+    public List<Attendance> findAttendanceByCallProtocol( String callProtocol ) {
+        return repository.findByUserCall_Protocol( callProtocol );
+    }
+
+    public List<Attendance> findAttendanceByAgent( String responsible ) {
+        return repository.findByResponsible_Account_Username( responsible );
+    }
+
+    public List<Attendance> findAttendanceByDepartment( String deptName ) {
+        return repository.findByResponsible_Department( deptName );
+    }
+
+    public List<Attendance> findAll() {
+        return repository.findAll();
+    }
+
+    public void delete( Attendance entity ) throws RuntimeException {
+        try { repository.delete( entity ); }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "AttendanceService failed: {}", ex.getMessage() );
+            throw new RuntimeException( "AttendanceService failed: " + ex.getMessage() );
+        }
     }
 }

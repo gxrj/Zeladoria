@@ -49,8 +49,14 @@ public class CitizenService {
         }
     }
 
-    public void delete() {
-
+    public void delete( Citizen entity ) throws RuntimeException {
+        var account = entity.getAccount();
+        account.setEnabled( false );
+        try { accountRepository.saveAndFlush( account ); }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "CitizenService failed: {}", ex.getMessage() );
+            throw new RuntimeException( "CitizenService failed: "+ ex.getMessage() );
+        }
     }
 
     public Citizen findByUsername( String username ) {

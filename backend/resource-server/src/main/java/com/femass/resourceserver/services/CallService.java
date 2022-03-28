@@ -2,7 +2,6 @@ package com.femass.resourceserver.services;
 
 import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
-import com.femass.resourceserver.domain.Department;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.repositories.CallRepository;
 import org.slf4j.Logger;
@@ -47,8 +46,11 @@ public class CallService {
 
     public Call findCallByProtocol( String protocol ) {
         var optional = repository.findByProtocol( protocol );
-
         return optional.isEmpty() ? null : optional.get();
+    }
+
+    public List<Call> findAll() {
+        return repository.findAll();
     }
 
     public List<Call> findCallByAuthor( String authorUsername ) {

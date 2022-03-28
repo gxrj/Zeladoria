@@ -42,6 +42,9 @@ public class AgentDTO implements Serializable {
 
     @JsonValue
     public static AgentDTO serialize( Agent agent ) {
+
+        if( agent == null ) return null;
+
         var agentDto = new AgentDTO();
         agentDto.setName( agent.getName() );
         agentDto.setUsername( agent.getAccount().getUsername() );

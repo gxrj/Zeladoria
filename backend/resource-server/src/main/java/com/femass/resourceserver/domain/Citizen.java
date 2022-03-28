@@ -24,7 +24,7 @@ public class Citizen extends AbstractUser<CitizenAccount> {
     }
 
     @Access( AccessType.PROPERTY )
-    @OneToOne( targetEntity = CitizenAccount.class )
+    @OneToOne( targetEntity = CitizenAccount.class, cascade = CascadeType.ALL )
     @JoinColumn( name = "conta", referencedColumnName = "email" )
     public CitizenAccount getAccount() { return account; }
 

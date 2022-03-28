@@ -59,7 +59,7 @@ public class AgentController {
         json.appendField( "name", agent.getName() );
         json.appendField( "department", agent.getDepartment().getName() );
 
-        return  new ResponseEntity<>( json, HttpStatus.OK );
+        return ResponseEntity.ok( json );
     }
 
     /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>

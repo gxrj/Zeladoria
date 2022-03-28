@@ -48,6 +48,10 @@ public class DepartmentService {
         }
     }
 
+    public List<Department> findAll() {
+        return repository.findAll();
+    }
+
     public Department findDepartmentByName( String name ) {
         var optional = repository.findByName( name );
 

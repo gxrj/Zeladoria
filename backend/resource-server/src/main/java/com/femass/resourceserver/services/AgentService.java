@@ -35,13 +35,20 @@ public class AgentService {
         }
     }
 
-    public void delete() {
+    public void delete( Agent entity ) throws RuntimeException {
+        var account = entity.getAccount();
+        account.setEnabled( false );
 
+        try{ accountRepository.saveAndFlush( account ); }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "AgentService failed: {}", ex.getMessage() );
+            throw new RuntimeException( "AgentService failed: "+ ex.getMessage() );
+        }
     }
 
     public Agent findByUsername( String username ) {
 
-        Optional< Agent > agent = agentRepository
+        Optional<Agent> agent = agentRepository
                                             .findByAccount_Username( username );
 
         return agent.isEmpty() ? null : agent.get();

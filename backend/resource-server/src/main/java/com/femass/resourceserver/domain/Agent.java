@@ -28,7 +28,7 @@ public class Agent extends AbstractUser<AgentAccount> {
     }
 
     @Access( AccessType.PROPERTY )
-    @OneToOne( targetEntity = AgentAccount.class )
+    @OneToOne( targetEntity = AgentAccount.class, cascade = CascadeType.ALL )
     @JoinColumn( name = "conta", referencedColumnName = "matricula" )
     public AgentAccount getAccount(){ return account; }
 

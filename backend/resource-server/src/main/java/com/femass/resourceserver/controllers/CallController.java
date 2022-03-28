@@ -36,11 +36,11 @@ public class CallController {
         HttpStatus status;
 
         if( module.getCallService().createOrUpdate( call ) ) {
-            json.appendField( "message", "ocorrência criada com sucesso!" );
+            json.appendField( "message", "Ocorrência gravada com sucesso!" );
             status = HttpStatus.CREATED;
         }
         else {
-            json.appendField( "message", "falha na criação da ocorrência!" );
+            json.appendField( "message", "Falha na gravação da ocorrência!" );
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>( json, status );

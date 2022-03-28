@@ -51,6 +51,6 @@ public class Call implements Serializable {
     private Department destination;
 
     @ToString.Exclude
-    @OneToMany( mappedBy = "userCall" )
+    @OneToMany( mappedBy = "userCall", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Attendance> attendances;
 }

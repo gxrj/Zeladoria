@@ -15,6 +15,7 @@ import { TokenStorageService } from '@services/token-storage/token-storage.servi
 import { ToastService } from '@services/toast/toast.service';
 import { UserService } from '@services/user/user.service';
 import { CallService } from '@services/call/call.service';
+import { AttendanceService } from '@services/attendance/attendance.service';
 
 @NgModule( {
   declarations: [ AppComponent ],
@@ -38,7 +39,8 @@ import { CallService } from '@services/call/call.service';
     TokenStorageService,
     ToastService,
     UserService,
-    CallService
+    CallService,
+    AttendanceService
   ],
   bootstrap: [ AppComponent ],
 } )

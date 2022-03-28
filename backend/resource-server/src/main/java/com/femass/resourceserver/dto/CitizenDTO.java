@@ -41,6 +41,8 @@ public class CitizenDTO implements Serializable {
     @JsonValue
     public static CitizenDTO serialize( Citizen user ) {
 
+        if( user == null ) return null;
+
         var userDto = new CitizenDTO();
         userDto.setName( user.getName() );
         userDto.setEmail( user.getAccount().getUsername() );
