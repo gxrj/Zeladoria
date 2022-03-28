@@ -1,14 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
-import Call from '@core/interfaces/call';
 import { Attendance } from '@core/interfaces/attendance';
-import { HttpResponse } from '@angular/common/http';
-import { Message } from '@core/interfaces/message';
-import { forkJoin } from 'rxjs';
+import Call from '@core/interfaces/call';
 
 @Component({
   selector: 'app-attendance-form',
@@ -24,6 +23,7 @@ export class AttendanceFormComponent implements OnInit {
 
   constructor( 
     private _toast: ToastService,
+    private _router: Router,
     private _modal: ModalController,
     private _callService: CallService,
     private _attendanceService: AttendanceService ) {
@@ -53,7 +53,8 @@ export class AttendanceFormComponent implements OnInit {
     response.subscribe(
       () => { 
         this._toast.displayMessage( "Gravado com sucesso" )
-        this.close() 
+        this.close()
+        this._router.navigateByUrl( '/home' ) 
       },
       error => {
         this._toast.displayMessage( 
