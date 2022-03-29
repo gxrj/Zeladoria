@@ -16,9 +16,9 @@ const routes: Routes = [
     [
       {
         path: 'calls',
-        component: CallComponent,
+        component: CallComponent,/*
         resolve: { calls: CallResolver, duties: DutyResolver },
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always'*/
       },
       {
         path: 'attendances',

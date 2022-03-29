@@ -13,13 +13,20 @@
 
 <side-menu contentId="body">
   <ion-content content>
-    <ion-list contentId="body">
-      
-      <ion-item *ngFor="let path of paths" 
-                [routerLink]="path.url"
-                routerDirection="root"
-                (click)="closeMenu()">{{ path.label }}</ion-item>
-
-    </ion-list>
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let item of group">
+        <ion-item slot="header">
+          <ion-label>{{ item.title }}</ion-label>
+        </ion-item>
+        <ion-list contentId="body" slot="content">
+        
+          <ion-item *ngFor="let path of item.paths" 
+                    [routerLink]="path.url"
+                    routerDirection="root"
+                    (click)="closeMenu()">{{ path.label }}</ion-item>
+    
+        </ion-list>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-content>
 </side-menu>

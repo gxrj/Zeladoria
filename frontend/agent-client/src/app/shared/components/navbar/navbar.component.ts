@@ -8,10 +8,29 @@ import { MenuController } from '@ionic/angular';
 })
 export class NavbarComponent implements OnInit {
 
-  paths = [
-    { url: '/home/calls', label: 'Ocorrências' },
-    { url: '/home/attendances', label: 'Atendimentos' },
-    { url: '/home/feedbacks', label: 'Feedbacks' }
+  group = [
+    { 
+      title: 'Ocorrências', 
+      paths: [ 
+        { label: 'Ocorrências Abertas', url: '/home/calls' },
+        { label: 'Ocorrências Encaminhadas', url: '' },
+        { label: 'Ocorrências Indeferidas', url: '' },
+        { label: 'Ocorrências Respondidas', url: '' }   
+      ] 
+    },
+    { 
+      title: 'Atendimentos', 
+      paths: [ 
+        { label: 'Atendimentos do Setor', url: '/home/attendances' },
+        { label: 'Meus Atendimentos', url: '' } 
+      ] 
+    },
+    { 
+      title: 'Feedbacks', 
+      paths: [ 
+        { label: 'Feedbacks dos meus atendimentos', url: '/home/feedbacks' } 
+      ] 
+    }
   ]
   
   constructor( private _menuCtrl: MenuController ) { }

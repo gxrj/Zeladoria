@@ -5,13 +5,13 @@ import { UserInfoResolver } from '@resolvers/user-info/user-info.resolver';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'start',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: 'home',
-    loadChildren: () => import( '@pages/home/home.module' ).then( m => m.HomePageModule ),
-    resolve: { account: UserInfoResolver }
+    loadChildren: () => import( '@pages/home/home.module' ).then( m => m.HomePageModule ),/*
+    resolve: { account: UserInfoResolver }*/
   },
   {
     path: 'redirection',
