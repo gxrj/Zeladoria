@@ -1,25 +1,26 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import OAUTH2_CLIENT_CONFIG from './auth-service.config'
-import REQUEST from '@globals/request.config'
-import Token from '@app/core/interfaces/token';
-import { TokenStorageService } from '../token-storage/token-storage.service';
+import { TokenStorageService } from '../token-storage/token-storage.service'
+import OAUTH_CLIENT_CONFIG from '@app/oauth-client.config'
+import OAUTH_REQUEST from '@app/oauth-request.config';
+import Token from '@app/core/interfaces/token'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private authzServer = REQUEST.authzServer
-  private resourceServer = REQUEST.resourceServer
+  private authzServer = OAUTH_REQUEST.authzServer
+  private resourceServer = OAUTH_REQUEST.resourceServer
 
   constructor( private _http: HttpClient, 
                private _tokenService: TokenStorageService ) { }
 
   redirectToLoginPage() {
 
-    let params = this.getUrlEndpointParams( OAUTH2_CLIENT_CONFIG.AUTHORIZE_ENDPOINT_PARAMS )
+    let params = this.getUrlEndpointParams( OAUTH_CLIENT_CONFIG.AUTHORIZE_ENDPOINT_PARAMS )
     let authorizeUrl = this.authzServer.baseUrl + this.authzServer.authorizeEndpont
 
     const authzEndpoint = `${ authorizeUrl }?${ params.toString() }`
@@ -46,12 +47,12 @@ export class AuthService {
     
     const params = { 
       code: code,
-      ...OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
+      ...OAUTH_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
     }
    
     const body = this.getUrlEndpointParams( params ).toString()
     
-    const contentType = REQUEST.HEADER.FORM_CONTENT_TYPE
+    const contentType = OAUTH_REQUEST.HEADER.FORM_CONTENT_TYPE
   
     return this._http
                   .post( tokenEndpointUrl, body, { 
@@ -61,11 +62,11 @@ export class AuthService {
   }
 
   refreshToken() {
-    const request = this.prepareRequest( '/oauth2/token', 'form-encoded' )
+    const OAUTH_REQUEST = this.prepareRequest( '/oauth2/token', 'form-encoded' )
    
     let body = this.setRefreshTokenFormEncoded( 'refresh_token' )
 
-    this._http.post( request.url, body, request.config )
+    this._http.post( OAUTH_REQUEST.url, body, OAUTH_REQUEST.config )
   }
 
   prepareRequest( path: string, contentFormat: string = 'json', setAuthentication: boolean = true ) {
@@ -99,7 +100,7 @@ export class AuthService {
     
     let form = new FormData()
     const token = this._tokenService.retrieveToken()
-    const clientParams = OAUTH2_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
+    const clientParams = OAUTH_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
     
     form.append( 'grant_type', tokenType )
     form.append( tokenType, token.refreshToken )

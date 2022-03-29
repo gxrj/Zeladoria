@@ -1,4 +1,4 @@
-const REQUEST = {
+const OAUTH_REQUEST = {
 
     authzServer: {
         baseUrl: 'http://auth-server:8090/',
@@ -22,4 +22,4 @@ const REQUEST = {
     }
 }
 
-export default REQUEST
+export default OAUTH_REQUEST

@@ -10,7 +10,6 @@
       "@pages/*": [ "app/resources/pages/*" ],
       "@shared/*": [ "app/shared/*" ],
       "@components/*": [ "app/shared/components/*" ],
-      "@globals/*": [ "app/shared/globals/*" ],
       "@guards/*": [ "app/shared/guards/*" ],
       "@services/*": [ "app/shared/services/*" ],
       "@resolvers/*": [ "app/shared/resolvers/*" ],
