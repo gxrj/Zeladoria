@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Duty from '@app/core/interfaces/duty';
 
 @Component({
@@ -12,10 +12,16 @@ export class CallPage implements OnInit {
   duty: Duty = null
   districts = null
 
-  constructor( private _route: ActivatedRoute ) { }
+  constructor( 
+    private _router: Router,
+    private _route: ActivatedRoute ) { }
 
   ngOnInit() {
     this.duty = window.history.state
     this.districts = this._route.snapshot.data.districts.result
+  }
+
+  back() {
+    this._router.navigateByUrl( '/home' )
   }
 }

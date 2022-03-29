@@ -1,11 +1,19 @@
 <navbar></navbar>
 
 <ion-content>
-    <!--div id="box">
-        <div class="title">access token:</div>
-        <div class="token-body"> {{ token?.accessToken }} </div>
-        <div class="title">refresh token:</div>
-        <div class="token-body"> {{ token?.refreshToken }} </div>  
+    <!--div *ngIf="token" id="box">
+        <ion-row>
+            <ion-col>access token:</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col><div class="token-body"> {{ token?.accessToken }} </div></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>refresh token:</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col><div class="token-body"> {{ token?.refreshToken }} </div></ion-col>
+        </ion-row>  
     </div-->
     <ng-container *ngIf="categories == null">
         <spinner>
@@ -14,7 +22,7 @@
     </ng-container>
 
     <ng-container *ngIf="categories != null">
-
+        <h2>{{ selectedCategory != null ? 'Selecione a categoria' : 'Selecione o serviço' }}</h2>
         <ion-breadcrumbs>
             <ion-breadcrumb (click)="backToCategories()"> 
                 Categoria 

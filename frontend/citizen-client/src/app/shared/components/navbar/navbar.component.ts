@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'navbar',
@@ -7,8 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  isAuthenticated: boolean
+  paths = [
+    { url: '', label: 'Criar ocorrência' },
+    { url: '', label: 'Minhas ocorrências' },
+  ]
 
-  ngOnInit() {}
+  constructor( private _menuCtrl: MenuController ) { }
+
+  ngOnInit() {
+    const token = sessionStorage.getItem( 'token' )
+    this.isAuthenticated = token != null
+  }
+
+  closeMenu(){
+    this._menuCtrl.close()
+  }
 
 }

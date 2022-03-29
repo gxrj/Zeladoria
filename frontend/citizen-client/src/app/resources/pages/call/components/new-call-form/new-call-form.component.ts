@@ -40,7 +40,14 @@ export class NewCallFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.patchValue( { dutyDescription: this.selectedDuty?.description }  )
+    const duty = sessionStorage.getItem( 'duty-description' )
+
+    if( !duty ) {
+      this.form.patchValue( { dutyDescription: this.selectedDuty?.description }  )
+      sessionStorage.setItem( 'duty-description', this.selectedDuty?.description )
+    }
+    else 
+      this.form.patchValue( { dutyDescription: duty } )
   }
 
   sendData(): void {
@@ -84,5 +91,9 @@ export class NewCallFormComponent implements OnInit {
                   },
                   status:"Em andamento"
                 }
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem( 'duty-description' )
   }
 }

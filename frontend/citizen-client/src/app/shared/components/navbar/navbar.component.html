@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title class="ion-text-center">Macaé Fiscaliza</ion-title>
-    <ion-avatar slot="end">
+    <ion-avatar *ngIf="isAuthenticated" slot="end">
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-avatar>
   </ion-toolbar>
@@ -12,12 +12,14 @@
 
 <side-menu>
   <ion-content content>
-    <ion-list>
-      <ion-item>Criar ocorrência</ion-item>
-      <ion-item>Minhas ocorrências</ion-item>
-      <ion-item>Categorias</ion-item>
-      <ion-item>Secretarias</ion-item>
-      <ion-item>Serviços</ion-item>
+    <ion-list *ngIf="isAuthenticated">
+      <ion-item *ngFor="let path of item.paths" 
+                [routerLink]="path.url"
+                routerDirection="root"
+                (click)="closeMenu()">{{ path.label }}</ion-item>
+    </ion-list>
+    <ion-list *ngIf="!isAuthenticated">
+      <ion-item href="/start">Voltar para tela inicial</ion-item>
     </ion-list>
   </ion-content>
 </side-menu>
