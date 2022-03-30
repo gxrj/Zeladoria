@@ -20,7 +20,11 @@
         
       <hr><hr>
       <ion-label>Imagens</ion-label>
-      <ion-input formControlName="images" id="image-input" type="file"></ion-input>
+      <ion-input 
+                (change)="selectFiles( $event )"
+                id="image-input" 
+                type="file" 
+                multiple></ion-input>
       <hr><hr>
 
       <ion-label position="floating">Descrição</ion-label>

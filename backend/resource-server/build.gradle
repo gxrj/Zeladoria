@@ -24,8 +24,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+	implementation 'org.springframework:spring-webmvc:5.3.17'
+
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.6.4'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.6.5'
 
 	// https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.3'

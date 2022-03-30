@@ -1,13 +1,19 @@
 package com.femass.resourceserver.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.dto.AgentDTO;
 import com.femass.resourceserver.dto.CallDTO;
+import com.femass.resourceserver.services.FileStorageService;
 import com.femass.resourceserver.services.ServiceModule;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,8 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping(
@@ -28,19 +37,30 @@ public class CallController {
 
     @Autowired
     private ServiceModule module;
+    @Autowired
+    ObjectMapper mapper;
+    @Autowired
+    private FileStorageService fileService;
 
     private final Logger LOG = LoggerFactory.getLogger( CallController.class );
 
     @PostMapping( "/anonymous/calls/new" )
-    public ResponseEntity<JSONObject> create( @RequestBody CallDTO callDto ) {
+    public ResponseEntity<JSONObject> create(
+            @RequestParam( name = "call" ) String plainCall,
+            @RequestParam( name = "files", required = false ) MultipartFile[] images ) {
 
-        var call = CallDTO.deserialize( callDto, module );
-
-        var json = new JSONObject();
         HttpStatus status;
+        var entity = fromPlainToEntity( plainCall );
+        var json = new JSONObject();
 
-        if( module.getCallService().createOrUpdate( call ) ) {
-            json.appendField( "message", "Ocorrência gravada com sucesso!" );
+        if( entity != null ) {
+
+            var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
+            var paths = saveImages( images, username, entity.getProtocol() );
+
+            json.appendField( "call", CallDTO.serialize( entity ) )
+                .appendField( "files", paths );
+
             status = HttpStatus.CREATED;
         }
         else {
@@ -48,6 +68,36 @@ public class CallController {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>( json, status );
+    }
+
+    private Call fromPlainToEntity( String plainCall ) {
+        try{
+            var callDto = mapper.readValue( plainCall, CallDTO.class );
+            var call = CallDTO.deserialize( callDto, module );
+            return module.getCallService().persist( call );
+        }
+        catch ( JsonProcessingException ex ) {
+            LOG.error( "Error parsing entity from plain text: {}", ex.getMessage() );
+            return null;
+        }
+    }
+
+    private String sanitizeUsername( String email ) {
+        email = email.equalsIgnoreCase("anonimo@fiscaliza.com" )? "anonimo" : email;
+        return email.replaceAll( "[^\\w]", "_" );
+    }
+
+    private List<String> saveImages( MultipartFile[] images, String username, String callProtocol ) {
+        List<String> paths = null;
+
+        if( images != null && images.length > 0 ) {
+            paths = Arrays.stream( images ).parallel()
+                    .map( image ->
+                            fileService.store( image, username, callProtocol ) )
+                    .toList();
+        }
+
+        return paths;
     }
 
     @PostMapping( "/agent/calls/all" )

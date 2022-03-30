@@ -32,6 +32,21 @@ public class CallService {
         }
     }
 
+    public Call persist( Call call ) {
+
+        Call entity;
+
+        try{
+            entity = repository.save( call );
+        }
+        catch( IllegalArgumentException ex ){
+            LOG.error( "CallService failed: {}", ex.getMessage() );
+            entity = null;
+        }
+
+        return entity;
+    }
+
     public void delete( Call entity ) throws RuntimeException {
         try { repository.delete( entity ); }
         catch ( IllegalArgumentException ex ) {

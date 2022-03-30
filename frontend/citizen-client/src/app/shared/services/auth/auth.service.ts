@@ -73,13 +73,13 @@ export class AuthService {
     const token: Token = this._tokenService.retrieveToken()
     if( !token ) setAuthentication = false
 
-    if( contentFormat != 'json' && contentFormat != 'form-encoded' ) 
+    if( contentFormat != 'json' && contentFormat != 'form-encoded' && contentFormat != 'multipart' ) 
       throw new TypeError( 'contentFormat must be json or form-encoded ' )
 
     let contentType: string = null
     if( contentFormat === 'json') contentType = 'application/json'
-    if( contentFormat === 'form-encoded' ) contentType = 'application/x-www-form-urlencoded' 
-   
+    if( contentFormat === 'form-encoded' ) contentType = 'application/x-www-form-urlencoded'
+
     const url = this.resourceServer.baseUrl + path
     
     let header: any
@@ -88,7 +88,9 @@ export class AuthService {
     else
       header = this.anonymousHeader( contentType )
 
-    const config = { headers: header }
+    const config = { 
+      headers: contentFormat === 'multipart'? 
+                    { 'content-type': 'multipart/form-data;boundary=--------03456483FKOF$FK$A' } : header }
 
     return { url, config }
   }
@@ -116,6 +118,7 @@ export class AuthService {
       authorization: token?.tokenType +' '+ token?.accessToken 
     }
   }
+
   anonymousHeader( content: string ) {
     return {
       'content-type': content

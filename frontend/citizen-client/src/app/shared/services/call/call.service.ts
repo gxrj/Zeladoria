@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import Call from '@app/core/interfaces/call';
+
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
@@ -12,9 +12,9 @@ export class CallService {
   constructor( private _http: HttpClient, 
                private _authService: AuthService ) { }
 
-  create( call: Call ): Observable<any> {
-    const request = this._authService.prepareRequest( '/anonymous/calls/new', 'json', false )
+  create( form: any ): Observable<any> {
+    const request = this._authService.prepareRequest( '/anonymous/calls/new', 'multipart', false )
     
-    return this._http.post( request.url, call, { headers:request.config.headers } )
+    return this._http.post( request.url, form, { headers:request.config.headers } )
   }
 }

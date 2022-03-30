@@ -11,7 +11,7 @@ spring:
         generate-ddl: true
         show-sql: true
         hibernate:
-            ddl-auto: create-drop # update # create-drop
+            ddl-auto: update # create-drop # update # create-drop
     h2:
         console:
             enabled: true

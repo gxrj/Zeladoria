@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.cfg.CoercionAction;
 import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
 import com.fasterxml.jackson.databind.type.LogicalType;
 import com.femass.resourceserver.filters.TokenValidationFilter;
+import com.femass.resourceserver.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -37,6 +37,9 @@ public class ResourceServerConfig {
 
     @Value( "${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}" )
     private String jwkSetUri;
+
+    @Value( "${spring.servlet.multipart.location}" )
+    private String storageRootPath;
 
     @Autowired
     private TokenValidationFilter tokenValidationFilter;
@@ -136,5 +139,10 @@ public class ResourceServerConfig {
                         .coercionConfigFor( LogicalType.Collection )
                         .setCoercion( CoercionInputShape.EmptyString, CoercionAction.AsEmpty )
         );
+    }
+
+    @Bean
+    public FileStorageService fileStorageService() {
+        return new FileStorageService( storageRootPath );
     }
 }

@@ -26,7 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server
-	implementation 'org.springframework.security:spring-security-oauth2-authorization-server:0.2.2'
+	implementation 'org.springframework.security:spring-security-oauth2-authorization-server:0.2.3'
 	
 	// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
@@ -35,7 +35,7 @@ dependencies {
 	runtimeOnly 'com.h2database:h2:2.1.210'
 
 	// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
-	implementation 'org.hibernate.validator:hibernate-validator:7.0.2.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
