@@ -23,6 +23,8 @@ export class NewCallFormComponent implements OnInit {
   form: FormGroup
   call: Call
   images: File[]
+  editionMode: boolean = false
+  authenticated: boolean = false
 
   constructor( 
     private _fb: FormBuilder,
@@ -41,14 +43,17 @@ export class NewCallFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    const duty = sessionStorage.getItem( 'duty-description' )
+    const duty = sessionStorage.getItem( 'selected-duty' )
+    this.authenticated = sessionStorage.getItem( 'token' ) ? true : false
 
     if( !duty ) {
       this.form.patchValue( { dutyDescription: this.selectedDuty?.description }  )
-      sessionStorage.setItem( 'duty-description', this.selectedDuty?.description )
+      sessionStorage.setItem( 'selected-duty', JSON.stringify( this.selectedDuty ) )
     }
-    else 
-      this.form.patchValue( { dutyDescription: duty } )
+    else{
+      this.selectedDuty = JSON.parse( duty )
+      this.form.patchValue( { dutyDescription: this.selectedDuty.description } )
+    }
   }
 
   selectFiles( event ) {
@@ -71,15 +76,20 @@ export class NewCallFormComponent implements OnInit {
     this.prepareCall()
     form.append( 'call', JSON.stringify( this.call ) )
 
-    this.images
-        .forEach( image => 
-          form.append( 'files', image, image.name ) )
+    if( this.images )
+        this.images
+            .forEach( image => 
+              form.append( 'files', image, image.name ) )
 
     this._callService.create( form )
                     .subscribe( 
                       res => {
                         this._toastService.displayMessage( res?.message )
-                        this._router.navigateByUrl( '/home' ) 
+                        this.call = res.call
+                        this.editionMode = true
+
+                        if( !this.authenticated )
+                          this._router.navigateByUrl( '/home' ) 
                       },
                       error => this._toastService.displayMessage( error?.message )
                     )

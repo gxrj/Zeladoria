@@ -11,6 +11,7 @@ import com.femass.resourceserver.services.ServiceModule;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
+import javax.ws.rs.PathParam;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,8 +62,8 @@ public class CallController {
             var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
             saveImages( images, username, entity.getProtocol() );
 
-            json.appendField( "message", "Ocorrência gravada com sucesso!" );
-
+            json.appendField( "call", entity )
+                .appendField( "message", "Ocorrência gravada com sucesso!" );
             status = HttpStatus.CREATED;
         }
         else {
@@ -91,6 +95,24 @@ public class CallController {
         if( images != null && images.length > 0 ) {
             Arrays.stream( images ).parallel()
                     .forEach( image -> fileService.store( image, username, callProtocol ) );
+        }
+    }
+
+    @PostMapping(
+        path = "/authenticated/call/file?{filename}",
+        produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE  } )
+    public @ResponseBody byte[] downloadFile(
+            @RequestBody CallDTO callDto, @PathParam( "filename" ) String filename ) {
+
+        var filePath = sanitizeUsername( callDto.getAuthor().getEmail() ) + "/" +
+                       callDto.getProtocol() + "/" + filename;
+        try {
+            var resource = fileService.loadAsResource( filePath );
+            return IOUtils.toByteArray( resource.getInputStream() );
+        }
+        catch ( IOException ex ) {
+            LOG.error( "Erro, arquivo não encontrado ou inexistente: {}", ex.getMessage() );
+            return null;
         }
     }
 
@@ -146,11 +168,15 @@ public class CallController {
         var json = new JSONObject();
         HttpStatus status;
         try {
+            var path = sanitizeUsername(
+                    call.getAuthor().getAccount().getUsername() )+ "/" + call.getProtocol();
+
+            fileService.delete( path );
             module.getCallService().delete( call );
             json.appendField( "message", "Removido com sucesso!" );
             status = HttpStatus.OK;
         }
-        catch ( RuntimeException ex ) {
+        catch( IOException | RuntimeException ex ) {
             json.appendField( "message", "Falha na exclusão!" );
             LOG.error( "CallController fails to delete: {}", ex.getMessage() );
             status = HttpStatus.INTERNAL_SERVER_ERROR;

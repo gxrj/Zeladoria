@@ -9,7 +9,7 @@ h1 {
     text-align: center;
 }
 
-ion-label {
+ion-label, h3 {
     color: rgb(26, 26, 26);
 }
 
@@ -20,13 +20,13 @@ ion-input, ion-select {
     background-color: white;
 }
 
-#duty-input {
+#default-input {
     width: 30%;
     --background: #e2e2e2;
     background-color: white;
 }
 
-#address-line {
+#group-line {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px 20px;
@@ -58,12 +58,16 @@ ion-button {
 }
 
 @media screen and ( max-width: 610px ) {
-    #duty-input,
+    #default-input,
     #image-input,
-    #address-line,
+    #group-line,
     #street,
     ion-item {
         width: 90%;
+    }
+
+    #group-line {
+        grid-template-columns: repeat(1, 1fr);
     }
 
     #address-line {

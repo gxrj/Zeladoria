@@ -2,33 +2,58 @@
   <ion-card-content>
     <form [formGroup]="form" (ngSubmit)="sendData()">
       <h1>Solicite o serviço</h1>
-      <ion-label>Serviço</ion-label>
-      <ion-input formControlName="dutyDescription" id="duty-input" placeholder="Serviço"readonly></ion-input>
-     
-      <hr><hr>
+      <div id="group-line">
+        <div>
+          <ion-label>Serviço</ion-label>
+          <ion-input formControlName="dutyDescription" placeholder="Serviço"readonly></ion-input>
+        </div>
+        <div *ngIf="editionMode">
+          <ion-label>Protocolo</ion-label>
+          <ion-input readonly>{{ call?.protocol }}</ion-input>
+        </div>
+        <div *ngIf="editionMode">
+          <ion-label>Data</ion-label>
+          <ion-input readonly>{{ call?.created_at | date:'HH:mm -- d/MM/yy' }}</ion-input>
+        </div>
+      </div>
+      
+      <h3 *ngIf="authenticated">Dados do Autor</h3>
+      <div *ngIf="authenticated" id="group-line">
+        <div *ngIf="editionMode">
+          <ion-label>Nome</ion-label>
+          <ion-input readonly>{{ call?.author.name }}</ion-input>
+        </div>
+        <div *ngIf="editionMode">
+          <ion-label>Email</ion-label>
+          <ion-input readonly>{{ call?.author.email }}</ion-input>
+        </div>
+      </div>
+
       <ion-label position="stacked">Endereço</ion-label>
 
-      <div id="address-line">
-        <ion-input formControlName="zipCode" placeholder="Cep"></ion-input>  
-        <ion-select formControlName="district" placeholder="Bairro" >
+      <div id="group-line">
+        <ion-input formControlName="zipCode" placeholder="Cep" [readonly]="editionMode"></ion-input>  
+        <ion-select *ngIf="!editionMode" formControlName="district" placeholder="Bairro">
           <ion-select-option *ngFor="let district of districtList"  
-                              value="{{ district.name }}">{{ district.name }}</ion-select-option>
+                              value="{{ district.name }}">{{ district.name }}
+          </ion-select-option>
         </ion-select>
+        <ion-input *ngIf="editionMode" formControlName="district" readonly>{{district.name}}</ion-input>  
       </div><hr>
 
-      <ion-input formControlName="street" id="street" placeholder="Logradouro" ></ion-input>
+      <ion-input formControlName="street" id="street" placeholder="Logradouro" [readonly]="editionMode"></ion-input>
         
       <hr><hr>
       <ion-label>Imagens</ion-label>
       <ion-input 
                 (change)="selectFiles( $event )"
                 id="image-input" 
-                type="file" 
+                type="file" accept=".jpeg, .jpg, .png"
                 multiple></ion-input>
       <hr><hr>
 
       <ion-label position="floating">Descrição</ion-label>
-      <ion-textarea formControlName="description" id="text-area" rows="5"></ion-textarea>
+      <ion-textarea formControlName="description" id="text-area" [readonly]="editionMode" rows="5"></ion-textarea>
      
 
       <ion-button (click)="sendData()" [disabled]="!form.valid" color="tertiary">Enviar</ion-button>
