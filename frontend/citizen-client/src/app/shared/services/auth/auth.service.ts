@@ -89,8 +89,7 @@ export class AuthService {
       header = this.anonymousHeader( contentType )
 
     const config = { 
-      headers: contentFormat === 'multipart'? 
-                    { 'content-type': 'multipart/form-data;boundary=--------03456483FKOF$FK$A' } : header }
+      headers: contentFormat === 'multipart'? {} : header }
 
     return { url, config }
   }

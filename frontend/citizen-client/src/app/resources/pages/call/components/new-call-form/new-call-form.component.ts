@@ -54,9 +54,10 @@ export class NewCallFormComponent implements OnInit {
   selectFiles( event ) {
     const inputElement = event.target
     this.images = inputElement.files
-    
+
     if( this.images.length > 0 )
-      this.images = Object.values( this.images ).filter( file => file.size <= 200000 )
+      this.images = Object.values( this.images )
+                          .filter( file => file.size <= 200000 )
 
     if( this.images.length > 3 ) {
       inputElement.value = ''
@@ -69,9 +70,11 @@ export class NewCallFormComponent implements OnInit {
     let form = new FormData()
     this.prepareCall()
     form.append( 'call', JSON.stringify( this.call ) )
-    form.append( 'files', JSON.stringify( { files: this.images } ) )
-    console.log( JSON.stringify( this.call ) )
-    return null
+
+    this.images
+        .forEach( image => 
+          form.append( 'files', image, image.name ) )
+
     this._callService.create( form )
                     .subscribe( 
                       res => {

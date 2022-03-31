@@ -47,6 +47,10 @@ public class FileStorageService {
             Files.write( basePath.resolve( filePath ), file.getBytes() );
         }
         catch ( IOException ex ) {
+
+            LOG.error( "Failed to store file at: {} \n {}",
+                       basePath.resolve( filePath ), ex.getMessage() );
+
             throw new RuntimeException(
                     "Failed to store file at: "+ basePath.resolve( filePath ) );
         }

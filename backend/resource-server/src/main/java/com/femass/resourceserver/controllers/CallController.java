@@ -56,10 +56,9 @@ public class CallController {
         if( entity != null ) {
 
             var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
-            var paths = saveImages( images, username, entity.getProtocol() );
+            saveImages( images, username, entity.getProtocol() );
 
-            json.appendField( "call", CallDTO.serialize( entity ) )
-                .appendField( "files", paths );
+            json.appendField( "message", "Ocorrência gravada com sucesso!" );
 
             status = HttpStatus.CREATED;
         }
@@ -87,17 +86,12 @@ public class CallController {
         return email.replaceAll( "[^\\w]", "_" );
     }
 
-    private List<String> saveImages( MultipartFile[] images, String username, String callProtocol ) {
-        List<String> paths = null;
+    private void saveImages( MultipartFile[] images, String username, String callProtocol ) {
 
         if( images != null && images.length > 0 ) {
-            paths = Arrays.stream( images ).parallel()
-                    .map( image ->
-                            fileService.store( image, username, callProtocol ) )
-                    .toList();
+            Arrays.stream( images ).parallel()
+                    .forEach( image -> fileService.store( image, username, callProtocol ) );
         }
-
-        return paths;
     }
 
     @PostMapping( "/agent/calls/all" )
