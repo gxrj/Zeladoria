@@ -4,13 +4,28 @@
       <h1>Dados da solicitação</h1>
 
       <ion-row>
-        <ion-col>
+        <ion-col size="12">
           <h2>Detalhes</h2>
         </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="4">
+        <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+          <ion-label>Destinatário</ion-label>
+          <ng-container *ngIf="!editDestination">
+            <ion-input placeholder="{{call.destination.name}}" readonly></ion-input>
+          </ng-container>
+          <ng-container *ngIf="editDestination">
+            <select [(ngModel)]="tempDestination"
+                    [ngModelOptions]="{standalone: true}">
+              <option [ngValue]="tempDestination" selected>{{tempDestination}}</option>
+              <option *ngFor="let dept of deptList" [ngValue]="dept">{{dept}}</option>
+            </select>
+          </ng-container>
+          <div class="question-radio">
+            <label>O destinatário condiz com a descrição? </label>
+            <input [(ngModel)]="editDestination" [value]="false" type="radio" name="dept-edition" checked> Sim
+            <input [(ngModel)]="editDestination" [value]="true" type="radio" name="dept-edition"> Não
+          </div>
+        </ion-col>
+        <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
           <ion-label>Serviço</ion-label>
           <ng-container *ngIf="!editDuty">
             <ion-input placeholder="{{ call.duty.description }}" readonly></ion-input>
@@ -32,86 +47,67 @@
           </div>
         </ion-col>
 
-        <ion-col size="3">
+        <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="2">
           <ion-label>Protocolo</ion-label>
           <ion-input placeholder="{{call.protocol}}" readonly></ion-input>
         </ion-col>
 
-        <ion-col size="2">
-          <ion-label>Data</ion-label>
-          <ion-input placeholder="{{call.created_at | date:'HH:mm -- d/MM/yy'}}" readonly></ion-input>
+        <ion-col sizeXs="6" sizeLg="4" sizeXl="1">
+          <ion-label>Dia</ion-label>
+          <ion-input placeholder="{{call.created_at | date:'d/MM/yy'}}" readonly></ion-input>
         </ion-col>
-
-        <ion-col size="3">
-          <ion-label>Autor</ion-label>
-          <ion-input placeholder="{{call.author.name}}" readonly></ion-input>
+        <ion-col sizeXs="6" sizeLg="4" sizeXl="1">
+          <ion-label>Hora</ion-label>
+          <ion-input placeholder="{{call.created_at | date:'HH:mm'}}" readonly></ion-input>
+        </ion-col>
+        <ion-col sizeXs="12" sizeMd="6" sizeXl="2">
+          <ion-label>Status</ion-label>
+          <ion-input placeholder="{{call.status}}" readonly></ion-input>
         </ion-col>
       </ion-row>
 
       <ion-row>
-        <ion-col size="5">
-          <ion-label>Destinatário</ion-label>
-          <ng-container *ngIf="!editDestination">
-            <ion-input placeholder="{{call.destination.name}}" readonly></ion-input>
-          </ng-container>
-          <ng-container *ngIf="editDestination">
-            <select [(ngModel)]="tempDestination"
-                    [ngModelOptions]="{standalone: true}">
-              <option [ngValue]="tempDestination" selected>{{tempDestination}}</option>
-              <option *ngFor="let dept of deptList" [ngValue]="dept">{{dept}}</option>
-            </select>
-          </ng-container>
-          <div class="question-radio">
-            <label>O órgão destinatário condiz com a descrição? </label>
-            <input [(ngModel)]="editDestination" [value]="false" type="radio" name="dept-edition" checked> Sim
-            <input [(ngModel)]="editDestination" [value]="true" type="radio" name="dept-edition"> Não
-          </div>
+        <ion-col sizeXs="12" sizeMd="6" sizeXl="4">
+          <ion-label>Nome do Autor</ion-label>
+          <ion-input placeholder="{{call.author.name}}" readonly></ion-input>
+        </ion-col>
+        <ion-col *ngIf="!checkAnonymous(call.author.email)" sizeXs="12" sizeMd="6" sizeXl="4">
+          <ion-label>E-mail do Autor</ion-label>
+          <ion-input placeholder="{{call.author.email}}" readonly></ion-input>
         </ion-col>
 
-        <ion-col size="4">
-          <ion-label>Status</ion-label>
-          <ion-input placeholder="{{call.status}}" readonly></ion-input>
-        </ion-col>
-        <ion-col>
+        <ion-col sizeXs="12" sizeXl="4">
           <ion-label>&nbsp;</ion-label>
           <ion-button color="success">Ver Imagens</ion-button>
         </ion-col>
       </ion-row>
 
       <ion-row>
-        <ion-col>
+        <ion-col size="12">
           <h2>Endereço</h2>
         </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="2">
+        <ion-col sizeXs="12" sizeMd="6" sizeLg="2">
           <ion-label>Cep</ion-label>
           <ion-input placeholder="{{call.address.zip_code}}" readonly></ion-input>
         </ion-col>
-        <ion-col size="4">
+        <ion-col sizeXs="12" sizeMd="6" sizeLg="4">
           <ion-label>Bairro</ion-label>
           <ion-input placeholder="{{call.address.district.name}}" readonly></ion-input>
         </ion-col>
-        <ion-col size="6">
+        <ion-col sizeXs="12" sizeLg="6">
           <ion-label>Logradouro</ion-label>
           <ion-input placeholder="{{call.address.public_place}}" readonly></ion-input>
         </ion-col>
       </ion-row>
 
       <ion-row>
-        <ion-col>
-          <h2>Descrição</h2>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
         <ion-col size="12">
+          <h2>Descrição</h2>
           <ion-textarea placeholder="{{call.description}}" id="text-area" rows="5" readonly></ion-textarea>
           <div class="question-radio">
             <label>A ocorrência é um trote? </label>
-            <input [(ngModel)]="isPrank" [value]="false" type="radio" name="prank"> Sim
-            <input [(ngModel)]="isPrank" [value]="true" type="radio" name="prank" checked> Não
+            <input [(ngModel)]="isPrank" [value]="true" type="radio" name="prank"> Sim
+            <input [(ngModel)]="isPrank" [value]="false" type="radio" name="prank" checked> Não
           </div>
         </ion-col>
       </ion-row>

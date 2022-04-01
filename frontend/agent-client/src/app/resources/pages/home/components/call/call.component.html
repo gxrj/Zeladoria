@@ -11,7 +11,8 @@
           <td>{{ obj.duty.description }}</td>
           <td>{{ obj.status }}</td>
           <td>{{ obj.address.district.name }}</td>
-          <td>{{ obj.created_at | date:"HH : mm -- d / MM /y" }}</td>
+          <td>{{ obj.created_at | date:"d/MM/y" }}</td>
+          <td>{{ obj.created_at | date:"HH:mm" }}</td>
           <td>{{ obj.author.name }}</td>
         </tr>
     </data-table>
@@ -21,11 +22,7 @@
 <!-- Displays the form of the selected call -->
 <ng-container *ngIf="selectedCall">
   <ion-content>
-    <ion-row>
-      <ion-col offset="8" size="4">
-        <ion-button (click)="return()" color="tertiary">Voltar</ion-button>
-      </ion-col>
-    </ion-row>
+    <ion-button (click)="return()" id="back-button" color="tertiary">Voltar</ion-button>
     <call-form [duties]="duties" [deptList]="deptList" [call]="selectedCall"></call-form>
   </ion-content>
 </ng-container>

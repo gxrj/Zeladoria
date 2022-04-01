@@ -33,3 +33,9 @@
 ion-content {
     --background: #cfcfcf;
 }
+
+ion-modal {
+    &.default-modal {
+        --width: 65%;
+    }
+}

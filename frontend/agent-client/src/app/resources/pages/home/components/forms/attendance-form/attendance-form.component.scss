@@ -1,5 +1,6 @@
-* {
+ion-label {
     text-align: start;
+    margin-left: 10px;
 }
 
 ion-content{
@@ -10,9 +11,13 @@ h1 {
     text-align: center;
 }
 
-#close-button {
+ion-button {
     display: flex;
     float: right;
+}
+
+#close-button {
+    margin-top: 2px;
     height: 25px;
 }
 

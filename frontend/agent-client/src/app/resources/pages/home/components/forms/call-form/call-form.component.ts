@@ -78,8 +78,13 @@ export class CallFormComponent implements OnInit {
   async openModal() {
     const modal = await this._modal.create( {
       component: AttendanceFormComponent,
+      cssClass: 'default-modal',
       componentProps: { call: this.call, toForward: this.editDestination }
     } )
     return await modal.present();
+  }
+
+  checkAnonymous( email: string ):boolean {
+    return email === 'anonimo@fiscaliza.com'
   }
 }
