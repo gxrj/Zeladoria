@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CallPageRoutingModule } from './call-routing.module';
 import { CallPage } from './call.page';
 import { SharedModule } from '@app/shared/SharedModule';
-import { NewCallFormComponent } from './components/new-call-form/new-call-form.component';
+import { CallFormComponent } from './components/call-form/call-form.component';
 
 @NgModule({
   imports: [
@@ -17,6 +17,6 @@ import { NewCallFormComponent } from './components/new-call-form/new-call-form.c
     CallPageRoutingModule,
     SharedModule
   ],
-  declarations: [ CallPage, NewCallFormComponent ]
+  declarations: [ CallPage, CallFormComponent ]
 })
 export class CallPageModule {}

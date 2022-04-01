@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { NewCallFormComponent } from './new-call-form.component';
+import { CallFormComponent } from './call-form.component';
 
-describe('NewCallFormComponent', () => {
-  let component: NewCallFormComponent;
-  let fixture: ComponentFixture<NewCallFormComponent>;
+describe('CallFormComponent', () => {
+  let component: CallFormComponent;
+  let fixture: ComponentFixture<CallFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewCallFormComponent ],
+      declarations: [ CallFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NewCallFormComponent);
+    fixture = TestBed.createComponent(CallFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

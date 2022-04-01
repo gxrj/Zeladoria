@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'new-call-form',
-  templateUrl: './new-call-form.component.html',
-  styleUrls: ['./new-call-form.component.scss'],
+  selector: 'call-form',
+  templateUrl: './call-form.component.html',
+  styleUrls: ['./call-form.component.scss'],
 })
-export class NewCallFormComponent implements OnInit {
+export class CallFormComponent implements OnInit {
 
   @Input() selectedDuty: Duty | null
   @Input() districtList: any
