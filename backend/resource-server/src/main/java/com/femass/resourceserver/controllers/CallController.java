@@ -62,7 +62,7 @@ public class CallController {
             var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
             saveImages( images, username, entity.getProtocol() );
 
-            json.appendField( "call", entity )
+            json.appendField( "call", CallDTO.serialize( entity ) )
                 .appendField( "message", "Ocorrência gravada com sucesso!" );
             status = HttpStatus.CREATED;
         }
