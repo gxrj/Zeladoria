@@ -1,64 +1,84 @@
 <ion-card>
   <ion-card-content>
     <form [formGroup]="form" (ngSubmit)="sendData()">
-      <h1>Solicite o serviço</h1>
-      <div id="default-input">
-        <div>
-          <ion-label>Serviço</ion-label>
-          <ion-input formControlName="dutyDescription" placeholder="Serviço"readonly></ion-input>
-        </div>
-        <div *ngIf="editionMode">
-          <ion-label>Protocolo</ion-label>
-          <ion-input readonly>{{ call?.protocol }}</ion-input>
-        </div>
-        <div *ngIf="editionMode">
-          <ion-label>Status</ion-label>
-          <ion-input readonly>{{ call?.status }}</ion-input>
-        </div>
-        <div *ngIf="editionMode">
-          <ion-label>Data</ion-label>
-          <ion-input readonly>{{ call?.created_at | date:'HH:mm -- d/MM/yy' }}</ion-input>
-        </div>
-      </div>
+      <h1 *ngIf="!editionMode">Solicite o serviço</h1>
+      <h1 *ngIf="editionMode">Ordem de Serviço</h1>
+        <ion-row>
+          <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+            <ion-label>Serviço</ion-label>
+            <ion-input formControlName="dutyDescription" placeholder="Serviço"readonly></ion-input>
+          </ion-col>
+          <ng-container *ngIf="editionMode">
+            <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+              <ion-label>Protocolo</ion-label>
+              <ion-input readonly>{{ call?.protocol }}</ion-input>
+            </ion-col>
+            <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+              <ion-label>Status</ion-label>
+              <ion-input readonly>{{ call?.status }}</ion-input>
+            </ion-col>
+            <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+              <ion-label>Data</ion-label>
+              <ion-input readonly>{{ call?.created_at | date:'HH:mm  d / MM / yy' }}</ion-input>
+            </ion-col>
+          </ng-container>
+        </ion-row>
       
-      <h3 *ngIf="authenticated && editionMode">Dados do Autor</h3>
-      <div *ngIf="authenticated" id="group-line">
-        <div *ngIf="editionMode">
+      
+      <ion-row *ngIf="authenticated && editionMode">
+        <ion-col size="12">
+          <h2 >Dados do Autor</h2>
+        </ion-col>
+        <ion-col sizeXs="12" sizeMd="6">
           <ion-label>Nome</ion-label>
           <ion-input readonly>{{ call?.author.name }}</ion-input>
-        </div>
-        <div *ngIf="editionMode">
+        </ion-col>
+        <ion-col sizeXs="12" sizeMd="6">
           <ion-label>Email</ion-label>
           <ion-input readonly>{{ call?.author.email }}</ion-input>
-        </div>
-      </div>
+        </ion-col>
+      </ion-row>
 
-      <ion-label position="stacked">Endereço</ion-label>
+      <ion-row>
 
-      <div id="group-line">
-        <ion-input formControlName="zipCode" placeholder="Cep" [readonly]="editionMode"></ion-input>  
-        <ion-select *ngIf="!editionMode" formControlName="district" placeholder="Bairro">
-          <ion-select-option *ngFor="let district of districtList"  
-                              value="{{ district.name }}">{{ district.name }}
-          </ion-select-option>
-        </ion-select>
-        <ion-input *ngIf="editionMode" formControlName="district" readonly>{{ form.value.district }}</ion-input>  
-      </div><hr>
+        <ion-col size="12">
+          <h2 >Detalhes da Ocorrência</h2>
+        </ion-col>
 
-      <ion-input formControlName="street" id="street" placeholder="Logradouro" [readonly]="editionMode"></ion-input>
-        
-      <hr><hr>
-      <ion-label>Imagens</ion-label>
-      <ion-input 
-                (change)="selectFiles( $event )"
-                id="image-input" 
-                type="file" accept=".jpeg, .jpg, .png"
-                multiple></ion-input>
-      <hr><hr>
+        <ion-col size="12">
+          <ion-label >Endereço</ion-label>
+        </ion-col>
 
-      <ion-label position="floating">Descrição</ion-label>
-      <ion-textarea formControlName="description" id="text-area" [readonly]="editionMode" rows="5"></ion-textarea>
-     
+        <ion-col sizeXs="12" sizeSm="6" sizeLg="3">
+          <ion-input formControlName="zipCode" placeholder="Cep" [readonly]="editionMode"></ion-input> 
+        </ion-col>
+
+        <ion-col sizeXs="12" sizeSm="6" sizeLg="3">
+          <ion-select *ngIf="!editionMode" formControlName="district" placeholder="Bairro">
+            <ion-select-option *ngFor="let district of districtList"  
+                                value="{{ district.name }}">{{ district.name }}
+            </ion-select-option>
+          </ion-select>
+          <ion-input *ngIf="editionMode" 
+                      formControlName="district" readonly>{{ form.value.district }}</ion-input> 
+        </ion-col>
+
+        <ion-col sizeXs="12" sizeLg="6">
+          <ion-input formControlName="street" placeholder="Logradouro" [readonly]="editionMode"></ion-input>
+        </ion-col>
+
+        <ion-col sizeXs="12">
+          <ion-label>Imagens</ion-label>
+          <ion-input type="file" multiple
+                     accept=".jpeg, .jpg, .png"
+                     (change)="selectFiles( $event )"></ion-input>
+        </ion-col>
+
+        <ion-col sizeXs="12">
+          <ion-label position="floating">Descrição</ion-label>
+          <ion-textarea formControlName="description" [readonly]="editionMode" rows="5"></ion-textarea>
+        </ion-col>
+      </ion-row>
 
       <ion-button (click)="sendData()" [disabled]="!form.valid" color="tertiary">Enviar</ion-button>
 
