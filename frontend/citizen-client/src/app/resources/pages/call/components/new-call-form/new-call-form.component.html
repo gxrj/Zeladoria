@@ -2,7 +2,7 @@
   <ion-card-content>
     <form [formGroup]="form" (ngSubmit)="sendData()">
       <h1>Solicite o serviço</h1>
-      <div id="group-line">
+      <div id="default-input">
         <div>
           <ion-label>Serviço</ion-label>
           <ion-input formControlName="dutyDescription" placeholder="Serviço"readonly></ion-input>
@@ -12,12 +12,16 @@
           <ion-input readonly>{{ call?.protocol }}</ion-input>
         </div>
         <div *ngIf="editionMode">
+          <ion-label>Status</ion-label>
+          <ion-input readonly>{{ call?.status }}</ion-input>
+        </div>
+        <div *ngIf="editionMode">
           <ion-label>Data</ion-label>
           <ion-input readonly>{{ call?.created_at | date:'HH:mm -- d/MM/yy' }}</ion-input>
         </div>
       </div>
       
-      <h3 *ngIf="authenticated">Dados do Autor</h3>
+      <h3 *ngIf="authenticated && editionMode">Dados do Autor</h3>
       <div *ngIf="authenticated" id="group-line">
         <div *ngIf="editionMode">
           <ion-label>Nome</ion-label>
@@ -38,7 +42,7 @@
                               value="{{ district.name }}">{{ district.name }}
           </ion-select-option>
         </ion-select>
-        <ion-input *ngIf="editionMode" formControlName="district" readonly>{{district.name}}</ion-input>  
+        <ion-input *ngIf="editionMode" formControlName="district" readonly>{{ form.value.district }}</ion-input>  
       </div><hr>
 
       <ion-input formControlName="street" id="street" placeholder="Logradouro" [readonly]="editionMode"></ion-input>

@@ -10,8 +10,8 @@ export class NavbarComponent implements OnInit {
 
   isAuthenticated: boolean
   paths = [
-    { url: '', label: 'Criar ocorrência' },
-    { url: '', label: 'Minhas ocorrências' },
+    { url: '/home', label: 'Criar ocorrência' },
+    { url: '/home', label: 'Minhas ocorrências' },
   ]
 
   constructor( private _menuCtrl: MenuController ) { }

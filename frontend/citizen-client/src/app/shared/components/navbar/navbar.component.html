@@ -13,7 +13,7 @@
 <side-menu>
   <ion-content content>
     <ion-list *ngIf="isAuthenticated">
-      <ion-item *ngFor="let path of item.paths" 
+      <ion-item *ngFor="let path of paths" 
                 [routerLink]="path.url"
                 routerDirection="root"
                 (click)="closeMenu()">{{ path.label }}</ion-item>
