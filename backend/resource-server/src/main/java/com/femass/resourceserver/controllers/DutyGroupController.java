@@ -1,9 +1,10 @@
 package com.femass.resourceserver.controllers;
 
 import com.femass.resourceserver.dto.DutyDTO;
-import com.femass.resourceserver.dto.DutyGroupDTO;
 import com.femass.resourceserver.services.ServiceModule;
+
 import com.nimbusds.jose.shaded.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

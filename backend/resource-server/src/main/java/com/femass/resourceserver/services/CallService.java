@@ -85,8 +85,8 @@ public class CallService {
         return repository.findByDestination_Name( deptName )
                             .parallelStream()
                             .filter(
-                                item -> item.getStatus().equals( Status.PROCESSING )
-                                        || item.getStatus().equals( Status.FORWARDED ) )
+                                item -> item.getStatus().isEqualTo( Status.PROCESSING )
+                                        || item.getStatus().isEqualTo( Status.FORWARDED ) )
                             .toList();
     }
 

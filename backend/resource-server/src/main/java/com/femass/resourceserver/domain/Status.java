@@ -29,7 +29,7 @@ public enum Status implements Serializable {
         return this.value;
     }
 
-    public boolean equals( String status ) {
-        return this.value.equalsIgnoreCase( status );
+    public boolean isEqualTo( Status status ) {
+        return this.value.equalsIgnoreCase( status.toString() );
     }
 }

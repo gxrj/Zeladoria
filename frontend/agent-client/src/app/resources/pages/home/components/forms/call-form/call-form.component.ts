@@ -51,6 +51,8 @@ export class CallFormComponent implements OnInit {
   }
 
   answer() {
+    console.log( this.call.images );
+    
     this.openModal()
   }
 
@@ -86,6 +88,9 @@ export class CallFormComponent implements OnInit {
 
   checkAnonymous( email: string ):boolean { return email === 'anonimo@fiscaliza.com' }
 
+  displayImgTable(): boolean {
+    return this.call.images && this.call.images.length && this.call.images.length > 0
+  }
 
   loadFile( filename: string ) {
     this._fileService

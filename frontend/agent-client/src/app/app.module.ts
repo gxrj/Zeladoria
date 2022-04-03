@@ -17,8 +17,8 @@ import { UserService } from '@services/user/user.service';
 import { CallService } from '@services/call/call.service';
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { FileService } from '@services/file/file.service';
-
 import { AuthInterceptor } from '@core/interceptors/auth/auth.interceptor';
+import { CorsInterceptor } from '@core/interceptors/cors/cors.interceptor';
 
 @NgModule( {
   declarations: [ AppComponent ],
@@ -37,6 +37,7 @@ import { AuthInterceptor } from '@core/interceptors/auth/auth.interceptor';
     SharedModule
    ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: CorsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,

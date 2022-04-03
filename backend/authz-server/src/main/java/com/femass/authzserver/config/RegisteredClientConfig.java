@@ -107,7 +107,7 @@ public class RegisteredClientConfig {
     @Bean
     public TokenSettings tokenSettings(){
         return TokenSettings.builder()
-                                .accessTokenTimeToLive( Duration.ofMinutes( 1 ) )
+                                .accessTokenTimeToLive( Duration.ofMinutes( 15 ) )
                                 .refreshTokenTimeToLive( Duration.ofMinutes( 20 ) )
                                 .idTokenSignatureAlgorithm( SignatureAlgorithm.ES256 )
                                 .build();

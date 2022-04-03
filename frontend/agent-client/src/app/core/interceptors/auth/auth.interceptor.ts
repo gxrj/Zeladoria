@@ -37,6 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
                         if( token && isHttpError( error ) && ( error.status === 401 || error.status === 0 ) ) {
                             this.refreshToken()
                             if( this.tokenRefreshed ) {
+                                console.log( 'refreshing token' )
                                 const token = this._tokenService.retrieveToken()
                                 const newReq = req.clone( 
                                     { setHeaders:{ Authorization: `Bearer ${ token.accessToken }` } } )

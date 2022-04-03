@@ -137,6 +137,6 @@ export class AuthService {
     const bearer = token?.tokenType +' '+ token?.accessToken
    
     return content === 'multipart' ? 
-      { authorization: bearer } : { authorization: bearer, 'content-type': content  }
+      { Authorization: bearer } : { Authorization: bearer, 'content-type': content  }
   }
 }

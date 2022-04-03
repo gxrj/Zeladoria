@@ -26,14 +26,12 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.PathParam;
 
 import java.io.IOException;
 
 import java.util.*;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -192,13 +190,13 @@ public class CallController {
         List<CallDTO> calls = null;
         var login = extractLoginFromContext();
 
-       if( login != null ) {
+        if( login != null ) {
            var agent = module.getAgentService().findByUsername( login );
 
            calls = module.getCallService()
                    .findCallByDestination( agent.getDepartment().getName() )
                    .parallelStream().map( CallDTO::serialize ).toList();
-       }
+        }
 
         return prepareResponse( calls, "result", "",
                   "Falha no carregamento de ocorrências!" );
