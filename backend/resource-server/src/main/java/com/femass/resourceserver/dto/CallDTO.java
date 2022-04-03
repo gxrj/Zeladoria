@@ -68,10 +68,10 @@ public class CallDTO implements Serializable {
         var object = callDto.protocol != null ?
                                     callService.findCallByProtocol( callDto.protocol ) : null;
 
-        var objectIsStored = object != null;
+        var objectIsNotStored = object == null;
         var email = callDto.author.getEmail();
 
-        if( !objectIsStored ) {
+        if( objectIsNotStored ) {
 
             var citizenService = module.getCitizenService();
             var protocol = String.format( "%d%H", System.currentTimeMillis(), email );
@@ -94,7 +94,7 @@ public class CallDTO implements Serializable {
                                         callDto.duty.getDescription() );
             object.setDuty( duty );
 
-            if( !objectIsStored ) object.setDestination( duty.getDepartment() );
+            if( objectIsNotStored ) object.setDestination( duty.getDepartment() );
         }
 
         if( callDto.status != null )
@@ -106,7 +106,7 @@ public class CallDTO implements Serializable {
         if( callDto.images != null && !callDto.images.isEmpty() )
             object.setImages( callDto.getImages() );
 
-        if( objectIsStored && callDto.destination != null )
+        if( !objectIsNotStored && callDto.destination != null )
             object.setDestination( module.getDepartmentService()
                                         .findDepartmentByName( callDto.destination.getName() ) );
 

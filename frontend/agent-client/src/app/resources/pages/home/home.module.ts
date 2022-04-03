@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
-import { SharedModule } from '@app/shared/SharedModule';
+import { SharedModule } from '@shared/shared.module';
 import { CallComponent } from './components/call/call.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';

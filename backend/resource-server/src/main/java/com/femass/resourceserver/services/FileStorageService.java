@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 
@@ -68,6 +68,35 @@ public class FileStorageService {
         }
         catch( MalformedURLException ex ) {
             throw new FileNotFoundException( "File not found: " + filename + "\n" + ex.getMessage() );
+        }
+    }
+
+    public List<Resource> loadAllFilesFromDirectory( String directoryAbsPath ) {
+
+        try{
+            Path filePath = basePath.resolve( directoryAbsPath ).normalize();
+            DirectoryStream<Path> directoryStream = Files.newDirectoryStream( filePath );
+
+            var resources = new ArrayList<Resource>();
+            directoryStream.forEach( element -> {
+                try {
+                    var attr = Files.readAttributes(
+                                   element, BasicFileAttributes.class);
+
+                    if ( attr.isRegularFile() )
+                        resources.add( loadAsResource( element.toAbsolutePath().toString() ) );
+                    else
+                        LOG.warn( "The resource is not a file: {}", element.toAbsolutePath() );
+                }
+                catch ( IOException ex ) {
+                    LOG.error( "Error at creation of DirectoryStream: {}", ex.getMessage() );
+                } } );
+
+            return resources;
+        }
+        catch ( InvalidPathException | IOException ex ) {
+            LOG.error( "Error: {}", ex.getMessage() );
+            return null;
         }
     }
 

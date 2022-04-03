@@ -10,8 +10,10 @@ export class TokenStorageService {
 
   saveToken( responseData: any ) {
 
-    if( !responseData ) return
-    
+    if( !responseData ) {
+      console.log( 'reponse is null' )
+      return
+    }
     const credentials: Token = {
               accessToken: responseData.access_token,
               refreshToken: responseData.refresh_token,
@@ -24,6 +26,11 @@ export class TokenStorageService {
   }
 
   retrieveToken(): Token {
-    return JSON.parse( sessionStorage.getItem( 'token' ) )
+    const plainToken = sessionStorage.getItem( 'token' )
+
+    if( plainToken )
+      return JSON.parse( plainToken )
+    else
+      return null
   }
 }

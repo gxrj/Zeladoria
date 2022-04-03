@@ -42,8 +42,10 @@
           </ng-container>
           <div class="question-radio">
             <label>O serviço está corente com a descrição? </label>
-            <input [(ngModel)]="editDuty" [value]="false" (change)="checkDestination()" type="radio" name="service-edition" checked> Sim
-            <input [(ngModel)]="editDuty" [value]="true" (change)="checkDestination()" type="radio" name="service-edition"> Não
+            <input [(ngModel)]="editDuty" [value]="false" 
+                  (change)="checkDestination()" type="radio" name="service-edition" checked> Sim
+            <input [(ngModel)]="editDuty" [value]="true" 
+                  (change)="checkDestination()" type="radio" name="service-edition"> Não
           </div>
         </ion-col>
 
@@ -78,7 +80,7 @@
 
         <ion-col sizeXs="12" sizeXl="4">
           <ion-label>&nbsp;</ion-label>
-          <ion-button color="success">Ver Imagens</ion-button>
+          <ion-button (click)="loadAllFiles()" color="success">Ver Imagens</ion-button>
         </ion-col>
       </ion-row>
 

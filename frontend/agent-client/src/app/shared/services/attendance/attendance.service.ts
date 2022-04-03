@@ -14,6 +14,6 @@ export class AttendanceService {
 
   create( path: string, attendance: Attendance ) {
     const request = this._authService.prepareRequest( path )
-    return this._http.post( request.url, attendance, { headers: request.config.headers } )
+    return this._http.post( request.url, attendance, request.config )
   }
 }

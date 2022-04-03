@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { StartPageRoutingModule } from './start-routing.module';
 
 import { StartPage } from './start.page';
-import { SharedModule } from '@app/shared/SharedModule';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   imports: [

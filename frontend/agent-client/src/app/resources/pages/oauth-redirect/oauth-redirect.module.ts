@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { OauthRedirectPageRoutingModule } from './oauth-redirect-routing.module';
 
 import { OauthRedirectPage } from './oauth-redirect.page';
-import { SharedModule } from '@app/shared/SharedModule';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   imports: [

@@ -47,7 +47,7 @@ export class AttendanceFormComponent implements OnInit {
     
     const response = forkJoin( [
       this._attendanceService.create( '/agent/attendance/new', this.attendance ),
-      this._callService.update( '/anonymous/calls/new', this.call )
+      this._callService.update( '/authenticated/call/edition', this.call )
     ] )
     
     response.subscribe(
@@ -59,7 +59,7 @@ export class AttendanceFormComponent implements OnInit {
       error => {
         this._toast.displayMessage( 
           `Falha na gravação: ${ JSON.stringify( error ) }` )
-
+        console.log( error )
         this.close()
       }
     )
@@ -74,6 +74,7 @@ export class AttendanceFormComponent implements OnInit {
     const usernameHex = parseInt( this.attendance.responsible?.username, 16 ).toString()
 
     this.call.status = this.toForward ? "Encaminhada" : "Respondida"
+    this.call.status = this.isRejected ? "Indeferida" : this.call.status
     this.attendance.protocol =  date + usernameHex
     this.attendance.issued_at = date
     this.attendance.call = this.call

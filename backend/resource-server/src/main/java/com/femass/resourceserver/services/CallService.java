@@ -37,7 +37,7 @@ public class CallService {
         Call entity;
 
         try{
-            entity = repository.save( call );
+            entity = repository.saveAndFlush( call );
         }
         catch( IllegalArgumentException ex ){
             LOG.error( "CallService failed: {}", ex.getMessage() );

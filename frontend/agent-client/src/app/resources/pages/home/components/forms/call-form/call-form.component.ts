@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 
 import Call from '@core/interfaces/call';
 import Duty from '@core/interfaces/duty';
 import { Message } from '@core/interfaces/message';
 import { ModalController } from '@ionic/angular';
 import { CallService } from '@services/call/call.service';
+import { FileService } from '@services/file/file.service';
 import { ToastService } from '@services/toast/toast.service';
 import { AttendanceFormComponent } from '../attendance-form/attendance-form.component';
 
@@ -26,13 +25,13 @@ export class CallFormComponent implements OnInit {
   editDuty: boolean = false
   editDestination: boolean = false
   isPrank: boolean = false
+  files: File[]
 
   constructor( 
-    private _fb: FormBuilder,
     private _toast: ToastService,
-    private _route: ActivatedRoute,
     private _modal: ModalController,
-    private _callService: CallService ) { }
+    private _callService: CallService,
+    private _fileService: FileService ) { }
 
   ngOnInit() {
     this.tempDuty = this.call.duty
@@ -50,6 +49,7 @@ export class CallFormComponent implements OnInit {
       this.editDestination = false
     }
   }
+
   answer() {
     this.openModal()
   }
@@ -84,7 +84,50 @@ export class CallFormComponent implements OnInit {
     return await modal.present();
   }
 
-  checkAnonymous( email: string ):boolean {
-    return email === 'anonimo@fiscaliza.com'
+  checkAnonymous( email: string ):boolean { return email === 'anonimo@fiscaliza.com' }
+
+
+  loadFile( filename: string ) {
+    this._fileService
+          .loadAllCallImgFiles( `/authenticated/call/files?${ filename }`, this.call )
+            .subscribe( 
+              ( res ) => { 
+                this.renderFile( res )
+              },
+              err => { 
+                this._toast.displayMessage( 'Falha no carregamento' )
+                console.log( err )
+              }
+            )
+  }
+
+  loadAllFiles() {
+    this._fileService
+          .loadAllCallImgFiles( '/authenticated/call/files/zip', this.call )
+            .subscribe( 
+              ( res ) => { 
+                this.downloadZip( res )
+              },
+              err => { 
+                this._toast.displayMessage( 'Falha no carregamento' )
+                console.log( err )
+              }
+            )
+  }
+
+  renderFile( file: File ) {
+    console.log( file )
+    //TODO
+  }
+
+  downloadZip( data: Blob ) {
+
+    if( data.size ) {
+      const file = new File( [data], 'images.zip', { type: 'application/zip' } )
+      const url = URL.createObjectURL( file )
+      window.open( url )
+    }
+    else
+      this._toast.displayMessage( 'Não há imagens' )
   }
 }

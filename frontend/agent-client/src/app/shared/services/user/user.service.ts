@@ -15,6 +15,6 @@ export class UserService {
   getInfo( path: string ): Observable<any> {
     const request = this._authService.prepareRequest( path )
 
-    return this._http.get( request.url, { headers:request.config.headers } )
+    return this._http.get( request.url, request.config )
   }
 }

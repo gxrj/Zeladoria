@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import Token from '@app/core/interfaces/token';
 import OAUTH_CLIENT_CONFIG from '@app/oauth-client.config';
 import OAUTH_REQUEST from '@app/oauth-requests.config';
@@ -61,63 +62,81 @@ export class AuthService {
   }
 
   refreshToken() {
-    const request = this.prepareRequest( '/oauth2/token', 'form-encoded' )
+    const request = this.prepareRequest( 'oauth2/token', 'form-encoded', true, 'auth' )
     
-    let body = this.setRefreshTokenFormEncoded( 'refresh_token' )
+    let body = this.setRefreshTokenUrlParams( 'refresh_token' )
 
-    this._http.post( request.url, body, request.config )
+    return this._http.post( request.url, body, request.config )
   }
 
-  prepareRequest( path: string, contentFormat: string = 'json', setAuthentication: boolean = true ) {
+  prepareRequest( path: string, contentFormat: string = 'json', setAuthentication: boolean = true,
+                  targetServer: string = 'resource' ) {
+
     const token: Token = this._tokenService.retrieveToken()
     if( !token ) setAuthentication = false
 
-    if( contentFormat != 'json' && contentFormat != 'form-encoded' ) 
-      throw new TypeError( 'contentFormat must be json or form-encoded ' )
+    let contentType: string = ''
+    let url: string = ''
 
-    let contentType: string = null
-    if( contentFormat === 'json') contentType = 'application/json'
-    if( contentFormat === 'form-encoded' ) contentType = 'application/x-www-form-urlencoded' 
+    switch( contentFormat ) {
+      case 'form-encoded': 
+        contentType = 'application/x-www-form-urlencoded' 
+        break
+      case 'multipart':
+        contentType = 'multipart' 
+        break
+      case 'octet':
+        contentType = 'application/octet-stream' 
+        break
+      default: 
+        contentType = 'application/json'
+        break
+    }
+
+    switch( targetServer ) {
+      case 'auth': 
+        url = this.authzServer.baseUrl
+        break
+      default: 
+        url = this.resourceServer.baseUrl
+        break
+    }
+   
+    url += path
     
-    const url = this.resourceServer.baseUrl + path
-    
-    let header: any
-    if( setAuthentication )
-      header = this.authorizedHeader( token, contentType )
-    else
-      header = this.anonymousHeader( contentType )
+    let header = setAuthentication ? 
+                this.buildHeader( contentType, token ) 
+                : this.buildHeader( contentType, null )
 
     const config = { headers: header }
 
     return { url, config }
   }
 
-  private setRefreshTokenFormEncoded( tokenType: string = 'refresh_token' ): FormData  {
+  private setRefreshTokenUrlParams( tokenType: string = 'refresh_token' ): URLSearchParams {
     
     if( tokenType != 'refresh_token' && tokenType != 'access_token' ) 
         throw new TypeError( 'tokenType must be refresh_token or access_token ' )
     
-    let form = new FormData()
+    let params = new URLSearchParams()
     const token = this._tokenService.retrieveToken()
     const clientParams = OAUTH_CLIENT_CONFIG.TOKEN_ENDPOINT_PARAMS
     
-    form.append( 'grant_type', tokenType )
-    form.append( tokenType, token.refreshToken )
-    form.append( 'client_id', clientParams.client_id )
-    form.append( 'client_secret', clientParams.client_secret.toString() )
+    params.append( 'grant_type', tokenType )
+    params.append( tokenType, token.refreshToken )
+    params.append( 'client_id', clientParams.client_id )
+    params.append( 'client_secret', clientParams.client_secret.toString() )
 
-    return form
+    return params
   }
+  
+  private buildHeader( content: string, token: Token ) {
+    if( !token )
+      return content === 'multipart' ? {} : { 'content-type': content }
 
-  authorizedHeader( token: Token, content: string ) {
-    return {
-      'content-type': content,
-      authorization: token?.tokenType +' '+ token?.accessToken 
-    }
-  }
-  anonymousHeader( content: string ) {
-    return {
-      'content-type': content
-    }
+    const bearer = token?.tokenType +' '+ token?.accessToken
+   
+    return content === 'multipart' ? 
+      { authorization: bearer } : { authorization: bearer, 'content-type': content  }
   }
 }

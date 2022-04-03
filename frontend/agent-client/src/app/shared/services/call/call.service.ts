@@ -18,16 +18,16 @@ export class CallService {
   list( path: string, user: User ): Observable<any> {
     const request = this._authService.prepareRequest( path )
 
-    return this._http.post( request.url, user, { headers:request.config.headers } )
+    return this._http.post( request.url, user, request.config )
   }
   
   update( path: string, call: Call ): Observable<any> {
-    const request = this._authService.prepareRequest( path, 'json', false )
-    return this._http.post( request.url, call, { headers:request.config.headers } )
+    const request = this._authService.prepareRequest( path )
+    return this._http.post( request.url, call, request.config )
   }
 
-  delete( path: string, call: Call ) {
+  delete( path: string, call: Call ): Observable<any> {
     const request = this._authService.prepareRequest( path )
-    return this._http.post( request.url, call, { headers:request.config.headers } )
+    return this._http.post( request.url, call, request.config )
   }
 }

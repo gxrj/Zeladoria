@@ -11,7 +11,6 @@ import com.femass.resourceserver.services.ServiceModule;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,15 +21,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.PathParam;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RestController
 @RequestMapping(
@@ -48,36 +53,34 @@ public class CallController {
 
     private final Logger LOG = LoggerFactory.getLogger( CallController.class );
 
+    @PostMapping( "/authenticated/call/edition" )
+    public ResponseEntity<JSONObject> updateCall( @RequestBody CallDTO callDto ) {
+
+        var result = persistEntityAndSerialize(
+                                CallDTO.deserialize( callDto, module ), null );
+
+        return prepareResponse( result, "call",
+                "Ocorrência gravada com sucesso!",
+                 "Falha na gravação da ocorrência!" );
+    }
+
     @PostMapping( "/anonymous/calls/new" )
     public ResponseEntity<JSONObject> create(
             @RequestParam( name = "call" ) String plainCall,
             @RequestParam( name = "files", required = false ) MultipartFile[] images ) {
 
-        HttpStatus status;
         var entity = fromPlainToEntity( plainCall );
-        var json = new JSONObject();
+        var result = persistEntityAndSerialize( entity, images );
 
-        if( entity != null ) {
-
-            var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
-            saveImages( images, username, entity.getProtocol() );
-
-            json.appendField( "call", CallDTO.serialize( entity ) )
-                .appendField( "message", "Ocorrência gravada com sucesso!" );
-            status = HttpStatus.CREATED;
-        }
-        else {
-            json.appendField( "message", "Falha na gravação da ocorrência!" );
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<>( json, status );
+        return prepareResponse( result, "call",
+                "Ocorrência gravada com sucesso!",
+                "Falha na gravação da ocorrência!" );
     }
 
     private Call fromPlainToEntity( String plainCall ) {
         try{
             var callDto = mapper.readValue( plainCall, CallDTO.class );
-            var call = CallDTO.deserialize( callDto, module );
-            return module.getCallService().persist( call );
+            return CallDTO.deserialize( callDto, module );
         }
         catch ( JsonProcessingException ex ) {
             LOG.error( "Error parsing entity from plain text: {}", ex.getMessage() );
@@ -85,34 +88,75 @@ public class CallController {
         }
     }
 
+    private CallDTO persistEntityAndSerialize( Call entity, MultipartFile[] images ) {
+
+        var persistedCall = module.getCallService().persist( entity );
+
+        /* Upload images only if they exist in request and call was persisted */
+        if( images != null && images.length > 0 && persistedCall != null ) {
+            var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
+            Arrays.stream( images ).parallel()
+                    .forEach( image -> fileService.store( image, username, entity.getProtocol() ) );
+        }
+
+        return CallDTO.serialize( persistedCall );
+    }
+
     private String sanitizeUsername( String email ) {
         email = email.equalsIgnoreCase("anonimo@fiscaliza.com" )? "anonimo" : email;
         return email.replaceAll( "[^\\w]", "_" );
     }
 
-    private void saveImages( MultipartFile[] images, String username, String callProtocol ) {
-
-        if( images != null && images.length > 0 ) {
-            Arrays.stream( images ).parallel()
-                    .forEach( image -> fileService.store( image, username, callProtocol ) );
-        }
-    }
-
     @PostMapping(
         path = "/authenticated/call/file?{filename}",
+        consumes =  MediaType.APPLICATION_JSON_VALUE,
         produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE  } )
     public @ResponseBody byte[] downloadFile(
             @RequestBody CallDTO callDto, @PathParam( "filename" ) String filename ) {
 
-        var filePath = sanitizeUsername( callDto.getAuthor().getEmail() ) + "/" +
-                       callDto.getProtocol() + "/" + filename;
+        var filePath = sanitizeUsername( callDto.getAuthor().getEmail() ) +
+                                    "/"+ callDto.getProtocol() +"/"+ filename;
         try {
             var resource = fileService.loadAsResource( filePath );
-            return IOUtils.toByteArray( resource.getInputStream() );
+            return FileCopyUtils.copyToByteArray( resource.getInputStream() );
         }
         catch ( IOException ex ) {
             LOG.error( "Erro, arquivo não encontrado ou inexistente: {}", ex.getMessage() );
             return null;
+        }
+    }
+
+    @PostMapping(
+        path = "/authenticated/call/files/zip",
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void downloadFilesZipped( @RequestBody CallDTO callDto, HttpServletResponse response ) {
+
+        var filePath = sanitizeUsername( callDto.getAuthor().getEmail() ) +"/"+ callDto.getProtocol();
+
+        var resources = fileService
+                        .loadAllFilesFromDirectory( filePath );
+
+        if( resources == null || resources.isEmpty() ) return;
+
+        try ( var zip = new ZipOutputStream( response.getOutputStream() ) ) {
+            for( var el : resources ) {
+                var filename = el.getFile().getName();
+                var entry = new ZipEntry( filename );
+
+                entry.setSize( el.contentLength() );
+                zip.putNextEntry( entry );
+                StreamUtils.copy( el.getInputStream(), zip );
+                zip.closeEntry();
+            }
+            zip.finish();
+            response.setContentType( MediaType.APPLICATION_OCTET_STREAM_VALUE );
+            response.setContentType( "application/zip" );
+            response.flushBuffer();
+        }
+        catch( IOException ex ) {
+            LOG.error( "Error at file transmission: {}", ex.getMessage() );
+            response.setStatus( HttpStatus.INTERNAL_SERVER_ERROR.value() );
         }
     }
 
@@ -123,43 +167,41 @@ public class CallController {
                 .findCallByDestination( agent.getDepartment().getName() )
                 .parallelStream().map( CallDTO::serialize ).toList();
 
-        return getSuccessResponse( calls );
+        return prepareResponse( calls, "result", "",
+                   "Falha no carregamento de ocorrências!" );
     }
 
     @GetMapping( "/user/calls/all" )
     public ResponseEntity<JSONObject> listAllByLoggedUser() {
 
-        try {
-            var login = extractLoginFromContext();
+        List<CallDTO> calls = null;
+        var login = extractLoginFromContext();
 
-            var calls = module.getCallService()
+        if( login != null )
+            calls = module.getCallService()
                     .findCallByAuthor( login )
                     .parallelStream().map( CallDTO::serialize ).toList();
 
-            return getSuccessResponse( calls );
-        } catch( AuthenticationException ex ) {
-
-            return getInternalErrorMessage();
-        }
+        return prepareResponse( calls, "result", "",
+                  "Falha no carregamento de ocorrências" );
     }
 
     @GetMapping( "/agent/calls/all" )
-    public ResponseEntity<JSONObject> listCallsByAgentDeptartment() {
+    public ResponseEntity<JSONObject> getCallsByAgentDeptartment() {
 
-       try {
-           var login = extractLoginFromContext();
+        List<CallDTO> calls = null;
+        var login = extractLoginFromContext();
+
+       if( login != null ) {
            var agent = module.getAgentService().findByUsername( login );
 
-           var calls = module.getCallService()
+           calls = module.getCallService()
                    .findCallByDestination( agent.getDepartment().getName() )
                    .parallelStream().map( CallDTO::serialize ).toList();
-
-           return getSuccessResponse( calls );
-
-       } catch ( AuthenticationException ex ) {
-
-           return getInternalErrorMessage();
        }
+
+        return prepareResponse( calls, "result", "",
+                  "Falha no carregamento de ocorrências!" );
     }
 
     @PostMapping( "/agent/calls/deletion" )
@@ -185,12 +227,11 @@ public class CallController {
         return new ResponseEntity<>( json, status );
     }
 
-    private String extractLoginFromContext() throws AuthenticationException {
+    private String extractLoginFromContext() {
 
         var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext().getAuthentication();
 
-        if( authToken == null )
-            throw new AuthenticationException( "no user authentication found" );
+        if( authToken == null ) return null;
 
         var jwt = ( Jwt ) authToken.getPrincipal();
         return jwt.getClaim( "sub" ).toString();
@@ -210,5 +251,22 @@ public class CallController {
         json.appendField("result", content );
 
         return new ResponseEntity<>( json, HttpStatus.ACCEPTED );
+    }
+
+    private ResponseEntity<JSONObject> prepareResponse(
+            Object entity, String entityKey, String successMessage, String failureMessage ) {
+
+        var json = new JSONObject();
+        HttpStatus status;
+        if( entity != null ) {
+            json.appendField( entityKey, entity )
+                    .appendField( "message", successMessage );
+            status = HttpStatus.CREATED;
+        }
+        else {
+            json.appendField( "message", failureMessage );
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>( json, status );
     }
 }
