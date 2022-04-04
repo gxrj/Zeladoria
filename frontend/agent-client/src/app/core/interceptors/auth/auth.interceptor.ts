@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
 
 import { 
     HttpEvent, 
@@ -8,61 +8,67 @@ import {
     HttpInterceptor,
     HttpErrorResponse
 } from "@angular/common/http";
-import { Router } from "@angular/router";
 
 import { AuthService } from "@services/auth/auth.service";
 import { TokenStorageService } from "@services/token-storage/token-storage.service";
 import { ToastService } from "@services/toast/toast.service";
-import { catchError } from "rxjs/operators";
+import { catchError, switchMap, take, filter, finalize } from "rxjs/operators";
 
 
 @Injectable( { providedIn: 'root' } )
 export class AuthInterceptor implements HttpInterceptor {
 
-    tokenRefreshed = false
-
-    constructor(
-        private _router: Router, 
+    private refreshingToken = false
+    private refreshSubject = new BehaviorSubject( null )
+    constructor( 
         private _toast: ToastService,
         private _authService: AuthService,
         private _tokenService: TokenStorageService ) {}
 
     intercept( req: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
-        const token = this._tokenService.retrieveToken()
-        const isHttpError = ( error: any ) => error instanceof HttpErrorResponse
 
         return next.handle( req ).pipe( 
                 catchError( 
-                    error => { 
-                        if( token && isHttpError( error ) && ( error.status === 401 || error.status === 0 ) ) {
-                            this.refreshToken()
-                            if( this.tokenRefreshed ) {
-                                console.log( 'refreshing token' )
-                                const token = this._tokenService.retrieveToken()
-                                const newReq = req.clone( 
-                                    { setHeaders:{ Authorization: `Bearer ${ token.accessToken }` } } )
-                                this.tokenRefreshed = false
-                                return next.handle( newReq )
+                    ( error: HttpErrorResponse ) => { 
+                        if( error && ( error.status === 401 || error.status === 0 ) ) {
+                            if( this.refreshingToken ) {
+                                return this.refreshSubject
+                                            .pipe( 
+                                                filter( result  => result ), 
+                                                take(1),
+                                                switchMap( () => next.handle( req ) ) )
+                            }
+                            else {
+                                this.refreshingToken = true
+                                this.refreshSubject.next( null )
+
+                                return this._authService.refreshToken()
+                                            .pipe(
+                                                switchMap( token => {
+                                                    this.refreshSubject.next( token )
+                                                    this._tokenService.saveToken( token )
+                                                    return next.handle( this.addRefreshToken( req ) )
+                                                } ),
+                                                finalize( () => this.refreshingToken = false )
+                                            )
                             }
                         }
-                        console.log( 'Error intercepted' )
+                        else
+                            this._toast.displayMessage( 'Falha na interceptação' )
+                        
                         return throwError( error )
                     }
                 ) )
     }
 
-    private refreshToken() {
-        this._authService.refreshToken()
-            .subscribe(
-                res => { 
-                    this._tokenService.saveToken( res )
-                    this.tokenRefreshed = true
-                },
-                error =>{ 
-                    console.log( error )
-                    this._toast.displayMessage( 'Falha de sessão, tentando reautenticar' )
-                    this._router.navigateByUrl( 'start' )
-                }
-            )
+    private addRefreshToken( req: HttpRequest<any> ) {
+
+        const token = this._tokenService.retrieveToken()
+
+        return req.clone( {
+            setHeaders: {
+                Authorization: `Bearer ${ token.accessToken }`
+            }
+        } )
     }
 }

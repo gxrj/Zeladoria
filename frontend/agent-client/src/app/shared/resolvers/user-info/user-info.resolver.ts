@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 import { ToastService } from '@services/toast/toast.service';
-import { EMPTY } from 'rxjs'
+import { throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
 import { UserService } from '@services/user/user.service';
@@ -18,13 +18,16 @@ export class UserInfoResolver implements Resolve<any>{
     private _userService: UserService, ) { }
 
   resolve(): Observable<any> {
-    
+
       return this._userService.getInfo( '/agent/info' )
                   .pipe( 
-                    catchError( () => {
-                        this._toast.displayMessage( 'Falha no carregamento de dados do usuário' )
-                        this._router.navigateByUrl( '/home' )
-                        return EMPTY
+                    catchError( error => {
+                        console.log( error )
+                        if( error.status ) {
+                          this._toast.displayMessage( 'Falha no carregamento de dados do usuário' )
+                          this._router.navigateByUrl( '/home' )
+                        }
+                        return throwError( error )
                     } ) )
   }
 }

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 
-import User from '@core/interfaces/user';
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -18,20 +17,28 @@ export class CallResolver implements Resolve<any>{
 
   resolve(): Observable<any> {
 
-    const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
+    const plainUser =  sessionStorage.getItem( 'user' )
 
-    if( !user ) 
-      return this.errorRedirection()
-    else
-      return this._callService.list( '/agent/calls/all', user )
-                  .pipe(
-                    catchError( () => this.errorRedirection() )
-                  )
+    if( !plainUser ) {
+      console.log( 'no user' )
+      this.errorRedirection()
+      return EMPTY
+    }
+    else {
+        return this._callService.list( '/agent/calls/all', JSON.parse( plainUser ) )
+                    .pipe(
+                      catchError( error => {
+                          console.log( error )
+                          if( error.status )
+                            this.errorRedirection()
+
+                          return throwError( error )
+                    } ) )
+    }
   }
 
-  private errorRedirection(): Observable<never> {
+  private errorRedirection() {
     this._toast.displayMessage( 'Falha no carregamento de ocorrências' )
     this._router.navigateByUrl( '/home' )
-    return EMPTY 
   }
 }

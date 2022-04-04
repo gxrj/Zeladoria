@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 import { DutyService } from '@services/duty/duty.service';
 import { ToastService } from '@services/toast/toast.service';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -19,13 +19,14 @@ export class DutyResolver implements Resolve<any> {
 
         return this._dutyService.loadDuties( '/anonymous/duty/all' )
                     .pipe(
-                      catchError( () => this.errorRedirection() )
-                    )
+                      catchError( error => { 
+                          this.errorRedirection()
+                          return throwError( error )
+                       } ) )
     }
   
-    private errorRedirection(): Observable<never> {
+    private errorRedirection() {
       this._toast.displayMessage( 'Falha no carregamento de serviços' )
       this._router.navigateByUrl( '/home' )
-      return EMPTY 
     }
 }
