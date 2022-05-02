@@ -22,7 +22,7 @@
     </ng-container>
 
     <ng-container *ngIf="categories != null">
-        <h2>{{ selectedCategory != null ? 'Selecione a categoria' : 'Selecione o serviço' }}</h2>
+        <h2>{{ selectedCategory == null ? 'Selecione a categoria' : 'Selecione o serviço' }}</h2>
         <ion-breadcrumbs>
             <ion-breadcrumb (click)="backToCategories()"> 
                 Categoria 
