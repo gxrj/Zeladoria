@@ -69,40 +69,46 @@
           <ion-label position="floating">Descrição</ion-label>
           <ion-textarea formControlName="description" [readonly]="editionMode" rows="5"></ion-textarea>
         </ion-col>
-      </ion-row>
 
-      <ion-col sizeXs="12">
-        <ion-label>Imagens</ion-label>
-        <div class="img-section">
-          <ion-button color="tertiary" class="img-button">Adicionar imagens
-            <ion-input type="file" multiple
-                      class="img-input"
-                      accept=".jpeg, .jpg, .png"
-                      (change)="selectFiles( $event )"></ion-input>
-          </ion-button>
-          <table *ngIf="images?.length">
-            <thead>
-              <th>Arquivo</th>
-              <th>Tamanho</th>
-              <th>Ações</th>
-            </thead>
-            <tbody *ngFor="let image of images">
-              <tr>
-                <td>{{ image?.name }}</td>
-                <td>{{ image?.size/1000 }} MB</td>
-                <td>
-                  <ion-badge color="success" (click)="displayImg( image )">Ver</ion-badge>
-                  <ion-badge color="danger" (click)="removeImg( image )">Excluir</ion-badge>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <ng-container *ngIf="!(images?.length)">Não há imagens</ng-container>
-        </div>
-      </ion-col>
+        <ion-col sizeXs="12">
+          <ion-label>Imagens</ion-label>
+
+          <div class="img-section">
+
+            <ion-button color="tertiary" class="img-button">Adicionar imagens
+              <ion-input type="file" multiple
+                        class="img-input"
+                        accept=".jpeg, .jpg, .png"
+                        (change)="selectFiles( $event )"></ion-input>
+            </ion-button>
+
+            <table *ngIf="images?.length">
+              <thead>
+                <th>Arquivo</th>
+                <th>Tamanho</th>
+                <th>Ações</th>
+              </thead>
+              <tbody *ngFor="let image of images">
+                <tr>
+                  <td>{{ image?.name }}</td>
+                  <td>{{ image?.size/1000 }} MB</td>
+                  <td>
+                    <ion-badge color="success" (click)="displayImg( image )">Ver</ion-badge>
+                    <ion-badge color="danger" (click)="removeImg( image )">Excluir</ion-badge>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <ng-container *ngIf="!(images?.length)">Não há imagens</ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
 
       <ion-button (click)="sendData()" [disabled]="!form.valid" color="tertiary">Enviar</ion-button>
 
     </form>
   </ion-card-content>
+
+
 </ion-card>

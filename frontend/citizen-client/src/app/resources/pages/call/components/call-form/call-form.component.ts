@@ -6,8 +6,10 @@ import Duty from '@core/interfaces/duty';
 
 import { CallService } from '@services/call/call.service';
 import { UserService } from '@services/user/user.service';
-import { ToastService } from '@app/shared/services/toast/toast.service';
+import { ToastService } from '@services/toast/toast.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { ImageViewerComponent } from '@components/image-viewer/image-viewer.component';
 
 
 @Component({
@@ -31,6 +33,7 @@ export class CallFormComponent implements OnInit {
     private _router: Router,
     private _userService: UserService,
     private _callService: CallService,
+    private _modal: ModalController,
     public _toastService: ToastService ) {
 
       this.form = this._fb.group( {
@@ -131,8 +134,14 @@ export class CallFormComponent implements OnInit {
       return []
   }
 
-  displayImg( file: File ) {
+  async displayImg( file: File ) {
+    const modal =  await this._modal.create( {
+      component: ImageViewerComponent,
+      cssClass: 'image-modal',
+      componentProps: { image: file }
+    } )
 
+    return await modal.present()
   }
 
   removeImg( file: File ) {
