@@ -131,6 +131,18 @@ export class CallFormComponent implements OnInit {
       return []
   }
 
+  displayImg( file: File ) {
+
+  }
+
+  removeImg( file: File ) {
+    this.images = this.images
+                        .filter( 
+                            img => { 
+                              this._toastService.displayMessage( `${ img.name } removido` )
+                              return img !== file } )
+  }
+
   ngOnDestroy() {
     sessionStorage.removeItem( 'duty-description' )
   }
