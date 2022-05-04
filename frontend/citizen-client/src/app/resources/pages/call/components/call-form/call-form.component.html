@@ -74,14 +74,16 @@
           <ion-label>Imagens</ion-label>
 
           <div class="img-section">
-
-            <ion-button color="tertiary" class="img-button">Adicionar imagens
+            <ion-item>
               <ion-input type="file" multiple
-                        class="img-input"
-                        accept=".jpeg, .jpg, .png"
-                        (change)="selectFiles( $event )"></ion-input>
-            </ion-button>
-
+                            id="img-input"
+                            accept=".jpeg, .jpg, .png"
+                            (change)="selectFiles( $event )">
+              </ion-input>
+              <ion-button color="tertiary">Adicionar imagens</ion-button>
+              <ng-container *ngIf="!(images?.length)">Não há imagens</ng-container>
+            </ion-item>
+            
             <table *ngIf="images?.length">
               <thead>
                 <th>Arquivo</th>
@@ -100,7 +102,6 @@
               </tbody>
             </table>
 
-            <ng-container *ngIf="!(images?.length)">Não há imagens</ng-container>
           </div>
         </ion-col>
       </ion-row>
