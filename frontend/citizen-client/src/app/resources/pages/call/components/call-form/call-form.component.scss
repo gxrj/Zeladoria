@@ -63,6 +63,14 @@ thead {
     border-radius: 5px;
 }
 
+#first-th{
+    border-radius: 5px 0px 0px;
+}
+
+#last-th{
+    border-radius: 0px 5px 0px 0px;
+}
+
 tbody {
     margin-bottom: 10px;
 }
