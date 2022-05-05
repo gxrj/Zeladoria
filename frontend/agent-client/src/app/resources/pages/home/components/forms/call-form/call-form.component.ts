@@ -26,6 +26,7 @@ export class CallFormComponent implements OnInit {
   editDestination: boolean = false
   isPrank: boolean = false
   files: File[]
+  displayFiles: boolean = false
 
   constructor( 
     private _toast: ToastService,
@@ -36,6 +37,7 @@ export class CallFormComponent implements OnInit {
   ngOnInit() {
     this.tempDuty = this.call.duty
     this.tempDestination = this.call.destination.name
+    this.checkEmbeddedFiles()
   }
 
   checkDestination() {
@@ -57,6 +59,13 @@ export class CallFormComponent implements OnInit {
   }
 
   forward() {
+
+    if( this.call.duty === this.tempDuty ) {
+      this._toast
+          .displayMessage( 'Secretaria de origem é igual a secretaria de destino, confira p destinatário' )
+      return null
+    }
+
     if( this.editDuty )
       this.call.duty = this.tempDuty
 
@@ -88,8 +97,8 @@ export class CallFormComponent implements OnInit {
 
   checkAnonymous( email: string ):boolean { return email === 'anonimo@fiscaliza.com' }
 
-  displayImgTable(): boolean { 
-    return this.call.images && this.call.images.length && this.call.images.length > 0
+  checkEmbeddedFiles() { 
+    this.displayFiles = this.call.images && this.call.images.length && this.call.images.length > 0
   }
 
   loadFile( filename: string ) {
