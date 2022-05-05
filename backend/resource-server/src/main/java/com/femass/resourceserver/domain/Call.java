@@ -36,7 +36,7 @@ public class Call implements Serializable {
     @Embedded
     private Address address;
 
-    @Embedded
+    @ElementCollection
     private List<String> images;
 
     @ManyToOne
