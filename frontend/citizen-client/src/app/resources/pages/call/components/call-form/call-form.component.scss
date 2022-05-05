@@ -55,6 +55,7 @@ table {
     text-align: center;
     margin: auto;
     margin-bottom: 15px;
+    border-radius: 5px;
 }
 
 thead {
@@ -75,8 +76,13 @@ tbody {
     margin-bottom: 10px;
 }
 
+tbody > tr {
+    border-top: 1px solid #454545;
+    border-bottom: 1px solid #454545;
+}
+
 ion-badge {
     cursor: pointer;
-    margin: 4px 4px;
-    padding: 10px 10px;
+    margin: 2px 2px;
+    padding: 5px 5px;
 }
