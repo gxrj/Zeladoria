@@ -88,7 +88,7 @@ export class CallFormComponent implements OnInit {
 
   checkAnonymous( email: string ):boolean { return email === 'anonimo@fiscaliza.com' }
 
-  displayImgTable(): boolean {
+  displayImgTable(): boolean { 
     return this.call.images && this.call.images.length && this.call.images.length > 0
   }
 
@@ -120,9 +120,11 @@ export class CallFormComponent implements OnInit {
             )
   }
 
-  renderFile( file: File ) {
-    console.log( file )
-    //TODO
+  async renderFile( file: File ) {
+    const modal = await this._modal.create( {
+      component: '',
+    } )
+    return await modal.present();
   }
 
   downloadZip( data: Blob ) {

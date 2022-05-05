@@ -54,10 +54,11 @@ public class CallController {
     @PostMapping( "/authenticated/call/edition" )
     public ResponseEntity<JSONObject> updateCall( @RequestBody CallDTO callDto ) {
 
-        var result = persistEntityAndSerialize(
+        var result = persistEntity(
                                 CallDTO.deserialize( callDto, module ), null );
+        callDto = result ? callDto : null;
 
-        return prepareResponse( result, "call",
+        return prepareResponse( callDto, "call",
                 "Ocorrência gravada com sucesso!",
                  "Falha na gravação da ocorrência!" );
     }
@@ -68,9 +69,10 @@ public class CallController {
             @RequestParam( name = "files", required = false ) MultipartFile[] images ) {
 
         var entity = fromPlainToEntity( plainCall );
-        var result = persistEntityAndSerialize( entity, images );
+        var result = persistEntity( entity, images );
+        plainCall = result ? plainCall : null;
 
-        return prepareResponse( result, "call",
+        return prepareResponse( plainCall, "call",
                 "Ocorrência gravada com sucesso!",
                 "Falha na gravação da ocorrência!" );
     }
@@ -86,18 +88,18 @@ public class CallController {
         }
     }
 
-    private CallDTO persistEntityAndSerialize( Call entity, MultipartFile[] images ) {
+    private boolean persistEntity( Call entity, MultipartFile[] images ) {
 
-        var persistedCall = module.getCallService().persist( entity );
+        var persisted = module.getCallService().createOrUpdate( entity );
 
         /* Upload images only if they exist in request and call was persisted */
-        if( images != null && images.length > 0 && persistedCall != null ) {
+        if( images != null && images.length > 0 && persisted ) {
             var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
             Arrays.stream( images ).parallel()
                     .forEach( image -> fileService.store( image, username, entity.getProtocol() ) );
         }
 
-        return CallDTO.serialize( persistedCall );
+        return persisted;
     }
 
     private String sanitizeUsername( String email ) {

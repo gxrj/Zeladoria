@@ -47,7 +47,7 @@ public class DutyGroupTableSeeder {
                 "Agua Pluvial, Bueiros e Esgoto",
                 List.of(
                         "Alagamento", "Bueiro sem tampa", "Bueiro com tampa de madeira quebrado",
-                        "Bueiro com tampa de ferro quebrado", "Bueiro Entupido Superficialmente",
+                        "Bueiro com tampa de ferro quebrado",
                         "Bueiro Entupido Internamente", "Esgoto",
                         "Falta de agua", "Vazamentos"
                 ) );
@@ -100,7 +100,7 @@ public class DutyGroupTableSeeder {
                         "Assistencia social", "Atendimento turistico", "Cultura",
                         "Escolas", "Esportes", "Obra publica", "Minha casa, minha vida",
                         "Maus tratos a idosos", "Violencia domestica contra mulher",
-                        "Direitos humanos", "Abordagem de andarilho"
+                        "Direitos humanos", "Abordagem de andarilho", "Bueiro Entupido Superficialmente"
                 ) );
         map.put(
                 "Transporte Público",

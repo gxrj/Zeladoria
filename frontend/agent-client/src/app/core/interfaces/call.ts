@@ -7,6 +7,7 @@ interface Call {
     description: string,
     address: Address,
     author: Citizen | any,
+    images: Array<string>,
     [key:string]: any
 }
 
