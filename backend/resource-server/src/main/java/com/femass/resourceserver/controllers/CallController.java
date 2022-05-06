@@ -51,30 +51,28 @@ public class CallController {
 
     private final Logger LOG = LoggerFactory.getLogger( CallController.class );
 
-    @PostMapping( "/authenticated/call/edition" )
-    public ResponseEntity<JSONObject> updateCall( @RequestBody CallDTO callDto ) {
-
-        var result = persistEntity(
-                                CallDTO.deserialize( callDto, module ), null );
-        callDto = result ? callDto : null;
-
-        return prepareResponse( callDto, "call",
-                "Ocorrência gravada com sucesso!",
-                 "Falha na gravação da ocorrência!" );
-    }
-
     @PostMapping( "/anonymous/calls/new" )
     public ResponseEntity<JSONObject> create(
             @RequestParam( name = "call" ) String plainCall,
             @RequestParam( name = "files", required = false ) MultipartFile[] images ) {
 
         var entity = fromPlainToEntity( plainCall );
-        var result = persistEntity( entity, images );
-        plainCall = result ? plainCall : null;
+        var result = CallDTO.serialize( persistEntity( entity, images ) );
 
-        return prepareResponse( plainCall, "call",
+        return prepareResponse( result, "call",
                 "Ocorrência gravada com sucesso!",
                 "Falha na gravação da ocorrência!" );
+    }
+
+    @PostMapping( "/authenticated/call/edition" )
+    public ResponseEntity<JSONObject> updateCall( @RequestBody CallDTO callDto ) {
+
+        var result = persistEntity(
+                                CallDTO.deserialize( callDto, module ), null );
+
+        return prepareResponse( CallDTO.serialize( result ), "call",
+                "Ocorrência gravada com sucesso!",
+                 "Falha na gravação da ocorrência!" );
     }
 
     private Call fromPlainToEntity( String plainCall ) {
@@ -88,18 +86,18 @@ public class CallController {
         }
     }
 
-    private boolean persistEntity( Call entity, MultipartFile[] images ) {
+    private Call persistEntity( Call entity, MultipartFile[] images ) {
 
-        var persisted = module.getCallService().createOrUpdate( entity );
+        var persistedCall = module.getCallService().persist( entity );
 
         /* Upload images only if they exist in request and call was persisted */
-        if( images != null && images.length > 0 && persisted ) {
+        if( images != null && images.length > 0 && persistedCall != null ) {
             var username = sanitizeUsername( entity.getAuthor().getAccount().getUsername() );
             Arrays.stream( images ).parallel()
                     .forEach( image -> fileService.store( image, username, entity.getProtocol() ) );
         }
 
-        return persisted;
+        return persistedCall;
     }
 
     private String sanitizeUsername( String email ) {

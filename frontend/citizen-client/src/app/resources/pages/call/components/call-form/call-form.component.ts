@@ -88,9 +88,8 @@ export class CallFormComponent implements OnInit {
                     .subscribe( 
                       res => {
                         this._toastService.displayMessage( res?.message )
-                        console.log( res.call );
-                        
                         this.call = res.call
+
                         this.editionMode = true
 
                         if( !this.authenticated )
