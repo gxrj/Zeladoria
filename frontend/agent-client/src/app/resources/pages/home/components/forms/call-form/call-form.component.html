@@ -112,15 +112,15 @@
               <tr *ngFor="let img of call.images">
                 <td>{{ img }}</td>
                 <td>
-                  <ion-badge color="success">Ver</ion-badge>
-                  <ion-badge color="warning">Baixar</ion-badge>
+                  <ion-badge (click)="renderFile( img )" color="success">Ver</ion-badge>
+                  <ion-badge (click)="downloadFile( img )" color="warning">Baixar</ion-badge>
                 </td>
               </tr>
             </tbody>
           </table>
           <!--ion-button *ngIf="displayFiles"
                       color="success"
-                      (click)="loadAllFiles()">
+                      (click)="downloadZip()">
             Ver Imagens
           </ion-button-->
           <ion-input *ngIf="!displayFiles" placeholder="Não há anexos"></ion-input>

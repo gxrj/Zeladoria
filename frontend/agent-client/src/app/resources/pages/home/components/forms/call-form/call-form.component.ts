@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ImageViewerComponent } from '@components/image-viewer/image-viewer.component';
 
 import Call from '@core/interfaces/call';
 import Duty from '@core/interfaces/duty';
@@ -7,6 +8,7 @@ import { ModalController } from '@ionic/angular';
 import { CallService } from '@services/call/call.service';
 import { FileService } from '@services/file/file.service';
 import { ToastService } from '@services/toast/toast.service';
+import * as JSZip from 'jszip';
 import { AttendanceFormComponent } from '../attendance-form/attendance-form.component';
 
 @Component({
@@ -27,6 +29,7 @@ export class CallFormComponent implements OnInit {
   isPrank: boolean = false
   files: File[]
   displayFiles: boolean = false
+  zipFile: File
 
   constructor( 
     private _toast: ToastService,
@@ -35,13 +38,16 @@ export class CallFormComponent implements OnInit {
     private _fileService: FileService ) { }
 
   ngOnInit() {
+    this.checkEmbeddedFiles()
+
+    if( this.displayFiles ) {
+      this.loadZipFile()
+    }
     this.tempDuty = this.call.duty
     this.tempDestination = this.call.destination.name
-    this.checkEmbeddedFiles()
   }
 
   checkDestination() {
-
     if( this.tempDuty.department.name !== this.tempDestination ) {
       this.tempDestination = this.tempDuty.department.name
       this.editDestination = true
@@ -101,49 +107,59 @@ export class CallFormComponent implements OnInit {
     this.displayFiles = this.call.images && this.call.images.length && this.call.images.length > 0
   }
 
-  loadFile( filename: string ) {
-    this._fileService
-          .loadAllCallImgFiles( `/authenticated/call/files?${ filename }`, this.call )
-            .subscribe( 
-              ( res ) => { 
-                this.renderFile( res )
-              },
-              err => { 
-                this._toast.displayMessage( 'Falha no carregamento' )
-                console.log( err )
-              }
-            )
-  }
-
-  loadAllFiles() {
+  loadZipFile() {
     this._fileService
           .loadAllCallImgFiles( '/authenticated/call/files/zip', this.call )
             .subscribe( 
               ( res ) => { 
-                this.downloadZip( res )
+                this.zipFile = new File( [res], 'images.zip', { type: 'application/zip' } )
+                this.unzipFile( this.zipFile )
               },
               err => { 
-                this._toast.displayMessage( 'Falha no carregamento' )
+                this._toast.displayMessage( 'Falha no carregamento de imagens' )
                 console.log( err )
               }
             )
   }
 
-  async renderFile( file: File ) {
-    const modal = await this._modal.create( {
-      component: '',
-    } )
-    return await modal.present();
+  private unzipFile( zippedFile: File ) {
+    this.files = []
+    JSZip.loadAsync( zippedFile )
+                        .then( 
+                          ( zip ) => {
+                            Object.values( zip.files )
+                                  .forEach( el => el.async( 'blob' )
+                                  .then( data => {
+                                    const file = new File( [data], el.name, { type: 'image/ief' } )
+                                    this.files.push( file )
+                                   } ) )                    
+                          } )
   }
 
-  downloadZip( data: Blob ) {
-
-    if( data.size ) {
-      const file = new File( [data], 'images.zip', { type: 'application/zip' } )
-      const url = URL.createObjectURL( file )
+  downloadZip() {
+    if( this.zipFile && this.zipFile.size ) {
+      const url = URL.createObjectURL( this.zipFile )
       window.open( url )
     }
     else
       this._toast.displayMessage( 'Não há imagens' )
+  }
+
+  async renderFile( filename: string ) {
+
+    const file = this.files.filter( el => el.name === filename )[0]
+
+    const modal = await this._modal.create( {
+      component: ImageViewerComponent,
+      cssClass:'image-modal',
+      componentProps: { image: file }
+    } )
+    return await modal.present()
+  }
+
+  downloadFile( filename: string ) {
+    const file = this.files.filter( el => el.name === filename )[0]
+    const url = URL.createObjectURL( file )
+    window.open( url )
   }
 }

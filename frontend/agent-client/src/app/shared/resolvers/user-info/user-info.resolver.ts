@@ -15,7 +15,7 @@ export class UserInfoResolver implements Resolve<any>{
   constructor( 
     private _router: Router,
     private _toast: ToastService,
-    private _userService: UserService, ) { }
+    private _userService: UserService ) { }
 
   resolve(): Observable<any> {
 

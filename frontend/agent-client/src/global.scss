@@ -39,3 +39,26 @@ ion-modal {
         --width: 65%;
     }
 }
+
+ion-modal {
+    &.image-modal {
+        --width: 65%;
+    }
+}
+
+@media screen and ( max-width: 780px ) {
+    ion-modal {
+        &.image-modal {
+            --width: 85%;
+            --height: 80%;
+        }
+    }
+}
+
+@media screen and ( max-width: 630px ) {
+    ion-modal {
+        &.image-modal {
+            --height: 60%;
+        }
+    }
+}
