@@ -102,6 +102,13 @@
         <ion-col  sizeXs="12" sizeXl="4">
           <ion-label>Imagens Anexadas</ion-label>
           <table *ngIf="displayFiles">
+            <tr>
+              <ion-button *ngIf="call.images > 1"
+                          color="success"
+                          (click)="downloadZip()">
+                Baixar Anexos
+              </ion-button>
+            </tr>
             <thead>
               <tr>
                 <th id="first-th">Imagem</th>
@@ -118,11 +125,6 @@
               </tr>
             </tbody>
           </table>
-          <!--ion-button *ngIf="displayFiles"
-                      color="success"
-                      (click)="downloadZip()">
-            Ver Imagens
-          </ion-button-->
           <ion-input *ngIf="!displayFiles" placeholder="Não há anexos"></ion-input>
         </ion-col>
 
