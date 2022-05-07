@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Attendance;
+import com.femass.resourceserver.domain.AttendanceType;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
@@ -35,8 +36,9 @@ public class AttendanceDTO implements Serializable {
     private Timestamp issuedAt;
     private @NotEmpty String description;
     private @NotEmpty AgentDTO responsible;
-
     private String citizenFeedback;
+
+    private AttendanceType type;
 
     @JsonValue
     public static AttendanceDTO serialize( Attendance attendance ) {
@@ -51,6 +53,7 @@ public class AttendanceDTO implements Serializable {
         attendanceDto.setDescription( attendance.getDescription() );
         attendanceDto.setResponsible( AgentDTO.serialize( attendance.getResponsible() ) );
         attendanceDto.setCitizenFeedback( attendance.getFeedback() );
+        attendanceDto.setType( attendance.getType() );
 
         return attendanceDto;
     }
@@ -70,6 +73,7 @@ public class AttendanceDTO implements Serializable {
             attendance.setUserCall( callService.findCallByProtocol( attendanceDto.call.getProtocol() ) );
             attendance.setExecutionDate( new Timestamp( System.currentTimeMillis() ) );
             attendance.setResponsible( agentService.findByUsername( attendanceDto.responsible.getUsername() ) );
+            attendance.setType( attendanceDto.type );
         }
 
         if( attendanceDto.citizenFeedback != null )
