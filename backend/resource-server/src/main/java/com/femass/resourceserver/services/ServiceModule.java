@@ -34,8 +34,6 @@ public class ServiceModule {
     private DutyService dutyService;
     @Autowired
     private DutyGroupService dutyGroupService;
-    @Autowired
-    private UserFeedbackService userFeedbackService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

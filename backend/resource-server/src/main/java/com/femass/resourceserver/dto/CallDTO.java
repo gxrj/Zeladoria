@@ -1,24 +1,27 @@
 package com.femass.resourceserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Address;
+import com.femass.resourceserver.domain.Attendance;
 import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.services.ServiceModule;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter @Setter
@@ -36,6 +39,8 @@ public class CallDTO implements Serializable {
     private Address address;
     private List<String> images;
     private DepartmentDTO destination;
+    @JsonProperty( "attendances" )
+    private List<UUID> attendanceIdList;
 
     @NotEmpty
     private CitizenDTO author;
@@ -57,6 +62,9 @@ public class CallDTO implements Serializable {
         callDto.setAuthor( CitizenDTO.serialize( call.getAuthor() ) );
         callDto.setCreatedAt( call.getPostingDate() );
         callDto.setDestination( DepartmentDTO.serialize( duty.getDepartment() ) );
+        callDto.setAttendanceIdList( call.getAttendances().stream()
+                                            .map( Attendance::getId )
+                                                .filter( Objects::nonNull).toList() );
 
         return callDto;
     }

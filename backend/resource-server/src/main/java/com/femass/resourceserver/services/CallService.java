@@ -81,14 +81,22 @@ public class CallService {
         return repository.findByPostingDate( time );
     }
 
-    public List<Call> findCallByDestination( String deptName ) {
-        return repository.findByDestination_Name( deptName )
-                            .parallelStream()
-                            .filter(
+    public List<Call> findCallByDestination( String deptName, Status status ) {
+        var resultStream = repository.findByDestination_Name( deptName )
+                                    .parallelStream();
+
+        if( status == null ) {
+            resultStream = resultStream.filter(
                                 item -> item.getStatus().isEqualTo( Status.PROCESSING )
-                                        || item.getStatus().isEqualTo( Status.FORWARDED ) )
-                            .toList();
+                                        || item.getStatus().isEqualTo( Status.FORWARDED ) );
+        }
+        else {
+            resultStream = resultStream.filter(
+                                item -> item.getStatus().isEqualTo( status ) );
+        }
+        return resultStream.toList();
     }
+
 
     public List<Call> findCallByDepartment( String deptName ) {
         return repository.findByDuty_Department_Name( deptName );

@@ -58,9 +58,7 @@ export class CallFormComponent implements OnInit {
     }
   }
 
-  answer() {
-    console.log( this.call.images );
-    
+  answer() { 
     this.openModal()
   }
 

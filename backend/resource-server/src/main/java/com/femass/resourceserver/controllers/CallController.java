@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.femass.resourceserver.domain.Call;
+import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.dto.AgentDTO;
 import com.femass.resourceserver.dto.CallDTO;
 import com.femass.resourceserver.services.FileStorageService;
@@ -158,11 +159,32 @@ public class CallController {
         }
     }
 
+    @GetMapping( "/agent/calls/all" )
+    public ResponseEntity<JSONObject> getCallsByAgentDeptartment(
+                                                @RequestParam( required = false ) Status status ) {
+
+        List<CallDTO> calls = null;
+        var login = extractLoginFromContext();
+
+        if( login != null ) {
+            var agent = module.getAgentService().findByUsername( login );
+
+            calls = module.getCallService()
+                    .findCallByDestination( agent.getDepartment().getName(), status )
+                    .parallelStream().map( CallDTO::serialize ).toList();
+        }
+
+        return prepareResponse( calls, "result", "",
+                "Falha no carregamento de ocorrências!" );
+    }
+
     @PostMapping( "/agent/calls/all" )
-    public ResponseEntity<JSONObject> listCallsByAgentDeptartment( @RequestBody AgentDTO agent ) {
+    public ResponseEntity<JSONObject> listCallsByAgentDeptartment(
+                                            @RequestBody AgentDTO agent,
+                                            @RequestParam( required = false ) Status status ) {
 
         var calls = module.getCallService()
-                .findCallByDestination( agent.getDepartment().getName() )
+                .findCallByDestination( agent.getDepartment().getName(), status )
                 .parallelStream().map( CallDTO::serialize ).toList();
 
         return prepareResponse( calls, "result", "",
@@ -182,24 +204,6 @@ public class CallController {
 
         return prepareResponse( calls, "result", "",
                   "Falha no carregamento de ocorrências" );
-    }
-
-    @GetMapping( "/agent/calls/all" )
-    public ResponseEntity<JSONObject> getCallsByAgentDeptartment() {
-
-        List<CallDTO> calls = null;
-        var login = extractLoginFromContext();
-
-        if( login != null ) {
-           var agent = module.getAgentService().findByUsername( login );
-
-           calls = module.getCallService()
-                   .findCallByDestination( agent.getDepartment().getName() )
-                   .parallelStream().map( CallDTO::serialize ).toList();
-        }
-
-        return prepareResponse( calls, "result", "",
-                  "Falha no carregamento de ocorrências!" );
     }
 
     @PostMapping( "/agent/calls/deletion" )

@@ -14,6 +14,7 @@ public enum Status implements Serializable {
     PROCESSING( "Em andamento" ),
     FORWARDED( "Encaminhada" ),
     ANSWERED( "Respondida" ),
+    NOT_SOLVED( "Nao resolvida" ),
     REJECTED( "Indeferida" ),
     FINISHED( "Finalizada" );
 

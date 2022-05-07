@@ -38,6 +38,6 @@ public class Attendance implements Serializable {
     @JoinColumn( name = "responsavel" )
     private Agent responsible;
 
-    @OneToMany( mappedBy = "attendance", cascade = CascadeType.ALL, orphanRemoval = true )
-    private List<UserFeedback> feedbacks;
+    @Column( name = "feedback_cidadao" )
+    private String feedback;
 }

@@ -36,6 +36,8 @@ public class AttendanceDTO implements Serializable {
     private @NotEmpty String description;
     private @NotEmpty AgentDTO responsible;
 
+    private String citizenFeedback;
+
     @JsonValue
     public static AttendanceDTO serialize( Attendance attendance ) {
 
@@ -48,6 +50,7 @@ public class AttendanceDTO implements Serializable {
         attendanceDto.setIssuedAt( attendance.getExecutionDate() );
         attendanceDto.setDescription( attendance.getDescription() );
         attendanceDto.setResponsible( AgentDTO.serialize( attendance.getResponsible() ) );
+        attendanceDto.setCitizenFeedback( attendance.getFeedback() );
 
         return attendanceDto;
     }
@@ -68,6 +71,9 @@ public class AttendanceDTO implements Serializable {
             attendance.setExecutionDate( new Timestamp( System.currentTimeMillis() ) );
             attendance.setResponsible( agentService.findByUsername( attendanceDto.responsible.getUsername() ) );
         }
+
+        if( attendanceDto.citizenFeedback != null )
+            attendance.setFeedback( attendanceDto.citizenFeedback );
 
         attendance.setDescription( attendanceDto.description );
 
