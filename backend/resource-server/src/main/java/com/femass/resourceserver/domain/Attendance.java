@@ -31,6 +31,9 @@ public class Attendance implements Serializable {
     @Column( name = "dt_execucao" )
     private Timestamp executionDate;
 
+    @Column( name = "tipo_atendimento" )
+    private AttendanceType type;
+
     @Column( name = "descricao", nullable = false )
     private String description;
 
