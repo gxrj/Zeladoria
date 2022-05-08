@@ -6,5 +6,6 @@ export interface Attendance {
     protocol: string,
     description: string,
     responsible: User,
+    type: string,
     [key: string]: any
 }

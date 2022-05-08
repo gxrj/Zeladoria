@@ -32,7 +32,8 @@ export class AttendanceFormComponent implements OnInit {
         protocol: '',
         description: '',
         call: null,
-        responsible: null
+        responsible: null,
+        type: this.toForward ? 'encaminhamento':'resposta'
       }
   }
 
