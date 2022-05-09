@@ -23,6 +23,7 @@
 <ng-container *ngIf="selectedCall">
   <ion-content>
     <ion-button (click)="return()" id="back-button" color="tertiary">Voltar</ion-button>
-    <call-form [duties]="duties" [deptList]="deptList" [call]="selectedCall"></call-form>
+    <call-form [duties]="duties" [deptList]="deptList" 
+               [call]="selectedCall" [attendances]="attendances"></call-form>
   </ion-content>
 </ng-container>

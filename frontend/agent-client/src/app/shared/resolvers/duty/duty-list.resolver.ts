@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class DutyResolver implements Resolve<any> {
+export class DutyListResolver implements Resolve<any> {
 
   constructor( 
     private _router: Router,

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CallResolver } from './call.resolver';
+import { CallListResolver } from './call-list.resolver';
 
-describe('CallResolver', () => {
-  let resolver: CallResolver;
+describe('CallListResolver', () => {
+  let resolver: CallListResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    resolver = TestBed.inject(CallResolver);
+    resolver = TestBed.inject(CallListResolver);
   });
 
   it('should be created', () => {

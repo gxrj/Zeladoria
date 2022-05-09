@@ -5,6 +5,7 @@ import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
 import Call from '@core/interfaces/call'
 import { HttpErrorResponse } from '@angular/common/http';
+import { AttendanceService } from '@services/attendance/attendance.service';
 
 @Component({
   selector: 'call',
@@ -18,11 +19,13 @@ export class CallComponent implements OnInit {
   duties: Array<any> = null
   deptList: Array<any> = null
   selectedCall: Call = null
+  attendances: any = null
 
   constructor( 
     private _toast: ToastService, 
     private _route: ActivatedRoute,
-    private _callService: CallService ) { }
+    private _callService: CallService,
+    private _attendaceService: AttendanceService ) { }
 
   ngOnInit() {
     this.calls = this._route.snapshot.data.calls.result
@@ -31,7 +34,19 @@ export class CallComponent implements OnInit {
   }
 
   selectCall( call ) {
-    this.selectedCall = call
+    this._attendaceService
+          .list( '/authenticated/attendance/by_call', call )
+            .subscribe( 
+              res => {
+                this.attendances = res.result
+                this.selectedCall = call
+              },
+              error => {
+                if( error instanceof HttpErrorResponse && error.status !== 401 && error.status )
+                  this._toast
+                          .displayMessage( 
+                              `Falha no carregamento: ${ JSON.stringify( error.error ) }` )
+              } )
   }
 
   getAndStoreDuties() {

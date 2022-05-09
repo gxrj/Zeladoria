@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ImageViewerComponent } from '@components/image-viewer/image-viewer.component';
+import { Attendance } from '@core/interfaces/attendance';
 
 import Call from '@core/interfaces/call';
 import Duty from '@core/interfaces/duty';
@@ -21,6 +22,7 @@ export class CallFormComponent implements OnInit {
   @Input() call: Call
   @Input() duties: Array<Duty>
   @Input() deptList: Array<string>
+  @Input() attendances: Array<Attendance>
 
   tempDuty: any
   tempDestination: any

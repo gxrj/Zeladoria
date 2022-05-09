@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DutyResolver } from './duty.resolver';
+import { DutyListResolver } from './duty-list.resolver';
 
-describe('DutyResolver', () => {
-  let resolver: DutyResolver;
+describe('DutyListResolver', () => {
+  let resolver: DutyListResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    resolver = TestBed.inject(DutyResolver);
+    resolver = TestBed.inject(DutyListResolver);
   });
 
   it('should be created', () => {

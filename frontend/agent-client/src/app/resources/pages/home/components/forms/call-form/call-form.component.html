@@ -1,5 +1,30 @@
 <ion-card>
   <ion-card-content>
+    <form *ngIf="attendances?.length">
+      <h1>Atendimentos</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Protocolo</th>
+            <th>Responsável</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let attendance of attendances">
+            <td>{{ attendance.type }}</td>
+            <td>{{ attendance.protocol }}</td>
+            <td>{{ attendance.responsible.name }}</td>
+            <td>{{ attendance.issued_at }}</td>
+            <td>
+              <ion-badge color="success">Abrir</ion-badge>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
     <form>
       <h1>Dados da solicitação</h1>
 
