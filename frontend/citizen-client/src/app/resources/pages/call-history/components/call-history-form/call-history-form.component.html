@@ -8,9 +8,10 @@
             <td>{{ attendance.type }}</td>
             <td>{{ attendance.protocol }}</td>
             <td>{{ attendance.responsible.name }}</td>
-            <td>{{ attendance.issued_at | date:"d/MM/y" }}</td>
+            <td>{{ attendance.issued_at | date:"dd/MM/y" }}</td>
             <td>
-              <ion-badge color="success">Abrir</ion-badge>
+              <ion-badge (click)="openModal( attendance )" 
+                         color="success">Abrir</ion-badge>
             </td>
           </tr>
         </data-table>

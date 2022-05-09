@@ -8,6 +8,7 @@ import Call from '@app/core/interfaces/call';
 import { ImageViewerComponent } from '@app/shared/components/image-viewer/image-viewer.component';
 import { FileService } from '@app/shared/services/file/file.service';
 import { ToastService } from '@app/shared/services/toast/toast.service';
+import { AttendanceFormComponent } from '@app/shared/components/attendance-form/attendance-form.component';
 
 @Component({
   selector: 'call-history-form',
@@ -80,5 +81,15 @@ export class CallHistoryFormComponent implements OnInit {
       componentProps: { image: file }
     } )
     return await modal.present()
+  }
+
+  async openModal( element: Attendance ) { 
+    const modal = this._modal.create( {
+      component: AttendanceFormComponent,
+      cssClass: 'default-modal',
+      componentProps: { attendance: element }
+    } )
+    const result = await modal
+    return result.present()
   }
 }

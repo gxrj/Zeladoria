@@ -11,7 +11,7 @@
         <td>{{ call.duty.description }}</td>
         <td>{{ call.status }}</td>
         <td>{{ call.address.district.name }}</td>
-        <td>{{ call.created_at | date:"d/MM/y" }}</td>
+        <td>{{ call.created_at | date:"dd/MM/y" }}</td>
         <td>{{ call.created_at | date:"HH:mm" }}</td>
         <td>
           <ion-badge color="success" (click)="getDetails( call )">Detalhar</ion-badge>
