@@ -32,9 +32,8 @@ export class CallHistoryPage implements OnInit {
     this._attendanceService.list( call )
           .subscribe(
             res => {
-              this.attendances = res.result 
+              this.attendances = res.result
               this.selectedCall = call
-              console.log( this.attendances )
             },
             error => {
               if( error instanceof HttpErrorResponse && error.status !== 401 && error.status )

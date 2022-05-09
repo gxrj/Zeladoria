@@ -81,10 +81,10 @@
           <ion-label>Imagens Anexadas</ion-label>
           <ng-container *ngIf="displayFiles">
             <data-table [headerTitles]="imageHeaders">
-              <tr *ngFor="let img of call.images">
-                <td>{{ img }}</td>
+              <tr *ngFor="let imgName of call.images">
+                <td>{{ imgName }}</td>
                 <td>
-                  <ion-badge (click)="renderFile( img )" color="success">Ver</ion-badge>
+                  <ion-badge (click)="renderFile( imgName )" color="success">Ver</ion-badge>
                 </td>
               </tr>
             </data-table>
