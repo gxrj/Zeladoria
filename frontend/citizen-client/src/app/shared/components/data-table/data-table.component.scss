@@ -1,6 +1,6 @@
 .table {
     margin: auto;
-    width:90%;
+    width:100%;
     text-align: center;
     border-radius: 5px 5px 0px 0px;
 }
@@ -10,6 +10,7 @@
 }
 
 .table-head {
+    border-radius: 5px 5px 0px 0px;
     background-color: var( --default-main-color );
     line-height: 30px;
     color: white; 

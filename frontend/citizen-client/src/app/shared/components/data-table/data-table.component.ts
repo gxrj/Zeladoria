@@ -8,9 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DataTableComponent implements OnInit {
 
   @Input() headerTitles: Array<string>
+  @Input() width: number | null
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.width = !this.width ? 100 : this.width
+  }
 
 }

@@ -6,7 +6,7 @@
     <ion-row>
       <ion-label>Histórico de Ocorrências</ion-label>
     </ion-row>
-    <data-table [headerTitles]="titles">
+    <data-table [headerTitles]="titles" [width]="90">
       <tr *ngFor="let call of history">
         <td>{{ call.duty.description }}</td>
         <td>{{ call.status }}</td>
@@ -21,6 +21,9 @@
   </ng-container>
 
   <ng-container *ngIf="selectedCall">
+    <ion-button (click)="selectedCall = null"
+                id="back-button"
+                color="tertiary">Voltar</ion-button>
     <call-history-form [call]="selectedCall"
                        [attendances]="attendances">
     </call-history-form>

@@ -13,8 +13,17 @@ export class CallHistoryFormComponent implements OnInit {
 
   @Input() call: Call
   @Input() attendances: Attendance[]
+  imageHeaders = [ 'Imagem', 'Ações' ]
+  attendanceHeaders = [ 'Tipo', 'Protocolo', 'Responsável', 'Data', 'Ações' ]
+  displayFiles: boolean
 
   constructor( private _modal: ModalController ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkEmbeddedFiles()
+  }
+
+  checkEmbeddedFiles() { 
+    this.displayFiles = this.call.images && this.call.images.length && this.call.images.length > 0
+  }
 }

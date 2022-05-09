@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table" [style.width.%]="width">
   <thead class="table-head">
     <ng-container *ngFor="let head of headerTitles; first as isFirst; last as isLast">
       <th *ngIf="isFirst" id="first-th" >{{ head }}</th>
