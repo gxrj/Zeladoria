@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   isAuthenticated: boolean
   paths = [
     { url: '/home', label: 'Criar ocorrência' },
-    { url: '/home', label: 'Minhas ocorrências' },
+    { url: '/history', label: 'Minhas ocorrências' },
   ]
 
   constructor( private _menuCtrl: MenuController ) { }

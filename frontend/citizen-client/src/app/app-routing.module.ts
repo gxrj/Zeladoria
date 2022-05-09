@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CategoryResolver } from '@resolvers/category/category.resolver';
+import { CallHistoryResolver } from './shared/resolvers/call-history/call-history.resolver';
 import { DistrictResolver } from './shared/resolvers/district/district.resolver';
 
 const routes: Routes = [
@@ -28,6 +29,12 @@ const routes: Routes = [
     loadChildren: () => import( '@pages/call/call.module' ).then( m => m.CallPageModule ),
     resolve: { districts: DistrictResolver }
   },
+  {
+    path: 'history',
+    loadChildren: () => import( '@pages/call-history/call-history.module' )
+                              .then( m => m.CallHistoryPageModule ),
+    resolve: { history: CallHistoryResolver }
+  }
 ];
 
 @NgModule({

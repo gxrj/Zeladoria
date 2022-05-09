@@ -18,7 +18,7 @@ export class DistrictResolver implements Resolve<any>{
     resolve(): Observable<any> {
 
       return  this._districtService
-                    .loadDistricts( '/anonymous/district/all' )
+                    .loadDistricts()
                       .pipe(
                         catchError( () => {
                             this._toast.displayMessage( 'Falha no carregamento de bairros' )

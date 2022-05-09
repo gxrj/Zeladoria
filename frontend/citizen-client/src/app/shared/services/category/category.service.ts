@@ -10,8 +10,8 @@ export class CategoryService {
   constructor( private _http: HttpClient,
                private _authService: AuthService ) { }
 
-  loadCategories( path: string ) {
-    const request = this._authService.prepareRequest( path, 'json', false )
+  loadCategories() {
+    const request = this._authService.prepareRequest( '/anonymous/duty/categories', 'json', false )
     
     return this._http.get( request.url, { headers: request.config.headers } )
   }

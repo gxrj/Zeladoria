@@ -11,8 +11,8 @@ export class DistrictService {
   constructor( private _http: HttpClient,
                private _authService: AuthService ) { }
 
-  loadDistricts( path: string ) {
-    const request = this._authService.prepareRequest( path, 'json', false )
+  loadDistricts() {
+    const request = this._authService.prepareRequest( '/anonymous/district/all', 'json', false )
 
     return this._http.get( request.url, { headers: request.config.headers } )
   }

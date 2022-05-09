@@ -11,13 +11,14 @@ import { ToastService } from '@services/toast/toast.service';
 })
 export class CategoryResolver implements Resolve<any> {
 
-  constructor( private _router: Router,
-              private _toast: ToastService,
-              private _categoryService: CategoryService ) { }
+  constructor( 
+    private _router: Router,
+    private _toast: ToastService,
+    private _categoryService: CategoryService ) { }
 
   resolve(): Observable<any> {
     return this._categoryService
-                .loadCategories( '/anonymous/duty/categories' )
+                .loadCategories()
                   .pipe(
                     catchError( () => {
                       this._toast.displayMessage( 'Falha no carregamento dos grupos de serviço' )

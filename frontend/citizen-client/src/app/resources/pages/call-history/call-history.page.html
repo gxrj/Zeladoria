@@ -1,0 +1,27 @@
+<navbar></navbar>
+
+<ion-content>
+
+  <ng-container *ngIf="!selectedCall">
+    <ion-row>
+      <ion-label>Histórico de Ocorrências</ion-label>
+    </ion-row>
+    <data-table [headerTitles]="titles">
+      <tr *ngFor="let call of history">
+        <td>{{ call.duty.description }}</td>
+        <td>{{ call.status }}</td>
+        <td>{{ call.address.district.name }}</td>
+        <td>{{ call.created_at | date:"d/MM/y" }}</td>
+        <td>{{ call.created_at | date:"HH:mm" }}</td>
+        <td>
+          <ion-badge color="success" (click)="getDetails( call )">Detalhar</ion-badge>
+        </td>
+      </tr>
+    </data-table>
+  </ng-container>
+
+  <ng-container *ngIf="selectedCall">
+    
+  </ng-container>
+
+</ion-content>

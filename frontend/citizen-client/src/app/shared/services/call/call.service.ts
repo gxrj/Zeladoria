@@ -17,4 +17,10 @@ export class CallService {
     
     return this._http.post( request.url, form, { headers:request.config.headers } )
   }
+
+  listByCitizen(): Observable<any> {
+    const request = this._authService.prepareRequest( '/user/calls/all' )
+
+    return this._http.get( request.url, request.config )
+  }
 }

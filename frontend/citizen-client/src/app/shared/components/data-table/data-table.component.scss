@@ -1,0 +1,56 @@
+.table {
+    margin: auto;
+    width:90%;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.table-head, .table-body {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+}
+
+.table-head {
+    background-color: var( --default-main-color );
+    line-height: 30px;
+    color: white; 
+}
+
+.table-body {
+    margin-top: 10px;
+    height: 60%;
+}
+
+.table-body > tr {
+    height: 25px;
+    cursor: pointer;
+}
+
+.table-body > tr:hover {
+    background-color: rgb(85, 85, 85);
+    color: white;
+}
+
+.table-body > td {
+    word-wrap: break-word;
+}
+
+#first-th {
+    border-radius: 5px 0px 0px;
+}
+
+#last-th{
+    border-radius: 0px 5px 0px 0px;  
+}
+
+@media screen and ( max-width: 617px ) {
+    .table {
+        width: 100%;
+        font-size: 12px;
+    }
+}
+
+@media screen and ( max-width: 420px ) {
+    .table {
+        font-size: 10px;
+    }
+}

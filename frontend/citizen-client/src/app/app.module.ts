@@ -13,7 +13,7 @@ import { AuthService } from '@services/auth/auth.service';
 import { UserService } from '@services/user/user.service';
 import { ToastService } from '@services/toast/toast.service';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './shared/SharedModule';
+import { SharedModule } from '@shared/SharedModule';
 import { CallService } from '@services/call/call.service';
 import { DistrictService } from '@services/district/district.service';
 
