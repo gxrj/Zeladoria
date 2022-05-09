@@ -21,7 +21,9 @@
   </ng-container>
 
   <ng-container *ngIf="selectedCall">
-    
+    <call-history-form [call]="selectedCall"
+                       [attendances]="attendances">
+    </call-history-form>
   </ng-container>
 
 </ion-content>
