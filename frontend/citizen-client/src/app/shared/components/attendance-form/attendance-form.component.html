@@ -52,12 +52,12 @@
                         rows="4"></ion-textarea>
         </ng-container>
         <ng-container *ngIf="hideSaveButton">
-          <ion-label>Comente sua avaliação</ion-label>
+          <ion-label>Avaliação</ion-label>
           <ion-textarea rows="4" readonly>{{ attendance.feedback }}</ion-textarea>
         </ng-container>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="!hideSaveButton">
       <ion-col sizeLg="10" sizeMd="10" sizeSm="9" sizeXs="8">&nbsp;</ion-col>
       <ion-col sizeLg="1" sizeMd="2" sizeSm="3" sizeXs="4">
         <ion-button style="width:100%" (click)="save()">Salvar</ion-button>

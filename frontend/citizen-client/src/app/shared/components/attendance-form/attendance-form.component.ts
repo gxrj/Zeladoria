@@ -31,9 +31,7 @@ export class AttendanceFormComponent implements OnInit {
 
   ngOnInit() { 
     this.attendance.feedback = !this.attendance.feedback? '' : this.attendance.feedback
-    this.hideSaveButton = this.call.status === 'Finalizada' || 'Nao resolvida' ? true : false 
-    console.log( this.attendance.feedback );
-    
+    this.hideSaveButton = this.call.status === 'Respondida' ? false : true 
   }
 
   close() {
