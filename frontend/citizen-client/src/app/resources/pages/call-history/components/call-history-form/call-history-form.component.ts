@@ -83,7 +83,7 @@ export class CallHistoryFormComponent implements OnInit {
     return await modal.present()
   }
 
-  async openModal( element: Attendance ) { 
+  async openModal( element: Attendance ) {     
     const modal = this._modal.create( {
       component: AttendanceFormComponent,
       cssClass: 'default-modal',

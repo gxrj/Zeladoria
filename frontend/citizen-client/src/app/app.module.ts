@@ -12,10 +12,11 @@ import { environment } from '@env/environment';
 import { AuthService } from '@services/auth/auth.service';
 import { UserService } from '@services/user/user.service';
 import { ToastService } from '@services/toast/toast.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from '@shared/SharedModule';
 import { CallService } from '@services/call/call.service';
 import { DistrictService } from '@services/district/district.service';
+import { AuthInterceptor } from './core/interceptors/auth/auth.interceptor';
 
 @NgModule({
   declarations: [ AppComponent ],
@@ -33,16 +34,14 @@ import { DistrictService } from '@services/district/district.service';
                   // or after 30 seconds (whichever comes first).
                   registrationStrategy: 'registerWhenStable:30000'
                 })],
-  providers: [ 
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, 
     AuthService, 
     UserService,
     ToastService,
     CallService,
     DistrictService,
-    { 
-      provide: RouteReuseStrategy, 
-      useClass: IonicRouteStrategy 
-    }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],
 })

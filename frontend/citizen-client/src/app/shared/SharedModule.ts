@@ -9,6 +9,7 @@ import { SideMenuComponent } from '@components/side-menu/side-menu.component';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import { CallFormComponent } from '@app/shared/components/call-form/call-form.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
+import { AttendanceFormComponent } from '@components/attendance-form/attendance-form.component';
 
 
 @NgModule( { 
@@ -17,7 +18,8 @@ import { DataTableComponent } from './components/data-table/data-table.component
         SideMenuComponent,
         SpinnerComponent,
         DataTableComponent,
-        CallFormComponent
+        CallFormComponent,
+        AttendanceFormComponent
     ],
     imports: [ 
         CommonModule,
@@ -34,7 +36,8 @@ import { DataTableComponent } from './components/data-table/data-table.component
         SideMenuComponent,
         SpinnerComponent,
         DataTableComponent,
-        CallFormComponent
+        CallFormComponent,
+        AttendanceFormComponent
     ]
 } )
 export class SharedModule {}

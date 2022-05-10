@@ -1,3 +1,37 @@
-<p>
-  attendance-form works!
-</p>
+<ion-row id="modal-header">
+  <ion-col sizeLg="11" sizeXl="11">Formulário de atendimento</ion-col>
+  <ion-button (click)="close()" id="close-button" color="danger">&#x2715;</ion-button>
+</ion-row>
+<ion-content>
+  <form>
+    <ion-row>
+      <ion-col sizeXl="2" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="6">
+        <ion-label>Tipo</ion-label>
+        <ion-input [placeholder]="attendance.type" readonly></ion-input>
+      </ion-col>
+      <ion-col sizeXl="3" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="6">
+        <ion-label>Protocolo</ion-label>
+        <ion-input [placeholder]="attendance.protocol" readonly></ion-input>
+      </ion-col>
+      <ion-col sizeXl="2">
+        <ion-label>Dia</ion-label>
+        <ion-input placeholder="{{ attendance.issued_at | date: dateFormat }}" readonly></ion-input>
+      </ion-col>
+      <ion-col sizeXl="1">
+        <ion-label>Hora</ion-label>
+        <ion-input placeholder="{{ attendance.issued_at | date: timeFormat }}" readonly></ion-input>
+      </ion-col>
+      <ion-col sizeXl="4">
+        <ion-label>Responsável</ion-label>
+        <ion-input placeholder="{{ attendance.responsible.name }}" readonly></ion-input>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label>Descrição</ion-label>
+        <ion-textarea rows="7" [placeholder]="attendance.description" readonly></ion-textarea>
+      </ion-col>
+      <ion-col>
+        
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

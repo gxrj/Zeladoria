@@ -66,7 +66,7 @@ export class AuthService {
    
     let body = this.setRefreshTokenFormEncoded( 'refresh_token' )
 
-    this._http.post( OAUTH_REQUEST.url, body, OAUTH_REQUEST.config )
+    return this._http.post( OAUTH_REQUEST.url, body, OAUTH_REQUEST.config )
   }
 
   prepareRequest( path: string, contentFormat: string = 'json', setAuthentication: boolean = true ) {
