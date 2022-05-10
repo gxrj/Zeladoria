@@ -45,10 +45,16 @@
         </ion-button>
       </ion-col>
       <ion-col size="12">
-        <ion-label>Comente sua avaliação</ion-label>
-        <ion-textarea [(ngModel)]="attendance.feedback" 
-                      [ngModelOptions]="{standalone: true}" 
-                      rows="4"></ion-textarea>
+        <ng-container *ngIf="!hideSaveButton">
+          <ion-label>Comente sua avaliação</ion-label>
+          <ion-textarea [(ngModel)]="attendance.feedback" 
+                        [ngModelOptions]="{standalone: true}" 
+                        rows="4"></ion-textarea>
+        </ng-container>
+        <ng-container *ngIf="hideSaveButton">
+          <ion-label>Comente sua avaliação</ion-label>
+          <ion-textarea rows="4" readonly>{{ attendance.feedback }}</ion-textarea>
+        </ng-container>
       </ion-col>
     </ion-row>
     <ion-row>

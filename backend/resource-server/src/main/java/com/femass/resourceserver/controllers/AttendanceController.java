@@ -94,4 +94,9 @@ public class AttendanceController {
         json.appendField( "result", attendances );
         return ResponseEntity.ok( json );
     }
+
+    @PostMapping( path = "/authenticated/attendance/edition" )
+    public ResponseEntity<JSONObject> attendanceUpdate( @RequestBody AttendanceDTO attendance ) {
+        return this.createAttendance( attendance );
+    }
 }

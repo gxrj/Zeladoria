@@ -36,7 +36,7 @@ public class AttendanceDTO implements Serializable {
     private Timestamp issuedAt;
     private @NotEmpty String description;
     private @NotEmpty AgentDTO responsible;
-    private String citizenFeedback;
+    private String feedback;
 
     private AttendanceType type;
 
@@ -52,7 +52,7 @@ public class AttendanceDTO implements Serializable {
         attendanceDto.setIssuedAt( attendance.getExecutionDate() );
         attendanceDto.setDescription( attendance.getDescription() );
         attendanceDto.setResponsible( AgentDTO.serialize( attendance.getResponsible() ) );
-        attendanceDto.setCitizenFeedback( attendance.getFeedback() );
+        attendanceDto.setFeedback( attendance.getFeedback() );
         attendanceDto.setType( attendance.getType() );
 
         return attendanceDto;
@@ -76,8 +76,8 @@ public class AttendanceDTO implements Serializable {
             attendance.setType( attendanceDto.type );
         }
 
-        if( attendanceDto.citizenFeedback != null )
-            attendance.setFeedback( attendanceDto.citizenFeedback );
+        if( attendanceDto.feedback != null )
+            attendance.setFeedback( attendanceDto.feedback );
 
         attendance.setDescription( attendanceDto.description );
 

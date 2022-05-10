@@ -20,6 +20,7 @@ export class AttendanceFormComponent implements OnInit {
   dateFormat = 'dd/MM/y'
   timeFormat = 'HH:mm'
   ratingRequired: boolean
+  hideSaveButton: boolean = false
 
   constructor(
     private _router: Router,
@@ -29,7 +30,10 @@ export class AttendanceFormComponent implements OnInit {
     private _attendanceService: AttendanceService ) { }
 
   ngOnInit() { 
-    this.attendance.feedback = '' 
+    this.attendance.feedback = !this.attendance.feedback? '' : this.attendance.feedback
+    this.hideSaveButton = this.call.status === 'Finalizada' || 'Nao resolvida' ? true : false 
+    console.log( this.attendance.feedback );
+    
   }
 
   close() {
