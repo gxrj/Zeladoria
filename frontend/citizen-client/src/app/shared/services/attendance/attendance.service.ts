@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Attendance } from '@app/core/interfaces/attendance';
 
 import Call from '@app/core/interfaces/call';
 
@@ -17,7 +18,11 @@ export class AttendanceService {
 
   list( call: Call ): Observable<any> {
     const request = this._authService.prepareRequest( '/authenticated/attendance/by_call' )
-
     return this._http.post( request.url, call, request.config )
+  }
+
+  update( attendance: Attendance ): Observable<any> {
+    const request = this._authService.prepareRequest( '/authenticated/attendance/edition' )
+    return this._http.post( request.url, attendance, request.config )
   }
 }

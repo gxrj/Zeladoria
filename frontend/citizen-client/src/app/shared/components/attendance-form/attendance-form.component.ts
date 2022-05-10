@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Attendance } from '@app/core/interfaces/attendance';
 import Call from '@app/core/interfaces/call';
 import { AttendanceService } from '@app/shared/services/attendance/attendance.service';
 import { CallService } from '@app/shared/services/call/call.service';
 import { ToastService } from '@app/shared/services/toast/toast.service';
 import { ModalController } from '@ionic/angular';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-attendance-form',
@@ -20,6 +22,7 @@ export class AttendanceFormComponent implements OnInit {
   ratingRequired: boolean
 
   constructor(
+    private _router: Router,
     private _toast: ToastService,
     private _modal: ModalController,
     private _callService: CallService,
@@ -48,5 +51,24 @@ export class AttendanceFormComponent implements OnInit {
       this._toast.displayMessage( 'É necessário descrever o motivo da avaliação' )
       return
     }
+
+    const response = forkJoin( [
+      this._attendanceService.update( this.attendance ),
+      this._callService.update( this.call )
+    ] )
+
+    response.subscribe( 
+      () => {
+        this._toast.displayMessage( "Gravado com sucesso" )
+        this.close()
+        this._router.navigateByUrl( '/home' ) 
+      },
+      error => {
+        this._toast.displayMessage( 
+          `Falha na gravação: ${ JSON.stringify( error ) }` )
+        console.log( error )
+        this.close()
+      }
+    )
   }
 }

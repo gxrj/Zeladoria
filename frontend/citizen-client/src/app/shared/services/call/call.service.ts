@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import Call from '@app/core/interfaces/call';
 
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
@@ -14,13 +15,16 @@ export class CallService {
 
   create( form: any ): Observable<any> {
     const request = this._authService.prepareRequest( '/anonymous/calls/new', 'multipart', false )
-    
     return this._http.post( request.url, form, { headers:request.config.headers } )
   }
 
   listByCitizen(): Observable<any> {
     const request = this._authService.prepareRequest( '/user/calls/all' )
-
     return this._http.get( request.url, request.config )
+  }
+
+  update( call: Call ): Observable<any> {
+    const request = this._authService.prepareRequest( '/authenticated/call/edition' )
+    return this._http.post( request.url, call, request.config )
   }
 }
