@@ -7,5 +7,6 @@ export interface Attendance {
     description: string,
     responsible: Agent,
     type: string,
+    feedback: string | null,
     [key: string]: any
 }

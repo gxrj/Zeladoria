@@ -87,7 +87,7 @@ export class CallHistoryFormComponent implements OnInit {
     const modal = this._modal.create( {
       component: AttendanceFormComponent,
       cssClass: 'default-modal',
-      componentProps: { attendance: element }
+      componentProps: { attendance: element, call: this.call }
     } )
     const result = await modal
     return result.present()
