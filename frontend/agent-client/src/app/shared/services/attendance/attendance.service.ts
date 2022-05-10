@@ -14,13 +14,13 @@ export class AttendanceService {
     private _http: HttpClient,
     private _authService: AuthService ) { }
 
-  create( path: string, attendance: Attendance ) {
-    const request = this._authService.prepareRequest( path )
+  create( attendance: Attendance ) {
+    const request = this._authService.prepareRequest( '/agent/attendance/new' )
     return this._http.post( request.url, attendance, request.config )
   }
 
-  list( path: string, call: Call ): Observable<any> {
-    const request = this._authService.prepareRequest( path )
+  list( call: Call ): Observable<any> {
+    const request = this._authService.prepareRequest( '/authenticated/attendance/by_call' )
     return this._http.post( request.url, call, request.config )
   }
 }

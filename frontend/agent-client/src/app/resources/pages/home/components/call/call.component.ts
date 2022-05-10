@@ -35,7 +35,7 @@ export class CallComponent implements OnInit {
 
   selectCall( call ) {
     this._attendaceService
-          .list( '/authenticated/attendance/by_call', call )
+          .list( call )
             .subscribe( 
               res => {
                 this.attendances = res.result
@@ -76,7 +76,7 @@ export class CallComponent implements OnInit {
       return null
     }
 
-    this._callService.list( '/agent/calls/all', JSON.parse( user ) )
+    this._callService.list( JSON.parse( user ) )
                       .subscribe(
                         resp =>  this.calls = resp.result,
                         error => {

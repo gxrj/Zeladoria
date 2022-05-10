@@ -47,8 +47,8 @@ export class AttendanceFormComponent implements OnInit {
     this.prepareAttendance()
     
     const response = forkJoin( [
-      this._attendanceService.create( '/agent/attendance/new', this.attendance ),
-      this._callService.update( '/authenticated/call/edition', this.call )
+      this._attendanceService.create( this.attendance ),
+      this._callService.update( this.call )
     ] )
     
     response.subscribe(

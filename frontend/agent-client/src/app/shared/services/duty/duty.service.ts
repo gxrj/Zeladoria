@@ -12,8 +12,8 @@ export class DutyService {
     private _http: HttpClient,
     private _authSerivce: AuthService ) { }
 
-  loadDuties( path: string ): Observable<any> {
-    const request = this._authSerivce.prepareRequest( path, 'json', false )
+  loadDuties(): Observable<any> {
+    const request = this._authSerivce.prepareRequest( '/anonymous/duty/all', 'json', false )
     return this._http.get( request.url, request.config )
   }
 }

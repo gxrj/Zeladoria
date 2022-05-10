@@ -25,7 +25,7 @@ export class CallListResolver implements Resolve<any>{
       return EMPTY
     }
     else {
-        return this._callService.list( '/agent/calls/all', JSON.parse( plainUser ) )
+        return this._callService.list( JSON.parse( plainUser ) )
                     .pipe(
                       catchError( error => {
                           console.log( error )

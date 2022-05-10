@@ -15,8 +15,8 @@ export class FileService {
     private _http: HttpClient, 
     private _authService: AuthService ) { }
 
-  loadAllCallImgFiles( path: string, call: Call ): Observable<any> {
-    const request = this._authService.prepareRequest( path )
+  loadAllCallImgFiles( call: Call ): Observable<any> {
+    const request = this._authService.prepareRequest( '/authenticated/call/files/zip' )
     return this._http.post( request.url, call, { responseType: 'blob', 
                                                 ...request.config } )
   }

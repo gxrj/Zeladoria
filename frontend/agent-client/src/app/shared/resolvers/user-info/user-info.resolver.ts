@@ -19,7 +19,7 @@ export class UserInfoResolver implements Resolve<any>{
 
   resolve(): Observable<any> {
 
-      return this._userService.getInfo( '/agent/info' )
+      return this._userService.getInfo()
                   .pipe( 
                     catchError( error => {
                         console.log( error )

@@ -15,19 +15,19 @@ export class CallService {
     private _http: HttpClient, 
     private _authService: AuthService ) { }
 
-  list( path: string, user: User ): Observable<any> {
-    const request = this._authService.prepareRequest( path )
+  list( user: User ): Observable<any> {
+    const request = this._authService.prepareRequest( '/agent/calls/all' )
 
     return this._http.post( request.url, user, request.config )
   }
   
-  update( path: string, call: Call ): Observable<any> {
-    const request = this._authService.prepareRequest( path )
+  update( call: Call ): Observable<any> {
+    const request = this._authService.prepareRequest( '/authenticated/call/edition' )
     return this._http.post( request.url, call, request.config )
   }
 
-  delete( path: string, call: Call ): Observable<any> {
-    const request = this._authService.prepareRequest( path )
+  delete( call: Call ): Observable<any> {
+    const request = this._authService.prepareRequest( '/agent/calls/deletion' )
     return this._http.post( request.url, call, request.config )
   }
 }

@@ -82,7 +82,7 @@ export class CallFormComponent implements OnInit {
   }
 
   delete() {
-    this._callService.delete( '/agent/calls/deletion', this.call )
+    this._callService.delete( this.call )
     .subscribe(
       ( res: Message ) => { this._toast.displayMessage( res?.message ) },
       error => {
@@ -109,7 +109,7 @@ export class CallFormComponent implements OnInit {
 
   loadZipFile() {
     this._fileService
-          .loadAllCallImgFiles( '/authenticated/call/files/zip', this.call )
+          .loadAllCallImgFiles( this.call )
             .subscribe( 
               ( res ) => { 
                 this.zipFile = new File( [res], 'images.zip', { type: 'application/zip' } )

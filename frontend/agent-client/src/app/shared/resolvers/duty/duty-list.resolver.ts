@@ -17,7 +17,7 @@ export class DutyListResolver implements Resolve<any> {
 
     resolve(): Observable<any> {
 
-        return this._dutyService.loadDuties( '/anonymous/duty/all' )
+        return this._dutyService.loadDuties()
                     .pipe(
                       catchError( error => { 
                           this.errorRedirection()
