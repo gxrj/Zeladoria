@@ -41,6 +41,7 @@ export class CallComponent implements OnInit {
               evt => {
                 if ( evt instanceof ActivationStart ) {
                   this.reload()
+                  this.return()
                 }
               }
             )
@@ -77,12 +78,13 @@ export class CallComponent implements OnInit {
   }
 
   return() {
-    this.selectedCall = null
+    const fn = () => this.selectedCall = null
+    setTimeout( fn, 1000 )
   }
 
   reload() {
     const user = sessionStorage.getItem( 'user' )
-
+    
     if( !user ) {
       this._toast.displayMessage( 'Falha no carregamento, por favor reinicie sua sessão' )
       return null
