@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,20 +83,22 @@ public class CallService {
         return repository.findByPostingDate( time );
     }
 
-    public List<Call> findCallByDestination( String deptName, Status status ) {
-        var resultStream = repository.findByDestination_Name( deptName )
-                                    .parallelStream();
+    public List<Call> findCallByDestination( String deptName, String status ) {
 
-        if( status == null ) {
-            resultStream = resultStream.filter(
-                                item -> item.getStatus().isEqualTo( Status.PROCESSING )
-                                        || item.getStatus().isEqualTo( Status.FORWARDED ) );
+        var statusArray = new ArrayList<Status>();
+
+        switch ( status ) {
+            case "Avaliada" -> statusArray.addAll( List.of( Status.FINISHED, Status.NOT_SOLVED ) );
+            case "Respondida" -> statusArray.add( Status.ANSWERED );
+            case "Indeferida" -> statusArray.add( Status.REJECTED );
+            default -> statusArray.addAll( List.of( Status.PROCESSING, Status.FORWARDED ) );
         }
-        else {
-            resultStream = resultStream.filter(
-                                item -> item.getStatus().isEqualTo( status ) );
-        }
-        return resultStream.toList();
+
+        return repository
+                .findByDestination_Name( deptName ).parallelStream()
+                    .filter( item -> statusArray
+                                        .contains( item.getStatus() ) )
+                        .toList();
     }
 
 

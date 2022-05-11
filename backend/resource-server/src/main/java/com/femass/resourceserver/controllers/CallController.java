@@ -161,7 +161,7 @@ public class CallController {
 
     @GetMapping( "/agent/calls/all" )
     public ResponseEntity<JSONObject> getCallsByAgentDeptartment(
-                                                @RequestParam( required = false ) Status status ) {
+                                                @RequestParam( required = false ) String status ) {
 
         List<CallDTO> calls = null;
         var login = extractLoginFromContext();
@@ -181,7 +181,7 @@ public class CallController {
     @PostMapping( "/agent/calls/all" )
     public ResponseEntity<JSONObject> listCallsByAgentDeptartment(
                                             @RequestBody AgentDTO agent,
-                                            @RequestParam( required = false ) Status status ) {
+                                            @RequestParam( required = false ) String status ) {
 
         var calls = module.getCallService()
                 .findCallByDestination( agent.getDepartment().getName(), status )
