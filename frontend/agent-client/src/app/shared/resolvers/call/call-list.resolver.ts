@@ -25,7 +25,8 @@ export class CallListResolver implements Resolve<any>{
       return EMPTY
     }
     else {
-        return this._callService.list( JSON.parse( plainUser ) )
+        const status = sessionStorage.getItem( 'status' )
+        return this._callService.list( JSON.parse( plainUser ), status )
                     .pipe(
                       catchError( error => {
                           console.log( error )

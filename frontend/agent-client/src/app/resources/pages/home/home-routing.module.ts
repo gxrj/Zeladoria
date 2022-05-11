@@ -5,7 +5,6 @@ import { HomePage } from './home.page';
 import { CallListResolver } from '@resolvers/call/call-list.resolver';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CallComponent } from './components/call/call.component';
-import { FeedbackComponent } from './components/feedback/feedback.component';
 import { DutyListResolver } from '@resolvers/duty/duty-list.resolver';
 
 const routes: Routes = [
@@ -17,18 +16,15 @@ const routes: Routes = [
       {
         path: 'calls',
         component: CallComponent,
-        resolve: { calls: CallListResolver, duties: DutyListResolver },
-        runGuardsAndResolvers: 'always'
+        resolve: { calls: CallListResolver },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange'
       },
       {
         path: 'attendances',
         component: AttendanceComponent
-      },
-      {
-        path: 'feedbacks',
-        component: FeedbackComponent
       }
-    ]
+    ],
+    resolve: { duties: DutyListResolver }
   }
 ];
 

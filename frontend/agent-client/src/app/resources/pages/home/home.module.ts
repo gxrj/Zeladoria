@@ -10,7 +10,6 @@ import { HomePage } from './home.page';
 import { SharedModule } from '@shared/shared.module';
 import { CallComponent } from './components/call/call.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
-import { FeedbackComponent } from './components/feedback/feedback.component';
 import { CallFormComponent } from './components/forms/call-form/call-form.component';
 import { AttendanceFormComponent } from './components/forms/attendance-form/attendance-form.component';
 
@@ -26,7 +25,6 @@ import { AttendanceFormComponent } from './components/forms/attendance-form/atte
   declarations: [ 
     HomePage,
     CallComponent,
-    FeedbackComponent,
     AttendanceComponent,
     CallFormComponent,
     AttendanceFormComponent

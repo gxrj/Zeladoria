@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.saveCurrentUserData()
+    this.loadDutyList()
   }
 
   saveCurrentUserData() {
@@ -26,5 +27,12 @@ export class HomePage implements OnInit {
     }
     else
       this.account = JSON.parse( this.account )
+  }
+
+  loadDutyList() {
+    if( !sessionStorage.getItem( 'duties' ) ) {
+      let duties = this._route.snapshot.data.duties.result
+      sessionStorage.setItem( 'duties', JSON.stringify( duties ) )
+    }
   }
 }

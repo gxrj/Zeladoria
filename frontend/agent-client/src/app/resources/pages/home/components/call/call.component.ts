@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
 
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
@@ -24,6 +24,7 @@ export class CallComponent implements OnInit {
   constructor( 
     private _toast: ToastService, 
     private _route: ActivatedRoute,
+    private _router: Router,
     private _callService: CallService,
     private _attendaceService: AttendanceService ) { }
 
@@ -31,9 +32,21 @@ export class CallComponent implements OnInit {
     this.calls = this._route.snapshot.data.calls.result
     this.getAndStoreDuties()
     this.getAndStoreDepartments()
+    this.listenRouterChanges()
   }
 
-  selectCall( call ) {
+  private listenRouterChanges() {
+    this._router.events
+            .subscribe( 
+              evt => {
+                if ( evt instanceof ActivationStart ) {
+                  this.reload()
+                }
+              }
+            )
+  }
+
+  selectCall( call: Call ) {
     this._attendaceService
           .list( call )
             .subscribe( 
@@ -51,8 +64,7 @@ export class CallComponent implements OnInit {
 
   getAndStoreDuties() {
     if( !this.duties ) {
-      this.duties = this._route.snapshot.data.duties.result
-      sessionStorage.setItem( 'duties', JSON.stringify( this.duties ) )
+      this.duties = JSON.parse( sessionStorage.getItem( 'duties' ) )
     }
   }
 
@@ -76,7 +88,7 @@ export class CallComponent implements OnInit {
       return null
     }
 
-    this._callService.list( JSON.parse( user ) )
+    this._callService.list( JSON.parse( user ), sessionStorage.getItem( 'status' ) )
                       .subscribe(
                         resp =>  this.calls = resp.result,
                         error => {
@@ -86,5 +98,19 @@ export class CallComponent implements OnInit {
                                         `Falha no carregamento: ${ JSON.stringify( error.error ) }` )
                         }
                       )
+  }
+
+  getTitle() {
+    const status = sessionStorage.getItem( 'status' )
+    switch( status ) {
+      case 'Avaliada':
+        return 'Ocorrências Avaliadas'
+      case 'Respondida':
+        return 'Ocorrências não Avaliadas'
+      case 'Indeferida':
+        return 'Ocorrências Indeferidas'
+      default:
+        return 'Ocorrências Abertas'
+    }
   }
 }

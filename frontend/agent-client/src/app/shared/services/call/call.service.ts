@@ -15,10 +15,15 @@ export class CallService {
     private _http: HttpClient, 
     private _authService: AuthService ) { }
 
-  list( user: User ): Observable<any> {
-    const request = this._authService.prepareRequest( '/agent/calls/all' )
+  list( user: User, status: string ): Observable<any> {
+    const path = this.buildStatusQuery( '/agent/calls/all', status )
+    const request = this._authService.prepareRequest( path )
 
     return this._http.post( request.url, user, request.config )
+  }
+
+  private buildStatusQuery( path: string, status: string ): string {
+    return status === '' ?  path : `${path}?status=${status}` 
   }
   
   update( call: Call ): Observable<any> {

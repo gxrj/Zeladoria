@@ -12,10 +12,10 @@ export class NavbarComponent implements OnInit {
     { 
       title: 'Ocorrências', 
       paths: [ 
-        { label: 'Ocorrências Abertas', url: '/home/calls' },
-        { label: 'Ocorrências Encaminhadas', url: '' },
-        { label: 'Ocorrências Indeferidas', url: '' },
-        { label: 'Ocorrências Respondidas', url: '' }   
+        { label: 'Ocorrências Abertas', url: '/home/calls', status: '' },
+        { label: 'Ocorrências Avaliadas', url: '/home/calls', status: 'Avaliada' },
+        { label: 'Ocorrências não Avaliadas', url: '/home/calls', status: 'Respondida' },
+        { label: 'Ocorrências Indeferidas', url: '/home/calls', status: 'Indeferida' }
       ] 
     },
     { 
@@ -24,18 +24,17 @@ export class NavbarComponent implements OnInit {
         { label: 'Atendimentos do Setor', url: '/home/attendances' },
         { label: 'Meus Atendimentos', url: '' } 
       ] 
-    },
-    { 
-      title: 'Feedbacks', 
-      paths: [ 
-        { label: 'Feedbacks dos meus atendimentos', url: '/home/feedbacks' } 
-      ] 
     }
   ]
   
   constructor( private _menuCtrl: MenuController ) { }
 
   ngOnInit() {}
+
+  filterCalls( status: string ) {
+    sessionStorage.setItem( 'status', status )
+    this.closeMenu()
+  }
 
   closeMenu(){
     this._menuCtrl.close()
