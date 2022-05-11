@@ -1,6 +1,8 @@
 .table {
     margin: auto;
-    width:90%;
+    width:100%;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .table-head, .table-body {
@@ -8,6 +10,7 @@
 }
 
 .table-head {
+    border-radius: 5px 5px 0px 0px;
     background-color: var( --default-main-color );
     line-height: 30px;
     color: white; 
@@ -30,4 +33,25 @@
 
 .table-body > td {
     word-wrap: break-word;
+}
+
+#first-th {
+    border-radius: 5px 0px 0px;
+}
+
+#last-th{
+    border-radius: 0px 5px 0px 0px;  
+}
+
+@media screen and ( max-width: 617px ) {
+    .table {
+        width: 100%;
+        font-size: 12px;
+    }
+}
+
+@media screen and ( max-width: 420px ) {
+    .table {
+        font-size: 10px;
+    }
 }

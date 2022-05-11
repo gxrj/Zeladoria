@@ -2,7 +2,11 @@
     text-align: start;
 }
 
-ion-card{
+form {
+    margin-bottom: 20px;
+}
+
+ion-card {
     background-color: #cfcfcf;
 }
 
@@ -60,39 +64,14 @@ ion-button {
     margin-bottom: 5px;
 }
 
-table {
-    width: 100%;
-    text-align: center;
-    margin: auto;
-    box-shadow: 1px 1px 3px rgb(73, 73, 73);
-    border-radius: 5px 5px 0px 0px;
-}
-
-thead {
-    background-color: var(--default-main-color);
-    color: white;
-}
-
-th, td {
-    text-align: center;
-}
-
-#first-th {
- border-radius: 5px 0px 0px;
-}
-
-#last-th{
-    border-radius: 0px 5px 0px 0px;  
-}
-
-tbody {
-    margin-bottom: 10px;
-}
-
-tbody > tr {
+tr {
     border-top: 1px solid #454545;
     border-bottom: 1px solid #454545;
     background-color: white;
+}
+
+td {
+    text-align: center;
 }
 
 ion-badge {

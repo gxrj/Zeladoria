@@ -10,14 +10,14 @@
         <ion-button (click)="reload()" color="tertiary">Recarregar</ion-button>
       </ion-col>
     </ion-row>
-    <data-table [headerTitles]="titles">
-        <tr *ngFor="let obj of calls" (click)="selectCall( obj )">
-          <td>{{ obj.duty.description }}</td>
-          <td>{{ obj.status }}</td>
-          <td>{{ obj.address.district.name }}</td>
-          <td>{{ obj.created_at | date:"d/MM/y" }}</td>
-          <td>{{ obj.created_at | date:"HH:mm" }}</td>
-          <td>{{ obj.author.name }}</td>
+    <data-table [headerTitles]="titles" [width]="90">
+        <tr *ngFor="let call of calls" (click)="selectCall( call )">
+          <td>{{ call.duty.description }}</td>
+          <td>{{ call.status }}</td>
+          <td>{{ call.address.district.name }}</td>
+          <td>{{ call.created_at | date:"d/MM/y" }}</td>
+          <td>{{ call.created_at | date:"HH:mm" }}</td>
+          <td>{{ call.author.name }}</td>
         </tr>
     </data-table>
   </ion-content>

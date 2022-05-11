@@ -24,6 +24,9 @@ export class CallFormComponent implements OnInit {
   @Input() deptList: Array<string>
   @Input() attendances: Array<Attendance>
 
+  attendanceHeaders = [ 'Tipo', 'Protocolo', 'Responsável', 'Data', 'Ações' ]
+  imageHeaders = [ 'Imagem', 'Ações' ]
+
   tempDuty: any
   tempDestination: any
   editDuty: boolean = false
@@ -161,5 +164,9 @@ export class CallFormComponent implements OnInit {
     const file = this.files.filter( el => el.name === filename )[0]
     const url = URL.createObjectURL( file )
     window.open( url )
+  }
+
+  submitEnabled(): boolean {
+    return ![ 'Finalizada', 'Indeferida', 'Respondida' ].includes( this.call.status ) 
   }
 }

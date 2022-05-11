@@ -1,6 +1,10 @@
-<table class="table">
+<table class="table" [style.width.%]="width">
   <thead class="table-head">
-    <th *ngFor="let head of headerTitles" >{{ head }}</th>
+    <ng-container *ngFor="let head of headerTitles; first as isFirst; last as isLast">
+      <th *ngIf="isFirst" id="first-th" >{{ head }}</th>
+      <th *ngIf="!isFirst && !isLast">{{ head }}</th>
+      <th *ngIf="isLast" id="last-th" >{{ head }}</th>
+    </ng-container>
   </thead>
   <tbody class="table-body">
     <ng-content [select]="tbody-rows"></ng-content>

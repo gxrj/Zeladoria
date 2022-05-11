@@ -2,28 +2,18 @@
   <ion-card-content>
     <form *ngIf="attendances?.length">
       <h1>Atendimentos</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Tipo</th>
-            <th>Protocolo</th>
-            <th>Responsável</th>
-            <th>Data</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let attendance of attendances">
-            <td>{{ attendance.type }}</td>
-            <td>{{ attendance.protocol }}</td>
-            <td>{{ attendance.responsible.name }}</td>
-            <td>{{ attendance.issued_at }}</td>
-            <td>
-              <ion-badge color="success">Abrir</ion-badge>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      
+      <data-table [headerTitles]="attendanceHeaders">
+        <tr *ngFor="let attendance of attendances">
+          <td>{{ attendance.type }}</td>
+          <td>{{ attendance.protocol }}</td>
+          <td>{{ attendance.responsible.name }}</td>
+          <td>{{ attendance.issued_at | date:"dd/MM/YY" }}</td>
+          <td>
+            <ion-badge color="success">Abrir</ion-badge>
+          </td>
+        </tr>
+      </data-table>
     </form>
     <form>
       <h1>Dados da solicitação</h1>
@@ -126,7 +116,7 @@
         </ion-col>
         <ion-col  sizeXs="12" sizeXl="4">
           <ion-label>Imagens Anexadas</ion-label>
-          <table *ngIf="displayFiles">
+          <ng-container *ngIf="displayFiles">
             <tr>
               <ion-button *ngIf="call.images > 1"
                           color="success"
@@ -134,13 +124,7 @@
                 Baixar Anexos
               </ion-button>
             </tr>
-            <thead>
-              <tr>
-                <th id="first-th">Imagem</th>
-                <th id="last-th">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
+            <data-table [headerTitles]="imageHeaders">
               <tr *ngFor="let img of call.images">
                 <td>{{ img }}</td>
                 <td>
@@ -148,8 +132,8 @@
                   <ion-badge (click)="downloadFile( img )" color="warning">Baixar</ion-badge>
                 </td>
               </tr>
-            </tbody>
-          </table>
+            </data-table>
+          </ng-container>
           <ion-input *ngIf="!displayFiles" placeholder="Não há anexos"></ion-input>
         </ion-col>
 
@@ -163,7 +147,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row class="button-row">
+      <ion-row class="button-row" *ngIf="submitEnabled()">
         <ion-col sizeMd="6" sizeLg="4" offset-md="6" offset-lg="8">
           <ng-container *ngIf="!editDestination && !isPrank">
             <ion-button (click)="answer()" color="tertiary">Adicionar Resposta</ion-button>
