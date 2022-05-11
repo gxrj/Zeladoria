@@ -91,7 +91,7 @@ public class CallService {
             case "Avaliada" -> statusArray.addAll( List.of( Status.FINISHED, Status.NOT_SOLVED ) );
             case "Respondida" -> statusArray.add( Status.ANSWERED );
             case "Indeferida" -> statusArray.add( Status.REJECTED );
-            default -> statusArray.addAll( List.of( Status.PROCESSING, Status.FORWARDED ) );
+            default -> statusArray.addAll( List.of( Status.PROCESSING, Status.FORWARDED, Status.NOT_SOLVED ) );
         }
 
         return repository

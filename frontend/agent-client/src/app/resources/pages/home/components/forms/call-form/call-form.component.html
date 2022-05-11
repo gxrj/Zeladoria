@@ -10,7 +10,8 @@
           <td>{{ attendance.responsible.name }}</td>
           <td>{{ attendance.issued_at | date:"dd/MM/YY" }}</td>
           <td>
-            <ion-badge color="success">Abrir</ion-badge>
+            <ion-badge color="success"
+                       (click)="openAttendanceDetailsModal( attendance )">Abrir</ion-badge>
           </td>
         </tr>
       </data-table>
@@ -31,7 +32,7 @@
               <option *ngFor="let dept of deptList" [ngValue]="dept">{{dept}}</option>
             </select>
           </ng-container>
-          <div class="question-radio">
+          <div class="question-radio" *ngIf="editionEnabled">
             <label>O destinatário condiz com a descrição? </label>
             <input [(ngModel)]="editDestination" [value]="false" type="radio" name="dept-edition" checked> Sim
             <input [(ngModel)]="editDestination" [value]="true" type="radio" name="dept-edition"> Não
@@ -52,7 +53,7 @@
                   [ngValue]="duty">{{duty.description}}</option>
             </select>
           </ng-container>
-          <div class="question-radio">
+          <div class="question-radio" *ngIf="editionEnabled">
             <label>O serviço está corente com a descrição? </label>
             <input [(ngModel)]="editDuty" [value]="false" 
                   (change)="checkDestination()" type="radio" name="service-edition" checked> Sim
@@ -84,7 +85,7 @@
         <ion-col size="12">
           <h2>Descrição</h2>
           <ion-textarea placeholder="{{call.description}}" id="text-area" rows="5" readonly></ion-textarea>
-          <div class="question-radio">
+          <div class="question-radio" *ngIf="editionEnabled">
             <label>A ocorrência é um trote? </label>
             <input [(ngModel)]="isPrank" [value]="true" type="radio" name="prank"> Sim
             <input [(ngModel)]="isPrank" [value]="false" type="radio" name="prank" checked> Não
@@ -147,7 +148,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row class="button-row" *ngIf="submitEnabled()">
+      <ion-row class="button-row" *ngIf="editionEnabled">
         <ion-col sizeMd="6" sizeLg="4" offset-md="6" offset-lg="8">
           <ng-container *ngIf="!editDestination && !isPrank">
             <ion-button (click)="answer()" color="tertiary">Adicionar Resposta</ion-button>

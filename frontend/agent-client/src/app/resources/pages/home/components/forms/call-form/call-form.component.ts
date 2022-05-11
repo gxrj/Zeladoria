@@ -35,6 +35,7 @@ export class CallFormComponent implements OnInit {
   files: File[]
   displayFiles: boolean = false
   zipFile: File
+  editionEnabled: boolean
 
   constructor( 
     private _toast: ToastService,
@@ -64,7 +65,7 @@ export class CallFormComponent implements OnInit {
   }
 
   answer() { 
-    this.openModal()
+    this.openAttendanceCreationModal()
   }
 
   forward() {
@@ -95,7 +96,7 @@ export class CallFormComponent implements OnInit {
     )
   }
 
-  async openModal() {
+  async openAttendanceCreationModal() {
     const modal = await this._modal.create( {
       component: AttendanceFormComponent,
       cssClass: 'default-modal',
@@ -166,7 +167,16 @@ export class CallFormComponent implements OnInit {
     window.open( url )
   }
 
-  submitEnabled(): boolean {
-    return ![ 'Finalizada', 'Indeferida', 'Respondida' ].includes( this.call.status ) 
+  setFormEditionMode() {
+    this.editionEnabled = ![ 'Finalizada', 'Indeferida', 'Respondida' ].includes( this.call.status ) 
+  }
+  async openAttendanceDetailsModal( element: Attendance ) {     
+    // const modal = this._modal.create( {
+    //   component: AttendanceFormComponent,
+    //   cssClass: 'default-modal',
+    //   componentProps: { attendance: element, call: this.call }
+    // } )
+    // const result = await modal
+    // return result.present()
   }
 }
