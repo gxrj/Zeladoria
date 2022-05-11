@@ -86,6 +86,7 @@ public class CallService {
     public List<Call> findCallByDestination( String deptName, String status ) {
 
         var statusArray = new ArrayList<Status>();
+        status = status == null ? "" : status;
 
         switch ( status ) {
             case "Avaliada" -> statusArray.addAll( List.of( Status.FINISHED, Status.NOT_SOLVED ) );

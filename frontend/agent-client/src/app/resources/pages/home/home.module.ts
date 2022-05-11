@@ -12,6 +12,7 @@ import { CallComponent } from './components/call/call.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CallFormComponent } from './components/forms/call-form/call-form.component';
 import { AttendanceFormComponent } from './components/forms/attendance-form/attendance-form.component';
+import { AttendanceFormViewComponent } from './components/forms/attendance-form-view/attendance-form-view.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AttendanceFormComponent } from './components/forms/attendance-form/atte
     CallComponent,
     AttendanceComponent,
     CallFormComponent,
-    AttendanceFormComponent
+    AttendanceFormComponent,
+    AttendanceFormViewComponent
   ]
 })
 export class HomePageModule {}

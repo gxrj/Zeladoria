@@ -10,6 +10,7 @@ import { CallService } from '@services/call/call.service';
 import { FileService } from '@services/file/file.service';
 import { ToastService } from '@services/toast/toast.service';
 import * as JSZip from 'jszip';
+import { AttendanceFormViewComponent } from '../attendance-form-view/attendance-form-view.component';
 import { AttendanceFormComponent } from '../attendance-form/attendance-form.component';
 
 @Component({
@@ -170,13 +171,14 @@ export class CallFormComponent implements OnInit {
   setFormEditionMode() {
     this.editionEnabled = ![ 'Finalizada', 'Indeferida', 'Respondida' ].includes( this.call.status ) 
   }
+
   async openAttendanceDetailsModal( element: Attendance ) {     
-    // const modal = this._modal.create( {
-    //   component: AttendanceFormComponent,
-    //   cssClass: 'default-modal',
-    //   componentProps: { attendance: element, call: this.call }
-    // } )
-    // const result = await modal
-    // return result.present()
+    const modal = this._modal.create( {
+      component: AttendanceFormViewComponent,
+      cssClass: 'default-modal',
+      componentProps: { attendance: element, call: this.call }
+    } )
+    const result = await modal
+    return result.present()
   }
 }
