@@ -22,10 +22,10 @@
         
           <ion-item *ngFor="let path of item.paths" 
                     [routerLink]="path.url"
-                    [queryParams]="{ status: path.status }"
+                    [queryParams]="getPathParam( path )"
                     routerDirection="root"
-                    (click)="getPathParam( path )">{{ path.label }}</ion-item>
-    
+                    (click)="setPathParam( path )">{{ path.label }}</ion-item>
+
         </ion-list>
       </ion-accordion>
     </ion-accordion-group>

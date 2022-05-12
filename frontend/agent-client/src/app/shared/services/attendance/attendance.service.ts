@@ -35,6 +35,13 @@ export class AttendanceService {
     return this._http.post( request.url, user, request.config )
   }
 
+  listAttendanceByFilter( filter: string, user: User ): Observable<any> {
+    if( filter === 'agent' )
+      return this.listByAgent( user )
+    else
+      return this.listByDepartment( user.department )
+  }
+
   setListFilter( filter: string ) {
     sessionStorage.setItem( 'attendance-list-filter', filter )
   }

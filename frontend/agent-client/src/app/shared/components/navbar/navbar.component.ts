@@ -36,12 +36,21 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {}
 
-  getPathParam( path: any ) {
+  setPathParam( path: any ) {
     if( path.status && !path.filter ) {
       this.setCallStatus( path.status )
     }
     else if( path.filter && !path.status ){
       this.setAttendanceFilter( path.filter )
+    }
+  }
+
+  getPathParam( path: any ): any {
+    if( path.status && !path.filter ) {
+      return { status: path.status }
+    }
+    else if( path.filter && !path.status ){
+      return { filter: path.filter }
     }
   }
 

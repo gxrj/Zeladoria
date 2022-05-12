@@ -105,7 +105,7 @@ export class CallComponent implements OnInit {
   }
 
   getTitle() {
-    const status = sessionStorage.getItem( 'status' )
+    const status = this._callService.getSelectedCallStatus()
     switch( status ) {
       case 'Avaliada':
         return 'Ocorrências Avaliadas'

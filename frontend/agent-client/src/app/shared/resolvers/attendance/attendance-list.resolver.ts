@@ -28,31 +28,8 @@ export class AttendanceListResolver implements Resolve<any> {
       const user = JSON.parse( plainUser )
       const filter = this._attendanceService.getListFilter()
 
-      if( filter === 'agent' )
-        return this.getAttendanceListByAgent( user )
-      else
-        return this.getAttendanceListByDepartment( user )
-    }
-  }
-
-  private getAttendanceListByDepartment( user: User ): Observable<any> {
-
-    return this._attendanceService
-                    .listByDepartment( user.department )
-                      .pipe(
-                        catchError( error => {
-                            console.log( error )
-                            if( error.status )
-                              this.errorRedirection()
-
-                            return throwError( error )
-                      } ) )
-  }
-
-  private getAttendanceListByAgent( user : User ): Observable<any> {
-
-     return this._attendanceService
-                  .listByAgent( user )
+      return this._attendanceService
+                  .listAttendanceByFilter( filter, user )
                     .pipe(
                       catchError( error => {
                           console.log( error )
@@ -61,6 +38,7 @@ export class AttendanceListResolver implements Resolve<any> {
 
                           return throwError( error )
                     } ) )
+    }
   }
 
   private errorRedirection() {
