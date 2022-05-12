@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-attendance-form-view',
@@ -7,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttendanceFormViewComponent implements OnInit {
 
-  constructor() { }
+  dateFormat = 'dd/MM/y'
+  timeFormat = 'HH:mm'
+
+  constructor( 
+    private _modal: ModalController ) { }
 
   ngOnInit() {}
 
+  close() {
+    this._modal.dismiss()
+  }
 }

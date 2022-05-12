@@ -1,0 +1,62 @@
+#modal-header {
+    background-color: var( --default-main-color );
+    color: white;
+    width: 100%;
+}
+
+#close-button {
+    margin-right: 0;
+    width: 8%;
+}
+
+ion-input, ion-textarea{
+    box-shadow: 1px 1px 3px rgb(116, 116, 116);
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+}
+
+ion-input > * {
+    text-align: center;
+    margin: auto;
+}
+
+ion-button {
+    height: 25px;
+}
+
+@media screen and ( max-width: 915px ) {
+    #close-button {
+        margin-right: 3px;
+    }
+}
+
+@media screen and ( max-width: 715px ) {
+    #close-button {
+        margin-right: 5px;
+    }
+}
+
+@media screen and ( max-width: 515px ) {
+    #close-button {
+        margin-right: 7px;
+    }
+}
+
+@media screen and ( max-width: 470px ) {
+    #close-button {
+        margin-right: 9px;
+    }
+}
+
+@media screen and ( max-width: 415px ) {
+    #close-button {
+        margin-right: 11px;
+    }
+}
+
+@media screen and ( max-width: 380px ) {
+    #close-button {
+        margin-right: 13px;
+    }
+}

@@ -37,12 +37,14 @@ ion-content {
 ion-modal {
     &.default-modal {
         --width: 65%;
+        border-radius: 5px 5px 0px 0px;
     }
 }
 
 ion-modal {
     &.image-modal {
         --width: 65%;
+        border-radius: 5px 5px 0px 0px;
     }
 }
 
