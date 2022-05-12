@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
     { 
       title: 'Ocorrências', 
       paths: [ 
-        { label: 'Ocorrências Abertas', url: '/home/calls', status: '' },
+        { label: 'Ocorrências Abertas', url: '/home/calls', status: 'Aberta' },
         { label: 'Ocorrências Avaliadas', url: '/home/calls', status: 'Avaliada' },
         { label: 'Ocorrências não Avaliadas', url: '/home/calls', status: 'Respondida' },
         { label: 'Ocorrências Indeferidas', url: '/home/calls', status: 'Indeferida' }

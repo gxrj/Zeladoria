@@ -16,7 +16,7 @@
     <ion-accordion-group>
       <ion-accordion *ngFor="let item of group">
         <ion-item slot="header">
-          <ion-label>{{ item.title }}</ion-label>
+          <ion-label class="item-title">{{ item.title }}</ion-label>
         </ion-item>
         <ion-list contentId="body" slot="content">
         
@@ -24,6 +24,7 @@
                     [routerLink]="path.url"
                     [queryParams]="getPathParam( path )"
                     routerDirection="root"
+                    [routerLinkActive]="['active-item']"
                     (click)="setPathParam( path )">{{ path.label }}</ion-item>
 
         </ion-list>

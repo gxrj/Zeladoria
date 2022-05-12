@@ -32,3 +32,16 @@ ion-icon {
     padding: 0;
     margin: 0;
 }
+
+.item-title, .active-item  {
+    font-weight: bold;
+}
+
+.active-item {
+    color: white;
+    --background: var( --default-main-color );
+}
+
+.active-item:hover {
+    color: white;
+}
