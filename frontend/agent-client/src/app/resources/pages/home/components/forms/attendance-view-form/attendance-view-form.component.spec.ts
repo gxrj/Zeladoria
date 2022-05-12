@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AttendanceFormViewComponent } from './attendance-form-view.component';
+import { AttendanceViewFormComponent } from './attendance-view-form.component';
 
-describe('AttendanceFormViewComponent', () => {
-  let component: AttendanceFormViewComponent;
-  let fixture: ComponentFixture<AttendanceFormViewComponent>;
+describe('AttendanceViewFormComponent', () => {
+  let component: AttendanceViewFormComponent;
+  let fixture: ComponentFixture<AttendanceViewFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AttendanceFormViewComponent ],
+      declarations: [ AttendanceViewFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AttendanceFormViewComponent);
+    fixture = TestBed.createComponent(AttendanceViewFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

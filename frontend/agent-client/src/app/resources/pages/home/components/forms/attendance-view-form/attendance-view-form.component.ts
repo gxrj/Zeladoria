@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-attendance-form-view',
-  templateUrl: './attendance-form-view.component.html',
-  styleUrls: ['./attendance-form-view.component.scss'],
+  selector: 'attendance-view-form',
+  templateUrl: './attendance-view-form.component.html',
+  styleUrls: ['./attendance-view-form.component.scss'],
 })
-export class AttendanceFormViewComponent implements OnInit {
+export class AttendanceViewFormComponent implements OnInit {
 
   dateFormat = 'dd/MM/y'
   timeFormat = 'HH:mm'

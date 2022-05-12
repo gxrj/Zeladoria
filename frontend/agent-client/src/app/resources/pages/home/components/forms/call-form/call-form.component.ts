@@ -10,8 +10,8 @@ import { CallService } from '@services/call/call.service';
 import { FileService } from '@services/file/file.service';
 import { ToastService } from '@services/toast/toast.service';
 import * as JSZip from 'jszip';
-import { AttendanceFormViewComponent } from '../attendance-form-view/attendance-form-view.component';
-import { AttendanceFormComponent } from '../attendance-form/attendance-form.component';
+import { AttendanceViewFormComponent } from '../attendance-view-form/attendance-view-form.component';
+import { AttendanceCreationFormComponent } from '../attendance-creation-form/attendance-creation-form.component';
 
 @Component({
   selector: 'call-form',
@@ -99,7 +99,7 @@ export class CallFormComponent implements OnInit {
 
   async openAttendanceCreationModal() {
     const modal = await this._modal.create( {
-      component: AttendanceFormComponent,
+      component: AttendanceCreationFormComponent,
       cssClass: 'default-modal',
       componentProps: { call: this.call, toForward: this.editDestination }
     } )
@@ -174,7 +174,7 @@ export class CallFormComponent implements OnInit {
 
   async openAttendanceDetailsModal( element: Attendance ) {     
     const modal = this._modal.create( {
-      component: AttendanceFormViewComponent,
+      component: AttendanceViewFormComponent,
       cssClass: 'default-modal',
       componentProps: { attendance: element, call: this.call }
     } )
