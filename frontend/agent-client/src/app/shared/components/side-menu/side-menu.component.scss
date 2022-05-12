@@ -1,7 +1,11 @@
 ion-toolbar {
     color: white;
     --background: var( --default-main-color );
-    height: 100%;
+    height: 64px;
+}
+
+ion-title {
+    margin-top: 8px;
 }
 
 #side-menu-list {
