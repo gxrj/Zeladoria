@@ -22,12 +22,9 @@ tr {
     background-color: white;
 }
 
-tr:hover {
-    background-color: rgb(85, 85, 85);
-    color: white;
-    cursor: pointer;
-}
-
 ion-badge {
-    margin-top: 5px;
+    cursor: pointer;
+    margin: 2px 2px;
+    padding: 5px 5px;
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
 }

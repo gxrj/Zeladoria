@@ -13,12 +13,12 @@ import { ToastService } from '@services/toast/toast.service';
 })
 export class AttendanceComponent implements OnInit {
 
-  titles = [ 'Protocolo', 'Data', 'Hora', 'Tipo', 'Responsável', 'Ações' ]
+  listHeaders = [ 'Protocolo', 'Data', 'Hora', 'Tipo', 'Responsável', 'Ações' ]
   attendances: Attendance[] = null
   user: User = null
   filter: string = ''
   selectedAttendance: Attendance = null
-  
+
   constructor(
     private _router: Router,
     private _toast: ToastService, 
@@ -64,6 +64,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   getTitle(): string {
+    this.filter = this._attendanceService.getListFilter()
     return this.filter === 'agent' ? 'Meus Atendimentos' : 'Atendimentos do Setor'
   }
 }
