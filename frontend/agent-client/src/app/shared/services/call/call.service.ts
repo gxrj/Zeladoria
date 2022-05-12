@@ -35,4 +35,12 @@ export class CallService {
     const request = this._authService.prepareRequest( '/agent/calls/deletion' )
     return this._http.post( request.url, call, request.config )
   }
+
+  getSelectedCallStatus(): string{
+    return sessionStorage.getItem( 'call-status' )
+  }
+
+  setSelectedCallStatus( status: string ) {
+    sessionStorage.setItem( 'call-status', status )
+  }
 }

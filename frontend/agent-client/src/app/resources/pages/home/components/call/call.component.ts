@@ -49,7 +49,7 @@ export class CallComponent implements OnInit {
 
   selectCall( call: Call ) {
     this._attendaceService
-          .list( call )
+          .listByCall( call )
             .subscribe( 
               res => {
                 this.attendances = res.result
@@ -90,7 +90,9 @@ export class CallComponent implements OnInit {
       return null
     }
 
-    this._callService.list( JSON.parse( user ), sessionStorage.getItem( 'status' ) )
+    const status = this._callService.getSelectedCallStatus()
+
+    this._callService.list( JSON.parse( user ), status )
                       .subscribe(
                         resp =>  this.calls = resp.result,
                         error => {

@@ -24,7 +24,7 @@
                     [routerLink]="path.url"
                     [queryParams]="{ status: path.status }"
                     routerDirection="root"
-                    (click)="filterCalls( path.status )">{{ path.label }}</ion-item>
+                    (click)="getPathParam( path )">{{ path.label }}</ion-item>
     
         </ion-list>
       </ion-accordion>

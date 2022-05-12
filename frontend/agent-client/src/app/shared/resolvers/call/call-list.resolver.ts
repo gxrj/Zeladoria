@@ -25,7 +25,7 @@ export class CallListResolver implements Resolve<any>{
       return EMPTY
     }
     else {
-        const status = sessionStorage.getItem( 'status' )
+        const status = this._callService.getSelectedCallStatus()
         return this._callService.list( JSON.parse( plainUser ), status )
                     .pipe(
                       catchError( error => {

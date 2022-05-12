@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Attendance } from '@core/interfaces/attendance';
+import { ToastService } from '@services/toast/toast.service';
 
 @Component({
   selector: 'attendance',
@@ -7,8 +10,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AttendanceComponent implements OnInit {
 
-  constructor() { }
+  attendances: Attendance[] = null
+  titles = [ 'Protocolo', 'Data', 'Hora', 'Tipo', 'Responsável', 'Ações' ]
 
-  ngOnInit() {}
+  constructor(
+    private _router: Router,
+    private _toast: ToastService, 
+    private _route: ActivatedRoute ) { }
 
+  ngOnInit() {
+    this.attendances = this._route.snapshot.data.attendances.result
+  }
 }

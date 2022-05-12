@@ -1,3 +1,14 @@
-<p>
-  attendance works!
-</p>
+<ion-content>
+  <data-table [headerTitles]="titles" [width]="90">
+    <tr *ngFor="let attendance of attendances">
+      <td>{{ attendance.protocol }}</td>
+      <td>{{ attendance.issued_at | date:"dd/MM/YY" }}</td>
+      <td>{{ attendance.issued_at | date:"HH:mm" }}</td>
+      <td>{{ attendance.type }}</td>
+      <td>{{ attendance.responsible.name }}</td>
+      <td>
+        <ion-badge color="success">Abrir</ion-badge>
+      </td>
+    </tr>
+  </data-table>
+</ion-content>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { AttendanceService } from '@services/attendance/attendance.service';
+import { CallService } from '@services/call/call.service';
 
 @Component({
   selector: 'navbar',
@@ -21,18 +23,35 @@ export class NavbarComponent implements OnInit {
     { 
       title: 'Atendimentos', 
       paths: [ 
-        { label: 'Atendimentos do Setor', url: '/home/attendances' },
-        { label: 'Meus Atendimentos', url: '' } 
+        { label: 'Atendimentos do Setor', url: '/home/attendances', filter: 'department' },
+        { label: 'Meus Atendimentos', url: '/home/attendances', filter: 'agent' } 
       ] 
     }
   ]
   
-  constructor( private _menuCtrl: MenuController ) { }
+  constructor( 
+    private _menuCtrl: MenuController,
+    private _callService: CallService,
+    private _attendanceService: AttendanceService ) { }
 
   ngOnInit() {}
 
-  filterCalls( status: string ) {
-    sessionStorage.setItem( 'status', status )
+  getPathParam( path: any ) {
+    if( path.status && !path.filter ) {
+      this.setCallStatus( path.status )
+    }
+    else if( path.filter && !path.status ){
+      this.setAttendanceFilter( path.filter )
+    }
+  }
+
+  setCallStatus( status: string ) {
+    this._callService.setSelectedCallStatus( status )
+    this.closeMenu()
+  }
+
+  setAttendanceFilter( filter: string ) {
+    this._attendanceService.setListFilter( filter )
     this.closeMenu()
   }
 
