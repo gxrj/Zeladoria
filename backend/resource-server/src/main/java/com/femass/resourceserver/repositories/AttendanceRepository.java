@@ -12,6 +12,6 @@ import java.util.UUID;
 public interface AttendanceRepository  extends JpaRepository<Attendance, UUID> {
     Optional<Attendance> findByProtocol( String protocol );
     List<Attendance> findByUserCall_Protocol( String callProtocol );
-    List<Attendance> findByResponsible_Department( String department );
+    List<Attendance> findByResponsible_Department_Name( String department );
     List<Attendance> findByResponsible_Account_Username( String responsibleUsername );
 }

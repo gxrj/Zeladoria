@@ -48,7 +48,7 @@ public class AttendanceService {
     }
 
     public List<Attendance> findAttendanceByDepartment( String deptName ) {
-        return repository.findByResponsible_Department( deptName );
+        return repository.findByResponsible_Department_Name( deptName );
     }
 
     public List<Attendance> findAll() {
