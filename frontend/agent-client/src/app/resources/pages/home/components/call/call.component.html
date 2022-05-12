@@ -19,6 +19,9 @@
           <td>{{ call.created_at | date:"HH:mm" }}</td>
           <td>{{ call.author.name }}</td>
         </tr>
+        <tr *ngIf="!calls || !calls.length">
+          <td colspan="100">Não há {{ getTitle() }}</td>
+        </tr>
     </data-table>
   </ion-content>
 </ng-container>
