@@ -11,8 +11,8 @@ import { SharedModule } from '@shared/shared.module';
 import { CallComponent } from './components/call/call.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CallFormComponent } from './components/forms/call-form/call-form.component';
-import { AttendanceCreationFormComponent } from './components/forms/attendance-creation-form/attendance-creation-form.component';
-import { AttendanceViewFormComponent } from './components/forms/attendance-view-form/attendance-view-form.component';
+import { AttendanceCreationModalComponent } from './components/forms/attendance-creation-modal/attendance-creation-modal.component';
+import { AttendanceViewModalComponent } from './components/forms/attendance-view-modal/attendance-view-modal.component';
 
 
 @NgModule({
@@ -28,8 +28,8 @@ import { AttendanceViewFormComponent } from './components/forms/attendance-view-
     CallComponent,
     AttendanceComponent,
     CallFormComponent,
-    AttendanceCreationFormComponent,
-    AttendanceViewFormComponent
+    AttendanceCreationModalComponent,
+    AttendanceViewModalComponent
   ]
 })
 export class HomePageModule {}

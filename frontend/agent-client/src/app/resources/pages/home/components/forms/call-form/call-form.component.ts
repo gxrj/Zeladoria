@@ -10,8 +10,8 @@ import { CallService } from '@services/call/call.service';
 import { FileService } from '@services/file/file.service';
 import { ToastService } from '@services/toast/toast.service';
 import * as JSZip from 'jszip';
-import { AttendanceViewFormComponent } from '../attendance-view-form/attendance-view-form.component';
-import { AttendanceCreationFormComponent } from '../attendance-creation-form/attendance-creation-form.component';
+import { AttendanceViewModalComponent } from '../attendance-view-modal/attendance-view-modal.component';
+import { AttendanceCreationModalComponent } from '../attendance-creation-modal/attendance-creation-modal.component';
 
 @Component({
   selector: 'call-form',
@@ -21,9 +21,9 @@ import { AttendanceCreationFormComponent } from '../attendance-creation-form/att
 export class CallFormComponent implements OnInit {
 
   @Input() call: Call
-  @Input() duties: Array<Duty>
-  @Input() deptList: Array<string>
-  @Input() attendances: Array<Attendance>
+  @Input() duties: Array<Duty> = []
+  @Input() deptList: Array<string> = []
+  @Input() attendances: Array<Attendance> = []
 
   attendanceHeaders = [ 'Tipo', 'Protocolo', 'Responsável', 'Data', 'Ações' ]
   imageHeaders = [ 'Imagem', 'Ações' ]
@@ -99,7 +99,7 @@ export class CallFormComponent implements OnInit {
 
   async openAttendanceCreationModal() {
     const modal = await this._modal.create( {
-      component: AttendanceCreationFormComponent,
+      component: AttendanceCreationModalComponent,
       cssClass: 'default-modal',
       componentProps: { call: this.call, toForward: this.editDestination }
     } )
@@ -174,7 +174,7 @@ export class CallFormComponent implements OnInit {
 
   async openAttendanceDetailsModal( element: Attendance ) {     
     const modal = this._modal.create( {
-      component: AttendanceViewFormComponent,
+      component: AttendanceViewModalComponent,
       cssClass: 'default-modal',
       componentProps: { attendance: element, call: this.call }
     } )

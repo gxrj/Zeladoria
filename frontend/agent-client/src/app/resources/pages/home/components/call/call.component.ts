@@ -41,7 +41,7 @@ export class CallComponent implements OnInit {
               evt => {
                 if ( evt instanceof ActivationStart ) {
                   this.reload()
-                  this.return()
+                  setTimeout( () => this.return(), 1000 )
                 }
               }
             )
@@ -78,8 +78,7 @@ export class CallComponent implements OnInit {
   }
 
   return() {
-    const fn = () => this.selectedCall = null
-    setTimeout( fn, 1000 )
+    this.selectedCall = null
   }
 
   reload() {

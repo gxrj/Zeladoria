@@ -38,7 +38,7 @@ export class AttendanceComponent implements OnInit {
               evt => {
                 if ( evt instanceof ActivationStart ) {
                   this.reload()
-                  this.return()
+                  setTimeout( () => this.return(), 1000 )
                 }
               }
             )
@@ -59,12 +59,15 @@ export class AttendanceComponent implements OnInit {
   }
 
   return() {
-    const fn = () => this.selectedAttendance = null
-    setTimeout( fn, 1000 )
+    this.selectedAttendance = null
   }
 
   getTitle(): string {
     this.filter = this._attendanceService.getListFilter()
     return this.filter === 'agent' ? 'Meus Atendimentos' : 'Atendimentos do Setor'
+  }
+
+  selectElement( attendance: Attendance ) {
+    this.selectedAttendance = attendance
   }
 }

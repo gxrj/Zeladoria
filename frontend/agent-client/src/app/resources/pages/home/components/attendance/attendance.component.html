@@ -16,7 +16,8 @@
         <td>{{ attendance.type }}</td>
         <td>{{ attendance.responsible.name }}</td>
         <td>
-          <ion-badge color="success">Abrir</ion-badge>
+          <ion-badge color="success"
+                      (click)="selectElement( attendance )">Abrir</ion-badge>
         </td>
       </tr>
       <tr *ngIf="!attendances || !attendances.length">
@@ -25,5 +26,10 @@
         </td>
       </tr>
     </data-table>
+  </ion-content>
+</ng-container>
+<ng-container *ngIf="selectedAttendance">
+  <ion-content>
+    <ion-button (click)="return()" id="back-button" color="tertiary">Voltar</ion-button>
   </ion-content>
 </ng-container>

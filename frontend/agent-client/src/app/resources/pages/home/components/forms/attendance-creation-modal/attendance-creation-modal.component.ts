@@ -10,11 +10,11 @@ import { Attendance } from '@core/interfaces/attendance';
 import Call from '@core/interfaces/call';
 
 @Component({
-  selector: 'attendance-creation-form',
-  templateUrl: './attendance-creation-form.component.html',
-  styleUrls: ['./attendance-creation-form.component.scss'],
+  selector: 'attendance-creation-modal',
+  templateUrl: './attendance-creation-modal.component.html',
+  styleUrls: ['./attendance-creation-modal.component.scss'],
 })
-export class AttendanceCreationFormComponent implements OnInit {
+export class AttendanceCreationModalComponent implements OnInit {
 
   @Input() call: Call
   @Input() toForward: boolean
