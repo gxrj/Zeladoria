@@ -1,0 +1,132 @@
+<form>
+  <h1>Atendimento</h1>
+  <ion-row>
+    <ion-col sizeXl="2" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="6">
+      <ion-label>Protocolo</ion-label>
+      <ion-input [placeholder]="attendance.protocol" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXl="2" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="6">
+      <ion-label>Tipo</ion-label>
+      <ion-input [placeholder]="attendance.type" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXl="1">
+      <ion-label>Dia</ion-label>
+      <ion-input placeholder="{{ attendance.issued_at | date: dateFormat }}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXl="1">
+      <ion-label>Hora</ion-label>
+      <ion-input placeholder="{{ attendance.issued_at | date: timeFormat }}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXl="4" sizeSm="6" sizeXs="6">
+      <ion-label>Responsável</ion-label>
+      <ion-input placeholder="{{ attendance.responsible.name }}" readonly></ion-input>
+    </ion-col>
+    <ion-col size="12">
+      <ion-label>Descrição</ion-label>
+      <ion-textarea rows="7" [placeholder]="attendance.description" readonly></ion-textarea>
+    </ion-col>
+    
+    <ion-col size="12">
+      <ng-container>
+        <ion-label>Feedback do solicitante</ion-label>
+        <ion-textarea rows="4" [placeholder]="attendance.feedback" readonly></ion-textarea>
+      </ng-container>
+    </ion-col>
+  </ion-row>
+</form>
+
+<form>
+  <h1>Dados da solicitação</h1>
+
+  <ion-row>
+    <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+      <ion-label>Destinatário</ion-label>
+      <ion-input placeholder="{{call.destination.name}}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="3">
+      <ion-label>Serviço</ion-label>
+      <ion-input placeholder="{{ call.duty.description }}" readonly></ion-input>
+    </ion-col>
+
+    <ion-col sizeXs="12" sizeMd="6" sizeLg="4" sizeXl="2">
+      <ion-label>Protocolo</ion-label>
+      <ion-input placeholder="{{call.protocol}}" readonly></ion-input>
+    </ion-col>
+
+    <ion-col sizeXs="6" sizeLg="4" sizeXl="1">
+      <ion-label>Dia</ion-label>
+      <ion-input placeholder="{{call.created_at | date:'d/MM/yy'}}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXs="6" sizeLg="4" sizeXl="1">
+      <ion-label>Hora</ion-label>
+      <ion-input placeholder="{{call.created_at | date:'HH:mm'}}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXs="12" sizeMd="6" sizeXl="2">
+      <ion-label>Status</ion-label>
+      <ion-input placeholder="{{call.status}}" readonly></ion-input>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <h2>Descrição</h2>
+      <ion-textarea placeholder="{{call.description}}" id="text-area" rows="5" readonly></ion-textarea>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <h2>Endereço</h2>
+    </ion-col>
+    <ion-col sizeXs="12" sizeMd="6" sizeLg="2">
+      <ion-label>Cep</ion-label>
+      <ion-input placeholder="{{call.address.zip_code}}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXs="12" sizeMd="6" sizeLg="4">
+      <ion-label>Bairro</ion-label>
+      <ion-input placeholder="{{call.address.district.name}}" readonly></ion-input>
+    </ion-col>
+    <ion-col sizeXs="12" sizeLg="6">
+      <ion-label>Logradouro</ion-label>
+      <ion-input placeholder="{{call.address.public_place}}" readonly></ion-input>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <h2>Detalhes</h2>
+    </ion-col>
+    <ion-col  sizeXs="12" sizeXl="4">
+      <ion-label>Imagens Anexadas</ion-label>
+      <ng-container *ngIf="displayFiles">
+        <tr>
+          <ion-button *ngIf="call.images > 1"
+                      color="success"
+                      (click)="downloadZip()">
+            Baixar Anexos
+          </ion-button>
+        </tr>
+        <data-table [headerTitles]="imageHeaders">
+          <tr *ngFor="let img of call.images">
+            <td>{{ img }}</td>
+            <td>
+              <ion-badge (click)="renderFile( img )" color="success">Ver</ion-badge>
+              <ion-badge (click)="downloadFile( img )" color="warning">Baixar</ion-badge>
+            </td>
+          </tr>
+        </data-table>
+      </ng-container>
+      <ion-input *ngIf="!displayFiles" placeholder="Não há anexos"></ion-input>
+    </ion-col>
+
+    <ion-col sizeXs="12" sizeMd="6" sizeXl="4">
+      <ion-label>Nome do Autor</ion-label>
+      <ion-input placeholder="{{call.author.name}}" readonly></ion-input>
+    </ion-col>
+    <ion-col *ngIf="!checkAnonymous(call.author.email)" sizeXs="12" sizeMd="6" sizeXl="4">
+      <ion-label>E-mail do Autor</ion-label>
+      <ion-input placeholder="{{call.author.email}}" readonly></ion-input>
+    </ion-col>
+  </ion-row>
+
+</form>

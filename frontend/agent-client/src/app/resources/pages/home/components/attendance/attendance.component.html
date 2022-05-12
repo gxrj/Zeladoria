@@ -31,5 +31,6 @@
 <ng-container *ngIf="selectedAttendance">
   <ion-content>
     <ion-button (click)="return()" id="back-button" color="tertiary">Voltar</ion-button>
+    <attendance-form [attendance]="selectedAttendance"></attendance-form>
   </ion-content>
 </ng-container>

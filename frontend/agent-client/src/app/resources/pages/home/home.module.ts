@@ -11,9 +11,15 @@ import { SharedModule } from '@shared/shared.module';
 import { CallComponent } from './components/call/call.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { CallFormComponent } from './components/forms/call-form/call-form.component';
-import { AttendanceCreationModalComponent } from './components/forms/attendance-creation-modal/attendance-creation-modal.component';
-import { AttendanceViewModalComponent } from './components/forms/attendance-view-modal/attendance-view-modal.component';
-
+import { 
+  AttendanceFormComponent 
+} from './components/forms/attendance-form/attendance-form.component';
+import { 
+  AttendanceViewModalComponent 
+} from './components/forms/attendance-view-modal/attendance-view-modal.component';
+import { 
+  AttendanceCreationModalComponent 
+} from './components/forms/attendance-creation-modal/attendance-creation-modal.component';
 
 @NgModule({
   imports: [
@@ -26,10 +32,11 @@ import { AttendanceViewModalComponent } from './components/forms/attendance-view
   declarations: [ 
     HomePage,
     CallComponent,
-    AttendanceComponent,
     CallFormComponent,
-    AttendanceCreationModalComponent,
-    AttendanceViewModalComponent
+    AttendanceComponent,
+    AttendanceFormComponent,
+    AttendanceViewModalComponent,
+    AttendanceCreationModalComponent,    
   ]
 })
 export class HomePageModule {}
