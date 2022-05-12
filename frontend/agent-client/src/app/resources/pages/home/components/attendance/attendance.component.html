@@ -19,6 +19,11 @@
           <ion-badge color="success">Abrir</ion-badge>
         </td>
       </tr>
+      <tr *ngIf="!attendances || !attendances.length">
+        <td colspan="100">
+          A lista de {{ getTitle() }} está vazia, clique no botão Recarregar para obter atualizações
+        </td>
+      </tr>
     </data-table>
   </ion-content>
 </ng-container>
