@@ -31,13 +31,12 @@ public class AgentDTO implements Serializable {
 
     private UUID id;
     private String name;
-
     @NotEmpty
     private String username;
     private String cpf;
     private String password;
-    private List<SimpleGrantedAuthority> authorities;
-    private boolean active;
+    private String hasAdminAuthority;
+    private String active;
     private DepartmentDTO department;
 
     @JsonValue
@@ -57,7 +56,7 @@ public class AgentDTO implements Serializable {
         return agentDto;
     }
 
-    public static Agent deserialize(AgentDTO agentDto, ServiceModule module ) {
+    public static Agent deserialize( AgentDTO agentDto, ServiceModule module ) {
 
         var agent = module.getAgentService().findByUsername( agentDto.username );
 
@@ -66,22 +65,23 @@ public class AgentDTO implements Serializable {
             var account = new AgentAccount();
             account.setUsername( agentDto.username );
             account.setCredentials( new AgentCredentials()  );
+            account.setAuthorities( List.of( new SimpleGrantedAuthority( "ROLE_AGENT" ) ) );
 
             agent = new Agent( agentDto.name, account );
         }
 
         var encoder = module.getPasswordEncoder();
-        var agentAccount = agent.getAccount();
-
-        if( agentDto.authorities != null && !agentDto.authorities.isEmpty() )
-            agentAccount.setAuthorities( agentDto.authorities );
+        var agentAccount = setAuthorities( agent.getAccount(), agentDto );
 
         if( agentDto.cpf != null )
             agentAccount.getCredentials().setCpf( agentDto.cpf );
 
         if( agentDto.password != null )
             agentAccount.getCredentials()
-                    .setPassword( encoder.encode( agentDto.password )  );
+                    .setPassword( encoder.encode( agentDto.password ) );
+
+        if( agentDto.active != null )
+            agentAccount.setEnabled( !agentDto.active.equalsIgnoreCase( "false" ) );
 
         if( agentDto.name != null )
             agent.setName( agentDto.name );
@@ -95,5 +95,19 @@ public class AgentDTO implements Serializable {
         agent.setAccount( agentAccount );
 
         return agent;
+    }
+
+    private static AgentAccount setAuthorities ( AgentAccount agentAccount, AgentDTO agentDto ) {
+        var adminRole = new SimpleGrantedAuthority( "ROLE_ADMIN" );
+        var containsAdminRole = agentAccount.getAuthorities().contains( adminRole );
+
+        if( agentDto.hasAdminAuthority != null ) {
+            if ( agentDto.hasAdminAuthority.equalsIgnoreCase("true" ) && !containsAdminRole )
+                agentAccount.getAuthorities().add( adminRole );
+
+            if ( containsAdminRole && agentDto.hasAdminAuthority.equalsIgnoreCase( "false" ) )
+                agentAccount.getAuthorities().remove( adminRole );
+        }
+        return agentAccount;
     }
 }
