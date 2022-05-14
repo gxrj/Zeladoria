@@ -131,10 +131,16 @@ public class AgentController {
         if( !agentDeptName.equalsIgnoreCase( adminDeptName ) )
             entity.setDepartment( new DepartmentDTO( agentDeptName ) );
 
-        agentService.createOrUpdate( AgentDTO.deserialize( entity, module) );
-        return ResponseEntity
-                .status( HttpStatus.INTERNAL_SERVER_ERROR )
-                .body( jsonBody );
+        var created = agentService.createOrUpdate( AgentDTO.deserialize( entity, module) );
+
+        if( created ){
+            jsonBody.appendField( "message", "Colaborador criado com sucesso!" );
+            return ResponseEntity.ok( jsonBody );
+        }
+
+        jsonBody.appendField( "message", "Falha no cadastramento!" );
+        return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR )
+                                .body( jsonBody );
 
     }
 
