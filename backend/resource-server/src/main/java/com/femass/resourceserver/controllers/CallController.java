@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.femass.resourceserver.domain.Call;
-import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.dto.AgentDTO;
 import com.femass.resourceserver.dto.CallDTO;
 import com.femass.resourceserver.services.FileStorageService;
@@ -32,6 +31,7 @@ import javax.ws.rs.PathParam;
 
 import java.io.IOException;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -161,7 +161,8 @@ public class CallController {
 
     @GetMapping( "/agent/calls/all" )
     public ResponseEntity<JSONObject> getCallsByAgentDeptartment(
-                                                @RequestParam( required = false ) String status ) {
+                                                @RequestParam( required = false ) String status,
+                                                @RequestParam( required = false ) String order ) {
 
         List<CallDTO> calls = null;
         var login = extractLoginFromContext();
@@ -170,7 +171,7 @@ public class CallController {
             var agent = module.getAgentService().findByUsername( login );
 
             calls = module.getCallService()
-                    .findCallByDestination( agent.getDepartment().getName(), status )
+                    .findCallByDestination( agent.getDepartment().getName(), status, order )
                     .parallelStream().map( CallDTO::serialize ).toList();
         }
 
@@ -181,10 +182,11 @@ public class CallController {
     @PostMapping( "/agent/calls/all" )
     public ResponseEntity<JSONObject> listCallsByAgentDeptartment(
                                             @RequestBody AgentDTO agent,
-                                            @RequestParam( required = false ) String status ) {
+                                            @RequestParam( required = false ) String status,
+                                            @RequestParam( required = false ) String order ) {
 
         var calls = module.getCallService()
-                .findCallByDestination( agent.getDepartment().getName(), status )
+                .findCallByDestination( agent.getDepartment().getName(), status, order )
                 .parallelStream().map( CallDTO::serialize ).toList();
 
         return prepareResponse( calls, "result", "",
@@ -227,6 +229,27 @@ public class CallController {
         }
 
         return new ResponseEntity<>( json, status );
+    }
+
+    @PostMapping( "/manager/calls/by_interval" )
+    public ResponseEntity<JSONObject> getCallsByInterval(
+            @RequestBody AgentDTO agentDto, @RequestParam Timestamp start, @RequestParam Timestamp end ) {
+        var json = new JSONObject();
+
+        if( start.after( end ) ) {
+            json.appendField( "result", Collections.EMPTY_LIST );
+            return ResponseEntity.ok( json );
+        }
+        var mainDeptName = "Inova Macae";
+        var deptName = agentDto.getDepartment().getName();
+
+        if( deptName.equalsIgnoreCase( mainDeptName ) ) deptName = null;
+
+        var calls = module.getCallService()
+                .findCallListByInterval( start, end, deptName );
+
+        json.appendField( "result", calls );
+        return ResponseEntity.ok( json );
     }
 
     private String extractLoginFromContext() {

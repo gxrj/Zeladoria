@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Collections;
+
 
 @RestController
 @RequestMapping(
@@ -22,6 +25,25 @@ public class AttendanceController {
 
     @Autowired
     private ServiceModule module;
+
+    @PostMapping( path = "/authenticated/attendance/by_call" )
+    public ResponseEntity<JSONObject> getAttendanceListByCall( @RequestBody CallDTO callDTO ) {
+
+        var json = new JSONObject();
+
+        var attendances = module.getAttendanceService()
+                .findAttendanceByCallProtocol( callDTO.getProtocol() )
+                .parallelStream().map( AttendanceDTO::serialize ).toList();
+
+        json.appendField( "result", attendances );
+
+        return ResponseEntity.ok( json );
+    }
+
+    @PostMapping( path = "/authenticated/attendance/edition" )
+    public ResponseEntity<JSONObject> attendanceUpdate( @RequestBody AttendanceDTO attendance ) {
+        return this.createAttendance( attendance );
+    }
 
     @PostMapping( path = "/agent/attendance/new" )
     public ResponseEntity<JSONObject> createAttendance( @RequestBody AttendanceDTO dto ) {
@@ -40,20 +62,6 @@ public class AttendanceController {
         }
 
         return ResponseEntity.status( status ).body( json );
-    }
-
-    @PostMapping( path = "/authenticated/attendance/by_call" )
-    public ResponseEntity<JSONObject> getAttendanceListByCall( @RequestBody CallDTO callDTO ) {
-
-        var json = new JSONObject();
-
-        var attendances = module.getAttendanceService()
-                            .findAttendanceByCallProtocol( callDTO.getProtocol() )
-                            .parallelStream().map( AttendanceDTO::serialize ).toList();
-
-        json.appendField( "result", attendances );
-
-        return ResponseEntity.ok( json );
     }
 
     @PostMapping( path = "/agent/attendance/by_department" )
@@ -82,6 +90,23 @@ public class AttendanceController {
         return ResponseEntity.ok( json );
     }
 
+    @PostMapping( path = "/agent/attendance/by_rating" )
+    public ResponseEntity<JSONObject> getAttendanceByRatingForAgents(
+            @RequestBody AgentDTO agentDto,
+            @RequestParam( required = false ) String rating ) {
+
+        var dept = DepartmentDTO.deserialize( agentDto.getDepartment(), module );
+        var attendances = module.getAttendanceService()
+                .findAttendanceByRating( rating.toLowerCase(), dept )
+                .parallelStream().map( AttendanceDTO::serialize ).toList();
+
+        var json = new JSONObject();
+        json.appendField( "result", attendances );
+
+        return ResponseEntity.ok( json );
+
+    }
+
     @GetMapping( path = "/manager/attendance/all" )
     public ResponseEntity<JSONObject> getAll( ) {
 
@@ -95,8 +120,39 @@ public class AttendanceController {
         return ResponseEntity.ok( json );
     }
 
-    @PostMapping( path = "/authenticated/attendance/edition" )
-    public ResponseEntity<JSONObject> attendanceUpdate( @RequestBody AttendanceDTO attendance ) {
-        return this.createAttendance( attendance );
+    @PostMapping( path = "/manager/attendance/by_rating" )
+    public ResponseEntity<JSONObject> getAttendanceByRatingForAdmins(
+            @RequestParam( required = false ) String rating ) {
+
+        var attendances = module.getAttendanceService()
+                .findAttendanceByRating( rating.toLowerCase(), null )
+                .parallelStream().map( AttendanceDTO::serialize ).toList();
+
+        var json = new JSONObject();
+        json.appendField( "result", attendances );
+
+        return ResponseEntity.ok( json );
+    }
+
+    @PostMapping( path = "/manager/attendance/by_interval" )
+    public ResponseEntity<JSONObject> getAttendanceListByInterval(
+            @RequestBody AgentDTO agentDto, @RequestParam Timestamp start, @RequestParam Timestamp end ) {
+
+        var json = new JSONObject();
+
+        if( start.after( end ) ) {
+            json.appendField( "result", Collections.EMPTY_LIST );
+            return ResponseEntity.ok( json );
+        }
+        var mainDeptName = "Inova Macae";
+        var deptName = agentDto.getDepartment().getName();
+
+        if( deptName.equalsIgnoreCase( mainDeptName ) ) deptName = null;
+
+        var attendances = module.getAttendanceService()
+                                            .findAttendanceByInterval( start, end, deptName );
+
+        json.appendField( "result", attendances );
+        return ResponseEntity.ok( json );
     }
 }

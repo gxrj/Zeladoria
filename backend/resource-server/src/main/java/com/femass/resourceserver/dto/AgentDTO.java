@@ -73,9 +73,6 @@ public class AgentDTO implements Serializable {
         var encoder = module.getPasswordEncoder();
         var agentAccount = agent.getAccount();
 
-        if( agentDto.name != null )
-            agent.setName( agentDto.name );
-
         if( agentDto.authorities != null && !agentDto.authorities.isEmpty() )
             agentAccount.setAuthorities( agentDto.authorities );
 
@@ -86,11 +83,16 @@ public class AgentDTO implements Serializable {
             agentAccount.getCredentials()
                     .setPassword( encoder.encode( agentDto.password )  );
 
+        if( agentDto.name != null )
+            agent.setName( agentDto.name );
+
         if( agentDto.department != null ) {
             var deptService = module.getDepartmentService();
             var dept = deptService.findDepartmentByName( agentDto.department.getName() );
             agent.setDepartment( dept );
         }
+
+        agent.setAccount( agentAccount );
 
         return agent;
     }

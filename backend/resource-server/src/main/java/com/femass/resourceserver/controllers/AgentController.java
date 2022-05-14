@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.femass.resourceserver.domain.account.AgentAccount;
 import com.femass.resourceserver.domain.account.AgentCredentials;
 import com.femass.resourceserver.domain.Agent;
+import com.femass.resourceserver.dto.AgentDTO;
+import com.femass.resourceserver.dto.DepartmentDTO;
 import com.femass.resourceserver.handlers.RequestHandler;
 import com.femass.resourceserver.services.AgentService;
 
@@ -60,19 +62,6 @@ public class AgentController {
         return ResponseEntity.ok( json );
     }
 
-    /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
-     * and return its 'sub'(subject) claim in string format
-     * */
-    private String extractLoginFromJwt() {
-        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext()
-                                                                            .getAuthentication();
-        if( authToken == null ) return null;
-
-        var jwt = ( Jwt ) authToken.getPrincipal();
-
-        return jwt.getClaim( "sub" );
-    }
-
     @PostMapping( "/manager/new-agent" )
     public ResponseEntity<JSONObject> registerAgent( HttpServletRequest req ) throws IOException {
 
@@ -118,5 +107,50 @@ public class AgentController {
         var credentials = new AgentCredentials( password, cpf );
 
         return new AgentAccount( username, credentials, List.of( agentRole ) );
+    }
+
+    @PostMapping( "/manager/new-agent" )
+    public ResponseEntity<JSONObject> registerAgent( @RequestBody AgentDTO entity ) {
+
+        var jsonBody = new JSONObject();
+        var login = extractLoginFromJwt();
+
+        if( login == null ) {
+            jsonBody.appendField( "message", "Nao autenticado" );
+            return ResponseEntity
+                    .status( HttpStatus.INTERNAL_SERVER_ERROR )
+                    .body( jsonBody );
+        }
+
+        var adminDeptName = "Inova Macae";
+        var agent = agentService.findByUsername( login );
+        var agentDeptName =agent.getDepartment().getName();
+
+        if( !agentDeptName.equalsIgnoreCase( adminDeptName ) )
+            entity.setDepartment( new DepartmentDTO( agentDeptName ) );
+
+        return ResponseEntity
+                .status( HttpStatus.INTERNAL_SERVER_ERROR )
+                .body( jsonBody );
+
+    }
+
+    /**
+     * returns Jwt´s 'sub'(subject) claim in string format
+     * */
+    private String extractLoginFromJwt() {
+        var payload = extractJwtPayload();
+        return payload != null ? payload.getClaim( "sub" ) : null;
+    }
+
+    /**
+     * Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
+     * */
+    private Jwt extractJwtPayload() {
+        var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext()
+                .getAuthentication();
+        if( authToken == null ) return null;
+
+        return ( Jwt ) authToken.getPrincipal();
     }
 }

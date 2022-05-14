@@ -2,16 +2,17 @@ package com.femass.resourceserver.services;
 
 import com.femass.resourceserver.domain.Address;
 import com.femass.resourceserver.domain.Call;
+import com.femass.resourceserver.domain.Department;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.repositories.CallRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,7 +84,10 @@ public class CallService {
         return repository.findByPostingDate( time );
     }
 
-    public List<Call> findCallByDestination( String deptName, String status ) {
+    public List<Call> findCallByDestination( String deptName, String status, String order ) {
+
+        var property = "postingDate";
+        var sortingOrder = Sort.by( property );
 
         var statusArray = new ArrayList<Status>();
         status = status == null ? "" : status;
@@ -95,13 +99,16 @@ public class CallService {
             default -> statusArray.addAll( List.of( Status.PROCESSING, Status.FORWARDED, Status.NOT_SOLVED ) );
         }
 
+        if ( "Desc".equalsIgnoreCase( order ) ) {
+            sortingOrder = sortingOrder.descending();
+        }
+
         return repository
-                .findByDestination_Name( deptName ).parallelStream()
+                .findByDestination_Name( deptName, sortingOrder ).parallelStream()
                     .filter( item -> statusArray
                                         .contains( item.getStatus() ) )
                         .toList();
     }
-
 
     public List<Call> findCallByDepartment( String deptName ) {
         return repository.findByDuty_Department_Name( deptName );
@@ -129,5 +136,18 @@ public class CallService {
 
     public List<Call> findCallByStatus( Status status ) {
         return repository.findByStatus( status );
+    }
+
+    public List<Call> findCallListByInterval(Timestamp start, Timestamp end, String deptName ) {
+        var property = new String[]{ "destination", "postingDate" };
+        var result = repository.findByPostingDateBetween( start, end, Sort.by( property ) );
+
+        if( deptName == null || deptName.equals( "" ) ) return result;
+
+        return result.parallelStream()
+                .filter(
+                    el -> el.getDestination().getName()
+                                .equalsIgnoreCase( deptName ) )
+                .toList();
     }
 }

@@ -18,6 +18,7 @@ import { CallService } from '@services/call/call.service';
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { FileService } from '@services/file/file.service';
 import { AuthInterceptor } from '@core/interceptors/auth/auth.interceptor';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule( {
   declarations: [ AppComponent ],
@@ -33,7 +34,8 @@ import { AuthInterceptor } from '@core/interceptors/auth/auth.interceptor';
     HttpClientModule,  
     IonicModule.forRoot(), 
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    NgChartsModule
    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

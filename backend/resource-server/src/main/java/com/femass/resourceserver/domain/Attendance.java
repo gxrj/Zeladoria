@@ -34,6 +34,9 @@ public class Attendance implements Serializable {
     @Column( name = "tipo_atendimento" )
     private AttendanceType type;
 
+    @Column( name = "avaliacao" )
+    private AttendanceRating rating;
+
     @Column( name = "descricao", nullable = false )
     private String description;
 
@@ -41,6 +44,10 @@ public class Attendance implements Serializable {
     @JoinColumn( name = "responsavel" )
     private Agent responsible;
 
-    @Column( name = "feedback_cidadao" )
+    @Column( name = "comentario_cidadao" )
     private String feedback;
+
+    @ManyToOne
+    @JoinColumn( name = "secretaria" )
+    private Department department;
 }

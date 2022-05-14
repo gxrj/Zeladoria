@@ -2,6 +2,7 @@ package com.femass.resourceserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -37,8 +38,10 @@ public class AttendanceDTO implements Serializable {
     private @NotEmpty String description;
     private @NotEmpty AgentDTO responsible;
     private String feedback;
-
     private AttendanceType type;
+
+    @JsonProperty( "department" )
+    private DepartmentDTO dept;
 
     @JsonValue
     public static AttendanceDTO serialize( Attendance attendance ) {
@@ -54,6 +57,7 @@ public class AttendanceDTO implements Serializable {
         attendanceDto.setResponsible( AgentDTO.serialize( attendance.getResponsible() ) );
         attendanceDto.setFeedback( attendance.getFeedback() );
         attendanceDto.setType( attendance.getType() );
+        attendanceDto.setDept( DepartmentDTO.serialize( attendance.getDepartment() ) );
 
         return attendanceDto;
     }
@@ -74,6 +78,7 @@ public class AttendanceDTO implements Serializable {
             attendance.setExecutionDate( new Timestamp( System.currentTimeMillis() ) );
             attendance.setResponsible( agentService.findByUsername( attendanceDto.responsible.getUsername() ) );
             attendance.setType( attendanceDto.type );
+            attendance.setDepartment( attendance.getUserCall().getDestination() );
         }
 
         if( attendanceDto.feedback != null )

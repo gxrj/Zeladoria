@@ -1,12 +1,16 @@
 package com.femass.resourceserver.services;
 
 import com.femass.resourceserver.domain.Attendance;
+import com.femass.resourceserver.domain.AttendanceRating;
+import com.femass.resourceserver.domain.Department;
 import com.femass.resourceserver.repositories.AttendanceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +52,7 @@ public class AttendanceService {
     }
 
     public List<Attendance> findAttendanceByDepartment( String deptName ) {
-        return repository.findByResponsible_Department_Name( deptName );
+        return repository.findByDepartment_Name( deptName );
     }
 
     public List<Attendance> findAll() {
@@ -61,5 +65,36 @@ public class AttendanceService {
             LOG.error( "AttendanceService failed: {}", ex.getMessage() );
             throw new RuntimeException( "AttendanceService failed: " + ex.getMessage() );
         }
+    }
+
+    public List<Attendance> findAttendanceByRating( String rating, Department dept ) {
+
+        List<Attendance> list;
+
+        switch( rating ) {
+            case "positiva" -> list = repository.findByRating(AttendanceRating.POSITIVE);
+            case "negativa" -> list = repository.findByRating(AttendanceRating.NEGATIVE);
+            default -> list = repository.findByRating(AttendanceRating.NOT_RATED);
+        }
+
+        if( dept == null )
+            return list;
+        else
+            return list.parallelStream()
+                        .filter( el -> el.getDepartment().equals( dept ) )
+                            .toList();
+    }
+
+    public List<Attendance> findAttendanceByInterval( Timestamp start, Timestamp end, String deptName ) {
+        var property = new String[]{ "department", "postingDate" };
+        var result = repository.findByExecutionDateBetween( start, end, Sort.by( property ) );
+
+        if( deptName == null || deptName.equals( "" ) ) return result;
+
+        return result.parallelStream()
+                .filter(
+                    el -> el.getDepartment().getName()
+                                .equalsIgnoreCase( deptName ) )
+                .toList();
     }
 }
