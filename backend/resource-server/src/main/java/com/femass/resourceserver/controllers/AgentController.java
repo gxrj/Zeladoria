@@ -63,53 +63,6 @@ public class AgentController {
         return ResponseEntity.ok( json );
     }
 
-    @PostMapping( "/manager/v1/new-agent" )
-    public ResponseEntity<JSONObject> registerAgent( HttpServletRequest req ) throws IOException {
-
-        var created = createAgent( req );
-        var jsonBody = new JSONObject();
-
-        if( created ) {
-            jsonBody.appendField( "message", "Created" );
-            return ResponseEntity.ok( jsonBody );
-        }
-        else {
-            jsonBody.appendField( "message", "Error" );
-            
-            return ResponseEntity
-                    .status( HttpStatus.INTERNAL_SERVER_ERROR )
-                    .body( jsonBody );
-        }
-    }
-
-    private boolean createAgent( HttpServletRequest request ) throws IOException {
-
-        var json = RequestHandler.parseToJson( request );
-
-        var account = buildAccount( json );
-        var name = json.get( "name" ).asText();
-        var entity = new Agent( name, account );
-
-        return module.getAgentService().createOrUpdate( entity );
-    }
-
-    private AgentAccount buildAccount( JsonNode json ) throws IOException {
-        var username = json.get( "username" ).asText();
-
-        if( module.getAgentService().existsAgentByUsername( username ) ) {
-            throw new IOException( "Registration already in use" );
-        }
-
-        var password = passwordEncoder
-                            .encode( json.get( "password" ).asText() );
-
-        var cpf = json.get( "cpf" ).asText();
-        var agentRole = new SimpleGrantedAuthority( "ROLE_AGENT" );
-        var credentials = new AgentCredentials( password, cpf );
-
-        return new AgentAccount( username, credentials, List.of( agentRole ) );
-    }
-
     @PostMapping( "/manager/new-agent" )
     public ResponseEntity<JSONObject> registerAgent( @RequestBody AgentDTO entity ) {
 
