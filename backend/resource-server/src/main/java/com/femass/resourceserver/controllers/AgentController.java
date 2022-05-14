@@ -14,6 +14,7 @@ import com.femass.resourceserver.dto.DepartmentDTO;
 import com.femass.resourceserver.handlers.RequestHandler;
 import com.femass.resourceserver.services.AgentService;
 
+import com.femass.resourceserver.services.ServiceModule;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 public class AgentController {
 
     @Autowired
-    private AgentService agentService;
+    private ServiceModule module;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -52,7 +53,7 @@ public class AgentController {
                     HttpStatus.INTERNAL_SERVER_ERROR );
         }
 
-        var agent = agentService.findByUsername( subject );
+        var agent = module.getAgentService().findByUsername( subject );
         var json = new JSONObject();
 
         json.appendField( "username", subject );
@@ -62,7 +63,7 @@ public class AgentController {
         return ResponseEntity.ok( json );
     }
 
-    @PostMapping( "/manager/new-agent" )
+    @PostMapping( "/manager/v1/new-agent" )
     public ResponseEntity<JSONObject> registerAgent( HttpServletRequest req ) throws IOException {
 
         var created = createAgent( req );
@@ -89,13 +90,13 @@ public class AgentController {
         var name = json.get( "name" ).asText();
         var entity = new Agent( name, account );
 
-        return agentService.createOrUpdate( entity );
+        return module.getAgentService().createOrUpdate( entity );
     }
 
     private AgentAccount buildAccount( JsonNode json ) throws IOException {
         var username = json.get( "username" ).asText();
 
-        if( agentService.existsAgentByUsername( username ) ) {
+        if( module.getAgentService().existsAgentByUsername( username ) ) {
             throw new IOException( "Registration already in use" );
         }
 
@@ -123,34 +124,29 @@ public class AgentController {
         }
 
         var adminDeptName = "Inova Macae";
+        var agentService = module.getAgentService();
         var agent = agentService.findByUsername( login );
-        var agentDeptName =agent.getDepartment().getName();
+        var agentDeptName = agent.getDepartment().getName();
 
         if( !agentDeptName.equalsIgnoreCase( adminDeptName ) )
             entity.setDepartment( new DepartmentDTO( agentDeptName ) );
 
+        agentService.createOrUpdate( AgentDTO.deserialize( entity, module) );
         return ResponseEntity
                 .status( HttpStatus.INTERNAL_SERVER_ERROR )
                 .body( jsonBody );
 
     }
 
-    /**
-     * returns Jwt´s 'sub'(subject) claim in string format
+    /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
+     * and returns Jwt´s 'sub'(subject) claim in string format
      * */
     private String extractLoginFromJwt() {
-        var payload = extractJwtPayload();
-        return payload != null ? payload.getClaim( "sub" ) : null;
-    }
-
-    /**
-     * Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
-     * */
-    private Jwt extractJwtPayload() {
         var authToken = ( JwtAuthenticationToken ) SecurityContextHolder.getContext()
-                .getAuthentication();
+                                                                            .getAuthentication();
         if( authToken == null ) return null;
 
-        return ( Jwt ) authToken.getPrincipal();
+        var jwt =  ( Jwt ) authToken.getPrincipal();
+        return jwt.getClaim( "sub" );
     }
 }
