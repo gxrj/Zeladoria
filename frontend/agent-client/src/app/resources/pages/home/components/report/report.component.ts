@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Attendance } from '@core/interfaces/attendance';
 import Call from '@core/interfaces/call';
 import { IonDatetime, PopoverController } from '@ionic/angular';
+import { AttendanceService } from '@services/attendance/attendance.service';
+import { CallService } from '@services/call/call.service';
 
 @Component({
   selector: 'report',
@@ -10,18 +12,29 @@ import { IonDatetime, PopoverController } from '@ionic/angular';
 })
 export class ReportComponent implements OnInit {
 
-  start: any
-  end: any
-  limit: any
+  start: string
+  end: string
+  limit: string
   timeFormat = 'dd/MM/y - HH:mm'
 
   calls: Call[]
   attendances: Attendance[]
 
-  constructor(
-    private _popoverCtrl: PopoverController) { }
+  options = [
+    { label: 'Relação de ocorrências pelo tipo de usuário' },
+    { label: 'Relação de ocorrências por setor' },
+    { label: 'Relação de atendimentos avaliados' },
+    { label: 'Relação de atendimentos avaliados por setor'  }
+  ]
 
-  ngOnInit() {}
+  constructor(
+    private _popoverCtrl: PopoverController,
+    private _callService: CallService,
+    private _attendanceService: AttendanceService ) { }
+
+  ngOnInit() {
+    this.limit = this.setLimit()
+  }
 
   selectStartInterval( startDate: IonDatetime ) {
     this.start = startDate.value
@@ -35,5 +48,9 @@ export class ReportComponent implements OnInit {
 
   getValues() {
     console.log( this.start )
+  }
+
+  setLimit(): string {
+    return new Date().toISOString()
   }
 }

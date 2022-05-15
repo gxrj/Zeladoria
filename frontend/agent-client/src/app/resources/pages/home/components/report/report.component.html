@@ -3,7 +3,7 @@
   <ng-template>
     <ion-datetime #startDate
                   locale="pt-BR"
-                  min="2022-05-01"
+                  min="2022-05-01" [max]="limit"
                   show-default-time-label="false"
                   (ionChange)="selectStartInterval( startDate )">
 
@@ -16,7 +16,7 @@
   <ng-template>
     <ion-datetime #finalDate
                   locale="pt-BR"
-                  min="2022-05-01"
+                  [min]="start" [max]="limit"
                   show-default-time-label="false"
                   (ionChange)="selectEndInterval( finalDate )">
 
@@ -27,15 +27,15 @@
 
 <!--Visual page template begins bellow-->
 <form>
+  <h1>Relatórios</h1>
   <ion-row>
     <ion-col size="12" style="text-align: center;">
-      <ion-button color="tertiary" (click)="getValues()">Gerar Relatórios</ion-button>
+      <ion-button color="tertiary" (click)="getValues()">Carregar Dados</ion-button>
     </ion-col>
     <ion-col sizeMd="3" sizeSm="6" style="text-align: end;">
       <select>
-        <option selected>Relação de usuários</option>
-        <option selected>Relação de ocorrências</option>
-        <option selected>Relação de ocorrências de grande valia</option>
+        <option selected>Selecione o tipo de relatório</option>
+        <option *ngFor="let option of options" [ngValue]="option.label">{{ option.label }}</option>
       </select>
     </ion-col>
     <ion-col sizeMd="2" sizeSm="3" style="text-align: end;">
