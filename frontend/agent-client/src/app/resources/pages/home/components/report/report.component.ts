@@ -25,10 +25,10 @@ export class ReportComponent implements OnInit {
   attendances: Attendance[]
 
   options = [
-    { label: 'Relação de ocorrências pelo tipo de usuário', hide: false },
-    { label: 'Relação de ocorrências por setor', hide: this.hide() },
-    { label: 'Relação de atendimentos avaliados', hide: false },
-    { label: 'Relação de atendimentos avaliados por setor', hide: this.hide() }
+    { label: 'Relação de ocorrências pelo tipo de usuário', secure: false },
+    { label: 'Relação de ocorrências por setor', secure: true },
+    { label: 'Relação de atendimentos avaliados', secure: false },
+    { label: 'Relação de atendimentos avaliados por setor', secure: true }
   ]
 
   constructor(
@@ -59,7 +59,8 @@ export class ReportComponent implements OnInit {
     return '2020-05-01'
   }
 
-  hide() {
+  hide( secure: boolean = false  ) {
+    if( !secure ) return false
     const dept = JSON.parse( sessionStorage.getItem( 'user' ) ).department
     return dept !== 'Inova Macae'
   }

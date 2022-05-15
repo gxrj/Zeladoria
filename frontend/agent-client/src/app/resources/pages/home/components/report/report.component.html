@@ -35,9 +35,9 @@
     <ion-col sizeMd="3" sizeSm="6" style="text-align: end;">
       <select>
         <option selected disabled>Selecione o tipo de relatório</option>
-        <option *ngFor="let option of options" 
-                [ngValue]="option.label"
-                *ngIf="!option.hide">{{ option.label }}</option>
+        <option *ngFor="let option of options"
+                [ngValue]="option.label" 
+                [hidden]="hide( option.secure )">{{ option.label }}</option>
       </select>
     </ion-col>
     <ion-col sizeMd="2" sizeSm="3" style="text-align: end;">
