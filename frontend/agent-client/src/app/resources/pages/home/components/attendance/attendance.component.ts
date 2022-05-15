@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
+import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { Attendance } from '@core/interfaces/attendance';
 import User from '@core/interfaces/user';
 import { AttendanceService } from '@services/attendance/attendance.service';
@@ -35,10 +35,10 @@ export class AttendanceComponent implements OnInit {
   private listenRouterChanges() {
     this._router.events
             .subscribe( 
-              evt => {
-                if ( evt instanceof ActivationStart ) {
+              evt => {                
+                if ( evt instanceof ActivationEnd ) {
                   this.reload()
-                  setTimeout( () => this.return(), 1000 )
+                  setTimeout( () => this.back(), 1000 )
                 }
               }
             )
@@ -58,7 +58,7 @@ export class AttendanceComponent implements OnInit {
             )
   }
 
-  return() {
+  back() {
     this.selectedAttendance = null
   }
 

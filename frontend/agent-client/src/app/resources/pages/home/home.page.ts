@@ -23,6 +23,7 @@ export class HomePage implements OnInit {
 
     if( !this.account ) {
       this.account = this._route.snapshot.data.account.result
+      this.account.department = this.account.department.name
       sessionStorage.setItem( 'user', JSON.stringify( this.account ) )
     }
     else

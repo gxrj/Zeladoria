@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
+import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
@@ -39,7 +39,7 @@ export class CallComponent implements OnInit {
     this._router.events
             .subscribe( 
               evt => {
-                if ( evt instanceof ActivationStart ) {
+                if ( evt instanceof ActivationEnd ) {
                   this.reload()
                   setTimeout( () => this.return(), 1000 )
                 }
