@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
     {
       title: 'Gerência',
       paths:[
-        { label: 'Relatórios', url: '/home/charts' }
+        { label: 'Relatórios', url: '/home/reports' }
       ],
       visibility: this.getVisibility()
     }

@@ -7,7 +7,7 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
 import { CallComponent } from './components/call/call.component';
 import { DutyListResolver } from '@resolvers/duty/duty-list.resolver';
 import { AttendanceListResolver } from '@resolvers/attendance/attendance-list.resolver';
-import { ChartComponent } from './components/chart/chart.component';
+import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
   {
@@ -28,8 +28,8 @@ const routes: Routes = [
         runGuardsAndResolvers: 'paramsOrQueryParamsChange'
       },
       {
-        path: 'charts',
-        component: ChartComponent
+        path: 'reports',
+        component: ReportComponent
       }
     ],
     resolve: { duties: DutyListResolver }
