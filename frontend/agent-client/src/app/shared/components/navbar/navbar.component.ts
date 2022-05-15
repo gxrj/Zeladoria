@@ -33,8 +33,8 @@ export class NavbarComponent implements OnInit {
     {
       title: 'Administração',
       paths:[
-        { label: 'Relatórios', url: '' },
-        { label: 'Cadastrar Colaborador', url: '' }
+        { label: 'Relatórios', url: '/home/charts' },
+        { label: 'Cadastrar Colaborador', url: '/home/agent-cretion-form' }
       ],
       visibility: this.getVisibility()
     }
@@ -79,8 +79,9 @@ export class NavbarComponent implements OnInit {
     this._menuCtrl.close()
   }
 
-  private getVisibility(): boolean {
+  getVisibility(): boolean {
     const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
+    if( !user ) return false
     return JSON.parse( user.is_admin )
   }
 }
