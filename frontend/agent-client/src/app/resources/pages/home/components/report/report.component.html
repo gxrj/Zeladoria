@@ -3,7 +3,7 @@
   <ng-template>
     <ion-datetime #startDate
                   locale="pt-BR"
-                  min="2022-05-01" [max]="limit"
+                  [min]="setMinimal()" [max]="setLimit()"
                   show-default-time-label="false"
                   (ionChange)="selectStartInterval( startDate )">
 
@@ -16,7 +16,7 @@
   <ng-template>
     <ion-datetime #finalDate
                   locale="pt-BR"
-                  [min]="start" [max]="limit"
+                  [min]="setMinimal()" [max]="setLimit()"
                   show-default-time-label="false"
                   (ionChange)="selectEndInterval( finalDate )">
 

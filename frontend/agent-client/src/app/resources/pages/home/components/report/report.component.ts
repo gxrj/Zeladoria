@@ -12,8 +12,8 @@ import { CallService } from '@services/call/call.service';
 })
 export class ReportComponent implements OnInit {
 
-  start: string
-  end: string
+  start: string = null
+  end: string = null
   limit: string
   timeFormat = 'dd/MM/y - HH:mm'
 
@@ -33,7 +33,7 @@ export class ReportComponent implements OnInit {
     private _attendanceService: AttendanceService ) { }
 
   ngOnInit() {
-    this.limit = this.setLimit()
+    this.limit = new Date().toISOString()
   }
 
   selectStartInterval( startDate: IonDatetime ) {
@@ -47,10 +47,15 @@ export class ReportComponent implements OnInit {
   }
 
   getValues() {
+
     console.log( this.start )
   }
 
   setLimit(): string {
-    return new Date().toISOString()
+    return this.limit
+  }
+
+  setMinimal(): string {
+    return '2020-05-01'
   }
 }
