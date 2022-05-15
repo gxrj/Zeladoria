@@ -1,0 +1,32 @@
+* {
+    text-align: start;
+}
+
+ion-col {
+    line-height: 30px;
+    margin: auto;
+}
+
+ion-datetime {
+    margin: auto;
+    height: 100%;
+    width: 100%;
+}
+
+ion-input {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+    height: 30px;
+    line-height: 25px;
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+    color: black;
+}
+
+ion-button {
+    height: 30px;
+}
+
+button.time-body::after {
+    content: "Hs";
+}

@@ -1,3 +1,44 @@
-<p>
-  chart works!
-</p>
+<ion-row>
+  <ion-col size="4" style="text-align: end;">
+    <ion-label style="line-height:25px">Gerar relatórios no intervalo entre:</ion-label>
+  </ion-col>
+  <ion-col size="2">
+    <ion-input placeholder="Início" value="{{ start | date: timeFormat }}" id="start-date-modal"></ion-input>
+  </ion-col>
+  <ion-col size="1" style="text-align: center;">
+    <ion-label>até</ion-label>
+  </ion-col>
+  <ion-col size="2">
+    <ion-input placeholder="Fim" value="{{ end | date: timeFormat }}" id="final-date-modal"></ion-input>
+  </ion-col>
+    
+  <ion-col size="3">
+    <ion-button color="tertiary" (click)="getValues()">Gerar Relatórios</ion-button>
+  </ion-col>
+</ion-row>
+
+<ion-popover trigger="start-date-modal">
+  <ng-template>
+    <ion-datetime #startDate
+                  locale="pt-BR"
+                  min="2022-05-01"
+                  show-default-time-label="false"
+                  (ionChange)="start = startDate.value">
+
+      <span slot="time-label">Hora selecionada:</span>
+    </ion-datetime>
+  </ng-template>
+</ion-popover>
+
+<ion-popover trigger="final-date-modal">
+  <ng-template>
+    <ion-datetime #finalDate
+                  locale="pt-BR"
+                  min="2022-05-01"
+                  show-default-time-label="false"
+                  (ionChange)="end = finalDate.value">
+
+      <span slot="time-label">Hora selecionada:</span>
+    </ion-datetime>
+  </ng-template>
+</ion-popover>

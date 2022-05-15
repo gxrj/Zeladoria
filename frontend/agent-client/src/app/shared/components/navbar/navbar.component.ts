@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import User from '@core/interfaces/user';
 import { MenuController } from '@ionic/angular';
 import { AttendanceService } from '@services/attendance/attendance.service';
@@ -11,6 +11,8 @@ import { CallService } from '@services/call/call.service';
 })
 export class NavbarComponent implements OnInit {
 
+  @Input() account: User
+  dateFormat = 'dd/MM/y'
   group = [
     { 
       title: 'Ocorrências', 
@@ -20,7 +22,7 @@ export class NavbarComponent implements OnInit {
         { label: 'Ocorrências não Avaliadas', url: '/home/calls', status: 'Respondida' },
         { label: 'Ocorrências Indeferidas', url: '/home/calls', status: 'Indeferida' }
       ],
-      visibility: true
+      visibility: this.checkDepartment()
     },
     { 
       title: 'Atendimentos', 
@@ -28,18 +30,24 @@ export class NavbarComponent implements OnInit {
         { label: 'Atendimentos do Setor', url: '/home/attendances', filter: 'department' },
         { label: 'Meus Atendimentos', url: '/home/attendances', filter: 'agent' } 
       ],
-      visibility: true 
+      visibility: this.checkDepartment()
     },
     {
       title: 'Administração',
       paths:[
-        { label: 'Relatórios', url: '/home/charts' },
-        { label: 'Cadastrar Colaborador', url: '/home/agent-cretion-form' }
+        { label: 'Cadastrar Colaborador', url: '/home/agent-creation-form' }
+      ],
+      visibility: this.getVisibility()
+    },
+    {
+      title: 'Gerência',
+      paths:[
+        { label: 'Relatórios', url: '/home/charts' }
       ],
       visibility: this.getVisibility()
     }
   ]
-  
+
   constructor( 
     private _menuCtrl: MenuController,
     private _callService: CallService,
@@ -83,5 +91,11 @@ export class NavbarComponent implements OnInit {
     const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
     if( !user ) return false
     return JSON.parse( user.is_admin )
+  }
+
+  checkDepartment() : boolean {
+    const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
+    if( !user ) return false
+    return user.department !== 'Inova Macae'
   }
 }
