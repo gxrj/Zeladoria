@@ -114,9 +114,10 @@ public class AgentDTO implements Serializable {
 
     private static String checkAdminAuthority( Agent agent ) {
         var agentAuthorities = agent.getAccount().getAuthorities();
-        var adminRole = new SimpleGrantedAuthority( "ROLE_ADMIN" );
-
-        if( agentAuthorities.contains( adminRole ) )
+        var result = agentAuthorities.parallelStream()
+                                                    .filter( el -> el.getAuthority().equals( "ROLE_ADMIN" ) )
+                                                        .toList();
+        if( result.size() > 0 )
             return "true";
         else
             return "false";
