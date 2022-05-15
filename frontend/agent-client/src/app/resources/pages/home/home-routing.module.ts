@@ -7,6 +7,7 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
 import { CallComponent } from './components/call/call.component';
 import { DutyListResolver } from '@resolvers/duty/duty-list.resolver';
 import { AttendanceListResolver } from '@resolvers/attendance/attendance-list.resolver';
+import { ChartComponent } from './components/chart/chart.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
         component: AttendanceComponent,
         resolve: { attendances: AttendanceListResolver },
         runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+      },
+      {
+        path: 'charts',
+        component: ChartComponent
       }
     ],
     resolve: { duties: DutyListResolver }
