@@ -30,3 +30,11 @@ ion-button {
 button.time-body::after {
     content: "Hs";
 }
+
+form {
+    width: 98%;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+}
