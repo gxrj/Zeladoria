@@ -35,7 +35,7 @@ public class AgentDTO implements Serializable {
     private String username;
     private String cpf;
     private String password;
-    private String hasAdminAuthority;
+    private String isAdmin;
     private String active;
     private DepartmentDTO department;
 
@@ -47,6 +47,7 @@ public class AgentDTO implements Serializable {
         var agentDto = new AgentDTO();
         agentDto.setName( agent.getName() );
         agentDto.setUsername( agent.getAccount().getUsername() );
+        agentDto.setIsAdmin( checkAdminAuthority( agent ) );
 
         var dept = agent.getDepartment();
 
@@ -101,13 +102,23 @@ public class AgentDTO implements Serializable {
         var adminRole = new SimpleGrantedAuthority( "ROLE_ADMIN" );
         var containsAdminRole = agentAccount.getAuthorities().contains( adminRole );
 
-        if( agentDto.hasAdminAuthority != null ) {
-            if ( agentDto.hasAdminAuthority.equalsIgnoreCase("true" ) && !containsAdminRole )
+        if( agentDto.isAdmin != null ) {
+            if ( agentDto.isAdmin.equalsIgnoreCase("true" ) && !containsAdminRole )
                 agentAccount.getAuthorities().add( adminRole );
 
-            if ( containsAdminRole && agentDto.hasAdminAuthority.equalsIgnoreCase( "false" ) )
+            if ( containsAdminRole && agentDto.isAdmin.equalsIgnoreCase( "false" ) )
                 agentAccount.getAuthorities().remove( adminRole );
         }
         return agentAccount;
+    }
+
+    private static String checkAdminAuthority( Agent agent ) {
+        var agentAuthorities = agent.getAccount().getAuthorities();
+        var adminRole = new SimpleGrantedAuthority( "ROLE_ADMIN" );
+
+        if( agentAuthorities.contains( adminRole ) )
+            return "true";
+        else
+            return "false";
     }
 }

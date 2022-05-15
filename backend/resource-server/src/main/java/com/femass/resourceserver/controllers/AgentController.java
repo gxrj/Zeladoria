@@ -56,9 +56,7 @@ public class AgentController {
         var agent = module.getAgentService().findByUsername( subject );
         var json = new JSONObject();
 
-        json.appendField( "username", subject );
-        json.appendField( "name", agent.getName() );
-        json.appendField( "department", agent.getDepartment().getName() );
+        json.appendField( "result", AgentDTO.serialize( agent ) );
 
         return ResponseEntity.ok( json );
     }
