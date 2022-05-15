@@ -53,7 +53,6 @@ public class CallDTO implements Serializable {
 
         var callDto = new CallDTO();
         var duty = call.getDuty();
-        var attendances = call.getAttendances();
 
         callDto.setDuty( DutyDTO.serialize( duty ) );
         callDto.setProtocol( call.getProtocol() );
@@ -64,12 +63,6 @@ public class CallDTO implements Serializable {
         callDto.setAuthor( CitizenDTO.serialize( call.getAuthor() ) );
         callDto.setCreatedAt( call.getPostingDate() );
         callDto.setDestination( DepartmentDTO.serialize( duty.getDepartment() ) );
-
-        if( attendances != null ) {
-            callDto.setAttendanceIdList( attendances.stream()
-                                                .map( Attendance::getId )
-                                                    .filter( Objects::nonNull).toList() );
-        }
 
         return callDto;
     }

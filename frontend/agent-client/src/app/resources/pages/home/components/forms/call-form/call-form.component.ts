@@ -53,6 +53,7 @@ export class CallFormComponent implements OnInit {
     this.tempDuty = this.call.duty
     this.tempDestination = this.call.destination.name
     this.setFormEditionMode()
+    console.log( this.call )
   }
 
   checkDestination() {

@@ -49,8 +49,4 @@ public class Call implements Serializable {
     @ManyToOne
     @JoinColumn( name = "destinatario" )
     private Department destination;
-
-    @ToString.Exclude
-    @OneToMany( mappedBy = "userCall", cascade = CascadeType.ALL, orphanRemoval = true )
-    private List<Attendance> attendances;
 }

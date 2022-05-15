@@ -36,6 +36,17 @@ export class CallService {
     return this._http.post( request.url, call, request.config )
   }
 
+  listByInterval( start: any, end: any, user: User ): Observable<any> {
+    const path = this.buildIntervalQuery( '/manager/calls/by_interval', start, end )
+    const request = this._authService.prepareRequest( path )
+
+    return this._http.post( request.url, user, request.config )
+  }
+
+  private buildIntervalQuery( path: string, start: any, end: any ): string {
+    return `${path}?start=${start}&end=${end}`
+  }
+
   getSelectedCallStatus(): string{
     return sessionStorage.getItem( 'call-status' )
   }

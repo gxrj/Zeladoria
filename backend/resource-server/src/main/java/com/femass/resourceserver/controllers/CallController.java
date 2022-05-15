@@ -233,10 +233,12 @@ public class CallController {
 
     @PostMapping( "/manager/calls/by_interval" )
     public ResponseEntity<JSONObject> getCallsByInterval(
-            @RequestBody AgentDTO agentDto, @RequestParam Timestamp start, @RequestParam Timestamp end ) {
+            @RequestBody AgentDTO agentDto, @RequestParam long start, @RequestParam long end ) {
         var json = new JSONObject();
+        var intervalStart = new Timestamp( start );
+        var intervalEnd = new Timestamp( end );
 
-        if( start.after( end ) ) {
+        if( intervalStart.after( intervalEnd ) ) {
             json.appendField( "result", Collections.EMPTY_LIST );
             return ResponseEntity.ok( json );
         }
@@ -246,7 +248,7 @@ public class CallController {
         if( deptName.equalsIgnoreCase( mainDeptName ) ) deptName = null;
 
         var calls = module.getCallService()
-                .findCallListByInterval( start, end, deptName );
+                .findCallListByInterval( intervalStart, intervalEnd, deptName );
 
         json.appendField( "result", calls );
         return ResponseEntity.ok( json );

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Attendance } from '@core/interfaces/attendance';
 import Call from '@core/interfaces/call';
+import User from '@core/interfaces/user';
 import { IonDatetime, PopoverController } from '@ionic/angular';
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { CallService } from '@services/call/call.service';
+import { ToastService } from '@services/toast/toast.service';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'report',
@@ -28,6 +32,7 @@ export class ReportComponent implements OnInit {
   ]
 
   constructor(
+    private _toast: ToastService,
     private _popoverCtrl: PopoverController,
     private _callService: CallService,
     private _attendanceService: AttendanceService ) { }
@@ -46,16 +51,48 @@ export class ReportComponent implements OnInit {
     this._popoverCtrl.dismiss()
   }
 
-  getValues() {
-
-    console.log( this.start )
-  }
-
   setLimit(): string {
     return this.limit
   }
 
   setMinimal(): string {
     return '2020-05-01'
+  }
+
+  getValues() {
+
+    if( !this.start || !this.end ) {
+      this._toast.displayMessage( 'Selecione o intervalo' )
+      return
+    }
+  
+    const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
+    const beginning = new Date( this.start ).getTime()
+    const final = new Date( this.end ).getTime()
+    console.log( beginning );
+    
+    this._callService.listByInterval( beginning, final, user )
+                        .pipe(
+                          catchError( 
+                            error => {
+                              console.log( error )
+                              return throwError( error )
+                            } 
+                          ) 
+                        )
+                        .subscribe( 
+                          res => {
+                            this.calls = res.result
+                            console.log( this.calls )
+                          }
+                         )
+  }
+
+  getTimestampFormat( date: Date ) {
+    let timestamp = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    timestamp += `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    timestamp += '.098+00:00'
+
+    return timestamp
   }
 }

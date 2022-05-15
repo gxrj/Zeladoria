@@ -49,4 +49,15 @@ export class AttendanceService {
   getListFilter(): string {
     return sessionStorage.getItem( 'attendance-list-filter' )
   }
+
+  listAttendanceByInterval( start: string, end:string, user: User ): Observable<any> {
+    const path = this.buildIntervalQuery( '/manager/attendances/by_interval', start, end )
+    const request = this._authService.prepareRequest( path )
+
+    return this._http.post( request.url, user, request.config )
+  }
+
+  private buildIntervalQuery( path: string, start: string, end: string ): string {
+    return `${path}?start=${start}&end=${end}`
+  }
 }

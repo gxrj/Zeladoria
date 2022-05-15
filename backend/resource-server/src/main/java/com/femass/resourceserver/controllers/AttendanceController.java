@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.Collections;
 
-
 @RestController
 @RequestMapping(
     consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -134,11 +133,13 @@ public class AttendanceController {
         return ResponseEntity.ok( json );
     }
 
-    @PostMapping( path = "/manager/attendance/by_interval" )
+    @PostMapping( path = "/manager/attendances/by_interval" )
     public ResponseEntity<JSONObject> getAttendanceListByInterval(
-            @RequestBody AgentDTO agentDto, @RequestParam Timestamp start, @RequestParam Timestamp end ) {
+            @RequestBody AgentDTO agentDto, @RequestParam long intervalStart, @RequestParam long intervalEnd ) {
 
         var json = new JSONObject();
+        var start = new Timestamp( intervalStart );
+        var end = new Timestamp( intervalEnd );
 
         if( start.after( end ) ) {
             json.appendField( "result", Collections.EMPTY_LIST );
