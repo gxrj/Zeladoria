@@ -86,7 +86,7 @@ public class AttendanceService {
     }
 
     public List<Attendance> findAttendanceByInterval( Timestamp start, Timestamp end, String deptName ) {
-        var property = new String[]{ "department", "postingDate" };
+        var property = new String[]{ "department", "executionDate" };
         var result = repository.findByExecutionDateBetween( start, end, Sort.by( property ) );
 
         if( deptName == null || deptName.equals( "" ) ) return result;
