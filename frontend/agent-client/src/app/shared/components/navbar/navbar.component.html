@@ -15,7 +15,7 @@
   <ion-content content>
     <ion-accordion-group>
       <ion-accordion *ngFor="let item of group">
-        <ion-item slot="header">
+        <ion-item slot="header" *ngIf="item.visibility">
           <ion-label class="item-title">{{ item.title }}</ion-label>
         </ion-item>
         <ion-list contentId="body" slot="content">
