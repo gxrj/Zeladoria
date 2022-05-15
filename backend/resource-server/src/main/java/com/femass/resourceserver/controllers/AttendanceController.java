@@ -135,13 +135,13 @@ public class AttendanceController {
 
     @PostMapping( path = "/manager/attendances/by_interval" )
     public ResponseEntity<JSONObject> getAttendanceListByInterval(
-            @RequestBody AgentDTO agentDto, @RequestParam long intervalStart, @RequestParam long intervalEnd ) {
+            @RequestBody AgentDTO agentDto, @RequestParam long start, @RequestParam long end ) {
 
         var json = new JSONObject();
-        var start = new Timestamp( intervalStart );
-        var end = new Timestamp( intervalEnd );
+        var intervalStart = new Timestamp( start );
+        var intervalEnd = new Timestamp( end );
 
-        if( start.after( end ) ) {
+        if( intervalStart.after( intervalEnd ) ) {
             json.appendField( "result", Collections.EMPTY_LIST );
             return ResponseEntity.ok( json );
         }
@@ -151,7 +151,7 @@ public class AttendanceController {
         if( deptName.equalsIgnoreCase( mainDeptName ) ) deptName = null;
 
         var attendances = module.getAttendanceService()
-                                            .findAttendanceByInterval( start, end, deptName );
+                                            .findAttendanceByInterval( intervalStart, intervalEnd, deptName );
 
         json.appendField( "result", attendances );
         return ResponseEntity.ok( json );

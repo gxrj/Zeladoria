@@ -6,7 +6,7 @@ import { IonDatetime, PopoverController } from '@ionic/angular';
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
-import { throwError } from 'rxjs';
+import { forkJoin, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -69,30 +69,26 @@ export class ReportComponent implements OnInit {
     const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
     const beginning = new Date( this.start ).getTime()
     const final = new Date( this.end ).getTime()
-    console.log( beginning );
     
-    this._callService.listByInterval( beginning, final, user )
-                        .pipe(
-                          catchError( 
-                            error => {
-                              console.log( error )
-                              return throwError( error )
-                            } 
-                          ) 
-                        )
-                        .subscribe( 
-                          res => {
-                            this.calls = res.result
-                            console.log( this.calls )
-                          }
-                         )
-  }
-
-  getTimestampFormat( date: Date ) {
-    let timestamp = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-    timestamp += `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-    timestamp += '.098+00:00'
-
-    return timestamp
+    forkJoin( {
+      calls: this._callService.listByInterval( beginning, final, user ),
+      attendances: this._attendanceService.listByInterval( beginning, final, user )
+    } )
+    .pipe( catchError(  error => {
+          console.log( error )
+          return throwError( error )
+        } 
+      ) 
+    )
+    .subscribe( 
+      res => {
+        this.calls = res.calls.result
+        this.attendances = res.attendances.result
+        console.log( this.calls );
+        console.log( this.attendances );
+        
+        
+        }
+      )
   }
 }
