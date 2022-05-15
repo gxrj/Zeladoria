@@ -25,10 +25,10 @@ export class ReportComponent implements OnInit {
   attendances: Attendance[]
 
   options = [
-    { label: 'Relação de ocorrências pelo tipo de usuário' },
-    { label: 'Relação de ocorrências por setor' },
-    { label: 'Relação de atendimentos avaliados' },
-    { label: 'Relação de atendimentos avaliados por setor'  }
+    { label: 'Relação de ocorrências pelo tipo de usuário', hide: false },
+    { label: 'Relação de ocorrências por setor', hide: this.hide() },
+    { label: 'Relação de atendimentos avaliados', hide: false },
+    { label: 'Relação de atendimentos avaliados por setor', hide: this.hide() }
   ]
 
   constructor(
@@ -59,17 +59,26 @@ export class ReportComponent implements OnInit {
     return '2020-05-01'
   }
 
+  hide() {
+    const dept = JSON.parse( sessionStorage.getItem( 'user' ) ).department
+    return dept !== 'Inova Macae'
+  }
+
   getValues() {
 
     if( !this.start || !this.end ) {
       this._toast.displayMessage( 'Selecione o intervalo' )
       return
     }
-  
+    
     const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
     const beginning = new Date( this.start ).getTime()
     const final = new Date( this.end ).getTime()
     
+    this.loadData( user, beginning, final )
+  }
+
+  async loadData( user: User, beginning: number, final: number ) {
     forkJoin( {
       calls: this._callService.listByInterval( beginning, final, user ),
       attendances: this._attendanceService.listByInterval( beginning, final, user )
@@ -84,11 +93,7 @@ export class ReportComponent implements OnInit {
       res => {
         this.calls = res.calls.result
         this.attendances = res.attendances.result
-        console.log( this.calls );
-        console.log( this.attendances );
-        
-        
-        }
-      )
+      }
+    )
   }
 }
