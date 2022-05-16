@@ -21,6 +21,7 @@ import {
   AttendanceCreationModalComponent 
 } from './components/forms/attendance-creation-modal/attendance-creation-modal.component';
 import { ReportComponent } from './components/report/report.component';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { ReportComponent } from './components/report/report.component';
   declarations: [ 
     HomePage,
     CallComponent,
+    ChartComponent,
     ReportComponent, 
     CallFormComponent,
     AttendanceComponent,

@@ -1,5 +1,5 @@
 <!-- Popover section-->
-<ion-popover trigger="start-date-modal">
+<ion-popover trigger="start-date">
   <ng-template>
     <ion-datetime #startDate
                   locale="pt-BR"
@@ -12,7 +12,7 @@
   </ng-template>
 </ion-popover>
 
-<ion-popover trigger="final-date-modal">
+<ion-popover trigger="final-date">
   <ng-template>
     <ion-datetime #finalDate
                   locale="pt-BR"
@@ -26,31 +26,42 @@
 </ion-popover>
 
 <!--Visual page template begins bellow-->
-<form>
-  <h1>Relatórios</h1>
-  <ion-row>
-    <ion-col size="12" style="text-align: center;">
-      <ion-button color="tertiary" (click)="getValues()">Carregar Dados</ion-button>
-    </ion-col>
-    <ion-col sizeMd="3" sizeSm="6" style="text-align: end;">
-      <select>
-        <option selected disabled>Selecione o tipo de relatório</option>
-        <option *ngFor="let option of options"
-                [ngValue]="option.label" 
-                [hidden]="hide( option.secure )">{{ option.label }}</option>
-      </select>
-    </ion-col>
-    <ion-col sizeMd="2" sizeSm="3" style="text-align: end;">
-      <ion-label style="line-height:25px">no intervalo entre:</ion-label>
-    </ion-col>
-    <ion-col sizeMd="2">
-      <ion-input placeholder="Início" value="{{ start | date: timeFormat }}" id="start-date-modal"></ion-input>
-    </ion-col>
-    <ion-col sizeMd="1" style="text-align: center;">
-      <ion-label>até</ion-label>
-    </ion-col>
-    <ion-col sizeMd="2">
-      <ion-input placeholder="Fim" value="{{ end | date: timeFormat }}" id="final-date-modal"></ion-input>
-    </ion-col>
-  </ion-row>
-</form>
+<ion-content>
+  <form>
+    <h1>Relatórios</h1>
+    <ion-row>
+      <ion-col sizeMd="4">
+        <ion-label>Dados a partir de:</ion-label>
+        <ion-input placeholder="Início" value="{{ start | date: timeFormat }}" id="start-date"></ion-input>
+      </ion-col>
+      <ion-col sizeMd="4">
+        <ion-label>Até:</ion-label>
+        <ion-input placeholder="Fim" value="{{ end | date: timeFormat }}" id="final-date"></ion-input>
+      </ion-col>
+      <ion-col sizeMd="4" style="text-align: center; margin-top: 30px;">
+        <ion-button color="tertiary"
+                    *ngIf="!isIntervalEmpty() && areValuesEmpty()" 
+                    (click)="getValues()">Carregar Dados</ion-button>
+        <ion-button color="danger"
+                    *ngIf="!areValuesEmpty()" 
+                    (click)="clearValues()">Limpar intervalo</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!areValuesEmpty()" style="text-align: start;">
+      <ion-col sizeMd="6" style="display: grid; text-align: start; margin: 0;">
+        <ion-label>Tipo de relatório:</ion-label>
+        <select name="chart-option" [ngModel]="selectedItem" (ngModelChange)="select( $event )">
+          <option *ngFor="let option of options"
+                  [ngValue]="option"
+                  [disabled]="!option.value"
+                  [hidden]="hide( option.secure )">{{ option.label }}</option>
+        </select>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  <chart *ngIf="selectedItem.value?.condition()"
+        [title]="getTitle()"
+        [chartData]="chartData">
+  </chart>
+</ion-content>

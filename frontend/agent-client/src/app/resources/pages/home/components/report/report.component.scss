@@ -12,6 +12,11 @@ form {
     margin-top: 10px;
     border-radius: 5px;
     box-shadow: 1px 1px 3px rgb(73, 73, 73);
+    margin-bottom: 10px;
+}
+
+ion-row {
+    line-height: 25px;
 }
 
 ion-col {
@@ -41,4 +46,11 @@ ion-button {
 
 button.time-body::after {
     content: "Hs";
+}
+
+.chart {
+    height: 250px;
+    width: 250px;
+    margin: auto;
+    display: flex;
 }

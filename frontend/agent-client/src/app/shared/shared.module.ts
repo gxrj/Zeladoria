@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { DataTableComponent } from '@components/data-table/data-table.component';
 import { IonicModule } from '@ionic/angular';
 import { TextEditorComponent } from '@components/text-editor/text-editor.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule( { 
     declarations: [ 
@@ -34,7 +35,8 @@ import { TextEditorComponent } from '@components/text-editor/text-editor.compone
         NavbarComponent,
         SideMenuComponent,
         DataTableComponent,
-        TextEditorComponent
+        TextEditorComponent,
+        NgChartsModule
     ]
 } )
 export class SharedModule {}

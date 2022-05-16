@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Attendance } from '@core/interfaces/attendance';
-import Call from '@core/interfaces/call';
-import User from '@core/interfaces/user';
 import { IonDatetime, PopoverController } from '@ionic/angular';
+import { ChartData } from 'chart.js';
+import { forkJoin, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
-import { forkJoin, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Attendance } from '@core/interfaces/attendance';
+
+import Call from '@core/interfaces/call';
+import User from '@core/interfaces/user';
+
 
 @Component({
   selector: 'report',
@@ -16,19 +20,61 @@ import { catchError } from 'rxjs/operators';
 })
 export class ReportComponent implements OnInit {
 
+  timeFormat = 'dd/MM/y - HH:mm'
+
   start: string = null
   end: string = null
   limit: string
-  timeFormat = 'dd/MM/y - HH:mm'
 
-  calls: Call[]
-  attendances: Attendance[]
+  calls: Call[] = null
+  attendances: Attendance[] = null
+
+  chartData: ChartData = {
+    labels: [],
+    datasets: [ { data: [] } ]
+  }
+
+  selectedItem: any
 
   options = [
-    { label: 'Relação de ocorrências pelo tipo de usuário', secure: false },
-    { label: 'Relação de ocorrências por setor', secure: true },
-    { label: 'Relação de atendimentos avaliados', secure: false },
-    { label: 'Relação de atendimentos avaliados por setor', secure: true }
+    { label: 'Selecione o tipo de relatório', secure: false, value: null },
+    { 
+      label: 'Total de corrências por classe de usuário', 
+      secure: false, 
+      value: { 
+        type: 'pie', 
+        condition: () => this.calls != null,
+        getLabels: () => [ 'Anônimo', 'Autenticado' ],
+        getData: () => [
+          this.calls.filter( el => el.author.name === 'anonimo' ).length,
+          this.calls.filter( el => el.author.name !== 'anonimo' ).length
+        ]
+      } 
+    },
+    { 
+      label: 'Total de ocorrências por setor', 
+      secure: true,
+      value: {
+        type: 'pie', 
+        condition: () => this.calls != null,
+      }
+    },
+    { 
+      label: 'Relação de atendimentos avaliados', 
+      secure: false,
+      value: {
+        type: 'bar', 
+        condition: () => this.attendances != null
+      }
+    },
+    { 
+      label: 'Relação de atendimentos avaliados por setor', 
+      secure: true,
+      value: {
+        type: 'bar', 
+        condition: () => this.attendances != null
+      } 
+    }
   ]
 
   constructor(
@@ -39,6 +85,7 @@ export class ReportComponent implements OnInit {
 
   ngOnInit() {
     this.limit = new Date().toISOString()
+    this.selectedItem = this.options[0]
   }
 
   selectStartInterval( startDate: IonDatetime ) {
@@ -79,6 +126,11 @@ export class ReportComponent implements OnInit {
     this.loadData( user, beginning, final )
   }
 
+  clearValues() {
+    this.start = this.end = null
+    this.calls = this.attendances = null
+  }
+
   async loadData( user: User, beginning: number, final: number ) {
     forkJoin( {
       calls: this._callService.listByInterval( beginning, final, user ),
@@ -96,5 +148,27 @@ export class ReportComponent implements OnInit {
         this.attendances = res.attendances.result
       }
     )
+  }
+
+  select( item: any ) {
+    if( item.value.condition() ) {
+      this.chartData.labels = item.value.getLabels()
+      this.chartData.datasets[0].data = item.value.getData()
+      this.selectedItem = item
+    }
+  }
+
+  isIntervalEmpty(): boolean {
+    return !this.start || !this.end
+  }
+
+  areValuesEmpty(): boolean {
+    return !this.calls && !this.attendances
+  }
+
+  getTitle() {
+    const startDate = new Date( this.start ).toLocaleDateString('pt-Br')
+    const endDate = new Date( this.end ).toLocaleDateString('pt-Br')
+    return `${ this.selectedItem.label } entre ${ startDate } e ${ endDate }`
   }
 }
