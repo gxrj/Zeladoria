@@ -63,7 +63,7 @@
   <chart *ngIf="selectedItem.value?.condition()"
         [title]="getTitle()"
         [chartData]="chartData"
-        [total]="selectedItem.value.getTotal()"
+        [total]="selectedItem.value?.getTotal()"
         id="chart">
   </chart>
 </ion-content>

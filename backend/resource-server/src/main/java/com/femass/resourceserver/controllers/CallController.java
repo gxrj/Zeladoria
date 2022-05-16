@@ -248,7 +248,8 @@ public class CallController {
         if( deptName.equalsIgnoreCase( mainDeptName ) ) deptName = null;
 
         var calls = module.getCallService()
-                .findCallListByInterval( intervalStart, intervalEnd, deptName );
+                .findCallListByInterval( intervalStart, intervalEnd, deptName )
+                .parallelStream().map( CallDTO::serialize ).toList();
 
         json.appendField( "result", calls );
         return ResponseEntity.ok( json );

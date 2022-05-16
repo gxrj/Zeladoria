@@ -41,6 +41,7 @@ public class DutyDTO implements Serializable {
         var dutyDto = new DutyDTO();
         dutyDto.setDescription( duty.getDescription() );
         dutyDto.setDepartment( DepartmentDTO.serialize( duty.getDepartment() ) );
+        dutyDto.setCategory( DutyGroupDTO.serialize( duty.getDutyGroup() ) );
 
         return dutyDto;
     }

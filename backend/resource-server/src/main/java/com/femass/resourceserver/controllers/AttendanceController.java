@@ -151,7 +151,8 @@ public class AttendanceController {
         if( deptName.equalsIgnoreCase( mainDeptName ) ) deptName = null;
 
         var attendances = module.getAttendanceService()
-                                            .findAttendanceByInterval( intervalStart, intervalEnd, deptName );
+                                            .findAttendanceByInterval( intervalStart, intervalEnd, deptName )
+                                            .parallelStream().map( AttendanceDTO::serialize ).toList();
 
         json.appendField( "result", attendances );
         return ResponseEntity.ok( json );

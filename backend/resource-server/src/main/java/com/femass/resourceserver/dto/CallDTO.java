@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Address;
-import com.femass.resourceserver.domain.Attendance;
 import com.femass.resourceserver.domain.Call;
 import com.femass.resourceserver.domain.Status;
 import com.femass.resourceserver.services.ServiceModule;
@@ -21,7 +20,6 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter @Setter

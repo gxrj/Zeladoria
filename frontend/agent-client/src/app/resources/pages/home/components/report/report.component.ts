@@ -148,6 +148,8 @@ export class ReportComponent implements OnInit {
       res => {
         this.calls = res.calls.result
         this.attendances = res.attendances.result
+        console.log(this.calls);
+        
       }
     )
   }

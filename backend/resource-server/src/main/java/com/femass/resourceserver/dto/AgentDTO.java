@@ -23,7 +23,7 @@ import java.util.UUID;
 @JsonInclude( JsonInclude.Include.NON_EMPTY )
 
 @JsonIgnoreProperties(
-    value = { "id", "password", "authorities", "active" },
+    value = { "id", "password", "active" },
     allowSetters = true,
     ignoreUnknown = true
 )
