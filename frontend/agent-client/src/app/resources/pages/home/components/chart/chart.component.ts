@@ -16,6 +16,7 @@ export class ChartComponent implements OnInit {
   @Input() chartData: ChartData
   @Input() type: 'pie' | 'bar' = 'pie'
   @Input() legendPosition: 'bottom' | 'left' | 'top' | 'right' | 'center' = 'bottom'
+  @Input() total: number = 1
 
   chartType: ChartType
   chartPlugins = [ DatelabelsPlugin ]
@@ -29,13 +30,16 @@ export class ChartComponent implements OnInit {
         position: this.legendPosition
       },
       datalabels: {
-        formatter: ( value, context ) => {
-          if( context.chart.data.labels )
-            return context.chart.data.labels[context.dataIndex]
+        formatter: ( val, ctx ) => {
+          if( ctx.chart.data.labels ) {
+            return ctx.chart.data.labels[ctx.dataIndex] 
+            +`${ this.type === 'pie' ? ':' + (val*100/this.total).toFixed(2) + '%' : '' } `
+          }
         }
       }
     }
   }
+
   constructor() { }
 
   ngOnInit() {

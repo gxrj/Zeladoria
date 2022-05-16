@@ -44,11 +44,12 @@ export class ReportComponent implements OnInit {
       value: { 
         type: 'pie', 
         condition: () => this.calls != null,
-        getLabels: () => [ 'Anônimo', 'Autenticado' ],
+        getLabels: () => [ [ 'Anônimo' ], [ 'Autenticado' ] ],
         getData: () => [
           this.calls.filter( el => el.author.name === 'anonimo' ).length,
           this.calls.filter( el => el.author.name !== 'anonimo' ).length
-        ]
+        ],
+        getTotal: () => this.calls.length
       } 
     },
     { 
@@ -57,6 +58,7 @@ export class ReportComponent implements OnInit {
       value: {
         type: 'pie', 
         condition: () => this.calls != null,
+        getTotal: () => this.calls.length
       }
     },
     { 
