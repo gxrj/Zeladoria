@@ -27,6 +27,12 @@ export class ChartComponent implements OnInit {
       legend: {
         display: true,
         position: this.legendPosition
+      },
+      datalabels: {
+        formatter: ( value, context ) => {
+          if( context.chart.data.labels )
+            return context.chart.data.labels[context.dataIndex]
+        }
       }
     }
   }

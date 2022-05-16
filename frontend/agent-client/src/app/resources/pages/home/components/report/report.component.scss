@@ -9,7 +9,6 @@ h1 {
 form {
     width: 98%;
     margin: auto;
-    margin-top: 10px;
     border-radius: 5px;
     box-shadow: 1px 1px 3px rgb(73, 73, 73);
     margin-bottom: 10px;
@@ -48,9 +47,8 @@ button.time-body::after {
     content: "Hs";
 }
 
-.chart {
-    height: 250px;
-    width: 250px;
+#chart {
+    height: 40%;
+    width: 90%;
     margin: auto;
-    display: flex;
 }
