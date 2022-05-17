@@ -37,6 +37,8 @@ export class ReportComponent implements OnInit {
 
   selectedItem: any
 
+  departmentName: string
+
   options = [
     { label: 'Selecione o tipo de relatório', display: 'all', value: null },
     { 
@@ -92,6 +94,7 @@ export class ReportComponent implements OnInit {
   ngOnInit() {
     this.limit = new Date().toISOString()
     this.selectedItem = this.options[0]
+    this.departmentName = JSON.parse( sessionStorage.getItem( 'user' ) ).department
   }
 
   selectStartInterval( startDate: IonDatetime ) {
@@ -112,13 +115,12 @@ export class ReportComponent implements OnInit {
     return '2020-05-01'
   }
 
-  hide( display: 'all' | 'special' | 'specific' ) {
-    if( display === 'all' ) return true
-    const dept = JSON.parse( sessionStorage.getItem( 'user' ) ).department
-    if( display === 'specific' && dept === 'Inova Macae' ) return false
-    if( display === 'special' && dept !== 'Inova Macae' ) return false
+  hide( display: 'all' | 'special' | 'specific' ): boolean {
+    if( display === 'all' ) return false
+    if( display === 'specific' && this.departmentName === 'Inova Macae' ) return true
+    if( display === 'special' && this.departmentName !== 'Inova Macae' ) return true
 
-    return true
+    return false
   }
 
   getValues() {
