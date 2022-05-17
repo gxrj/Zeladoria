@@ -23,7 +23,6 @@ public class TableSeeder implements CommandLineRunner {
     public void run( String... args ) throws RuntimeException {
 
         DepartmentTableSeeder.seed( this );
-        AgentAccountTableSeeder.seed( this );
         AgentTableSeeder.seed( this );
         CitizenAccountTableSeeder.seed( this );
         CitizenTableSeeder.seed( this );

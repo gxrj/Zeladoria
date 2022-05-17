@@ -1,5 +1,6 @@
 package com.femass.resourceserver.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.femass.resourceserver.domain.account.AgentCredentials;
@@ -27,6 +28,20 @@ public class AgentService {
         try {
             accountRepository.save( entity.getAccount() );
             agentRepository.save( entity );
+            return true;
+        }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "AgentService failed: {}", ex.getMessage() );
+            return false;
+        }
+    }
+
+    public boolean createMultiple( List<Agent> entities ) {
+        try {
+            accountRepository.saveAll(
+                    entities.parallelStream()
+                                .map( Agent::getAccount ).toList() );
+            agentRepository.saveAll( entities );
             return true;
         }
         catch( IllegalArgumentException ex ) {

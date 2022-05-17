@@ -30,7 +30,8 @@ public class DepartmentTableSeeder {
                 "Secretaria de Proteção Animal e Zoonoses",
                 "Secretaria de Direitos Humanos e Acessibilidade",
                 "Secretaria Adjunta de Habitação",
-                "Secretaria do Idoso"
+                "Secretaria do Idoso",
+                "Inova Macae"
             ).parallelStream().map( Department::new ).toList();
 
             if( !deptService.createMultiple( departments ) )

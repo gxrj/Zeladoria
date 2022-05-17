@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,17 @@ public class AgentAccountService {
 
         try {
             repository.save( entity );
+            return true;
+        }
+        catch( IllegalArgumentException ex ) {
+            LOG.error( "AgentService failed: {}", ex.getMessage() );
+            return false;
+        }
+    }
+
+    public boolean createMultiple( List<AgentAccount> accounts ) {
+        try {
+            this.repository.saveAll( accounts );
             return true;
         }
         catch( IllegalArgumentException ex ) {
