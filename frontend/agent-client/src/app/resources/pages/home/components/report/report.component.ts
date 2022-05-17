@@ -183,12 +183,19 @@ export class ReportComponent implements OnInit {
     return `${ this.selectedItem.label } entre ${ startDate } e ${ endDate }`
   }
 
-  getDuties(): string[] {
-    let dept = JSON.parse( sessionStorage.getItem( 'user' ) ).department
-    let dutyList: any[] = JSON.parse( sessionStorage.getItem( 'duties' ) )
-    return dept ? dutyList
-                    .filter( el => el.department.name === dept )
-                      .map( el => el.description ) : []
+  getDuties( dept: string = null ): string[] {
+    const special = JSON.parse( sessionStorage.getItem( 'user' ) ).department !== 'Inova Macae'
+    let result: string[] = []
+    if( special )
+      this.calls.map( el => el.duty.description )
+                  .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+    
+    else if( dept )
+      this.calls.filter( el => el.duty.department.name === dept )
+                  .map( el => el.duty.description )
+                    .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+
+    return result
   }
 
   countCallsPerDuty(): number[] {
