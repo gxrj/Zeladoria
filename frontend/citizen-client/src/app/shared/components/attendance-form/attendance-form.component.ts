@@ -41,11 +41,13 @@ export class AttendanceFormComponent implements OnInit {
   upVote() {
     this.ratingRequired = false
     this.call.status = 'Finalizada'
+    this.attendance['rating']='positiva'
   }
 
   downVote() {
     this.ratingRequired = true
     this.call.status = 'Nao resolvida'
+    this.attendance['rating']='negativa'
   }
 
   save() {

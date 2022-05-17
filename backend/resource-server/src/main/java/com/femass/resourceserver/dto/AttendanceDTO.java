@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import com.femass.resourceserver.domain.Attendance;
+import com.femass.resourceserver.domain.AttendanceRating;
 import com.femass.resourceserver.domain.AttendanceType;
 import com.femass.resourceserver.services.ServiceModule;
 
@@ -40,6 +41,8 @@ public class AttendanceDTO implements Serializable {
     private String feedback;
     private AttendanceType type;
 
+    private AttendanceRating rating;
+
     @JsonProperty( "department" )
     private DepartmentDTO dept;
 
@@ -58,6 +61,7 @@ public class AttendanceDTO implements Serializable {
         attendanceDto.setFeedback( attendance.getFeedback() );
         attendanceDto.setType( attendance.getType() );
         attendanceDto.setDept( DepartmentDTO.serialize( attendance.getDepartment() ) );
+        attendanceDto.setRating( attendance.getRating() );
 
         return attendanceDto;
     }
@@ -79,12 +83,17 @@ public class AttendanceDTO implements Serializable {
             attendance.setResponsible( agentService.findByUsername( attendanceDto.responsible.getUsername() ) );
             attendance.setType( attendanceDto.type );
             attendance.setDepartment( attendance.getUserCall().getDestination() );
+            attendance.setRating( AttendanceRating.NOT_RATED );
         }
 
         if( attendanceDto.feedback != null )
             attendance.setFeedback( attendanceDto.feedback );
 
-        attendance.setDescription( attendanceDto.description );
+        if( attendanceDto.description != null )
+            attendance.setDescription( attendanceDto.description );
+
+        if( attendanceDto.rating != null )
+            attendance.setRating( attendanceDto.rating );
 
         return attendance;
     }

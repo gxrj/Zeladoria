@@ -39,13 +39,8 @@ public class AttendanceController {
         return ResponseEntity.ok( json );
     }
 
-    @PostMapping( path = "/authenticated/attendance/edition" )
-    public ResponseEntity<JSONObject> attendanceUpdate( @RequestBody AttendanceDTO attendance ) {
-        return this.createAttendance( attendance );
-    }
-
-    @PostMapping( path = "/agent/attendance/new" )
-    public ResponseEntity<JSONObject> createAttendance( @RequestBody AttendanceDTO dto ) {
+    @PostMapping( path = { "/agent/attendance/new", "/authenticated/attendance/edition" } )
+    public ResponseEntity<JSONObject> createOrUpdateAttendance( @RequestBody AttendanceDTO dto ) {
 
         var attendance = AttendanceDTO.deserialize( dto, module );
         var json = new JSONObject();

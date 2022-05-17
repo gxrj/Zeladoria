@@ -54,7 +54,7 @@
           <option *ngFor="let option of options"
                   [ngValue]="option"
                   [disabled]="!option.value"
-                  [hidden]="hide( option.secure )">{{ option.label }}</option>
+                  [hidden]="hide( option.display )">{{ option.label }}</option>
         </select>
       </ion-col>
     </ion-row>

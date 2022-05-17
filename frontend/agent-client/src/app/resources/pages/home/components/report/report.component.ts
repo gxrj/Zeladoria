@@ -38,10 +38,10 @@ export class ReportComponent implements OnInit {
   selectedItem: any
 
   options = [
-    { label: 'Selecione o tipo de relatório', secure: false, value: null },
+    { label: 'Selecione o tipo de relatório', display: 'all', value: null },
     { 
       label: 'Total de corrências por classe de usuário', 
-      secure: false, 
+      display: 'special', 
       value: { 
         type: 'pie', 
         condition: () => this.calls != null,
@@ -55,7 +55,7 @@ export class ReportComponent implements OnInit {
     },
     { 
       label: 'Total de ocorrências por serviço', 
-      secure: false,
+      display: 'specific',
       value: {
         type: 'bar', 
         condition: () => this.calls != null,
@@ -65,16 +65,17 @@ export class ReportComponent implements OnInit {
       }
     },
     { 
-      label: 'Relação de atendimentos avaliados', 
-      secure: false,
+      label: 'Total de ocorrências por categoria', 
+      display: 'special',
       value: {
         type: 'bar', 
-        condition: () => this.attendances != null
+        condition: () => this.calls != null,
+        getTotal: () => this.calls.length
       }
     },
     { 
       label: 'Relação de atendimentos avaliados por setor', 
-      secure: true,
+      display: 'special',
       value: {
         type: 'bar', 
         condition: () => this.attendances != null
@@ -111,10 +112,13 @@ export class ReportComponent implements OnInit {
     return '2020-05-01'
   }
 
-  hide( secure: boolean = false  ) {
-    if( !secure ) return false
+  hide( display: 'all' | 'special' | 'specific' ) {
+    if( display === 'all' ) return true
     const dept = JSON.parse( sessionStorage.getItem( 'user' ) ).department
-    return dept !== 'Inova Macae'
+    if( display === 'specific' && dept === 'Inova Macae' ) return false
+    if( display === 'special' && dept !== 'Inova Macae' ) return false
+
+    return true
   }
 
   getValues() {
