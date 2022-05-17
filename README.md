@@ -37,8 +37,8 @@ environmental assistance, etc.
 - The backend project is set to develoment environment, so h2 database is set to mixed mode
   which means its hosted at resorce server hence it has to run before authorization server application
  
--  Authorization server makes use of new springs security's authorization-server project in version 0.2.2
-  Resorce server makes use of spring-boot-starter-oauth2-resource-server's library in version 2.6.4
+-  Authorization server makes use of new springs security's authorization-server project in version 0.2.3
+  Resorce server makes use of spring-boot-starter-oauth2-resource-server's library in version 2.6.6
   
 -  Both applications runs on to of Spring boot verion 2.6.4
 </span>
@@ -46,7 +46,7 @@ environmental assistance, etc.
 ### Frontend structure
 <span>
   
--  The system will be use for two different types o user, with totally diferent flows os service, so its split
+-  The system will be used for two different types of user, with totally diferent flows of service, so its split in
   one frontend application for citizens 'citizen-client' and other frontend application for public agent 'agent-client'
   
 - Frontend for citizens will be run in desktop as well as mobile plataforms, currently using angular+ionic, at port 8100 

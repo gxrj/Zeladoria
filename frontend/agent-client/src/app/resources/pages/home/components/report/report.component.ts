@@ -11,6 +11,7 @@ import { Attendance } from '@core/interfaces/attendance';
 
 import Call from '@core/interfaces/call';
 import User from '@core/interfaces/user';
+import Duty from '@core/interfaces/duty';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class ReportComponent implements OnInit {
       value: { 
         type: 'pie', 
         condition: () => this.calls != null,
-        getLabels: () => [ [ 'Anônimo' ], [ 'Autenticado' ] ],
+        getLabels: () => [ 'Anônimo', 'Autenticado' ],
         getData: () => [
           this.calls.filter( el => el.author.name === 'anonimo' ).length,
           this.calls.filter( el => el.author.name !== 'anonimo' ).length
@@ -53,11 +54,13 @@ export class ReportComponent implements OnInit {
       } 
     },
     { 
-      label: 'Total de ocorrências por setor', 
-      secure: true,
+      label: 'Total de ocorrências por serviço', 
+      secure: false,
       value: {
         type: 'pie', 
         condition: () => this.calls != null,
+        getLabels: () => this.getDuties(),
+        getData: () => this.countCallsPerDuty(),
         getTotal: () => this.calls.length
       }
     },
@@ -148,8 +151,6 @@ export class ReportComponent implements OnInit {
       res => {
         this.calls = res.calls.result
         this.attendances = res.attendances.result
-        console.log(this.calls);
-        
       }
     )
   }
@@ -174,5 +175,23 @@ export class ReportComponent implements OnInit {
     const startDate = new Date( this.start ).toLocaleDateString('pt-Br')
     const endDate = new Date( this.end ).toLocaleDateString('pt-Br')
     return `${ this.selectedItem.label } entre ${ startDate } e ${ endDate }`
+  }
+
+  getDuties(): string[] {
+    let dept = JSON.parse( sessionStorage.getItem( 'user' ) ).department
+    let dutyList: any[] = JSON.parse( sessionStorage.getItem( 'duties' ) )
+    return dept ? dutyList
+                    .filter( el => el.department.name === dept )
+                      .map( el => el.description ) : []
+  }
+
+  countCallsPerDuty(): number[] {
+    let result: Array<number> = []
+
+    for( let duty of this.getDuties() ) {
+      const x = this.calls.filter( el => el.duty.description === duty ).length
+      result.push( x )
+    }
+    return result
   }
 }
