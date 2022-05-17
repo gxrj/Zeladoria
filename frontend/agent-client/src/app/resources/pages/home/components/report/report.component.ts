@@ -198,6 +198,14 @@ export class ReportComponent implements OnInit {
     return result
   }
 
+  getCategories(): string[] {
+    let result: string[] = []
+    this.calls.filter( el => el.duty.category.name )
+                .map( el => el.duty.category.name )
+                  .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+    return result
+  }
+
   countCallsPerDuty(): number[] {
     let result: Array<number> = []
 
