@@ -12,6 +12,7 @@ import { Attendance } from '@core/interfaces/attendance';
 import Call from '@core/interfaces/call';
 import User from '@core/interfaces/user';
 import Duty from '@core/interfaces/duty';
+import { ChartComponent } from '../chart/chart.component';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class ReportComponent implements OnInit {
   }
 
   selectedItem: any
-
+  render: boolean = true
   departmentName: string
 
   options = [
@@ -162,11 +163,13 @@ export class ReportComponent implements OnInit {
   }
 
   select( item: any ) {
+    this.render = false
     if( item.value.condition() ) {
       this.selectedItem = item
       this.chartData.labels = item.value.getLabels()
       this.chartData.datasets[0].data = item.value.getData()
     }
+    setTimeout( () => this.render = true, 150 )
   }
 
   isIntervalEmpty(): boolean {

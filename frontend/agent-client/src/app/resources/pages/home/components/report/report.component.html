@@ -60,7 +60,7 @@
     </ion-row>
   </form>
 
-  <chart *ngIf="selectedItem.value?.condition()"
+  <chart *ngIf="render && selectedItem.value?.condition()"
         [title]="getTitle()"
         [chartData]="chartData"
         [total]="selectedItem.value?.getTotal()"
