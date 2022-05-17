@@ -1,5 +1,6 @@
 package com.femass.resourceserver.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,6 +15,8 @@ public interface AgentRepository extends JpaRepository<Agent, UUID> {
 
     Optional<Agent> findByAccount_Username( String username );
     Optional<Agent> findByAccount_Credentials_Cpf( String cpfCredential );
+
+    List<Agent> findByDepartment_Name( String deptName );
 
     boolean existsByAccount_Username( String username );
 }

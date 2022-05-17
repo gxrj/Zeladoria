@@ -1,32 +1,21 @@
 package com.femass.resourceserver.controllers;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.femass.resourceserver.domain.account.AgentAccount;
-import com.femass.resourceserver.domain.account.AgentCredentials;
-import com.femass.resourceserver.domain.Agent;
 import com.femass.resourceserver.dto.AgentDTO;
 import com.femass.resourceserver.dto.DepartmentDTO;
-import com.femass.resourceserver.handlers.RequestHandler;
-import com.femass.resourceserver.services.AgentService;
-
 import com.femass.resourceserver.services.ServiceModule;
+
 import com.nimbusds.jose.shaded.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping(
@@ -46,53 +35,53 @@ public class AgentController {
 
         var subject = extractLoginFromJwt();
 
-        if( subject == null ) {
-            return new ResponseEntity<>(
-                    new JSONObject()
-                            .appendField( "message","no user authentication found" ),
-                    HttpStatus.INTERNAL_SERVER_ERROR );
-        }
+        if( subject == null )
+            return retrieveMessage( new JSONObject(), "fail", "no user authentication found" );
 
         var agent = module.getAgentService().findByUsername( subject );
-        var json = new JSONObject();
 
-        json.appendField( "result", AgentDTO.serialize( agent ) );
+        return retriveObject( new JSONObject(), "result", AgentDTO.serialize( agent ) );
+    }
 
-        return ResponseEntity.ok( json );
+    @GetMapping( "/manager/agent/list" )
+    public ResponseEntity<JSONObject> listAgents() {
+
+        var login = extractLoginFromJwt();
+
+        if( login == null )
+            return retrieveMessage( new JSONObject(), "fail", "Nao autenticado" );
+
+        var agentService = module.getAgentService();
+        var deptName = agentService.findByUsername( login ).getDepartment().getName();
+        var result = agentService.listAgents( deptName )
+                                                    .parallelStream().map( AgentDTO::serialize )
+                                                        .toList();
+
+        return retriveObject( new JSONObject(), "result", result );
     }
 
     @PostMapping( "/manager/new-agent" )
     public ResponseEntity<JSONObject> registerAgent( @RequestBody AgentDTO entity ) {
 
-        var jsonBody = new JSONObject();
         var login = extractLoginFromJwt();
 
-        if( login == null ) {
-            jsonBody.appendField( "message", "Nao autenticado" );
-            return ResponseEntity
-                    .status( HttpStatus.INTERNAL_SERVER_ERROR )
-                    .body( jsonBody );
-        }
+        if( login == null )
+            return retrieveMessage( new JSONObject(), "fail", "Nao autenticado" );
 
         var adminDeptName = "Inova Macae";
         var agentService = module.getAgentService();
-        var agent = agentService.findByUsername( login );
-        var agentDeptName = agent.getDepartment().getName();
+        var agentDeptName =  agentService.findByUsername( login ).
+                                                    getDepartment().getName();
 
         if( !agentDeptName.equalsIgnoreCase( adminDeptName ) )
             entity.setDepartment( new DepartmentDTO( agentDeptName ) );
 
-        var created = agentService.createOrUpdate( AgentDTO.deserialize( entity, module) );
+        var created = agentService.createOrUpdate( AgentDTO.deserialize( entity, module ) );
 
-        if( created ){
-            jsonBody.appendField( "message", "Colaborador criado com sucesso!" );
-            return ResponseEntity.ok( jsonBody );
-        }
+        if( !created )
+            return retrieveMessage( new JSONObject(), "fail", "Falha no cadastramento!" );
 
-        jsonBody.appendField( "message", "Falha no cadastramento!" );
-        return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR )
-                                .body( jsonBody );
-
+        return retrieveMessage( new JSONObject(), "success", "Colaborador criado com sucesso!" );
     }
 
     /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
@@ -105,5 +94,21 @@ public class AgentController {
 
         var jwt =  ( Jwt ) authToken.getPrincipal();
         return jwt.getClaim( "sub" );
+    }
+
+    private ResponseEntity<JSONObject> retrieveMessage(
+                                        JSONObject jsonBody, String messageType, String message ) {
+        jsonBody.appendField( "message", message );
+        return messageType
+                    .equalsIgnoreCase( "success" ) ?
+                        ResponseEntity.ok( jsonBody )
+                        : ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR )
+                                            .body( jsonBody );
+    }
+
+    private ResponseEntity<JSONObject> retriveObject(
+                                        JSONObject jsonBody, String objectName, Object entity ) {
+        jsonBody.appendField( objectName, entity );
+        return ResponseEntity.ok( jsonBody );
     }
 }

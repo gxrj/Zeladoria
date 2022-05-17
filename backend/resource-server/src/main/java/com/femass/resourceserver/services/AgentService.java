@@ -69,6 +69,14 @@ public class AgentService {
         return agent.isEmpty() ? null : agent.get();
     }
 
+    public List<Agent> listAgents( String departmentName ) {
+
+        var specificDepartment = !departmentName.equalsIgnoreCase( "Inova Macae" );
+
+        return specificDepartment ? agentRepository.findByDepartment_Name( departmentName )
+                : agentRepository.findAll();
+    }
+
     public boolean existsAgentByUsername( String username ) {
         return agentRepository.existsByAccount_Username( username );
     }
