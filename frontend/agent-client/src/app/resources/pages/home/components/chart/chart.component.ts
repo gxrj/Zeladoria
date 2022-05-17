@@ -15,7 +15,7 @@ export class ChartComponent implements OnInit {
   @Input() title: string = ''
   @Input() chartData: ChartData
   @Input() type: 'pie' | 'bar' = 'pie'
-  @Input() legendPosition: 'bottom' | 'left' | 'top' | 'right' | 'center' = 'bottom'
+  @Input() legendPosition: 'bottom' | 'left' | 'top' | 'right' | 'center' = 'top'
   @Input() total: number = 1
 
   chartType: ChartType
@@ -32,8 +32,7 @@ export class ChartComponent implements OnInit {
       datalabels: {
         formatter: ( val, ctx ) => {
           if( ctx.chart.data.labels ) {
-            return ctx.chart.data.labels[ctx.dataIndex] 
-            +`${ this.type === 'pie' ? ':' + (val*100/this.total).toFixed(2) + '%' : '' } `
+            return (val*100/this.total).toFixed(2) + '%'
           }
         }
       }
@@ -44,6 +43,17 @@ export class ChartComponent implements OnInit {
 
   ngOnInit() {
     this.chartType = this.type
+    this.setBarCharConfig()
   }
 
+  setLabelPosition() {
+    this.chartOptions.plugins.datalabels['anchor'] = 'end'
+  }
+
+  setBarCharConfig(){
+    if( this.type === 'bar' ) {
+      this.chartOptions['scales'] = { x: { }, y: { max: this.total } }
+      this.chartOptions.plugins.legend.display = false
+    }
+  }
 }

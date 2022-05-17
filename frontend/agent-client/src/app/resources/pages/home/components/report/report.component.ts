@@ -57,9 +57,9 @@ export class ReportComponent implements OnInit {
       label: 'Total de ocorrências por serviço', 
       secure: false,
       value: {
-        type: 'pie', 
+        type: 'bar', 
         condition: () => this.calls != null,
-        getLabels: () => this.getDuties(),
+        getLabels: () => this.getDuties().map( el => el.split( ' ' ) ),
         getData: () => this.countCallsPerDuty(),
         getTotal: () => this.calls.length
       }
@@ -157,9 +157,9 @@ export class ReportComponent implements OnInit {
 
   select( item: any ) {
     if( item.value.condition() ) {
+      this.selectedItem = item
       this.chartData.labels = item.value.getLabels()
       this.chartData.datasets[0].data = item.value.getData()
-      this.selectedItem = item
     }
   }
 
@@ -188,10 +188,9 @@ export class ReportComponent implements OnInit {
   countCallsPerDuty(): number[] {
     let result: Array<number> = []
 
-    for( let duty of this.getDuties() ) {
-      const x = this.calls.filter( el => el.duty.description === duty ).length
-      result.push( x )
-    }
+    for( let duty of this.getDuties() )
+      result.push( this.calls.filter( el => el.duty.description === duty ).length )
+
     return result
   }
 }
