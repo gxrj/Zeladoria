@@ -45,3 +45,17 @@ ion-icon {
 .active-item:hover {
     color: white;
 }
+
+ion-popover {
+    --offset-y: 18px;
+    --offset-x: 10px;
+}
+
+#avatar-icon, .account-menu > * {
+    cursor: pointer;
+}
+
+.account-menu > *:hover {
+    color: white;
+    --background: #454545;
+}

@@ -1,4 +1,3 @@
-
 <ion-header id="main-content">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -6,7 +5,7 @@
     </ion-buttons>
     <ion-title class="ion-text-center">Macaé Fiscaliza</ion-title>
     <ion-avatar slot="end">
-      <ion-icon name="person-circle-outline"></ion-icon>
+      <ion-icon id="avatar-icon" name="person-circle-outline"></ion-icon>
     </ion-avatar>
   </ion-toolbar>
 </ion-header>
@@ -32,3 +31,14 @@
     </ion-accordion-group>
   </ion-content>
 </side-menu>
+
+<ion-popover trigger="avatar-icon" side="bottom">
+  <ng-template>
+    <ion-content>
+      <ion-list class="account-menu">
+        <ion-item (click)="jumpToUserForm()">Configurações</ion-item>
+        <ion-item (click)="logout()">Sair</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>

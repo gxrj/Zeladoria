@@ -22,6 +22,11 @@ import {
 } from './components/forms/attendance-creation-modal/attendance-creation-modal.component';
 import { ReportComponent } from './components/report/report.component';
 import { ChartComponent } from './components/chart/chart.component';
+import { DepartmentComponent } from './components/department/department.component';
+import { DutyComponent } from './components/duty/duty.component';
+import { CategoryComponent } from './components/category/category.component';
+import { UserFormComponent } from './components/forms/user-form/user-form.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 @NgModule({
   imports: [
@@ -33,14 +38,19 @@ import { ChartComponent } from './components/chart/chart.component';
   ],
   declarations: [ 
     HomePage,
+    DutyComponent,
     CallComponent,
     ChartComponent,
-    ReportComponent, 
+    ReportComponent,
+    UserListComponent, 
+    UserFormComponent,
     CallFormComponent,
+    CategoryComponent,
+    DepartmentComponent,  
     AttendanceComponent,
     AttendanceFormComponent,
     AttendanceViewModalComponent,
-    AttendanceCreationModalComponent  
+    AttendanceCreationModalComponent
   ]
 })
 export class HomePageModule {}

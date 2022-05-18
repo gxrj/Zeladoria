@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import User from '@core/interfaces/user';
-import { MenuController } from '@ionic/angular';
+import { MenuController, PopoverController } from '@ionic/angular';
 import { AttendanceService } from '@services/attendance/attendance.service';
 import { CallService } from '@services/call/call.service';
 
@@ -35,7 +36,10 @@ export class NavbarComponent implements OnInit {
     {
       title: 'Administração',
       paths:[
-        { label: 'Cadastrar Colaborador', url: '/home/agent-creation-form' }
+        { label: 'Gerenciar Colaboradores', url: '/home/user-list' },
+        { label: 'Gerenciar Categorias', url: '/home/categories' },
+        { label: 'Gerenciar Secretarias', url: '/home/departments' },
+        { label: 'Gerenciar Serviços', url: '/home/duties' },
       ],
       visibility: this.getVisibility()
     },
@@ -49,8 +53,10 @@ export class NavbarComponent implements OnInit {
   ]
 
   constructor( 
+    private _router: Router,
     private _menuCtrl: MenuController,
     private _callService: CallService,
+    private _popoverCtrl: PopoverController,
     private _attendanceService: AttendanceService ) { }
 
   ngOnInit() {}
@@ -83,7 +89,7 @@ export class NavbarComponent implements OnInit {
     this.closeMenu()
   }
 
-  closeMenu(){
+  closeMenu() {
     this._menuCtrl.close()
   }
 
@@ -93,9 +99,18 @@ export class NavbarComponent implements OnInit {
     return JSON.parse( user.is_admin )
   }
 
-  checkDepartment() : boolean {
+  checkDepartment(): boolean {
     const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
     if( !user ) return false
     return user.department !== 'Inova Macae'
+  }
+
+  jumpToUserForm(){
+    this._router.navigateByUrl( '/home/user-form' )
+    this._popoverCtrl.dismiss()
+  }
+
+  logout() {
+    this._popoverCtrl.dismiss()
   }
 }
