@@ -11,9 +11,10 @@ import { catchError } from 'rxjs/operators';
 })
 export class DistrictResolver implements Resolve<any>{
 
-  constructor( private _router: Router,
-              private _toast: ToastService,
-              private _districtService: DistrictService ) { }
+  constructor( 
+    private _router: Router,
+    private _toast: ToastService,
+    private _districtService: DistrictService ) { }
 
     resolve(): Observable<any> {
 

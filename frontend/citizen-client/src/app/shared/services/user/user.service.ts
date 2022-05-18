@@ -17,9 +17,7 @@ export class UserService {
     private _tokenStore: TokenStorageService ) { }
 
   create( user: User ): Observable<any> {
-
     const request = this._authService.prepareRequest( '/registration-user', 'json', false )
-    
     return this._http.post( request.url, user, request.config )
   }
 
@@ -44,17 +42,8 @@ export class UserService {
     return JSON.parse( jsonPayload )!.sub
   }
 
-  getUserInfo() {
+  getUserInfo(): Observable<any> {
     const request = this._authService.prepareRequest( '/user/info' )
-
-    let result = null
-
-    this._http.get( request.url, request.config )
-              .subscribe( {
-                next: response => result = response,
-                error: error => result = error 
-              } )
-
-    console.log( 'result: ' + result )
+    return this._http.get( request.url, request.config )
   }
 }

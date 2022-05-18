@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import User from '@app/core/interfaces/user';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'user-form',
@@ -7,8 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserFormPage implements OnInit {
 
-  constructor() { }
+  account: User
+
+  constructor(
+    private _route: ActivatedRoute,
+    private _modalCtrl: ModalController ) { }
 
   ngOnInit() {
+    this.account = this._route.snapshot.data.account
+  }
+
+  changePassword() {
+
+  }
+
+  closeModal() {
+    this._modalCtrl.dismiss()
   }
 }

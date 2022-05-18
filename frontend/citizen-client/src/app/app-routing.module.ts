@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CategoryResolver } from '@resolvers/category/category.resolver';
 import { CallHistoryResolver } from './shared/resolvers/call-history/call-history.resolver';
 import { DistrictResolver } from './shared/resolvers/district/district.resolver';
+import { UserResolver } from './shared/resolvers/user/user.resolver';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
   },
   {
     path: 'user-form',
-    loadChildren: () => import( '@pages/user-form/user-form.module' ).then( m => m.UserFormPageModule )
+    loadChildren: () => import( '@pages/user-form/user-form.module' ).then( m => m.UserFormPageModule ),
+    resolve: { account: UserResolver }
   }
 ];
 
