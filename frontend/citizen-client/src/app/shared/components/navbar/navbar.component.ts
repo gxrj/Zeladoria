@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { MenuController, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'navbar',
@@ -14,7 +15,10 @@ export class NavbarComponent implements OnInit {
     { url: '/history', label: 'Minhas ocorrências' },
   ]
 
-  constructor( private _menuCtrl: MenuController ) { }
+  constructor( 
+    private _router: Router,
+    private _menuCtrl: MenuController,
+    private _popoverCtrl: PopoverController ) { }
 
   ngOnInit() {
     const token = sessionStorage.getItem( 'token' )
@@ -25,4 +29,12 @@ export class NavbarComponent implements OnInit {
     this._menuCtrl.close()
   }
 
+  jumpToUserForm(){
+    //this._router.navigateByUrl( '/home/user-form' )
+    this._popoverCtrl.dismiss()
+  }
+
+  logout() {
+    this._popoverCtrl.dismiss()
+  }
 }

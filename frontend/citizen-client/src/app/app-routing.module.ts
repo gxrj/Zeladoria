@@ -32,8 +32,12 @@ const routes: Routes = [
   {
     path: 'history',
     loadChildren: () => import( '@pages/call-history/call-history.module' )
-                              .then( m => m.CallHistoryPageModule ),
+                                            .then( m => m.CallHistoryPageModule ),
     resolve: { history: CallHistoryResolver }
+  },
+  {
+    path: 'user-form',
+    loadChildren: () => import( '@pages/user-form/user-form.module' ).then( m => m.UserFormPageModule )
   }
 ];
 

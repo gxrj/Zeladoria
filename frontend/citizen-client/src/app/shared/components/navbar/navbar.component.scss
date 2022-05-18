@@ -33,3 +33,16 @@ ion-icon {
     padding: 0;
     margin: 0;
 }
+
+ion-popover {
+    --offset-x: 10px;
+}
+
+#avatar-icon, .account-menu > * {
+    cursor: pointer;
+}
+
+.account-menu > *:hover {
+    color: white;
+    --background: #454545;
+}

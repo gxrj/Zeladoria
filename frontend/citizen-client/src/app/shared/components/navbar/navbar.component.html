@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title class="ion-text-center">Macaé Fiscaliza</ion-title>
-    <ion-avatar *ngIf="isAuthenticated" slot="end">
+    <ion-avatar *ngIf="isAuthenticated" id="avatar-icon" slot="end">
       <ion-icon name="person-circle-outline"></ion-icon>
     </ion-avatar>
   </ion-toolbar>
@@ -23,3 +23,14 @@
     </ion-list>
   </ion-content>
 </side-menu>
+
+<ion-popover trigger="avatar-icon" side="bottom">
+  <ng-template>
+    <ion-content>
+      <ion-list class="account-menu">
+        <ion-item (click)="jumpToUserForm()">Configurações</ion-item>
+        <ion-item (click)="logout()">Sair</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
