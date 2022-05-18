@@ -1,5 +1,7 @@
 {
   "name": "citizen-client",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.fiscaliza",
+	"appName": "fiscaliza",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
