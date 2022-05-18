@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
   }
 
   jumpToUserForm(){
-    //this._router.navigateByUrl( '/home/user-form' )
+    this._router.navigateByUrl( '/user-form' )
     this._popoverCtrl.dismiss()
   }
 
