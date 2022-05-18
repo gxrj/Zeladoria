@@ -5,6 +5,7 @@ import { TokenStorageService } from '../token-storage/token-storage.service'
 import OAUTH_CLIENT_CONFIG from '@app/oauth-client.config'
 import OAUTH_REQUEST from '@app/oauth-request.config';
 import Token from '@app/core/interfaces/token'
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -41,7 +42,7 @@ export class AuthService {
     return urlEndpointParams
   }
 
-  getToken( code: string ) {
+  getToken( code: string ): Observable<any> {
 
     const tokenEndpointUrl = this.authzServer.baseUrl + this.authzServer.tokenEnpoint
     
@@ -122,5 +123,23 @@ export class AuthService {
     return {
       'content-type': content
     }
+  }
+
+  revokeToken(): Observable<any> {
+    const revokeEndpoint = this.authzServer.baseUrl + this.authzServer.revokeEndpoint
+    const params = {
+      ...OAUTH_CLIENT_CONFIG.REVOKE_ENDPOINT_PARAMS,
+      token: JSON.parse( sessionStorage.getItem( 'token' ) ).access_token
+    }
+
+    const body = this.getUrlEndpointParams( params ).toString()
+    
+    const contentType = OAUTH_REQUEST.HEADER.FORM_CONTENT_TYPE
+
+    return this._http
+                  .post( revokeEndpoint, body, { 
+                                                    headers: contentType, 
+                                                    observe: 'response', 
+                                                    responseType: 'json' }  )
   }
 }

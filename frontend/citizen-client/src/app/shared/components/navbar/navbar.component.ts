@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@app/shared/services/auth/auth.service';
 import { MenuController, PopoverController } from '@ionic/angular';
 
 @Component({
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   constructor( 
     private _router: Router,
     private _menuCtrl: MenuController,
+    private _authService: AuthService,
     private _popoverCtrl: PopoverController ) { }
 
   ngOnInit() {
@@ -36,5 +38,8 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this._popoverCtrl.dismiss()
+    this._authService.revokeToken().subscribe( res => console.log( res ) )
+    sessionStorage.clear()
+    this._router.navigateByUrl( '/' )
   }
 }

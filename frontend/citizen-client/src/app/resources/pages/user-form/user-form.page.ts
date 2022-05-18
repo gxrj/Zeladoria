@@ -21,7 +21,7 @@ export class UserFormPage implements OnInit {
   }
 
   changePassword() {
-
+    console.log( 'Password change TO-DO' )
   }
 
   closeModal() {
