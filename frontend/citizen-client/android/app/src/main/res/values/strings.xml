@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">fiscaliza</string>
     <string name="title_activity_main">fiscaliza</string>
-    <string name="package_name">io.ionic.fiscaliza</string>
-    <string name="custom_url_scheme">io.ionic.fiscaliza</string>
+    <string name="package_name">com.macae.fiscaliza</string>
+    <string name="custom_url_scheme">com.macae.fiscaliza</string>
 </resources>

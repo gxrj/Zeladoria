@@ -1,4 +1,4 @@
-package io.ionic.fiscaliza;
+package com.macae.fiscaliza;
 
 import com.getcapacitor.BridgeActivity;
 
