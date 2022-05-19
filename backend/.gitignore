@@ -1,5 +1,6 @@
 .idea
 .vscode
+.run
 test_db/
 bin/
 images/

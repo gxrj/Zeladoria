@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ResourceServerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="com.femass.resourceserver.ResourceServerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="17" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.femass.resourceserver.ResourceServerApplication" />
     <module name="resource-server.main" />
     <extension name="coverage">
