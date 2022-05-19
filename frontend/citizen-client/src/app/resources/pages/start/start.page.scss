@@ -56,8 +56,16 @@ ion-content {
         --main-card-height: 80vh;
     }
 
+    .start-page-card {
+        height: 180vh;
+    }
+
     .main-content {
         display: grid;
-        height: 100%;
     }
+
+    .main-content > * { 
+        margin-top: 10px;
+        margin-bottom: 10px;
+     }
 }

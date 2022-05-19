@@ -1,20 +1,6 @@
 <navbar></navbar>
 
 <ion-content>
-    <!--div *ngIf="token" id="box">
-        <ion-row>
-            <ion-col>access token:</ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col><div class="token-body"> {{ token?.accessToken }} </div></ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>refresh token:</ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col><div class="token-body"> {{ token?.refreshToken }} </div></ion-col>
-        </ion-row>  
-    </div-->
     <ng-container *ngIf="categories == null">
         <spinner>
             <h2 message>Carregando...</h2>
