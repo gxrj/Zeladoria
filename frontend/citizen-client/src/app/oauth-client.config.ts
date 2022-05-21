@@ -1,8 +1,8 @@
 const scope = 'citizen'
 const clientId = 'citizen-client'
 const clientSecret = 123
-const clientBaseUrl = 'http://127.0.0.1:8100'
-const redirectUri = clientBaseUrl + '/redirection'
+const clientBaseUrl = '192.168.1.8' // '127.0.0.1:8100'
+const redirectUri =  'http://'+ clientBaseUrl + '/redirection'
 
 const OAUTH_CLIENT_CONFIG = {
 

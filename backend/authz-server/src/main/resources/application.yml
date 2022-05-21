@@ -24,12 +24,12 @@ oauth2:
         client-id: agent-client
         client-secret: '123'
         redirect-uri: http://127.0.0.1:8100/redirection # Agent client home page
-        cors-allowed-origin: '*'
+        cors-allowed-origin: http://127.0.0.1:8100
     client2:
         client-id: citizen-client 
         client-secret: '123'
         redirect-uri: http://127.0.0.1:8100/redirection # Citizen client redirection page
-        cors-allowed-origin: http://127.0.0.1:8100
+        cors-allowed-origin: '*'
     resource:
         client-id: resource-client
         client-secret: '123'

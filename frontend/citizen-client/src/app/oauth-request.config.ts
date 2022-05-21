@@ -1,13 +1,16 @@
+const authServerName =  '192.168.1.9' // 'auth-server'
+const resourceServerName = authServerName // 'localhost'
+
 const OAUTH_REQUEST = {
 
     authzServer: {
-        baseUrl: 'http://auth-server:8090/',
+        baseUrl: `http://${authServerName}:8090/`,
         authorizeEndpont: 'oauth2/authorize',
         tokenEnpoint: 'oauth2/token',
         revokeEndpoint: 'oauth2/revoke'
     },
     resourceServer: { 
-        baseUrl: 'http://localhost:8080' 
+        baseUrl: `http://${resourceServerName}:8080` 
     },
 
     HEADER: {
