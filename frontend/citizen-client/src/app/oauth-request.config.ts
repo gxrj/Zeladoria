@@ -1,5 +1,5 @@
-const authServerName =  '192.168.1.9' // 'auth-server'
-const resourceServerName = authServerName // 'localhost'
+const authServerName = 'auth-server'
+const resourceServerName = 'localhost'
 
 const OAUTH_REQUEST = {
 
