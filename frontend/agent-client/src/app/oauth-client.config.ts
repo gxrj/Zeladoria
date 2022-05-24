@@ -23,6 +23,11 @@ const OAUTH_CLIENT_CONFIG = {
         redirect_uri: redirectUri,
     },
 
+    REVOKE_ENDPOINT_PARAMS: {
+        client_id: clientId,
+        client_secret: clientSecret
+    },
+
     CLIENT_BASE_URL: clientBaseUrl
 }
 
