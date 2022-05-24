@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import Token from '@app/core/interfaces/token';
 import OAUTH_CLIENT_CONFIG from '@app/oauth-client.config';
 import OAUTH_REQUEST from '@app/oauth-requests.config';
+import { Observable } from 'rxjs';
+import { URLSearchParams } from 'url';
 import { TokenStorageService } from '../token-storage/token-storage.service';
 
 @Injectable({
@@ -28,7 +30,7 @@ export class AuthService {
     window.location.href = authzEndpoint
   }
 
-  private convertToUrlEndpointParams( endpointParameters: Object ) {
+  private convertToUrlEndpointParams( endpointParameters: Object ): URLSearchParams {
     
     const urlEndpointParams = new URLSearchParams()
     
@@ -138,5 +140,24 @@ export class AuthService {
    
     return content === 'multipart' ? 
       { Authorization: bearer } : { Authorization: bearer, 'content-type': content  }
+  }
+
+  revokeToken(): Observable<any> {
+    const revokeEndpoint = this.authzServer.baseUrl + this.authzServer.revokeEndpoint
+    const params = {
+      ...OAUTH_CLIENT_CONFIG.REVOKE_ENDPOINT_PARAMS,
+      token: JSON.parse( sessionStorage.getItem( 'token' ) ).access_token,
+      token_type_hint: 'refresh_token'
+    }
+
+    const body = this.convertToUrlEndpointParams( params ).toString()
+    
+    const contentType = OAUTH_REQUEST.HEADER.FORM_CONTENT_TYPE
+
+    return this._http
+                  .post( revokeEndpoint, body, { 
+                                                    headers: contentType, 
+                                                    observe: 'response', 
+                                                    responseType: 'json' }  )
   }
 }
