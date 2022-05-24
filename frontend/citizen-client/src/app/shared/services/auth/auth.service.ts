@@ -129,7 +129,8 @@ export class AuthService {
     const revokeEndpoint = this.authzServer.baseUrl + this.authzServer.revokeEndpoint
     const params = {
       ...OAUTH_CLIENT_CONFIG.REVOKE_ENDPOINT_PARAMS,
-      token: JSON.parse( sessionStorage.getItem( 'token' ) ).access_token
+      token: JSON.parse( sessionStorage.getItem( 'token' ) ).access_token,
+      token_type_hint: 'refresh_token'
     }
 
     const body = this.getUrlEndpointParams( params ).toString()
