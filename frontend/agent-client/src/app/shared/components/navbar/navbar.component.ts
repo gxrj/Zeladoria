@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import User from '@core/interfaces/user';
 import { MenuController, PopoverController } from '@ionic/angular';
 import { AttendanceService } from '@services/attendance/attendance.service';
+import { AuthService } from '@services/auth/auth.service';
 import { CallService } from '@services/call/call.service';
+import { ToastService } from '@services/toast/toast.service';
 
 @Component({
   selector: 'navbar',
@@ -54,7 +56,9 @@ export class NavbarComponent implements OnInit {
 
   constructor( 
     private _router: Router,
+    private _toast: ToastService,
     private _menuCtrl: MenuController,
+    private _authService: AuthService,
     private _callService: CallService,
     private _popoverCtrl: PopoverController,
     private _attendanceService: AttendanceService ) { }
@@ -112,5 +116,11 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this._popoverCtrl.dismiss()
+    this._authService.revokeToken()
+              .subscribe( 
+                () => this._toast.displayMessage( 'Encerrando a sessão' ), 
+                error => this._toast.displayMessage( error ) )
+    sessionStorage.clear()
+    setTimeout( () => this._router.navigateByUrl( '/logout' ), 1000 )
   }
 }

@@ -5,7 +5,6 @@ import Token from '@app/core/interfaces/token';
 import OAUTH_CLIENT_CONFIG from '@app/oauth-client.config';
 import OAUTH_REQUEST from '@app/oauth-requests.config';
 import { Observable } from 'rxjs';
-import { URLSearchParams } from 'url';
 import { TokenStorageService } from '../token-storage/token-storage.service';
 
 @Injectable({
