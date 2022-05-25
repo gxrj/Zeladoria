@@ -13,6 +13,9 @@ import { CategoryComponent } from './components/category/category.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserFormComponent } from './components/forms/user-form/user-form.component';
+import { CategoryResolver } from '@resolvers/category/category.resolver';
+import { DepartmentResolver } from '@resolvers/department/department.resolver';
+import { UserListResolver } from '@resolvers/user-list/user-list.resolver';
 
 const routes: Routes = [
   {
@@ -34,11 +37,13 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoryComponent
+        component: CategoryComponent,
+        resolve: { categories: CategoryResolver }
       },
       {
         path: 'departments',
-        component: DepartmentComponent
+        component: DepartmentComponent,
+        resolve: { departments: DepartmentResolver }
       },
       {
         path: 'duties',
@@ -54,7 +59,8 @@ const routes: Routes = [
       },
       {
         path: 'user-list',
-        component: UserListComponent
+        component: UserListComponent,
+        resolve: { users: UserListResolver }
       }
     ],
     resolve: { duties: DutyListResolver }
