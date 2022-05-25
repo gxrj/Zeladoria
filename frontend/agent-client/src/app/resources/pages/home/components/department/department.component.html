@@ -4,18 +4,18 @@
       <ion-label id="title">Secretarias</ion-label>
     </ion-col>
     <ion-col size="4">
-      <ion-button (click)="reload()" color="tertiary">Recarregar</ion-button>
+      <ion-button (click)="reload()" color="success">Criar</ion-button>
     </ion-col>
   </ion-row>
   <data-table [headerTitles]="titles" [width]="90">
-      <tr *ngFor="let department of departments" (click)="selectDepartment( department )">
+      <tr *ngFor="let department of departments">
         <td>{{ department.name }}</td>
         <td>
-          <ion-badge>Detalhes</ion-badge>
+          <ion-badge (click)="selectDepartment( department )">Detalhes</ion-badge>
         </td>
       </tr>
       <tr *ngIf="!departments || !departments.length">
-        <td colspan="100">Não há secretarias, clique no botão Recarregar para obter atualizações</td>
+        <td colspan="100">Não há secretarias</td>
       </tr>
   </data-table>
 </ion-content>
