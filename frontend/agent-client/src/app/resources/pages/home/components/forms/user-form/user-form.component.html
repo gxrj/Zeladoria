@@ -5,21 +5,21 @@
       <ion-row>
         <ion-col>
           <ion-label>Matrícula:</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input readonly [placeholder]="account.username"></ion-input>
         </ion-col>
         <ion-col>
           <ion-label>Nome:</ion-label>
-          <ion-input></ion-input>
+          <ion-input [value]="account.name"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           <ion-label>Setor:</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-input readonly [placeholder]="account.department"></ion-input>
         </ion-col>
         <ion-col>
-          <ion-label>Papéis:</ion-label>
-          <ion-input readonly></ion-input>
+          <ion-label>Privilégios de administrador:</ion-label>
+          <ion-input readonly placeholder="{{ account.is_admin ? 'Sim' : 'Não' }}"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
