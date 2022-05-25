@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
         { label: 'Ocorrências não Avaliadas', url: '/home/calls', status: 'Respondida' },
         { label: 'Ocorrências Indeferidas', url: '/home/calls', status: 'Indeferida' }
       ],
-      visibility: this.checkDepartment()
+      visibility: this.specificDepartment()
     },
     { 
       title: 'Atendimentos', 
@@ -33,14 +33,12 @@ export class NavbarComponent implements OnInit {
         { label: 'Atendimentos do Setor', url: '/home/attendances', filter: 'department' },
         { label: 'Meus Atendimentos', url: '/home/attendances', filter: 'agent' } 
       ],
-      visibility: this.checkDepartment()
+      visibility: this.specificDepartment()
     },
     {
       title: 'Administração',
       paths:[
         { label: 'Gerenciar Colaboradores', url: '/home/user-list' },
-        { label: 'Gerenciar Categorias', url: '/home/categories' },
-        { label: 'Gerenciar Secretarias', url: '/home/departments' },
         { label: 'Gerenciar Serviços', url: '/home/duties' },
       ],
       visibility: this.getVisibility()
@@ -48,6 +46,8 @@ export class NavbarComponent implements OnInit {
     {
       title: 'Gerência',
       paths:[
+        { label: 'Gerenciar Categorias', url: '/home/categories' },
+        { label: 'Gerenciar Secretarias', url: '/home/departments' },
         { label: 'Relatórios', url: '/home/reports' }
       ],
       visibility: this.getVisibility()
@@ -103,7 +103,7 @@ export class NavbarComponent implements OnInit {
     return JSON.parse( user.is_admin )
   }
 
-  checkDepartment(): boolean {
+  specificDepartment(): boolean {
     const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
     if( !user ) return false
     return user.department !== 'Inova Macae'

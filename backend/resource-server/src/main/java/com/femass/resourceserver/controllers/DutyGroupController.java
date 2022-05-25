@@ -78,14 +78,14 @@ public class DutyGroupController {
         if( subject == null )
             return retrieveMessage( new JSONObject(), "fail", "no user authentication found" );
 
-        var categoryService = module.getDutyGroupService();
-        var entity = DutyGroupDTO.deserialize( categoryDto, module );
         var dept = module.getAgentService().findByUsername( subject ).getDepartment();
         var needsBlocking = !dept.getName().equalsIgnoreCase( "Inova Macae" );
 
         if( needsBlocking )
             return retrieveMessage( new JSONObject(), "fail", "Não autorizado" );
 
+        var categoryService = module.getDutyGroupService();
+        var entity = DutyGroupDTO.deserialize( categoryDto, module );
         var result = categoryService.createOrUpdate( entity );
         var message = result ? "Categoria atualizada com sucesso" : "Categoria não atualizada";
 
