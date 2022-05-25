@@ -1,6 +1,5 @@
 package com.femass.resourceserver.controllers;
 
-import com.femass.resourceserver.domain.Agent;
 import com.femass.resourceserver.dto.AgentDTO;
 import com.femass.resourceserver.dto.DepartmentDTO;
 import com.femass.resourceserver.services.ServiceModule;
@@ -47,10 +46,13 @@ public class AgentController {
     @PostMapping( "/agent/account/edition" )
     public ResponseEntity<JSONObject> update( @RequestBody AgentDTO dto ) {
         var username = extractLoginFromJwt();
-        var agent = AgentDTO.deserialize( dto, module );
+        var encoder = module.getPasswordEncoder();
+        var entity = AgentDTO.deserialize( dto, module );
+        entity.getAccount().getCredentials()
+                    .setPassword( encoder.encode( dto.getPassword() ) );
 
-        if( username != null && agent.getAccount().getUsername().equalsIgnoreCase( username ) ) {
-            var result = module.getAgentService().createOrUpdate( agent );
+        if( username != null && entity.getAccount().getUsername().equalsIgnoreCase( username ) ) {
+            var result = module.getAgentService().createOrUpdate( entity );
             var message = result ? "Conta atualizada com sucesso" : "Falha na atualização de conta";
             return retrieveMessage( new JSONObject(), result ? "success" : "fail", message );
         }
