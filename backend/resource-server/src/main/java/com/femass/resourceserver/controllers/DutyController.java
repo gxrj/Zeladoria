@@ -66,7 +66,6 @@ public class DutyController {
         return retrieveMessage( new JSONObject(), result ? "success" : "fail", message );
     }
 
-
     private String extractLoginFromContext() {
 
         var authToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();

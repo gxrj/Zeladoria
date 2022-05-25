@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import Duty from '@core/interfaces/duty';
 import { AuthService } from '@services/auth/auth.service';
 import { Observable } from 'rxjs';
 
@@ -17,11 +18,8 @@ export class DutyService {
     return this._http.get( request.url, request.config )
   }
 
-  create() {
-
-  }
-
-  update() {
-    
+  createOrEdit( duty: Duty ) {
+    const request = this._authSerivce.prepareRequest( '/manager/duty/edition' )
+    return this._http.post( request.url, duty, request.config )
   }
 }
