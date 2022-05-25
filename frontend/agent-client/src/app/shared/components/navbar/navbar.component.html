@@ -36,7 +36,8 @@
   <ng-template>
     <ion-content>
       <ion-list class="account-menu">
-        <ion-item (click)="jumpToUserForm()">Configurações</ion-item>
+        <ion-list-header>{{ getMyName() }}</ion-list-header>
+        <ion-item (click)="jumpToUserForm()">Conta</ion-item>
         <ion-item (click)="logout()">Sair</ion-item>
       </ion-list>
     </ion-content>

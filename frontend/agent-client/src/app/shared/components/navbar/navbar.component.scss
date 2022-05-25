@@ -1,4 +1,4 @@
-ion-toolbar {
+ion-toolbar, ion-list-header {
     color: white;
     --background: var( --default-main-color );
     height: 100%;
@@ -11,6 +11,12 @@ ion-content{
 ion-list {
     display:grid;
     --background: inherit;
+}
+
+ion-list-header {
+    font-weight: bold;
+    font-size: large;
+    border-radius:  5px 5px 0px 0px;
 }
 
 ion-item {
@@ -55,7 +61,7 @@ ion-popover {
     cursor: pointer;
 }
 
-.account-menu > *:hover {
+.account-menu > ion-item:hover {
     color: white;
     --background: #454545;
 }

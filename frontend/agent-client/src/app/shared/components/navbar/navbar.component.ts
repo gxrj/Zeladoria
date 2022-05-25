@@ -129,4 +129,9 @@ export class NavbarComponent implements OnInit {
     sessionStorage.clear()
     setTimeout( () => this._router.navigateByUrl( '/logout' ), 1000 )
   }
+
+  getMyName(): string {
+    const user: User = JSON.parse( sessionStorage.getItem( 'user' ) )
+    return user.name
+  }
 }
