@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import Category from '@core/interfaces/category';
 
 @Component({
   selector: 'category',
@@ -7,8 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryComponent implements OnInit {
 
-  constructor() { }
+  categories: Category[]
 
-  ngOnInit() {}
+  constructor( private _route: ActivatedRoute ) { }
+
+  ngOnInit() {
+    this.categories = this._route.snapshot.data.categories
+  }
 
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import Department from '@core/interfaces/department';
 
 @Component({
   selector: 'department',
@@ -7,8 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepartmentComponent implements OnInit {
 
-  constructor() { }
+  departments: Department[]
+  constructor( private _route: ActivatedRoute ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.departments = this._route.snapshot.data.departments
+  }
 
 }
