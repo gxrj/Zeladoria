@@ -16,4 +16,12 @@ export class DutyService {
     const request = this._authSerivce.prepareRequest( '/anonymous/duty/all', 'json', false )
     return this._http.get( request.url, request.config )
   }
+
+  create() {
+
+  }
+
+  update() {
+    
+  }
 }

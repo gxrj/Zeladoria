@@ -30,4 +30,8 @@ export class UserService {
 
     return this._http.post( request.url, user, request.config )
   }
+
+  update() {
+    
+  }
 }

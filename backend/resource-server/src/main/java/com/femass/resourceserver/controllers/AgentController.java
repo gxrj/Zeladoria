@@ -40,7 +40,7 @@ public class AgentController {
 
         var agent = module.getAgentService().findByUsername( subject );
 
-        return retriveObject( new JSONObject(), "result", AgentDTO.serialize( agent ) );
+        return retrieveObject( new JSONObject(), "result", AgentDTO.serialize( agent ) );
     }
 
     @GetMapping( "/manager/agent/list" )
@@ -57,7 +57,7 @@ public class AgentController {
                                                     .parallelStream().map( AgentDTO::serialize )
                                                         .toList();
 
-        return retriveObject( new JSONObject(), "result", result );
+        return retrieveObject( new JSONObject(), "result", result );
     }
 
     @PostMapping( "/manager/new-agent" )
@@ -106,7 +106,7 @@ public class AgentController {
                                             .body( jsonBody );
     }
 
-    private ResponseEntity<JSONObject> retriveObject(
+    private ResponseEntity<JSONObject> retrieveObject(
                                         JSONObject jsonBody, String objectName, Object entity ) {
         jsonBody.appendField( objectName, entity );
         return ResponseEntity.ok( jsonBody );

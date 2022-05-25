@@ -265,22 +265,6 @@ public class CallController {
         return jwt.getClaim( "sub" ).toString();
     }
 
-    private ResponseEntity<JSONObject> getInternalErrorMessage() {
-
-        return ResponseEntity
-                .status( HttpStatus.INTERNAL_SERVER_ERROR )
-                .body( new JSONObject()
-                        .appendField( "message","no user authentication found" ) );
-    }
-
-    private ResponseEntity<JSONObject> getSuccessResponse( Object content ) {
-
-        var json = new JSONObject();
-        json.appendField("result", content );
-
-        return new ResponseEntity<>( json, HttpStatus.ACCEPTED );
-    }
-
     private ResponseEntity<JSONObject> prepareResponse(
             Object entity, String entityKey, String successMessage, String failureMessage ) {
 
