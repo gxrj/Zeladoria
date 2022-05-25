@@ -11,6 +11,8 @@ import User from '@core/interfaces/user';
 export class DutyComponent implements OnInit {
 
   duties: Duty[]
+  selectedDuty: Duty
+  titles = [ 'Descrição', 'Secretaria', 'Ações' ]
 
   constructor() { }
 

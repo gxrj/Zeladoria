@@ -11,10 +11,13 @@ import Department from '@core/interfaces/department';
 export class DepartmentComponent implements OnInit {
 
   departments: Department[]
+  selectedDepartment: Department
+  titles = [ 'Nome', 'Ações' ]
+
   constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit() {
-    this.departments = this._route.snapshot.data.departments
+    this.departments = this._route.snapshot.data.departments.result
   }
 
 }

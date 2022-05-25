@@ -11,11 +11,13 @@ import Category from '@core/interfaces/category';
 export class CategoryComponent implements OnInit {
 
   categories: Category[]
+  selectedCategory: Category
+  titles = [ 'Nome', 'Ações' ]
 
   constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit() {
-    this.categories = this._route.snapshot.data.categories
+    this.categories = this._route.snapshot.data.categories.result
   }
 
 }

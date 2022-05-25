@@ -11,10 +11,15 @@ import User from '@core/interfaces/user';
 export class UserListComponent implements OnInit {
 
   users: User[]
+  selectedUser: User
+  titles = [ 'Nome', 'Matrícula', 'Secretaria', 'Ações' ]
+
   constructor( private _route: ActivatedRoute ) { }
 
   ngOnInit() {
-    this.users = this._route.snapshot.data.users
+    const current = JSON.parse( sessionStorage.getItem( 'user' ) )
+    this.users = this._route.snapshot.data.users.result
+    this.users = this.users.filter( el => el.username !== current.username )
   }
 
 }
