@@ -7,8 +7,9 @@ import { AuthService } from '../auth/auth.service';
 })
 export class CategoryService {
 
-  constructor( private _http: HttpClient,
-               private _authService: AuthService ) { }
+  constructor( 
+    private _http: HttpClient,
+    private _authService: AuthService ) { }
 
   loadCategories() {
     const request = this._authService.prepareRequest( '/anonymous/duty/categories', 'json', false )

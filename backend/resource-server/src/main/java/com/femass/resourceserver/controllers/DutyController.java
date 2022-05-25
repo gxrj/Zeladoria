@@ -42,19 +42,23 @@ public class DutyController {
         if( subject == null )
             return retrieveMessage( new JSONObject(), "fail", "no user authentication found" );
 
-        var agent = module.getAgentService().findByUsername( subject );
         var dutyService = module.getDutyService();
         var entity = DutyDTO.deserialize( dutyDto, module );
-        var dept = agent.getDepartment();
+        var dept = module.getAgentService().findByUsername( subject ).getDepartment();
+        var needsBlocking = !dept.getName().equalsIgnoreCase( "Inova Macae" )
+                                && !dept.getName().equalsIgnoreCase( dutyDto.getDepartment().getName() );
 
-        if( !dept.getName().equalsIgnoreCase( "Inova Macae" ) )
+        if( needsBlocking )
+            return retrieveMessage( new JSONObject(), "fail", "Não autorizado" );
+
+        if( dutyDto.getDepartment() == null )
             entity.setDepartment( dept );
 
         var result = dutyService.createOrUpdate( entity );
         var message =  result ? "Serviço cadastrado/atualizado com sucesso"
                                 : "Falha na criação/autialização do serviço";
 
-        return retrieveMessage( new JSONObject(), "fail", message );
+        return retrieveMessage( new JSONObject(), result ? "success" : "fail", message );
     }
 
 

@@ -14,8 +14,9 @@ export class HomePage implements OnInit {
   selectedCategory = null
   selectedDuty: Duty = null
 
-  constructor( private _route: ActivatedRoute,
-               private _router: Router ) { }
+  constructor( 
+    private _router: Router,
+    private _route: ActivatedRoute ) { }
 
   ngOnInit(): void {
 
