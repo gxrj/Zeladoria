@@ -7,13 +7,18 @@ import com.femass.resourceserver.services.ServiceModule;
 import com.nimbusds.jose.shaded.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(
@@ -48,13 +53,25 @@ public class DutyGroupController {
                         }
                     ).toList();
 
-        var json = new JSONObject()
-                        .appendField( "result", list );
-
-        return new ResponseEntity<>( json, HttpStatus.OK );
+        return retrieveObject( new JSONObject(), "result", list );
     }
 
-    @PostMapping( path = { "/manager/category/new", "/manager/category/edition" } )
+    @GetMapping( "/manager/category/list" )
+    public ResponseEntity<JSONObject> getCategories() {
+
+        var deptName = module.getAgentService()
+                .findByUsername( extractLoginFromContext() )
+                .getDepartment().getName();
+
+        if( !deptName.equalsIgnoreCase( "Inova Macae" ) )
+            return retrieveObject( new JSONObject(), "result", List.of() );
+
+        var list = module.getDutyGroupService().findAllDutyGroup();
+
+        return retrieveObject( new JSONObject(), "result", list );
+    }
+
+    @PostMapping( "/manager/category/edition" )
     public ResponseEntity<JSONObject> createOrUpdate( @RequestBody DutyGroupDTO categoryDto ) {
         var subject = extractLoginFromContext();
 

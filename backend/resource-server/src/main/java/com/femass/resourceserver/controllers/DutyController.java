@@ -2,14 +2,19 @@ package com.femass.resourceserver.controllers;
 
 import com.femass.resourceserver.dto.DutyDTO;
 import com.femass.resourceserver.services.ServiceModule;
+
 import com.nimbusds.jose.shaded.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,12 +40,12 @@ public class DutyController {
         return retrieveObject( new JSONObject(), "result", list );
     }
 
-    @PostMapping( path = { "/manager/duty/new", "/manager/duty/edition" } )
-    public ResponseEntity<JSONObject> createDuty( @RequestBody DutyDTO dutyDto ) {
+    @PostMapping( "/manager/duty/edition" )
+    public ResponseEntity<JSONObject> createOrEditDuty( @RequestBody DutyDTO dutyDto ) {
         var subject = extractLoginFromContext();
 
         if( subject == null )
-            return retrieveMessage( new JSONObject(), "fail", "no user authentication found" );
+            return retrieveMessage( new JSONObject(), "fail", "Acesso negado" );
 
         var dutyService = module.getDutyService();
         var entity = DutyDTO.deserialize( dutyDto, module );
