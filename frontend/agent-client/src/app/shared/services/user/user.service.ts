@@ -28,7 +28,7 @@ export class UserService {
     return this._http.post( request.url, user, request.config )
   }
 
-  updateAccount( user: User ) {
+  updateAccount( user: User ): Observable<any> {
     const request = this._authService.prepareRequest( '/agent/account/edition' )
     return this._http.post( request.url, user, request.config )
   }

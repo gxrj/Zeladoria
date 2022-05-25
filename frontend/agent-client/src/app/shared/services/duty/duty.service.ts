@@ -18,7 +18,7 @@ export class DutyService {
     return this._http.get( request.url, request.config )
   }
 
-  createOrEdit( duty: Duty ) {
+  createOrEdit( duty: Duty ): Observable<any> {
     const request = this._authSerivce.prepareRequest( '/manager/duty/edition' )
     return this._http.post( request.url, duty, request.config )
   }
