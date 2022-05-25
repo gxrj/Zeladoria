@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 import { ToastService } from '@services/toast/toast.service';
-import { throwError } from 'rxjs'
+import { throwError, Observable } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
 import { UserService } from '@services/user/user.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

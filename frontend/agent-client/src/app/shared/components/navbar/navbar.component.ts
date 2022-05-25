@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
       visibility: !this.isParticularDepartment()
     },
     {
-      title: 'Planejamento',
+      title: 'Indicadores',
       paths:[
         { label: 'Relatórios', url: '/home/reports' }
       ],

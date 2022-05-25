@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
-import User from '@core/interfaces/user';
-import { AttendanceService } from '@services/attendance/attendance.service';
-import { ToastService } from '@services/toast/toast.service';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { AttendanceService } from '@services/attendance/attendance.service';
+import { ToastService } from '@services/toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +42,7 @@ export class AttendanceListResolver implements Resolve<any> {
   }
 
   private errorRedirection() {
-    this._toast.displayMessage( 'Falha no carregamento de ocorrências' )
+    this._toast.displayMessage( 'Falha no carregamento de atendimentos' )
     this._router.navigateByUrl( '/home' )
   }
 }

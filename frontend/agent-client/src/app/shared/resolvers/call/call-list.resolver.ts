@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
+import { EMPTY, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { CallService } from '@services/call/call.service';
 import { ToastService } from '@services/toast/toast.service';
-import { EMPTY, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CallListResolver implements Resolve<any>{
 
-  constructor( private _router: Router,
-              private _toast: ToastService, 
-              private _callService: CallService ) { }
+  constructor( 
+    private _router: Router,
+    private _toast: ToastService, 
+    private _callService: CallService ) { }
 
   resolve(): Observable<any> {
 
