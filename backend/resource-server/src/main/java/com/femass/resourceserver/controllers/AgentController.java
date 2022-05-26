@@ -46,10 +46,7 @@ public class AgentController {
     @PostMapping( "/agent/account/edition" )
     public ResponseEntity<JSONObject> update( @RequestBody AgentDTO dto ) {
         var username = extractLoginFromJwt();
-        var encoder = module.getPasswordEncoder();
         var entity = AgentDTO.deserialize( dto, module );
-        entity.getAccount().getCredentials()
-                    .setPassword( encoder.encode( dto.getPassword() ) );
 
         if( username != null && entity.getAccount().getUsername().equalsIgnoreCase( username ) ) {
             var result = module.getAgentService().createOrUpdate( entity );
