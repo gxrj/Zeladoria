@@ -44,6 +44,16 @@ tr:hover {
     float: right;
 }
 
+ion-input, select {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+    height: 30px;
+    line-height: 25px;
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+    color: black;
+}
+
 ion-badge {
     cursor: pointer;
     margin: 2px 2px;

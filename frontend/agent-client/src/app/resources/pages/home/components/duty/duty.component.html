@@ -30,6 +30,20 @@
           <ion-button (click)="closeModal()" color="danger" id="modal-close-button">&#x2715;</ion-button>
         </ion-col>
       </ion-row>
+      <h2 style="text-align: center;">Novo Serviço</h2>
+      <ion-row style="display: grid;">
+        <ion-label>Serviço:</ion-label>
+        <ion-input></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Secretaria:</ion-label>
+        <select style="width: 100%;"></select>
+      </ion-row>
+      <ion-row>
+        <ion-col offset="9" size="3">
+          <ion-button>Gravar</ion-button>
+        </ion-col>
+      </ion-row>
     </ion-content>
   </ng-template>
 </ion-modal>

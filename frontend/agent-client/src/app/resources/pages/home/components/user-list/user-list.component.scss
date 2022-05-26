@@ -39,9 +39,30 @@ tr:hover {
     width: 100%;
 }
 
+ion-input, select {
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+    height: 30px;
+    line-height: 25px;
+    border-radius: 5px;
+    --background: white;
+    background-color: white;
+    color: black;
+}
+
 #modal-close-button {
     display: flexbox;
     float: right;
+}
+
+.question-radio {
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+#is_admin, #no_admin {
+    margin:auto;
+    margin-left: 15px;
+    margin-right: 5px;
 }
 
 ion-badge {

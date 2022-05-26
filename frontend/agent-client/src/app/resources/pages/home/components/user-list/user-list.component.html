@@ -31,6 +31,35 @@
           <ion-button (click)="closeModal()" color="danger" id="modal-close-button">&#x2715;</ion-button>
         </ion-col>
       </ion-row>
+      <h2 style="text-align: center;">Novo Colaborador</h2>
+      <ion-row>
+        <ion-col>
+          <ion-input placeholder="Matrícula"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input placeholder="Nome"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-input placeholder="CPF"></ion-input>
+        </ion-col>
+        <ion-col size="8">
+          <select style="width: 100%">
+            <option>Selecione a secretaria</option>
+          </select>
+        </ion-col>
+      </ion-row>
+      <ion-row class="question-radio">
+          <label>Conceder permissões de administrador?</label>
+          <input [value]="true" type="radio" name="permission" id="is_admin"> Sim
+          <input [value]="false" type="radio" name="permission" id="no_admin" checked> Não
+      </ion-row>
+      <ion-row>
+        <ion-col offset="9" size="3">
+          <ion-button>Gravar</ion-button>
+        </ion-col>
+      </ion-row>
     </ion-content>
   </ng-template>
 </ion-modal>
