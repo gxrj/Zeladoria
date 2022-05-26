@@ -13,6 +13,7 @@ export class DutyComponent implements OnInit {
 
   duties: Duty[]
   selectedDuty: Duty
+  modalOpen: boolean = false
   titles = [ 'Descrição', 'Secretaria', 'Ações' ]
 
   constructor(
@@ -31,9 +32,11 @@ export class DutyComponent implements OnInit {
 
   selectDuty( duty: Duty ) {
     this.selectedDuty = duty
+    this.modalOpen = true
   }
 
   closeModal() {
     this._modal.dismiss()
+    this.modalOpen = false
   }
 }

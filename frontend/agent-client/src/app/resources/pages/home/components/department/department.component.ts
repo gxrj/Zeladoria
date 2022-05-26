@@ -13,6 +13,7 @@ export class DepartmentComponent implements OnInit {
 
   departments: Department[]
   selectedDepartment: Department
+  modalOpen: boolean = false
   titles = [ 'Nome', 'Ações' ]
 
   constructor( 
@@ -25,9 +26,11 @@ export class DepartmentComponent implements OnInit {
 
   selectDepartment( Department: Department ) {
     this.selectedDepartment = Department
+    this.modalOpen = true
   }
 
   closeModal() {
     this._modal.dismiss()
+    this.modalOpen = false
   }
 }

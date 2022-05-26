@@ -13,6 +13,7 @@ export class CategoryComponent implements OnInit {
 
   categories: Category[]
   selectedCategory: Category
+  modalOpen: boolean = false
   titles = [ 'Nome', 'Ações' ]
 
   constructor( 
@@ -25,9 +26,11 @@ export class CategoryComponent implements OnInit {
 
   selectCategory( Category: Category ) {
     this.selectedCategory = Category
+    this.modalOpen = true
   }
 
   closeModal() {
     this._modal.dismiss()
+    this.modalOpen = false
   }
 }

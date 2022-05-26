@@ -13,6 +13,7 @@ export class UserListComponent implements OnInit {
 
   users: User[]
   selectedUser: User
+  modalOpen: boolean = false
   titles = [ 'Nome', 'Matrícula', 'Secretaria', 'Ações' ]
 
   constructor( 
@@ -27,10 +28,12 @@ export class UserListComponent implements OnInit {
 
   selectUser( user: User ) {
     this.selectedUser = user
+    this.modalOpen = true
   }
 
   closeModal() {
     this._modal.dismiss()
+    this.modalOpen = false
   }
 
 }
