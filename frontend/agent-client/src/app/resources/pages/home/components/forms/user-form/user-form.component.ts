@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import User from '@core/interfaces/user';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'user-form',
@@ -9,10 +10,14 @@ import User from '@core/interfaces/user';
 export class UserFormComponent implements OnInit {
 
   account: User
-  constructor() { }
+  constructor(
+    private _modal: ModalController ) { }
 
   ngOnInit() {
     this.account = JSON.parse( sessionStorage.getItem( 'user' ) )
   }
 
+  closeModal() {
+    this._modal.dismiss()
+  }
 }

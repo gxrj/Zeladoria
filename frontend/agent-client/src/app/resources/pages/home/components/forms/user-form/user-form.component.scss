@@ -80,3 +80,15 @@ ion-badge {
     padding: 5px 5px;
     box-shadow: 1px 1px 3px rgb(73, 73, 73);
 }
+
+#modal-header {
+    background-color: var( --default-main-color );
+    margin-top: 0px;
+    color: white;
+    width: 100%;
+}
+
+#modal-close-button {
+    display: flexbox;
+    float: right;
+}

@@ -32,6 +32,18 @@ tr:hover {
     font-size: 23px;
 }
 
+#modal-header {
+    background-color: var( --default-main-color );
+    margin-top: 0px;
+    color: white;
+    width: 100%;
+}
+
+#modal-close-button {
+    display: flexbox;
+    float: right;
+}
+
 ion-badge {
     cursor: pointer;
     margin: 2px 2px;
