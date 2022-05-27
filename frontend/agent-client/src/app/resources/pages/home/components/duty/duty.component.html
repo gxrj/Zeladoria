@@ -71,8 +71,9 @@
           <input [value]="oldDept" class="input" style="width:100%;">
         </ng-container>
         <ng-container *ngIf="editDepartment">
-          <select style="width: 100%;">
+          <select [(ngModel)]="newDept" style="width: 100%;">
             <option *ngFor="let dept of deptList"
+                    [value]="dept.name"
                     [hidden]="hide(dept)">{{ dept.name }}</option>
           </select>
         </ng-container>
