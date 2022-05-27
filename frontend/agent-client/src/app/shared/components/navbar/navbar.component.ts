@@ -124,7 +124,10 @@ export class NavbarComponent implements OnInit {
     this._popoverCtrl.dismiss()
     this._authService.revokeToken()
               .subscribe( 
-                () => this._toast.displayMessage( 'Encerrando a sessão' ), 
+                res => { 
+                  console.log( res );
+                  this._toast.displayMessage( 'Encerrando a sessão' )
+                }, 
                 error => this._toast.displayMessage( error ) )
     sessionStorage.clear()
     setTimeout( () => this._router.navigateByUrl( '/logout' ), 1000 )
