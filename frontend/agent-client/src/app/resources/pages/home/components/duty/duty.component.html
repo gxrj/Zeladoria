@@ -37,7 +37,10 @@
       </ion-row>
       <ion-row>
         <ion-label>Secretaria:</ion-label>
-        <select style="width: 100%;"></select>
+        <select style="width: 100%;">
+          <option *ngFor="let dept of deptList"
+                  [hidden]="hide(dept)">{{ dept.name }}</option>
+        </select>
       </ion-row>
       <ion-row>
         <ion-col offset="9" size="3">
@@ -57,18 +60,31 @@
           <ion-button (click)="closeModal()" color="danger" id="modal-close-button">&#x2715;</ion-button>
         </ion-col>
       </ion-row>
-      <h2 style="text-align: center;">Novo Serviço</h2>
+      <h2 style="text-align: center;">Editar Serviço</h2>
       <ion-row style="display: grid;">
         <ion-label>Serviço:</ion-label>
-        <ion-input></ion-input>
+        <ion-input [value]="selectedDuty.description"></ion-input>
       </ion-row>
       <ion-row>
         <ion-label>Secretaria:</ion-label>
-        <select style="width: 100%;"></select>
+        <ng-container *ngIf="!editDepartment">
+          <input [value]="oldDept" class="input" style="width:100%;">
+        </ng-container>
+        <ng-container *ngIf="editDepartment">
+          <select style="width: 100%;">
+            <option *ngFor="let dept of deptList"
+                    [hidden]="hide(dept)">{{ dept.name }}</option>
+          </select>
+        </ng-container>
+      </ion-row>
+      <ion-row class="question-radio">
+        <label>Editar secretaria?</label>
+        <input [(ngModel)]="editDepartment" [value]="true" type="radio" name="editDept" id="edit"> Sim
+        <input [(ngModel)]="editDepartment" [value]="false" type="radio" name="editDept" id="no_edit" checked> Não
       </ion-row>
       <ion-row>
         <ion-col offset="9" size="3">
-          <ion-button>Gravar</ion-button>
+          <ion-button (click)="save( selectedDuty )">Gravar</ion-button>
         </ion-col>
       </ion-row>
     </ion-content>

@@ -44,7 +44,7 @@ tr:hover {
     float: right;
 }
 
-ion-input, select {
+ion-input, .input, select {
     box-shadow: 1px 1px 3px rgb(73, 73, 73);
     height: 30px;
     line-height: 25px;
@@ -52,6 +52,22 @@ ion-input, select {
     --background: white;
     background-color: white;
     color: black;
+}
+
+.input, .input:focus, .input:active {
+    border: none;
+    outline: none;
+}
+
+.question-radio {
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+#edit, #no_edit {
+    margin:auto;
+    margin-left: 15px;
+    margin-right: 5px;
 }
 
 ion-badge {
