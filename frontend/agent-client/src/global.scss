@@ -48,6 +48,11 @@ ion-modal {
     }
 }
 
+*:focus, *:active {
+    border: none;
+    outline: none;
+}
+
 @media screen and ( max-width: 780px ) {
     ion-modal {
         &.image-modal {

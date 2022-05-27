@@ -54,7 +54,7 @@ ion-input, .input, select {
     color: black;
 }
 
-.input, .input:focus, .input:active {
+.input, *:focus, *:active {
     border: none;
     outline: none;
 }

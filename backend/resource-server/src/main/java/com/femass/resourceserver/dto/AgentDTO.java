@@ -48,6 +48,7 @@ public class AgentDTO implements Serializable {
         agentDto.setName( agent.getName() );
         agentDto.setUsername( agent.getAccount().getUsername() );
         agentDto.setIsAdmin( checkAdminAuthority( agent ) );
+        agentDto.setCpf( agent.getAccount().getCredentials().getCpf() );
 
         var dept = agent.getDepartment();
 
