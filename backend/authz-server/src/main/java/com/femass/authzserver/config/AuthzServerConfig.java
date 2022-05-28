@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import com.femass.authzserver.auth.filters.CustomLogoutFilter;
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
-import com.femass.authzserver.auth.services.InMemoryTokenService;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 
 import com.nimbusds.jose.JOSEException;
