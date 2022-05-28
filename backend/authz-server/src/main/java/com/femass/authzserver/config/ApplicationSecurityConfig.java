@@ -80,7 +80,6 @@ public class ApplicationSecurityConfig {
                     new LoginUrlAuthenticationEntryPoint( "/agent/login" ), 
                     new AntPathRequestMatcher( "/agent/login" ) 
                 );
-        
 
         http
             .addFilterBefore( 

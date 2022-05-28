@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import com.femass.authzserver.auth.filters.CustomLogoutFilter;
 import com.femass.authzserver.auth.handlers.AuthEntryPoint;
+import com.femass.authzserver.auth.services.InMemoryTokenService;
 import com.femass.authzserver.utils.KeyGeneratorUtils;
 
 import com.nimbusds.jose.JOSEException;
@@ -31,6 +33,8 @@ import org.springframework.security.oauth2.server.authorization.JwtEncodingConte
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import org.springframework.web.cors.CorsConfiguration;
@@ -63,20 +67,19 @@ public class AuthzServerConfig {
     @Order( Ordered.HIGHEST_PRECEDENCE )
     public SecurityFilterChain securityFilterChain( HttpSecurity http ) throws Exception {
 
-        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer =
-				new OAuth2AuthorizationServerConfigurer<>();
-		RequestMatcher endpointsMatcher = authorizationServerConfigurer
-				.getEndpointsMatcher();
+        var authorizationServerConfigurer = authzServerConfigurer();
+		RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
 		http
 			.requestMatcher( endpointsMatcher )
-			.authorizeRequests( authorizeRequests ->
-				authorizeRequests.anyRequest().authenticated()
+			.authorizeRequests(
+                authorizeRequests ->
+                                authorizeRequests.anyRequest().authenticated()
 			)
             .cors()
                 .configurationSource( corsConfigSource() )
             .and()
-			.csrf( csrf -> csrf.ignoringRequestMatchers( endpointsMatcher ) )
+            .csrf( csrf -> csrf.ignoringRequestMatchers( endpointsMatcher ) )
             .exceptionHandling(
                  exceptionCustomizer -> 
                     exceptionCustomizer
@@ -167,5 +170,9 @@ public class AuthzServerConfig {
     @Bean
     public JwtDecoder jwtDecoder( JWKSource<SecurityContext> jwkSource ) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder( jwkSource );
+    }
+
+    private OAuth2AuthorizationServerConfigurer<HttpSecurity> authzServerConfigurer() {
+        return new OAuth2AuthorizationServerConfigurer<>();
     }
 }
