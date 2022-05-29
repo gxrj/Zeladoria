@@ -3,12 +3,12 @@ server:
 
 #debug: true
 
-#logging:
-#    level:
-#        root: DEBUG
-#        org:
-#            springframework:
-#                security: trace
+logging:
+    level:
+        root: DEBUG
+        org:
+            springframework:
+                security: trace
 spring:
     # jpa:
     #     defer-datasource-initialization: true
