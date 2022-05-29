@@ -321,9 +321,10 @@ export class ReportComponent implements OnInit {
   countCallsPerDuty(): number[] {
     let result: Array<number> = []
 
-    for( let duty of this.getDutiesByCalls() )
-      result.push( this.calls.filter( el => el.duty.description === duty ).length )
-
+    for( let duty of this.getDutiesByCalls() ) {
+      let temp = this.filterCallByDepartmentOrNot( this.calls, this.getDepartment() )
+      result.push( temp.filter( el => el.duty.description === duty ).length )
+    }
     return result
   }
 
