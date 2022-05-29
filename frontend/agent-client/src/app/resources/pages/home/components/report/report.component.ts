@@ -14,7 +14,6 @@ import User from '@core/interfaces/user';
 import Duty from '@core/interfaces/duty';
 import { ChartComponent } from '../chart/chart.component';
 
-
 @Component({
   selector: 'report',
   templateUrl: './report.component.html',
@@ -83,7 +82,7 @@ export class ReportComponent implements OnInit {
         type: 'multi-bar', 
         condition: () => this.attendances != null,
         getLabels: () => this.getDutiesByAttendances().map( el => el.split( ' ' ) ),
-        getData: () => this.getRatedAttendacesByDutyDataset(),
+        getData: () => this.getRatedAttendancesByDutyDataset(),
         getTotal: () => 0
       } 
     },
@@ -94,7 +93,7 @@ export class ReportComponent implements OnInit {
         type: 'multi-bar', 
         condition: () => this.attendances != null,
         getLabels: () => this.getDepartmentsByAttendances().map( el => el.split( ' ' ) ),
-        getData: () => this.getRatedAttendacesByDepartmentDataset(),
+        getData: () => this.getRatedAttendancesByDepartmentDataset(),
         getTotal: () => 0
       } 
     },
@@ -337,7 +336,7 @@ export class ReportComponent implements OnInit {
     return result
   }
 
-  countCallsPerDistricts(): number[] {
+  countCallsPerDistrict(): number[] {
     let result: Array<number> = []
     for( let district of this.getDistrictsByCalls() ) {
       let temp = this.filterCallByDepartmentOrNot( this.calls, this.getDepartment() )
@@ -346,7 +345,7 @@ export class ReportComponent implements OnInit {
     return result
   }
 
-  countAttendancesPerDistricts(): number[] {
+  countAttendancesPerDistrict(): number[] {
     let result: Array<number> = []
     for( let district of this.getDistrictsByCalls() ) {
       let temp = this.filterAnsweredAttendances()
@@ -355,14 +354,14 @@ export class ReportComponent implements OnInit {
     return result
   }
 
-  getRatedAttendacesByDepartmentDataset( ratingOptions = [ 'positiva', 'negativa' ] ) {
+  getRatedAttendancesByDepartmentDataset( ratingOptions = [ 'positiva', 'negativa' ] ) {
     let result: any[] = []
     for( let rating of ratingOptions )
-      result.push( { data: this.countRatedAttendacesByDepartment( rating ), label: rating } )
+      result.push( { data: this.countRatedAttendancesPerDepartment( rating ), label: rating } )
     return result
   }
 
-  countRatedAttendacesByDepartment( rating: string ) {
+  countRatedAttendancesPerDepartment( rating: string ): number[] {
     let result: number[] = []
     for( let department of this.getDepartmentsByAttendances() ) {
       let temp = this.filterRatedAttendances().filter( el => el.department.name === department )
@@ -371,19 +370,50 @@ export class ReportComponent implements OnInit {
     return result
   }
 
-  getRatedAttendacesByDutyDataset( ratingOptions = [ 'positiva', 'negativa' ] ) {
+  getRatedAttendancesByDutyDataset( ratingOptions = [ 'positiva', 'negativa' ] ) {
     let result: any[] = []
     for( let rating of ratingOptions )
-      result.push( { data: this.countRatedAttendacesByDuty( rating ), label: rating } )
+      result.push( { data: this.countRatedAttendancePerDuty( rating ), label: rating } )
     return result
   }
 
-  countRatedAttendacesByDuty( rating: string ) {
+  countRatedAttendancePerDuty( rating: string ): number[] {
     let result: number[] = []
     for( let duty of this.getDutiesByAttendances() ) {
       let temp = this.filterRatedAttendances().filter( el => el.call.duty.description === duty )
       result.push( temp.filter( el => el.rating === rating ).length )
     }
     return result
+  }
+
+  countCallsPerDepartment(): number[] {
+    let result: number[] = []
+    for( let department of this.getDepartmentsByCalls() )
+      result.push( this.calls.filter( el => el.destination.name === department ).length )
+
+    return result
+  }
+
+  countAnsweredAttendancesPerDepartment(): number[] {
+    let result: number[] = []
+    for( let department of this.getDepartmentsByCalls() ) {
+      const answered = this.filterAnsweredAttendances()
+      result.push( answered.filter( el => el.destination.name === department ).length )
+    }
+    return result
+  }
+
+  getDataRelationPerDistrict() {
+    return [ 
+      { data: this.countCallsPerDistrict(), label: 'ocorrências' },
+      { data: this.countAttendancesPerDistrict(), label: 'atendimentos' },
+    ]
+  }
+
+  getDataRelationPerDepartment() {
+    return [ 
+      { data: this.countCallsPerDepartment(), label: 'ocorrências' },
+      { data: this.countAnsweredAttendancesPerDepartment(), label: 'atendimentos' },
+    ]
   }
 }
