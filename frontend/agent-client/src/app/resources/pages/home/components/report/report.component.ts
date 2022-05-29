@@ -85,6 +85,7 @@ export class ReportComponent implements OnInit {
         type: 'multi-bar', 
         condition: () => this.attendances != null,
         getLabels: () => this.getDutiesByAttendances().map( el => el.split( ' ' ) ),
+        getData: () => this.getRatedAttendacesByDutyDataset(),
         getTotal: () => 0
       } 
     },
@@ -95,6 +96,7 @@ export class ReportComponent implements OnInit {
         type: 'multi-bar', 
         condition: () => this.attendances != null,
         getLabels: () => this.getDepartmentsByAttendances().map( el => el.split( ' ' ) ),
+        getData: () => this.getRatedAttendacesByDepartmentDataset(),
         getTotal: () => 0
       } 
     },
@@ -291,7 +293,7 @@ export class ReportComponent implements OnInit {
   getDepartmentsByAttendances(): string[] {
     let result: string[] = []
     this.filterAnsweredAttendances()
-          .map( el => el.call.duty.department.name )
+          .map( el => el.department.name )
           .forEach( el => result.includes( el ) ? '' : result.push( el ) )
 
     return result
@@ -338,10 +340,40 @@ export class ReportComponent implements OnInit {
 
   countCallsPerDistricts(): number[] {
     let result: Array<number> = []
-
     for( let district of this.getDistrictsByCalls() )
       result.push( this.calls.filter( el => el.duty.address.district === district ).length )
+    return result
+  }
 
+  getRatedAttendacesByDepartmentDataset( ratingOptions = [ 'positiva', 'negativa' ] ) {
+    let result: any[] = []
+    for( let rating of ratingOptions )
+      result.push( { data: this.countRatedAttendacesByDepartment( rating ), label: rating } )
+    return result
+  }
+
+  countRatedAttendacesByDepartment( rating: string ) {
+    let result: number[] = []
+    for( let department of this.getDepartmentsByAttendances() ) {
+      let temp = this.filterRatedAttendances().filter( el => el.department.name === department )
+      result.push( temp.filter( el => el.rating === rating ).length )
+    }
+    return result
+  }
+
+  getRatedAttendacesByDutyDataset( ratingOptions = [ 'positiva', 'negativa' ] ) {
+    let result: any[] = []
+    for( let rating of ratingOptions )
+      result.push( { data: this.countRatedAttendacesByDuty( rating ), label: rating } )
+    return result
+  }
+
+  countRatedAttendacesByDuty( rating: string ) {
+    let result: number[] = []
+    for( let duty of this.getDutiesByAttendances() ) {
+      let temp = this.filterRatedAttendances().filter( el => el.call.duty.description === duty )
+      result.push( temp.filter( el => el.rating === rating ).length )
+    }
     return result
   }
 }
