@@ -23,11 +23,9 @@ import { ChartComponent } from '../chart/chart.component';
 export class ReportComponent implements OnInit {
 
   timeFormat = 'dd/MM/y - HH:mm'
-
   start: string = null
   end: string = null
   limit: string
-
   calls: Call[] = null
   attendances: Attendance[] = null
 
@@ -299,6 +297,11 @@ export class ReportComponent implements OnInit {
     return result
   }
 
+  filterRatedAttendances(): Attendance[] {
+    return this.filterAnsweredAttendances()
+                .filter( el => el.rating !== 'nao avaliada' )
+  }
+
   filterAnsweredAttendances(): Attendance[] {
     let result: Attendance[] = []
     const deptName = this.getDepartment()
@@ -307,11 +310,6 @@ export class ReportComponent implements OnInit {
             .filter( el => el.type === 'resposta' )
 
     return result
-  }
-
-  filterRatedAttendances(): Attendance[] {
-    return this.filterAnsweredAttendances()
-                .filter( el => el.rating !== 'nao avaliada' )
   }
 
   private filterAttendancesByDepartmentOrNot( attendances: Attendance[], 
@@ -340,8 +338,19 @@ export class ReportComponent implements OnInit {
 
   countCallsPerDistricts(): number[] {
     let result: Array<number> = []
-    for( let district of this.getDistrictsByCalls() )
-      result.push( this.calls.filter( el => el.duty.address.district === district ).length )
+    for( let district of this.getDistrictsByCalls() ) {
+      let temp = this.filterCallByDepartmentOrNot( this.calls, this.getDepartment() )
+      result.push( temp.filter( el => el.duty.address.district === district ).length )
+    }
+    return result
+  }
+
+  countAttendancesPerDistricts(): number[] {
+    let result: Array<number> = []
+    for( let district of this.getDistrictsByCalls() ) {
+      let temp = this.filterAnsweredAttendances()
+      result.push( temp.filter( el => el.call.duty.address.district === district ).length )
+    }
     return result
   }
 
