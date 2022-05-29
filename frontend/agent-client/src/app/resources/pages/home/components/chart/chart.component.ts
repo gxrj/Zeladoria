@@ -14,7 +14,7 @@ export class ChartComponent implements OnInit {
 
   @Input() title: string = ''
   @Input() chartData: ChartData
-  @Input() type: 'pie' | 'bar' = 'pie'
+  @Input() type: 'pie' | 'bar' | 'multi-bar' = 'pie'
   @Input() legendPosition: 'bottom' | 'left' | 'top' | 'right' | 'center' = 'top'
   @Input() total: number = 0
 
@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.chartType = this.type
+    this.chartType = this.type === 'multi-bar' ? 'bar' : this.type
     this.setBarCharConfig()
   }
 

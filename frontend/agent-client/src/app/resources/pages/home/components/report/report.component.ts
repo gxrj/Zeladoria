@@ -62,7 +62,7 @@ export class ReportComponent implements OnInit {
       value: {
         type: 'bar', 
         condition: () => this.calls != null,
-        getLabels: () => this.getDuties().map( el => el.split( ' ' ) ),
+        getLabels: () => this.getDutiesByCalls().map( el => el.split( ' ' ) ),
         getData: () => this.countCallsPerDuty(),
         getTotal: () => this.filterCallByDepartmentOrNot( this.calls, this.getDepartment() ).length
       }
@@ -73,7 +73,7 @@ export class ReportComponent implements OnInit {
       value: {
         type: 'bar', 
         condition: () => this.calls != null,
-        getLabels: () => this.getCategories().map( el => el.split( ' ' ) ),
+        getLabels: () => this.getCategoriesByCalls().map( el => el.split( ' ' ) ),
         getData: () => this.countCallsPerCategory(),
         getTotal: () => this.calls.length
       }
@@ -82,7 +82,7 @@ export class ReportComponent implements OnInit {
       label: 'Relação: avaliação x serviço', 
       display: 'specific',
       value: {
-        type: 'bar', 
+        type: 'multi-bar', 
         condition: () => this.attendances != null,
         getTotal: () => 0
       } 
@@ -91,7 +91,7 @@ export class ReportComponent implements OnInit {
       label: 'Relação: avaliação x setor', 
       display: 'special',
       value: {
-        type: 'bar', 
+        type: 'multi-bar', 
         condition: () => this.attendances != null,
         getTotal: () => 0
       } 
@@ -100,8 +100,9 @@ export class ReportComponent implements OnInit {
       label: 'Relação: ocorrências & atendimentos x bairro', 
       display: 'all',
       value: {
-        type: 'bar', 
-        condition: () => this.calls != null,
+        type: 'multi-bar', 
+        condition: () => this.calls != null && this.attendances != null,
+        getLabels: () => this.getDistrictsByCalls().map( el => el.split( ' ' ) ),
         getTotal: () => 0
       } 
     },
@@ -109,8 +110,8 @@ export class ReportComponent implements OnInit {
       label: 'Relação: ocorrências & atendimentos x setor', 
       display: 'special',
       value: {
-        type: 'bar', 
-        condition: () => this.attendances != null,
+        type: 'multi-bar', 
+        condition: () => this.calls != null && this.attendances != null,
         getTotal: () => 0
       } 
     }
@@ -198,7 +199,9 @@ export class ReportComponent implements OnInit {
     if( item.value.condition() ) {
       this.selectedItem = item
       this.chartData.labels = item.value.getLabels()
-      this.chartData.datasets = [ { data: item.value.getData() } ]
+      this.chartData.datasets = item.value.type === 'multi-bar' ? 
+                                item.value.getData()
+                                :[ { data: item.value.getData() } ]
     }
     setTimeout( () => this.render = true, 150 )
   }
@@ -217,7 +220,7 @@ export class ReportComponent implements OnInit {
     return `${ this.selectedItem.label } entre ${ startDate } e ${ endDate }`
   }
 
-  getDuties(): string[] {
+  getDutiesByCalls(): string[] {
     let result: string[] = []
     const deptName = this.getDepartment()
     if( deptName )
@@ -229,7 +232,7 @@ export class ReportComponent implements OnInit {
   }
 
   private filterCallByDepartmentOrNot( calls: Call[], deptName: String ): Call[] {
-    if( this.userFromSpecialDepartment() ) return this.calls
+    if( this.userFromSpecialDepartment() ) return calls
     return calls.filter( el => el.duty.department.name === deptName )
   }
 
@@ -241,7 +244,7 @@ export class ReportComponent implements OnInit {
     return JSON.parse( sessionStorage.getItem( 'user' ) ).department
   }
 
-  getCategories(): string[] {
+  getCategoriesByCalls(): string[] {
     let result: string[] = []
     const deptName = this.getDepartment()
     if( deptName )
@@ -251,7 +254,7 @@ export class ReportComponent implements OnInit {
     return result
   }
 
-  getDistricts(): string[] {
+  getDistrictsByCalls(): string[] {
     let result: string[] = []
     const deptName = this.getDepartment()
     if( deptName )
@@ -261,10 +264,50 @@ export class ReportComponent implements OnInit {
     return result
   }
 
+  getDepartmentsByCalls(): string[] {
+    let result: string[] = []
+    const deptName = this.getDepartment()
+    if( deptName )
+      this.filterCallByDepartmentOrNot( this.calls, deptName )
+                .map( el => el.destination.name )
+                  .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+    return result
+  }
+
+  getDepartmentsByAttendances(): string[] {
+    let result: string[] = []
+    this.filterAnsweredAttendances()
+          .map( el => el.call.duty.department.name )
+          .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+
+    return result
+  }
+
+  filterAnsweredAttendances(): Attendance[] {
+    let result: Attendance[] = []
+    const deptName = this.getDepartment()
+    if( deptName )
+     result = this.filterAttendancesByDepartmentOrNot( this.attendances, deptName )
+            .filter( el => el.type === 'resposta' )
+
+    return result
+  }
+
+  filterRatedAttendances(): Attendance[] {
+    return this.filterAnsweredAttendances()
+                .filter( el => el.rating !== 'nao avaliada' )
+  }
+
+  private filterAttendancesByDepartmentOrNot( attendances: Attendance[], 
+                                              deptName: string ): Attendance[] {
+    if( this.userFromSpecialDepartment() ) return attendances
+    return attendances.filter( el => el.call.duty.department.name === deptName )
+  }
+
   countCallsPerDuty(): number[] {
     let result: Array<number> = []
 
-    for( let duty of this.getDuties() )
+    for( let duty of this.getDutiesByCalls() )
       result.push( this.calls.filter( el => el.duty.description === duty ).length )
 
     return result
@@ -273,7 +316,7 @@ export class ReportComponent implements OnInit {
   countCallsPerCategory(): number[] {
     let result: Array<number> = []
 
-    for( let category of this.getCategories() )
+    for( let category of this.getCategoriesByCalls() )
       result.push( this.calls.filter( el => el.duty.category.name === category ).length )
 
     return result
@@ -282,7 +325,7 @@ export class ReportComponent implements OnInit {
   countCallsPerDistricts(): number[] {
     let result: Array<number> = []
 
-    for( let district of this.getDistricts() )
+    for( let district of this.getDistrictsByCalls() )
       result.push( this.calls.filter( el => el.duty.address.district === district ).length )
 
     return result
