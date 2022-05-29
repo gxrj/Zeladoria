@@ -79,21 +79,39 @@ export class ReportComponent implements OnInit {
       }
     },
     { 
+      label: 'Relação: avaliação x serviço', 
+      display: 'specific',
+      value: {
+        type: 'bar', 
+        condition: () => this.attendances != null,
+        getTotal: () => 0
+      } 
+    },
+    { 
+      label: 'Relação: avaliação x setor', 
+      display: 'special',
+      value: {
+        type: 'bar', 
+        condition: () => this.attendances != null,
+        getTotal: () => 0
+      } 
+    },
+    { 
+      label: 'Relação: ocorrências & atendimentos x bairro', 
+      display: 'all',
+      value: {
+        type: 'bar', 
+        condition: () => this.calls != null,
+        getTotal: () => 0
+      } 
+    },
+    { 
       label: 'Relação: ocorrências & atendimentos x setor', 
       display: 'special',
       value: {
         type: 'bar', 
         condition: () => this.attendances != null,
-        getTotal: () => this.attendances.length
-      } 
-    },
-    { 
-      label: 'Relação: atendimentos avaliados x setor', 
-      display: 'special',
-      value: {
-        type: 'bar', 
-        condition: () => this.attendances != null,
-        getTotal: () => this.attendances.length
+        getTotal: () => 0
       } 
     }
   ]
