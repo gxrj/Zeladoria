@@ -33,7 +33,7 @@ export class ReportComponent implements OnInit {
 
   chartData: ChartData = {
     labels: [],
-    datasets: [ { data: [] } ]
+    datasets: []
   }
 
   selectedItem: any
@@ -43,7 +43,7 @@ export class ReportComponent implements OnInit {
   options = [
     { label: 'Selecione o tipo de relatório', display: 'all', value: null },
     { 
-      label: 'Total de corrências por classe de usuário', 
+      label: 'Relação: ocorrências x classe de usuário', 
       display: 'special', 
       value: { 
         type: 'pie', 
@@ -57,31 +57,43 @@ export class ReportComponent implements OnInit {
       } 
     },
     { 
-      label: 'Total de ocorrências por serviço', 
+      label: 'Relação: ocorrências x serviço', 
       display: 'specific',
       value: {
         type: 'bar', 
         condition: () => this.calls != null,
         getLabels: () => this.getDuties().map( el => el.split( ' ' ) ),
         getData: () => this.countCallsPerDuty(),
-        getTotal: () => this.calls.length
+        getTotal: () => this.filterCallByDepartmentOrNot( this.calls, this.getDepartment() ).length
       }
     },
     { 
-      label: 'Total de ocorrências por categoria', 
+      label: 'Relação: ocorrências x categoria', 
       display: 'special',
       value: {
         type: 'bar', 
         condition: () => this.calls != null,
+        getLabels: () => this.getCategories().map( el => el.split( ' ' ) ),
+        getData: () => this.countCallsPerCategory(),
         getTotal: () => this.calls.length
       }
     },
     { 
-      label: 'Relação de atendimentos avaliados por setor', 
+      label: 'Relação: ocorrências & atendimentos x setor', 
       display: 'special',
       value: {
         type: 'bar', 
-        condition: () => this.attendances != null
+        condition: () => this.attendances != null,
+        getTotal: () => this.attendances.length
+      } 
+    },
+    { 
+      label: 'Relação: atendimentos avaliados x setor', 
+      display: 'special',
+      value: {
+        type: 'bar', 
+        condition: () => this.attendances != null,
+        getTotal: () => this.attendances.length
       } 
     }
   ]
@@ -143,7 +155,7 @@ export class ReportComponent implements OnInit {
     this.calls = this.attendances = null
   }
 
-  async loadData( user: User, beginning: number, final: number ) {
+  private async loadData( user: User, beginning: number, final: number ) {
     forkJoin( {
       calls: this._callService.listByInterval( beginning, final, user ),
       attendances: this._attendanceService.listByInterval( beginning, final, user )
@@ -164,10 +176,11 @@ export class ReportComponent implements OnInit {
 
   select( item: any ) {
     this.render = false
+    this.chartData.datasets = null
     if( item.value.condition() ) {
       this.selectedItem = item
       this.chartData.labels = item.value.getLabels()
-      this.chartData.datasets[0].data = item.value.getData()
+      this.chartData.datasets = [ { data: item.value.getData() } ]
     }
     setTimeout( () => this.render = true, 150 )
   }
@@ -180,31 +193,52 @@ export class ReportComponent implements OnInit {
     return !this.calls && !this.attendances
   }
 
-  getTitle() {
+  getChartTitleLabel() {
     const startDate = new Date( this.start ).toLocaleDateString('pt-Br')
     const endDate = new Date( this.end ).toLocaleDateString('pt-Br')
     return `${ this.selectedItem.label } entre ${ startDate } e ${ endDate }`
   }
 
-  getDuties( dept: string = null ): string[] {
-    const special = JSON.parse( sessionStorage.getItem( 'user' ) ).department !== 'Inova Macae'
+  getDuties(): string[] {
     let result: string[] = []
-    if( special )
-      this.calls.map( el => el.duty.description )
-                  .forEach( el => result.includes( el ) ? '' : result.push( el ) )
-    
-    else if( dept )
-      this.calls.filter( el => el.duty.department.name === dept )
+    const deptName = this.getDepartment()
+    if( deptName )
+      this.filterCallByDepartmentOrNot( this.calls, deptName )
                   .map( el => el.duty.description )
                     .forEach( el => result.includes( el ) ? '' : result.push( el ) )
 
     return result
   }
 
+  private filterCallByDepartmentOrNot( calls: Call[], deptName: String ): Call[] {
+    if( this.userFromSpecialDepartment() ) return this.calls
+    return calls.filter( el => el.duty.department.name === deptName )
+  }
+
+  private userFromSpecialDepartment(): boolean {
+    return JSON.parse( sessionStorage.getItem( 'user' ) ).department === 'Inova Macae'
+  }
+
+  private getDepartment(): string {
+    return JSON.parse( sessionStorage.getItem( 'user' ) ).department
+  }
+
   getCategories(): string[] {
     let result: string[] = []
-    this.calls.filter( el => el.duty.category.name )
+    const deptName = this.getDepartment()
+    if( deptName )
+      this.filterCallByDepartmentOrNot( this.calls, deptName )
                 .map( el => el.duty.category.name )
+                  .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+    return result
+  }
+
+  getDistricts(): string[] {
+    let result: string[] = []
+    const deptName = this.getDepartment()
+    if( deptName )
+      this.filterCallByDepartmentOrNot( this.calls, deptName )
+                .map( el => el.duty.address.district )
                   .forEach( el => result.includes( el ) ? '' : result.push( el ) )
     return result
   }
@@ -214,6 +248,24 @@ export class ReportComponent implements OnInit {
 
     for( let duty of this.getDuties() )
       result.push( this.calls.filter( el => el.duty.description === duty ).length )
+
+    return result
+  }
+
+  countCallsPerCategory(): number[] {
+    let result: Array<number> = []
+
+    for( let category of this.getCategories() )
+      result.push( this.calls.filter( el => el.duty.category.name === category ).length )
+
+    return result
+  }
+
+  countCallsPerDistricts(): number[] {
+    let result: Array<number> = []
+
+    for( let district of this.getDistricts() )
+      result.push( this.calls.filter( el => el.duty.address.district === district ).length )
 
     return result
   }

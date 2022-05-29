@@ -16,7 +16,7 @@ export class ChartComponent implements OnInit {
   @Input() chartData: ChartData
   @Input() type: 'pie' | 'bar' = 'pie'
   @Input() legendPosition: 'bottom' | 'left' | 'top' | 'right' | 'center' = 'top'
-  @Input() total: number = 1
+  @Input() total: number = 0
 
   chartType: ChartType
   chartPlugins = [ DatelabelsPlugin ]
@@ -31,7 +31,7 @@ export class ChartComponent implements OnInit {
       },
       datalabels: {
         formatter: ( val, ctx ) => {
-          if( ctx.chart.data.labels ) {
+          if( ctx.chart.data.labels && this.total ) {
             return (val*100/this.total).toFixed(2) + '%'
           }
         }
@@ -52,7 +52,7 @@ export class ChartComponent implements OnInit {
 
   setBarCharConfig(){
     if( this.type === 'bar' ) {
-      this.chartOptions['scales'] = { x: { }, y: { max: this.total } }
+      this.chartOptions['scales'] = { x: { }, y: this.total ? { max: this.total } : {} }
       this.chartOptions.plugins.legend.display = false
     }
   }

@@ -61,7 +61,7 @@
   </form>
 
   <chart *ngIf="render && selectedItem.value?.condition()"
-        [title]="getTitle()"
+        [title]="getChartTitleLabel()"
         [chartData]="chartData"
         [total]="selectedItem.value?.getTotal()"
         [type]="selectedItem.value?.type"
