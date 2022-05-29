@@ -84,6 +84,7 @@ export class ReportComponent implements OnInit {
       value: {
         type: 'multi-bar', 
         condition: () => this.attendances != null,
+        getLabels: () => this.getDutiesByAttendances().map( el => el.split( ' ' ) ),
         getTotal: () => 0
       } 
     },
@@ -93,6 +94,7 @@ export class ReportComponent implements OnInit {
       value: {
         type: 'multi-bar', 
         condition: () => this.attendances != null,
+        getLabels: () => this.getDepartmentsByAttendances().map( el => el.split( ' ' ) ),
         getTotal: () => 0
       } 
     },
@@ -112,6 +114,7 @@ export class ReportComponent implements OnInit {
       value: {
         type: 'multi-bar', 
         condition: () => this.calls != null && this.attendances != null,
+        getLabels: () => this.getDepartmentsByCalls().map( el => el.split( ' ' ) ),
         getTotal: () => 0
       } 
     }
@@ -226,6 +229,17 @@ export class ReportComponent implements OnInit {
     if( deptName )
       this.filterCallByDepartmentOrNot( this.calls, deptName )
                   .map( el => el.duty.description )
+                    .forEach( el => result.includes( el ) ? '' : result.push( el ) )
+
+    return result
+  }
+
+  getDutiesByAttendances(): string[] {
+    let result: string[] = []
+    const deptName = this.getDepartment()
+    if( deptName )
+      this.filterAnsweredAttendances()
+                  .map( el => el.call.duty.description )
                     .forEach( el => result.includes( el ) ? '' : result.push( el ) )
 
     return result
