@@ -10,6 +10,7 @@
   <data-table [headerTitles]="titles" [width]="90">
       <tr *ngFor="let duty of duties">
         <td>{{ duty.description }}</td>
+        <td>{{ duty.category.name }}</td>
         <td>{{ duty.department.name }}</td>
         <td>
           <ion-badge (click)="selectDuty( duty )">Detalhes</ion-badge>
@@ -43,6 +44,13 @@
         </select>
       </ion-row>
       <ion-row>
+        <ion-label>Categoria:</ion-label>
+        <select style="width: 100%;">
+          <option *ngFor="let category of categoryList"
+                  >{{ category.name }}</option>
+        </select>
+      </ion-row>
+      <ion-row>
         <ion-col offset="9" size="3">
           <ion-button>Gravar</ion-button>
         </ion-col>
@@ -65,7 +73,24 @@
         <ion-label>Serviço:</ion-label>
         <ion-input [value]="selectedDuty.description"></ion-input>
       </ion-row>
-      <ion-row>
+      <ion-row style="margin-top: 15px;">
+        <ion-label>Categoria:</ion-label>
+        <ng-container *ngIf="!editCategory">
+          <input [value]="oldCategory" class="input" style="width:100%;">
+        </ng-container>
+        <ng-container *ngIf="editCategory">
+          <select [(ngModel)]="newCategory" style="width: 100%;">
+            <option *ngFor="let category of categoryList"
+                    [value]="category.name">{{ category.name }}</option>
+          </select>
+        </ng-container>
+      </ion-row>
+      <ion-row *ngIf="checkPrivilege()" class="question-radio">
+        <label>Editar categoria?</label>
+        <input [(ngModel)]="editCategory" [value]="true" type="radio" name="editCategory" id="edit_cat"> Sim
+        <input [(ngModel)]="editCategory" [value]="false" type="radio" name="editCategory" id="no_edit_cat" checked> Não
+      </ion-row>
+      <ion-row style="margin-top: 15px;">
         <ion-label>Secretaria:</ion-label>
         <ng-container *ngIf="!editDepartment">
           <input [value]="oldDept" class="input" style="width:100%;">
@@ -78,7 +103,7 @@
           </select>
         </ng-container>
       </ion-row>
-      <ion-row class="question-radio">
+      <ion-row *ngIf="checkPrivilege()" class="question-radio">
         <label>Editar secretaria?</label>
         <input [(ngModel)]="editDepartment" [value]="true" type="radio" name="editDept" id="edit"> Sim
         <input [(ngModel)]="editDepartment" [value]="false" type="radio" name="editDept" id="no_edit" checked> Não

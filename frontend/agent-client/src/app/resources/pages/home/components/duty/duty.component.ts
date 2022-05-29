@@ -6,6 +6,7 @@ import User from '@core/interfaces/user';
 import { DepartmentService } from '@services/department/department.service';
 import { ToastService } from '@services/toast/toast.service';
 import Department from '@core/interfaces/department';
+import { CategoryService } from '@services/category/category.service';
 
 @Component({
   selector: 'duty',
@@ -17,24 +18,31 @@ export class DutyComponent implements OnInit {
   duties: Duty[]
   selectedDuty: Duty
   modalOpen: boolean = false
-  titles = [ 'Descrição', 'Secretaria', 'Ações' ]
+  titles = [ 'Descrição', 'Categoria', 'Secretaria', 'Ações' ]
 
   account: User
   deptList: any = null
   newDept: String
   oldDept: String
   editDepartment: boolean = false
+  categoryList: any = null
+  newCategory: String
+  oldCategory: String
+  editCategory: boolean = false
 
   constructor(
     private _toast: ToastService,
     private _modal: ModalController,
-    private _deptService: DepartmentService ) { }
+    private _deptService: DepartmentService,
+    private _categoryService: CategoryService, ) { }
 
   ngOnInit() {
     this.account = JSON.parse( sessionStorage.getItem( 'user' ) )
     this.loadDepartmentDuties()
-    if( this.account.department === 'Inova Macae' )
+    if( this.checkPrivilege() ) {
       this.getDepartments()
+      this.getCategories()
+    }
   }
 
   private loadDepartmentDuties() {
@@ -47,7 +55,11 @@ export class DutyComponent implements OnInit {
     this.selectedDuty = duty
     this.modalOpen = true
     this.oldDept = duty.department['name'] 
-    this.newDept= this.deptList[0].name
+    this.oldCategory = duty.category.name
+    if( this.checkPrivilege() ) {
+      this.newDept = this.deptList[0].name
+      this.newCategory = this.categoryList[0].name
+    }
   }
 
   closeModal() {
@@ -67,7 +79,7 @@ export class DutyComponent implements OnInit {
       this.deptList = JSON.parse( this.deptList )
   }
 
-  hide( dept: Department ): boolean{
+  hide( dept: Department ): boolean {
     return dept.name === 'Inova Macae' ? true : false
   }
 
@@ -75,6 +87,18 @@ export class DutyComponent implements OnInit {
     if( this.editDepartment )
       duty['department']['name'] = this.newDept
 
-    console.log( duty )
+    if( this.editCategory )
+      duty['category']['name'] = this.newCategory
+
+    console.log( duty );
+    
+  }
+
+  getCategories() {
+    this._categoryService.getCategories().subscribe( res => this.categoryList = res.result )
+  }
+
+  checkPrivilege(): boolean {
+    return this.account.department === 'Inova Macae'
   }
 }

@@ -13,6 +13,7 @@ import { AuthService } from "@services/auth/auth.service";
 import { TokenStorageService } from "@services/token-storage/token-storage.service";
 import { ToastService } from "@services/toast/toast.service";
 import { catchError, switchMap, take, filter, finalize } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 
 @Injectable( { providedIn: 'root' } )
@@ -21,6 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private refreshingToken = false
     private refreshSubject = new BehaviorSubject( null )
     constructor( 
+        private _router: Router,
         private _toast: ToastService,
         private _authService: AuthService,
         private _tokenService: TokenStorageService ) {}
@@ -53,9 +55,10 @@ export class AuthInterceptor implements HttpInterceptor {
                                             )
                             }
                         }
-                        else
-                            this._toast.displayMessage( 'Falha na interceptação' )
-                        
+                        else {
+                            this._toast.displayMessage( 'Falha de interceptação' )
+                            this._router.navigateByUrl( '/' )
+                        }
                         return throwError( error )
                     }
                 ) )
