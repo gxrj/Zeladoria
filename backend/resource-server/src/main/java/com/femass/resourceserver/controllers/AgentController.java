@@ -73,7 +73,7 @@ public class AgentController {
         return retrieveObject( new JSONObject(), "result", result );
     }
 
-    @PostMapping( "/manager/new-agent" )
+    @PostMapping( "/manager/agent-edition" )
     public ResponseEntity<JSONObject> registerAgent( @RequestBody AgentDTO entity ) {
 
         var login = extractLoginFromJwt();
@@ -94,7 +94,8 @@ public class AgentController {
         if( !created )
             return retrieveMessage( new JSONObject(), "fail", "Falha no cadastramento!" );
 
-        return retrieveMessage( new JSONObject(), "success", "Colaborador criado com sucesso!" );
+        return retrieveMessage( new JSONObject(), "success",
+                                "Lista de colaboradores atualizada com sucesso!" );
     }
 
     /**Gets Jwt from JwtAuthenticationToken stored into SecurityContextHolder<br>
