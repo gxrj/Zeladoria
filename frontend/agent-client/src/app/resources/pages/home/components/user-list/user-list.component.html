@@ -4,7 +4,7 @@
       <ion-label id="title">Colaboradores</ion-label>
     </ion-col>
     <ion-col size="4">
-      <ion-button color="success" id="user-modal">Criar</ion-button>
+      <ion-button (click)="create()" color="success" id="user-modal">Criar</ion-button>
     </ion-col>
   </ion-row>
   <data-table [headerTitles]="titles" [width]="90">
@@ -34,32 +34,39 @@
       <h2 style="text-align: center;">Novo Colaborador</h2>
       <ion-row>
         <ion-col>
-          <ion-input placeholder="Matrícula"></ion-input>
+          <ion-input [(ngModel)]="newUser.username" placeholder="Matrícula"></ion-input>
         </ion-col>
         <ion-col>
-          <ion-input placeholder="Nome"></ion-input>
+          <ion-input [(ngModel)]="newUser.name" placeholder="Nome"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="4">
-          <ion-input placeholder="CPF"></ion-input>
+          <ion-input [(ngModel)]="newUser.cpf" placeholder="CPF" maxLength="11"></ion-input>
         </ion-col>
         <ion-col size="8">
-          <select style="width: 100%;">
-            <option disabled selected>Selecione a secretaria</option>
-            <option *ngFor="let dept of deptList"
-                    [hidden]="hide(dept)">{{ dept.name }}</option>
-          </select>
+          <ng-container *ngIf="specialDepartment()">
+            <select [(ngModel)]="newUser.department.name" style="width: 100%;">
+              <option disabled selected>Selecione a secretaria</option>
+              <option *ngFor="let dept of deptList"
+                      [value]="dept.name">{{ dept.name }}</option>
+            </select>
+          </ng-container>
+          <ng-container *ngIf="!specialDepartment()">
+            <ion-input [value]="newUser.department" readonly></ion-input>
+          </ng-container>
         </ion-col>
       </ion-row>
       <ion-row class="question-radio">
           <label>Conceder permissões de administrador?</label>
-          <input [value]="'true'" type="radio" name="permission" id="is_admin"> Sim
-          <input [value]="'false'" type="radio" name="permission" id="no_admin" checked> Não
+          <input [(ngModel)]="newUser.is_admin" [value]="'true'" 
+                  type="radio" name="permission" id="is_admin"> Sim
+          <input [(ngModel)]="newUser.is_admin" [value]="'false'" 
+                  type="radio" name="permission" id="no_admin" checked> Não
       </ion-row>
       <ion-row>
         <ion-col offset="9" size="3">
-          <ion-button>Gravar</ion-button>
+          <ion-button (click)="save( newUser )">Gravar</ion-button>
         </ion-col>
       </ion-row>
     </ion-content>
@@ -95,11 +102,10 @@
           <ng-container *ngIf="editDepartment">
             <select [(ngModel)]="newDept" style="width: 100%">
               <option *ngFor="let dept of deptList"
-                      [hidden]="hide(dept)"
                       [value]="dept.name">{{ dept.name }}</option>
             </select>
           </ng-container>
-          <ion-row style="font-size:12px;margin-top:5px;">
+          <ion-row *ngIf="specialDepartment()" style="font-size:12px;margin-top:5px;">
             <label>Editar secretaria?</label>
             <input [(ngModel)]="editDepartment" 
                    [value]="true" type="radio" name="dept" id="edit"> Sim

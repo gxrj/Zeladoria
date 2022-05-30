@@ -23,8 +23,8 @@ export class UserService {
     return this._http.get( request.url, request.config )
   }
 
-  createUser( user: User ): Observable<any> {
-    const request = this._authService.prepareRequest( '/manager/new-agent' )
+  createOrUpdateUser( user: User ): Observable<any> {
+    const request = this._authService.prepareRequest( '/manager/agent-edition' )
     return this._http.post( request.url, user, request.config )
   }
 

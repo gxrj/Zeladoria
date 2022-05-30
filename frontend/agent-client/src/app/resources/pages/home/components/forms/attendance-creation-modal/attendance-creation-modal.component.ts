@@ -33,7 +33,7 @@ export class AttendanceCreationModalComponent implements OnInit {
         description: '',
         call: null,
         responsible: null,
-        type: this.toForward ? 'encaminhamento':'resposta'
+        type: ''
       }
   }
 
@@ -79,5 +79,6 @@ export class AttendanceCreationModalComponent implements OnInit {
     this.attendance.protocol =  date + usernameHex
     this.attendance.issued_at = date
     this.attendance.call = this.call
+    this.attendance.type = this.toForward ? 'encaminhamento' : 'resposta'
   }
 }

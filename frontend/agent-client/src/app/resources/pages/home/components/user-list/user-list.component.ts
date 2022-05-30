@@ -6,6 +6,7 @@ import User from '@core/interfaces/user';
 import { DepartmentService } from '@services/department/department.service';
 import { ToastService } from '@services/toast/toast.service';
 import Department from '@core/interfaces/department';
+import { UserService } from '@services/user/user.service';
 
 @Component({
   selector: 'user-list',
@@ -18,7 +19,7 @@ export class UserListComponent implements OnInit {
   selectedUser: any
   modalOpen: boolean = false
   titles = [ 'Nome', 'Matrícula', 'Secretaria', 'Ações' ]
-
+  newUser: User
   account: User
   deptList: any = null
   newDept: String
@@ -29,6 +30,7 @@ export class UserListComponent implements OnInit {
     private _toast: ToastService,
     private _route: ActivatedRoute,
     private _modal: ModalController,
+    private _userService: UserService,
     private _deptService: DepartmentService ) { }
 
   ngOnInit() {
@@ -67,13 +69,34 @@ export class UserListComponent implements OnInit {
       this.deptList = JSON.parse( this.deptList )
   }
 
-  hide( dept: Department ): boolean{
-    return dept.name === 'Inova Macae' ? true : false
+  specialDepartment(): boolean{
+    return this.account.department === 'Inova Macae' ? true : false
   }
 
   save( user: User ) {
     if( this.editDepartment )
       user['department'].name = this.newDept
+    this._userService.createOrUpdateUser( user )
+          .subscribe( 
+            res => { 
+              this._toast.displayMessage( res.message )
+              this.reload()
+            },
+            err => this._toast.displayMessage( err.message ) )
   }
 
+  reload() {
+    this._userService.list().subscribe( res => this.users = res.result )
+  }
+
+  create() {
+    this.newUser = {
+      username: '',
+      name: '',
+      cpf: '',
+      password: '123',
+      department: { name : this.account.department === 'Inova Macae' ? '' : this.account.department },
+      is_admin: 'false'
+    }    
+  }
 }
