@@ -76,9 +76,19 @@ export class AttendanceCreationModalComponent implements OnInit {
 
     this.call.status = this.toForward ? "Encaminhada" : "Respondida"
     this.call.status = this.isRejected ? "Indeferida" : this.call.status
-    this.attendance.protocol =  date + usernameHex
+    this.attendance.protocol =  date + this.hexEncode( usernameHex )
     this.attendance.issued_at = date
     this.attendance.call = this.call
     this.attendance.type = this.toForward ? 'encaminhamento' : 'resposta'
+  }
+
+  private hexEncode( str: string ): string {
+
+    let result = ''
+    for( let i = 0; i < str.length; i++ ) {
+      result += str.charCodeAt(i).toString(16)
+    }
+
+    return result
   }
 }

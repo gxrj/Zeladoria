@@ -87,6 +87,7 @@ export class UserListComponent implements OnInit {
 
   reload() {
     this._userService.list().subscribe( res => this.users = res.result )
+    this.users = this.users.filter( el => el.username !== this.account.username )
   }
 
   create() {
