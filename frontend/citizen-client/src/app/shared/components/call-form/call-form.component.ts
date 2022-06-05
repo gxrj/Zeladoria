@@ -65,11 +65,11 @@ export class CallFormComponent implements OnInit {
 
     if( this.images.length > 0 )
       this.images = Object.values( this.images )
-                          .filter( file => file.size <= 200000 )
+                          .filter( file => file.size <= 270000 )
 
-    if( this.images.length > 3 ) {
+    if( this.images.length > 2 ) {
       inputElement.value = ''
-      this._toastService.displayMessage( "A ocorrência pode ter máximo 3 imagens" )
+      this._toastService.displayMessage( "A ocorrência pode ter máximo 2 imagens" )
     }
   }
 
