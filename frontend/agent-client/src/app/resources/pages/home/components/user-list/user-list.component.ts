@@ -100,4 +100,7 @@ export class UserListComponent implements OnInit {
       is_admin: 'false'
     }    
   }
+  resetPassword( user: User ) { 
+    user.password = '123'
+  }
 }

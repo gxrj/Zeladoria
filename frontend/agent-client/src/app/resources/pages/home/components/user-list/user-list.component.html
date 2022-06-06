@@ -120,7 +120,8 @@
           <input [(ngModel)]="selectedUser.is_admin" [value]="'false'" type="radio" name="permission" id="no_admin" checked> Não
       </ion-row>
       <ion-row>
-        <ion-col offset="9" size="3">
+        <ion-col offset="6" size="6" style="display:flex">
+          <ion-button color="danger" (click)="resetPassword( selectedUser )">Resetar Senha</ion-button>
           <ion-button (click)="save( selectedUser )" >Gravar</ion-button>
         </ion-col>
       </ion-row>
