@@ -122,8 +122,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    const authzServer = OAUTH_REQUEST.authzServer
-    const logoutUrl = authzServer.baseUrl + 'logout' + '?user_type=agent'
+    const logoutUrl = OAUTH_REQUEST.authzServer.baseUrl + 'logout' + '?user_type=agent'
 
     this._popoverCtrl.dismiss()
     this._authService.revokeToken()
