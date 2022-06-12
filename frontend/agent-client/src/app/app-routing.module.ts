@@ -21,10 +21,6 @@ const routes: Routes = [
   {
     path: 'start',
     loadChildren: () => import( '@pages/start/start.module' ).then( m => m.StartPageModule )
-  },
-  {
-    path: 'logout',
-    loadChildren: () => import('./resources/pages/logout/logout.module').then( m => m.LogoutPageModule)
   }
 ];
 @NgModule({
