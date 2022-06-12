@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import OAUTH_REQUEST from '@app/oauth-requests.config';
 import User from '@core/interfaces/user';
 import { MenuController, PopoverController } from '@ionic/angular';
 import { AttendanceService } from '@services/attendance/attendance.service';
@@ -121,6 +122,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    const authzServer = OAUTH_REQUEST.authzServer
+    const logoutUrl = authzServer.baseUrl + 'logout' + '?user_type=agent'
+
     this._popoverCtrl.dismiss()
     this._authService.revokeToken()
               .subscribe( 
@@ -128,9 +132,9 @@ export class NavbarComponent implements OnInit {
                   console.log( res );
                   this._toast.displayMessage( 'Encerrando a sessão' )
                 }, 
-                error => this._toast.displayMessage( error ) )
+                error => this._toast.displayMessage( JSON.parse( error ) ) )
     sessionStorage.clear()
-    setTimeout( () => this._router.navigateByUrl( '/logout' ), 1000 )
+    setTimeout( () => window.location.href = logoutUrl, 1000 )
   }
 
   getMyName(): string {

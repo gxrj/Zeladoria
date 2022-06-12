@@ -57,7 +57,6 @@ export class AuthInterceptor implements HttpInterceptor {
                         }
                         else {
                             this._toast.displayMessage( 'Falha de interceptação' )
-                            this._router.navigateByUrl( '/' )
                         }
                         return throwError( error )
                     }

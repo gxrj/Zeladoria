@@ -5,12 +5,14 @@ import java.util.Map;
 
 import com.femass.authzserver.auth.filters.AgentAuthFilter;
 import com.femass.authzserver.auth.filters.CitizenAuthFilter;
+import com.femass.authzserver.auth.handlers.CustomLogoutHandler;
 import com.femass.authzserver.auth.providers.AgentAuthProvider;
 import com.femass.authzserver.auth.providers.CitizenAuthProvider;
 import com.femass.authzserver.auth.services.AgentService;
 import com.femass.authzserver.auth.services.CitizenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -45,6 +47,9 @@ public class ApplicationSecurityConfig {
     
     @Autowired
     private CorsConfigurationSource corsConfigSource;
+
+    @Value( "${oauth2.authorization-server-address}" )
+    private String authorizationServerAddress;
 
     @Bean
     public SecurityFilterChain appSecurityFilterChain( HttpSecurity http ) 
@@ -89,7 +94,11 @@ public class ApplicationSecurityConfig {
             .addFilterAfter( 
                 citizenAuthFilter( "/login", "POST" ),
                 AgentAuthFilter.class
-            );
+            )
+            .logout(
+                endpoint -> endpoint.defaultLogoutSuccessHandlerFor(
+                        new CustomLogoutHandler( authorizationServerAddress ),
+                        new AntPathRequestMatcher( "/logout", "GET" ) ) );
 
         return http.build();
     }

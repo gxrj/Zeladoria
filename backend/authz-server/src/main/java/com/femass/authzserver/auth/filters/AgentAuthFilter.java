@@ -22,7 +22,7 @@ public class AgentAuthFilter extends AbstractAuthenticationProcessingFilter {
     public AgentAuthFilter( RequestMatcher matcher, AuthenticationManager authManager ) {
         super( matcher, authManager );
     }
-    
+
     @Override
     public Authentication attemptAuthentication( HttpServletRequest req, 
                                                  HttpServletResponse resp ) 

@@ -152,10 +152,10 @@ export class AuthService {
     const body = this.convertToUrlEndpointParams( params ).toString()
     
     const contentType = OAUTH_REQUEST.HEADER.FORM_CONTENT_TYPE
-
+    const httpHeader = { ...contentType, 'Cookie': sessionStorage.getItem( 'authz-server-session' ) }
     return this._http
                   .post( revokeEndpoint, body, { 
-                                                    headers: contentType, 
+                                                    headers: httpHeader, 
                                                     observe: 'response', 
                                                     responseType: 'json' }  )
   }
