@@ -24,6 +24,6 @@ public class CustomLogoutHandler implements LogoutSuccessHandler {
         if ( userType != null && userType.equals( "agent" ) )
             response.sendRedirect( this.baseAddress + "/agent/login" );
         else
-            response.sendRedirect( this.baseAddress + "/agent/login" );
+            response.sendRedirect( this.baseAddress + "/login" );
     }
 }

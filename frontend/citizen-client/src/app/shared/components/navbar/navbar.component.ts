@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import OAUTH_REQUEST from '@app/oauth-request.config';
 import { AuthService } from '@app/shared/services/auth/auth.service';
 import { ToastService } from '@app/shared/services/toast/toast.service';
 import { MenuController, PopoverController } from '@ionic/angular';
@@ -39,12 +40,14 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    const logoutUrl = OAUTH_REQUEST.authzServer.baseUrl + 'logout'
+
     this._popoverCtrl.dismiss()
     this._authService.revokeToken()
               .subscribe( 
                 () => this._toast.displayMessage( 'Encerrando a sessão' ), 
                 error => this._toast.displayMessage( error ) )
     sessionStorage.clear()
-    setTimeout( () => this._router.navigateByUrl( '/' ), 1000 )
+    setTimeout( () => window.location.href = logoutUrl, 1000 )
   }
 }
