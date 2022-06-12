@@ -48,7 +48,7 @@ public class AuthzServerConfig {
     private String agentCorsAllowedOrigin;
     
     @Value( "${oauth2.client2.cors-allowed-origin}" )
-    private String userCorsAllowedOrigin;
+    private String citizenCorsAllowedOrigin;
 
     @Autowired
     private AuthEntryPoint authEntryPoint;
@@ -96,7 +96,7 @@ public class AuthzServerConfig {
     @Bean
     public CorsConfigurationSource corsConfigSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins( List.of( agentCorsAllowedOrigin, userCorsAllowedOrigin ) );
+        config.setAllowedOrigins( List.of( agentCorsAllowedOrigin, citizenCorsAllowedOrigin ) );
         config.setAllowedMethods( List.of( "GET", "POST" ) );
         config.setAllowedHeaders( List.of( "*" ) );
 
