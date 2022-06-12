@@ -60,6 +60,7 @@ public class ApplicationSecurityConfig {
                 authRequests -> authRequests.mvcMatchers( 
                                                 "/login", 
                                                 "/agent/login",
+                                                "/end-session", "/end-session-agent",
                                                 "/unauthorized", "/error",
                                                 "/css/**", "/img/**"
                                             )

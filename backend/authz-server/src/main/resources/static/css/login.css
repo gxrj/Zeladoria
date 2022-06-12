@@ -60,6 +60,14 @@ button, .fake-button {
     color: white;
     text-align: center;
     background-color: #6565ab;
+    box-shadow: 1px 1px 3px rgb(73, 73, 73);
+}
+button:hover, .fake-button:hover {
+    box-shadow: none;
+}
+
+.fake-button:click {
+    box-shadow: -1px -1px -3px rgb(73, 73, 73);
 }
 
 #login-card > form > input:focus {
@@ -74,6 +82,7 @@ button, .fake-button {
 @media screen and ( max-width: 810px ) {
     #login-card {
         width: 80%;
+        height: 80%;
     }
     #login-card > * {
         width: 70%;
@@ -83,6 +92,7 @@ button, .fake-button {
 @media screen and ( max-width: 610px ) {
     #login-card {
         width: 95%;
+        height: 95%;
     }
     #login-card > * {
         width: 90%;

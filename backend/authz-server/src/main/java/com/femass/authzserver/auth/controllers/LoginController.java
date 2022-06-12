@@ -24,4 +24,10 @@ public class LoginController {
 
     @GetMapping( path = "/unauthorized" )
     public String getUnauthorizedPage() { return "unauthorized"; }
+
+    @GetMapping( path = "/end-session" )
+    public String getEndSession() { return "end-session"; }
+
+    @GetMapping( path = "/end-session-agent" )
+    public String getEndSessionAgent() { return "end-session-agent"; }
 }
