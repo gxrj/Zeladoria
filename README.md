@@ -60,3 +60,35 @@ environmental assistance, etc.
 -  As explained in the sixth bullet point of backend structure section, resource server application has to be run before
  authorization server application
  
+#### Step 1: Run Resource Server
+
+- When inside Zeladoria's folder just run:
+
+        ./backend/resource-server/gradlew -p ~/dev-projects/Zeladoria/backend/resource-server bootRun
+        
+#### Step 2: Run Authorization Server
+
+- When inside Zeladoria's folder just run:
+
+        ./backend/authz-server/gradlew -p ~/dev-projects/Zeladoria/backend/authz-server bootRun
+        
+#### Step 3: Run citizen frontend application
+- Must be inside Zeladoria/frontend/citizen-client, then run:
+
+        ng run app:serve --host=localhost --port=8100
+        
+#### Step 4: Run public agent frontend application
+- Must be inside Zeladoria/frontend/agent-client, then run:
+
+        ng run app:serve --host=localhost --port=8200
+
+In the case your machine can stand all those four applications running in parallel:
+- Resource Server runs at <code>8080</code>'s port
+- Authorization Server runs at <code>8090</code>'s port (required for authenticated actions)
+- Citizen frontend application runs at <code>8100</code>'s port
+- Agent frontend application runs at <code>8200</code>'s port
+
+If you have a modest machine you can switch between which frontend application to run by time
+
+Warning: For anonymous actions you gonna just need Resource Server and Citizen Frontend up
+ 
