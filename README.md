@@ -38,9 +38,9 @@ environmental assistance, etc.
   which means its hosted at resorce server hence it has to run before authorization server application
  
 -  Authorization server makes use of new springs security's authorization-server project in version 0.2.3
-  Resorce server makes use of spring-boot-starter-oauth2-resource-server's library in version 2.6.6
+  Resorce server makes use of spring-boot-starter-oauth2-resource-server's library in version 2.6.7
   
--  Both applications runs on to of Spring boot verion 2.6.4
+-  Both applications runs on to of Spring boot verion 2.7.0
 </span>
 
 ### Frontend structure
