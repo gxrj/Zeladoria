@@ -64,13 +64,13 @@ environmental assistance, etc.
 
 - When inside Zeladoria's folder just run:
 
-        ./backend/resource-server/gradlew -p ~/dev-projects/Zeladoria/backend/resource-server bootRun
+        ./backend/resource-server/gradlew -p ./backend/resource-server bootRun
         
 #### Step 2: Run Authorization Server
 
 - When inside Zeladoria's folder just run:
 
-        ./backend/authz-server/gradlew -p ~/dev-projects/Zeladoria/backend/authz-server bootRun
+        ./backend/authz-server/gradlew -p ./backend/authz-server bootRun
         
 #### Step 3: Run citizen frontend application
 - Must be inside Zeladoria/frontend/citizen-client, then run:
