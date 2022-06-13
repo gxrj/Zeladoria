@@ -78,23 +78,39 @@ button:hover, .fake-button:hover {
     margin: auto;
     text-align: center;
 }
+.register-message {
+ display: flex;
+ line-height: 20px;
+}
+
+.register-message > *{
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
 
 @media screen and ( max-width: 810px ) {
     #login-card {
-        width: 80%;
+        width: 600px;
         height: 80%;
     }
     #login-card > * {
         width: 70%;
     }
+    form > * {
+        width: 575px;
+    }
 }
 
 @media screen and ( max-width: 610px ) {
     #login-card {
-        width: 95%;
+        width: 525px;
         height: 95%;
     }
     #login-card > * {
         width: 90%;
+    }
+    form > * {
+        width: 500px;
     }
 }
