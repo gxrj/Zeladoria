@@ -9,7 +9,8 @@ environmental assistance, etc.
 
 ### Used Tools
 <ul>
-  <li>Spring boot</li>
+  <li>Spring Boot</li>
+  <li>Spring Data</li>
   <li>Spring Security</li>
   <li>Angular + Ionic</li>
   <li>H2 database (only for development environment)</li>
