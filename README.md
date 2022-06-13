@@ -63,23 +63,23 @@ environmental assistance, etc.
  
 #### Step 1: Run Resource Server
 
-- When inside Zeladoria's folder just run:
+- When inside <i>Zeladoria</i>'s folder just run:
 
         ./backend/resource-server/gradlew -p ./backend/resource-server bootRun
         
 #### Step 2: Run Authorization Server
 
-- When inside Zeladoria's folder just run:
+- When inside <i>Zeladoria</i>'s folder just run:
 
         ./backend/authz-server/gradlew -p ./backend/authz-server bootRun
         
 #### Step 3: Run citizen frontend application
-- Must be inside Zeladoria/frontend/citizen-client, then run:
+- Must be inside <code>Zeladoria/frontend/citizen-client</code>, then run:
 
         ng run app:serve --host=localhost --port=8100
         
 #### Step 4: Run public agent frontend application
-- Must be inside Zeladoria/frontend/agent-client, then run:
+- Must be inside <code>Zeladoria/frontend/agent-client</code>, then run:
 
         ng run app:serve --host=localhost --port=8200
 
