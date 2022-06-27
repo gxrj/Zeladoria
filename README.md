@@ -96,7 +96,7 @@ In the case your machine can stand all those four applications running in parall
 - Citizen frontend application runs at <code>8100</code>'s port
 - Agent frontend application runs at <code>8200</code>'s port
 
-If you have a modest machine you can switch between which frontend application to run by time
+If you have a modest machine you can switch between which frontend application to run by time and then you can use <code>8100</code>'s port for both clients (each at a time)
 
 Warning: For anonymous actions you gonna just need Resource Server and Citizen Frontend up
  
