@@ -85,7 +85,7 @@ environmental assistance, etc.
 
 If you run <code>agent-client</code>'s application at 8200 port (or any different from 8100) do not forget to edit lines 25 and 26 of 
 <code>Zeladoria/backend/authz-server/src/resources/application.yml</code>'s file.<br>
-<b>Attention</b>: the snippet bellow refers to 8200 port, if you use another port just update it with your the desired one.
+<b>Attention</b>: the snippet bellow refers to 8200 port, if you use another port just update it with the desired one.
 
             redirect-uri: http://127.0.0.1:8200/redirection # Agent client home page
             cors-allowed-origin: http://127.0.0.1:8200
