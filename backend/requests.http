@@ -1,9 +1,0 @@
-### Teste
-GET http://localhost:8080/hello
-
-Content-Type: application/json
-
-{
-    "username": "user",
-    "password": "e6c4ad45-c2e2-4b1b-8a56-e44438287eac"
-}
